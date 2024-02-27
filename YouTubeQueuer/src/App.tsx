@@ -1,4 +1,5 @@
 import { ResponseList } from "./dummyData/data"
+import VideoCard from "./components/VideoCard"
 import { YoutubeResponse } from "./interfaces/YoutubeResponse"
 
 const App = () => {
@@ -6,9 +7,7 @@ const App = () => {
     <div>
       {
         ResponseList.map( (entry: YoutubeResponse, index: number) => (
-          <div className="text-3xl font-bold">
-            {index+1} - {entry.snippet.title}
-          </div>
+          <VideoCard data={entry} index={index}/>
         ))
       }
     </div>
