@@ -5,16 +5,16 @@ import { YoutubeResponse } from "./interfaces/YoutubeResponse"
 
 const App = () => {
   return (
-    <>
+    <div className="bg-slate-300">
       <Header/>
       <div className="grid justify-center items-center">
         {
           ResponseList.map( (entry: YoutubeResponse, index: number) => (
-            <VideoCard data={entry} index={index}/>
+            <VideoCard data={entry} index={index} isEven={index % 2 == 0}/>
           ))
         }
       </div>
-    </>
+    </div>
   )
 }
 

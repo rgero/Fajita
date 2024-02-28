@@ -1,18 +1,29 @@
 import { YoutubeResponse } from "../interfaces/YoutubeResponse"
+import { decode } from "html-entities"
 
 interface Props {
   data: YoutubeResponse
   index: number
+  isEven: boolean
 }
 
-const VideoCard: React.FC<Props> = ({data, index}) => {
+const VideoCard: React.FC<Props> = ({data, index, isEven = false}) => {
+  const background = `max-w-screen-sm px-4 pt-4 rounded overflow-hidden shadow-lg grid items-center justify-items-center flex-col ${isEven ? "bg-gray-400" : ""}`
+  const title: string = decode(data.snippet.title);
+  const channelTitle: string = decode(data.snippet.channelTitle);
+  const description: string = decode(data.snippet.description);
   return (
-    <div className="max-w-screen-sm px-4 rounded overflow-hidden shadow-lg grid items-center justify-items-center" key={index}>
-      <div className="font-bold text-xl mb-2">{data.snippet.title}</div>
+    <div className={background} key={index}>
       <img className="h-320 w-180" src={data.snippet.thumbnails.medium.url} alt={data.snippet.title}/>
       <div className="px-6 py-4">
+        <p className="text-gray-700 text-base font-bold">
+          {title}
+        </p>
+        <p className="text-gray-700 text-base font-bold">
+          {channelTitle}
+        </p>
         <p className="text-gray-700 text-base">
-          {data.snippet.description}
+          {description}
         </p>
       </div>
       <div className="px-6 pt-4 pb-8">
