@@ -3,18 +3,17 @@ import { decode } from "html-entities"
 
 interface Props {
   data: YoutubeResponse
-  index: number
   isEven: boolean
 }
 
-const VideoCard: React.FC<Props> = ({data, index, isEven = false}) => {
-  const background = `max-w-screen-sm px-4 pt-4 rounded overflow-hidden shadow-lg grid items-center justify-items-center flex-col ${isEven ? "bg-gray-400" : ""}`
+const VideoCard: React.FC<Props> = ({data, isEven = false}) => {
+  const background = `max-w-screen-sm px-4 pt-4 rounded overflow-hidden shadow-lg grid items-center justify-items-center ${isEven ? "bg-gray-400" : ""}`
   const title: string = decode(data.snippet.title);
   const channelTitle: string = decode(data.snippet.channelTitle);
   const description: string = decode(data.snippet.description);
   return (
-    <div className={background} key={index}>
-      <img className="h-320 w-180" src={data.snippet.thumbnails.medium.url} alt={data.snippet.title}/>
+    <div className={background}>
+      <img className="object-cover" src={data.snippet.thumbnails.medium.url} alt={data.snippet.title}/>
       <div className="px-6 py-4">
         <p className="text-gray-700 text-base font-bold">
           {title}

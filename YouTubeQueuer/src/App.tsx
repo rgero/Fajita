@@ -10,7 +10,7 @@ const App = () => {
       <div className="grid justify-center items-center">
         {
           ResponseList.map( (entry: YoutubeResponse, index: number) => (
-            <VideoCard data={entry} index={index} isEven={index % 2 == 0}/>
+            <VideoCard data={entry} key={index} isEven={index % 2 == 0}/>
           ))
         }
       </div>
