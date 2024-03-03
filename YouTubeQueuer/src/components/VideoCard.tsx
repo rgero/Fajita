@@ -1,4 +1,5 @@
-import { YoutubeResponse } from "../interfaces/YoutubeResponse"
+import { ID, YoutubeResponse } from "../interfaces/YoutubeResponse"
+
 import { decode } from "html-entities"
 
 interface Props {
@@ -7,6 +8,12 @@ interface Props {
 }
 
 const VideoCard: React.FC<Props> = ({data, isEven = false}) => {
+
+  const sendToQueue = () => {
+    // Alerts are bad - mmkay
+    alert(`${videoID.videoId} would be added, if backend`)
+  }
+
   const background = `max-w-screen-sm rounded overflow-hidden shadow-lg grid items-center justify-items-center ${isEven ? "bg-gray-400" : ""}`
   const submitButton = `hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center ${isEven ? "bg-gray-300 text-gray-800" : "bg-gray-800 text-gray-300"}`
   const title: string = decode(data.snippet.title);
@@ -27,7 +34,7 @@ const VideoCard: React.FC<Props> = ({data, isEven = false}) => {
         </p>
       </div>
       <div className="px-6 pt-4 pb-4">
-        <button className={submitButton}>Add to Queue</button>
+        <button className={submitButton} onClick={sendToQueue}>Add to Queue</button>
       </div>
     </div>
   )
