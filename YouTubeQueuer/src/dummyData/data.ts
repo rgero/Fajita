@@ -31,6 +31,11 @@ export const ResponseList: YoutubeResponse[] =
           "url": "https://i.ytimg.com/vi/4MjLKjPc7q8/hqdefault.jpg",
           "width": 480,
           "height": 360
+        },
+        "max": {
+          "url": "https://i.ytimg.com/vi/4MjLKjPc7q8/maxresdefault.jpg",
+          "width": 1280,
+          "height": 720
         }
       },
       "channelTitle": "RiseAgainst",
@@ -65,6 +70,11 @@ export const ResponseList: YoutubeResponse[] =
           "url": "https://i.ytimg.com/vi/oST77VRHXt0/hqdefault.jpg",
           "width": 480,
           "height": 360
+        },
+        "max": {
+          "url": "https://i.ytimg.com/vi/oST77VRHXt0/maxresdefault.jpg",
+          "width": 1280,
+          "height": 720
         }
       },
       "channelTitle": "Gaslight Anthem",
@@ -99,6 +109,11 @@ export const ResponseList: YoutubeResponse[] =
           "url": "https://i.ytimg.com/vi/FnujsS9b1mI/hqdefault.jpg",
           "width": 480,
           "height": 360
+        },
+        "max": {
+          "url": "https://i.ytimg.com/vi/FnujsS9b1mI/maxresdefault.jpg",
+          "width": 1280,
+          "height": 720
         }
       },
       "channelTitle": "EthosLab",
@@ -133,6 +148,11 @@ export const ResponseList: YoutubeResponse[] =
           "url": "https://i.ytimg.com/vi/HlLx7oE7q3I/hqdefault.jpg",
           "width": 480,
           "height": 360
+        },
+        "max": {
+          "url": "https://i.ytimg.com/vi/HlLx7oE7q3I/maxresdefault.jpg",
+          "width": 1280,
+          "height": 720
         }
       },
       "channelTitle": "HozierVEVO",

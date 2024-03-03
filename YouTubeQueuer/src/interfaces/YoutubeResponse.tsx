@@ -25,6 +25,7 @@ export interface Thumbnails {
   default: Thumbnail;
   medium:  Thumbnail;
   high:    Thumbnail;
+  max: Thumbnail;
 }
 
 export interface Thumbnail {
