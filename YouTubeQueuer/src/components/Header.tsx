@@ -1,6 +1,6 @@
 const Header = () => {
   return (
-    <nav className="sticky bg-white border-gray-200 dark:bg-gray-900 py-4">
+    <nav className="sticky top-0 z-25 w-full border-gray-200 bg-gray-900 py-4">
       <form className="flex items-center max-w-sm mx-auto">   
           <label htmlFor="simple-search" className="sr-only">Search</label>
           <div className="relative w-full">
