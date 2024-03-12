@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
+import Footer from "./components/Footer/FooterContainer"
 import Header from "./components/Header"
 import { ResponseList } from "./dummyData/data"
 import VideoCard from "./components/VideoCard"
@@ -25,6 +26,7 @@ const App = () => {
             ))
           }
         </div>
+        <Footer/>
       </div>
     </QueryClientProvider>
   )
