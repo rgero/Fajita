@@ -2,14 +2,10 @@ import { Typography } from "@mui/material";
 import { decode } from "html-entities";
 import { useCurrentPlaying } from "../../hooks/useCurrentPlaying";
 
-// interface Props {
-//   data: YoutubeResponse
-// }
-
 const FooterCard = () => {
 
   const {isLoading, currentlyPlaying} = useCurrentPlaying();
-  if (isLoading) return (<Typography>NO</Typography>)
+  if (isLoading) return (<Typography>No Video Playing</Typography>)
 
   const title: string = decode(currentlyPlaying?.snippet.title);
   const channelTitle: string = decode(currentlyPlaying?.snippet.channelTitle);
