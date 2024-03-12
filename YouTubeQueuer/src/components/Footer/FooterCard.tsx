@@ -5,7 +5,7 @@ import { useCurrentPlaying } from "../../hooks/useCurrentPlaying";
 const FooterCard = () => {
 
   const {isLoading, currentlyPlaying} = useCurrentPlaying();
-  if (isLoading) return (<Typography>No Video Playing</Typography>)
+  if (isLoading) return (<Typography>Loading...</Typography>)
 
   const title: string = decode(currentlyPlaying?.snippet.title);
   const channelTitle: string = decode(currentlyPlaying?.snippet.channelTitle);
