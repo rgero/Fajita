@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles"
 import { CssBaseline } from "@mui/material"
 import Footer from "./components/Footer/FooterContainer"
 import Header from "./components/Header"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import SearchResults from "./components/SearchResults"
 
 const queryClient = new QueryClient({
@@ -25,6 +26,7 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <div className="h-screen flex flex-col">
           <Header/>
           <SearchResults/>
