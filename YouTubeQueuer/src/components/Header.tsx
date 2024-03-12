@@ -1,11 +1,17 @@
-import { IconButton, InputAdornment, OutlinedInput, TextField } from "@mui/material";
-import UserAvatar from "../authentication/UserAvatar"
+import { IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+
+import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
+import UserAvatar from "../authentication/UserAvatar"
 
 const Header = () => {
+  const [searchTerm, setTerm] = React.useState("");
 
   const processSubmit = (e) => {
-    e.preventDefault();
+    e.target.blur();
+
+    // This is where I'd send off to make the request.
+    alert(searchTerm);
   }
 
   return (
@@ -14,6 +20,8 @@ const Header = () => {
         id="outlined-search"
         type='text'
         className="flex-1"
+        value={searchTerm}
+        onChange={(e) => setTerm( ()=> e.target.value) }
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -25,6 +33,12 @@ const Header = () => {
             </IconButton>
           </InputAdornment>
         }
+        onKeyDown={(e) => {
+          if (e.key === "Enter")
+          {
+            processSubmit(e);
+          }
+        }}
       />
       <UserAvatar/>
     </nav>
