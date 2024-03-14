@@ -1,8 +1,9 @@
-import { AppBar, Grid, IconButton, InputAdornment, OutlinedInput, TextField, Toolbar, styled } from "@mui/material";
+import { AppBar, Grid, IconButton, InputAdornment, TextField, Toolbar, styled, useTheme } from "@mui/material";
 
 import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import UserAvatar from "../authentication/UserAvatar"
+import { inputLabelClasses } from "@mui/material/InputLabel";
 import { useSearchParams } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -10,8 +11,10 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 const Header = () => {
-  const [searchTerm, setTerm] = React.useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setTerm] = React.useState(searchParams.get("search") ? searchParams.get("search"): "");
+
+  const theme = useTheme();
 
   const processSubmit = (e) => {
     e.target.blur();
@@ -48,6 +51,13 @@ const Header = () => {
                 if (e.key === "Enter")
                 {
                   processSubmit(e);
+                }
+              }}
+              InputLabelProps={{
+                sx: {
+                  [`&.${inputLabelClasses.shrink}`]: {
+                    color: `${theme.palette.primary.contrastText}`
+                  }
                 }
               }}
             />
