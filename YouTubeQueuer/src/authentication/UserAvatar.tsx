@@ -1,14 +1,12 @@
-import { useUser } from "./hooks/useUser";
-
 const UserAvatar = () => {
-  const {user} = useUser();
-  
+  const user = null;
+ 
   let avatar;
   if (!user)
   {
     avatar = "default-user.jpg"
   } else {
-    avatar = user.user_metadata["avatar"]
+    //avatar = user.user_metadata["avatar"]
   }
 
   return (
