@@ -45,12 +45,19 @@ export default function Footer() {
     setOpen(true);
   }
 
+  const style = {
+    bgcolor: `${theme.palette.background.default}`,
+    borderTop: `2px solid ${theme.palette.primary.light}`,
+    minWidth: "100%",
+    bottom: 0,
+    padding: "8px 8px 20px 8px",
+    zIndex: 25
+  }
+
 
   return (
-    <Box position="fixed" sx={{bgcolor: `${theme.palette.grey["800"]}`}} className="bottom-0 z-25 w-full pb-5 pt-2 px-2 text-white" id="containingBox" onClick={openDrawer}>
-      <div className="px-1 flex flex-row justify-between">
-        <FooterCard/>
-      </div>
+    <Box position="fixed" sx={style} id="containingBox" onClick={openDrawer}>
+      <FooterCard/>
       <SwipeableDrawer 
         anchor={"bottom"}
         open={isOpen}

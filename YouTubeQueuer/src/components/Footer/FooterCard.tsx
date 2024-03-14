@@ -24,11 +24,11 @@ const FooterCard = () => {
   const imageURL: string = currentlyPlaying.snippet.thumbnails.default.url
  
   return (
-    <Grid container>
-      <Grid item xs={4}>
+    <Grid container justifyContent="center" spacing={{md: 2}}>
+      <Grid item xs={4} md="auto">
         <img className="image-contain max-h-24" src={imageURL} alt={title}/>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={8} md="auto">
         <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>{!isEmpty ? "Currently Playing" : "Add to Queue!"}</Typography>
         <Typography variant="subtitle2">{title}</Typography>
         <Typography variant="subtitle2">{channelTitle}</Typography>

@@ -1,10 +1,9 @@
-import { AppBar, Grid, IconButton, InputAdornment, OutlinedInput, Toolbar, styled } from "@mui/material";
+import { AppBar, Grid, IconButton, InputAdornment, OutlinedInput, TextField, Toolbar, styled } from "@mui/material";
 
 import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import UserAvatar from "../authentication/UserAvatar"
 import { useSearchParams } from "react-router-dom";
-import { useSearchResults } from "../hooks/useSearchResults";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -25,23 +24,26 @@ const Header = () => {
       <StyledToolbar>
         <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
           <Grid item xs={10} md={4}>
-            <OutlinedInput
+            <TextField
               id="outlined-search"
-              type='text'
+              variant="filled"
+              label="Search"
               fullWidth
               value={searchTerm}
               onChange={(e) => setTerm( ()=> e.target.value) }
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="search field"
-                    onClick={processSubmit}
-                    edge="end"
-                  >
-                    <SearchIcon/>
-                  </IconButton>
-                </InputAdornment>
-              }
+              InputProps={{
+                endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="search field"
+                        onClick={processSubmit}
+                        edge="end"
+                      >
+                        <SearchIcon/>
+                      </IconButton>
+                    </InputAdornment>
+                  )
+              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter")
                 {
@@ -54,8 +56,6 @@ const Header = () => {
             <UserAvatar/>
           </Grid>
         </Grid>
-
-
       </StyledToolbar>
     </AppBar>
   )
