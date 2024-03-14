@@ -1,17 +1,18 @@
-import { Container } from "@mui/material"
-import { ResponseList } from "../dummyData/data"
+import { Container, Typography } from "@mui/material"
+
 import VideoCard from "./VideoCard"
 import { YoutubeResponse } from "../interfaces/YoutubeResponse"
+import { useSearchResults } from "../hooks/useSearchResults"
 
 const SearchResults = () => {
-  // I dislike the magic number of mt-24, but I can't get the header to sit on top. >.>
-
-  const testList: YoutubeResponse = ResponseList;
+  const {isLoading, searchResults} = useSearchResults();
+  if (isLoading) return (<Typography>Loading...</Typography>)
+  
   
   return (
-    <Container>
+    <Container className="mt-24">
       {
-        testList.map( (entry: YoutubeResponse, index: number) => (
+        searchResults.map( (entry: YoutubeResponse, index: number) => (
           <VideoCard data={entry} key={index}/>
         ))
       }

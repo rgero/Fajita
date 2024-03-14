@@ -1,11 +1,11 @@
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 
 import {CssBaseline} from "@mui/material"
-import Footer from "./components/Footer/FooterContainer"
-import Header from "./components/Header"
+import MainPage from "./pages/MainPage";
+import PageNotFound from "./pages/PageNotFound";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import SearchResults from "./components/SearchResults"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,9 +27,13 @@ const App = () => {
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <Header/>
-        <SearchResults/>
-        <Footer/>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<MainPage/>}/>
+            <Route path="queue" element={<PageNotFound/>}/>
+            <Route path='*' element={<Navigate replace to='/'/>}/>
+          </Routes>
+        </BrowserRouter>
       </QueryClientProvider>
     </ThemeProvider>
   )

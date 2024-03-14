@@ -3,6 +3,8 @@ import { AppBar, Grid, IconButton, InputAdornment, OutlinedInput, Toolbar, style
 import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import UserAvatar from "../authentication/UserAvatar"
+import { useSearchParams } from "react-router-dom";
+import { useSearchResults } from "../hooks/useSearchResults";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -10,12 +12,12 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 const Header = () => {
   const [searchTerm, setTerm] = React.useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const processSubmit = (e) => {
     e.target.blur();
-
-    // This is where I'd send off to make the request.
-    alert(searchTerm);
+    searchParams.set("search", searchTerm);
+    setSearchParams(searchParams);
   }
 
   return (
