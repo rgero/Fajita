@@ -13,6 +13,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import QueueIcon from '@mui/icons-material/Queue';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { useTheme } from '@mui/material/styles';
 
 const options = [
   { key: "play", label: "Play", icon: <PlayArrowIcon/>, func: () => {console.log("Play")}},
@@ -23,6 +24,7 @@ const options = [
 ]
 
 export default function Footer() {
+  const theme = useTheme();
   const [isOpen, setOpen] = React.useState(false);
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => 
@@ -43,8 +45,9 @@ export default function Footer() {
     setOpen(true);
   }
 
+
   return (
-    <Box position="fixed" className="bottom-0 z-25 w-full border-gray-200 bg-gray-900 pb-5 pt-2 px-2 text-white" id="containingBox" onClick={openDrawer}>
+    <Box position="fixed" sx={{bgcolor: `${theme.palette.grey["800"]}`}} className="bottom-0 z-25 w-full pb-5 pt-2 px-2 text-white" id="containingBox" onClick={openDrawer}>
       <div className="px-1 flex flex-row justify-between">
         <FooterCard/>
       </div>
