@@ -25,17 +25,26 @@ const options = [
 export default function Footer() {
   const [isOpen, setOpen] = React.useState(false);
 
-
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => 
   {
     if (event && event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
       return;
     }
-    setOpen(open);
+    setOpen(() => open);
   };
 
+  // This needs to exist because otherwise the event lose the race condition.
+  const openDrawer = () =>
+  {
+    if (isOpen)
+    {
+      return;
+    } 
+    setOpen(true);
+  }
+
   return (
-    <div className="sticky bottom-0 z-25 w-full border-gray-200 bg-gray-900 pb-5 pt-2 px-2 text-white" onClick={toggleDrawer(true)}>
+    <Box position="fixed" className="bottom-0 z-25 w-full border-gray-200 bg-gray-900 pb-5 pt-2 px-2 text-white" id="containingBox" onClick={openDrawer}>
       <div className="px-1 flex flex-row justify-between">
         <FooterCard/>
       </div>
@@ -43,7 +52,7 @@ export default function Footer() {
         anchor={"bottom"}
         open={isOpen}
         onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
+        onOpen={toggleDrawer(false)}
       >
         <Box
           role="presentation"
@@ -64,6 +73,6 @@ export default function Footer() {
           </List>
         </Box>
       </SwipeableDrawer>
-    </div>
+    </Box>
   );
 }

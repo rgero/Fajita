@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 
-import { CssBaseline } from "@mui/material"
+import {CssBaseline} from "@mui/material"
 import Footer from "./components/Footer/FooterContainer"
 import Header from "./components/Header"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -27,11 +27,9 @@ const App = () => {
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <div className="h-screen flex flex-col">
-          <Header/>
-          <SearchResults/>
-          <Footer/>
-        </div>
+        <Header/>
+        <SearchResults/>
+        <Footer/>
       </QueryClientProvider>
     </ThemeProvider>
   )

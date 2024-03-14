@@ -1,18 +1,9 @@
-const UserAvatar = () => {
-  const user = null;
- 
-  let avatar;
-  if (!user)
-  {
-    avatar = "default-user.jpg"
-  } else {
-    //avatar = user.user_metadata["avatar"]
-  }
+import { Avatar } from "@mui/material";
 
+const UserAvatar = () => {
+  // This should probably change to the First input Letter.
   return (
-    <div>
-      <img className="w-10 h-10 rounded-full" src={avatar} alt="Avatar"/>
-    </div>
+    <Avatar>H</Avatar>  
   )
 }
 
