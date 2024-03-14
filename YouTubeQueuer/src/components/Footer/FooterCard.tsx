@@ -1,24 +1,39 @@
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+
 import { decode } from "html-entities";
 import { useCurrentPlaying } from "../../hooks/useCurrentPlaying";
 
 const FooterCard = () => {
-
   const {isLoading, currentlyPlaying} = useCurrentPlaying();
   if (isLoading) return (<Typography>Loading...</Typography>)
 
-  const title: string = decode(currentlyPlaying?.snippet.title);
-  const channelTitle: string = decode(currentlyPlaying?.snippet.channelTitle);
+  const isEmpty: boolean = Object.keys(currentlyPlaying).length == 0;
+
+  if (isEmpty)
+  {
+    return (
+      <Grid>
+        <Typography variant="h4">Nothing is queued</Typography>
+        <Typography variant="h6">Go add something!</Typography>
+      </Grid>
+    )
+  }
+
+  const title: string = decode(currentlyPlaying.snippet.title)
+  const channelTitle: string = decode(currentlyPlaying.snippet.channelTitle)
+  const imageURL: string = currentlyPlaying.snippet.thumbnails.default.url
  
   return (
-    <div className="flex flex-column gap-x-1 align-middle">
-      <img className="image-contain max-h-24" src={currentlyPlaying?.snippet.thumbnails.max.url} alt={currentlyPlaying?.snippet.title}/>
-      <div>
-        <div className="font-bold">Currently Playing</div>
-        <div className="overflow-hidden">{title}</div>
-        <div>{channelTitle}</div>
-      </div>
-    </div>
+    <Grid container>
+      <Grid item xs={4}>
+        <img className="image-contain max-h-24" src={imageURL} alt={title}/>
+      </Grid>
+      <Grid item xs={8}>
+        <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>{!isEmpty ? "Currently Playing" : "Add to Queue!"}</Typography>
+        <Typography variant="subtitle2">{title}</Typography>
+        <Typography variant="subtitle2">{channelTitle}</Typography>
+      </Grid>
+    </Grid>
   )
 }
 
