@@ -10,7 +10,7 @@ const SearchResults = () => {
   
   
   return (
-    <Container className="mt-24">
+    <Container className="mt-24 mb-32">
       {
         searchResults.map( (entry: YoutubeResponse, index: number) => (
           <VideoCard data={entry} key={index}/>
