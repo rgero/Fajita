@@ -1,8 +1,8 @@
 import { Container, Typography } from "@mui/material"
 
-import VideoCard from "./VideoCard"
-import { YoutubeResponse } from "../interfaces/YoutubeResponse"
-import { useSearchResults } from "../hooks/useSearchResults"
+import VideoCard from "../VideoCard"
+import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
+import { useSearchResults } from "./hooks/useSearchResults"
 
 const SearchResults = () => {
   const {isLoading, searchResults} = useSearchResults();

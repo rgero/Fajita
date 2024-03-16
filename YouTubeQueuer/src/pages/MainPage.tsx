@@ -1,6 +1,6 @@
 import Footer from "../components/Footer/FooterContainer"
-import Header from "../components/Header"
-import SearchResults from "../components/SearchResults"
+import Header from "../components/Header/Header"
+import SearchResults from "../components/Search/SearchResults"
 
 const MainPage = () => {
   return (
