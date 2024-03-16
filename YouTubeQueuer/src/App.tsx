@@ -1,9 +1,10 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
+import AppLayout from "./components/ui/AppLayout";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import MainPage from "./pages/MainPage";
-import PageNotFound from "./pages/PageNotFound";
+import QueuePage from "./pages/QueuePage";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
@@ -21,9 +22,11 @@ const App = () => {
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
           <Routes>
-            <Route index element={<MainPage/>}/>
-            <Route path="queue" element={<PageNotFound/>}/>
-            <Route path='*' element={<Navigate replace to='/'/>}/>
+            <Route element={<AppLayout/>}>
+              <Route index element={<MainPage/>}/>
+              <Route path="queue" element={<QueuePage/>}/>
+            </Route>
+            <Route path='*' element={<Navigate to='/' />} />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

@@ -33,7 +33,6 @@ const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
   return (
     <DarkModeContext.Provider value={{isDarkMode, toggleDarkMode}}>
       <ThemeProvider theme={theme}>
-        <CssBaseline/>
         {children}
       </ThemeProvider>
       <Toaster 
