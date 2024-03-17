@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material"
 
-import AddToQueueModal from "./QueueModal/AddToQueueModal"
-import { YoutubeResponse } from "../interfaces/YoutubeResponse"
+import AddToQueueModal from "../QueueModal/AddToQueueModal"
+import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 import toast from "react-hot-toast"
 import { useState } from "react"
@@ -37,7 +37,7 @@ const VideoCard: React.FC<Props> = ({data}) => {
       <AddToQueueModal open={isModalOpen} videoData={data} closeFn={handleClose} submitFn={sendToQueue}/>
       <Card>
         <CardMedia
-          sx={{height: 220}}
+          sx={{height: {xs: 220, md: 550}}}
           image={thumbnail} 
           title={title}
         />
@@ -49,7 +49,7 @@ const VideoCard: React.FC<Props> = ({data}) => {
             {channelTitle}
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions sx={{justifyContent: "flex-end"}}>
           <Button onClick={() => setModalOpen( () => true )}>Add To Queue</Button>
         </CardActions>
       </Card>
