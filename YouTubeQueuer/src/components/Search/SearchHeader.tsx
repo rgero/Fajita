@@ -10,7 +10,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-const Header = () => {
+const SearchHeader = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setTerm] = React.useState(searchParams.get("search") ? searchParams.get("search"): "");
 
@@ -71,4 +71,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default SearchHeader

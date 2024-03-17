@@ -1,4 +1,5 @@
 import { CircularProgress } from "@mui/material"
+import SearchHeader from "./SearchHeader"
 import VideoCard from "../VideoCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { useSearchResults } from "./hooks/useSearchResults"
@@ -10,6 +11,7 @@ const SearchResults = () => {
   
   return (
     <>
+      <SearchHeader/>
       {
         searchResults.map( (entry: YoutubeResponse, index: number) => (
           <VideoCard data={entry} key={index}/>

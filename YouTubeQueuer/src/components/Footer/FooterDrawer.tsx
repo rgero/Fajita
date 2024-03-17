@@ -1,6 +1,11 @@
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from "@mui/material"
+import { Box, Divider, List, SwipeableDrawer } from "@mui/material"
 
-import { options } from "./FooterDrawerOptions"
+import ClosedCaptionOption from "./DrawerOptions/ClosedCaptionOption"
+import HomeOption from "./DrawerOptions/HomeOption"
+import PlayOption from "./DrawerOptions/PlayOption"
+import QueueOption from "./DrawerOptions/QueueOption"
+import SkipOption from "./DrawerOptions/SkipOption"
+import { useLocation } from "react-router-dom"
 
 interface Props {
   isOpen: boolean,
@@ -8,6 +13,10 @@ interface Props {
 }
 
 const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
+  const route = useLocation();
+  const isQueue = route.pathname.includes("queue");
+
+
   return (
     <SwipeableDrawer
       anchor={"bottom"}
@@ -21,16 +30,11 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
         onKeyDown={toggleDrawer(false)}
       >
         <List>
-          {options.map((option) => (
-            <ListItem key={option.key} disablePadding onClick={option.func}>
-              <ListItemButton>
-                <ListItemIcon>
-                  {option.icon}
-                </ListItemIcon>
-                <ListItemText primary={option.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          <PlayOption/>
+          <SkipOption/>
+          <ClosedCaptionOption/>
+          <Divider/>
+          {!isQueue ? <QueueOption/> : <HomeOption/>}
         </List>
       </Box>
     </SwipeableDrawer>
