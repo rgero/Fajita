@@ -30,7 +30,7 @@ const VideoCard: React.FC<Props> = ({data}) => {
   }
 
   const title: string = decode(data.snippet.title);
-  const thumbnail: string = data.snippet.thumbnails.max.url;
+  const thumbnail: string = data.snippet.thumbnails.high.url;
   const channelTitle: string = decode(data.snippet.channelTitle);
   return (
     <>
