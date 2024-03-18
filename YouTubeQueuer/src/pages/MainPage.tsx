@@ -1,8 +1,13 @@
+import SearchHeader from "../components/Search/SearchHeader"
 import SearchResults from "../components/Search/SearchResults"
 
 const MainPage = () => {
   return (
-    <SearchResults/>
+    <>
+      <SearchHeader/>
+      <SearchResults/>
+    </>
+
   )
 }
 

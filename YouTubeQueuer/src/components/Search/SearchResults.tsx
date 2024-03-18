@@ -1,5 +1,4 @@
 import { Box } from "@mui/material"
-import SearchHeader from "./SearchHeader"
 import Spinner from "../ui/Spinner"
 import VideoCard from "./VideoCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
@@ -9,7 +8,6 @@ const SearchResults = () => {
   const {isLoading, searchResults} = useSearchResults();
   return (
     <>
-      <SearchHeader/>
       {isLoading ? <Spinner/> : ( 
         <>
           {
