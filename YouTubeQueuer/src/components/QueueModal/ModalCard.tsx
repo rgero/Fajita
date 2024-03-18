@@ -11,7 +11,7 @@ const ModalCard: React.FC<Props> = ({videoData}) => {
 
   const title: string = decode(videoData.snippet.title)
   const channelTitle: string = decode(videoData.snippet.channelTitle)
-  const imageURL: string = videoData.snippet.thumbnails.max.url
+  const imageURL: string = videoData.snippet.thumbnails.high.url
  
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center">

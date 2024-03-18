@@ -2,8 +2,8 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@
 
 import AddToQueueModal from "../QueueModal/AddToQueueModal"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
+import { addToQueue } from "../../services/apiFajita"
 import { decode } from "html-entities"
-import toast from "react-hot-toast"
 import { useState } from "react"
 
 interface Props {
@@ -20,13 +20,7 @@ const VideoCard: React.FC<Props> = ({data}) => {
   const sendToQueue = (playNext: boolean) => {
     // Alerts are bad - mmkay
     setModalOpen(false);
-    
-    if(playNext)
-    {
-      toast.success("Song Added!");
-    } else {
-      toast.error("You lost a coinflip");
-    }
+    addToQueue(data.id.videoId, playNext);
   }
 
   const title: string = decode(data.snippet.title);
