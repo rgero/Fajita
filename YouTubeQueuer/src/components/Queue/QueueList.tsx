@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, Divider } from "@mui/material";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
@@ -17,6 +17,7 @@ const QueueList = () => {
           interactions.map( (entry: Interaction, index: number) => (
             <Box sx={{paddingBottom: {xs: 2}}}>
               <QueueCard data={entry} key={index}/>
+              <Divider/>
             </Box>
           ))
         }
