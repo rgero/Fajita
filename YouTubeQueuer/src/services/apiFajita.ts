@@ -20,3 +20,17 @@ export const getSearchResults = async (searchTerm: string|null) => {
   const hitList = response.data.items;
   return hitList;
 }
+
+export const getQueue = async () => 
+{
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+  const queueURL = backendURL + "/api/q";
+
+  const response = await axios.get(queueURL);
+  if (response.status != 200)
+  {
+    toast.error("Failed to get queue");
+  }
+
+  return response.data;
+}

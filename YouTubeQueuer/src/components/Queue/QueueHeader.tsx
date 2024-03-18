@@ -1,19 +1,25 @@
-import { AppBar, Grid, IconButton, InputAdornment, TextField, Toolbar, Typography, styled, useTheme } from "@mui/material";
+import { AppBar, Grid, IconButton, Toolbar, Typography, styled } from "@mui/material";
 
-import SearchIcon from '@mui/icons-material/Search';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UserAvatar from "../authentication/UserAvatar"
-import { inputLabelClasses } from "@mui/material/InputLabel";
+import { useNavigate } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
 const QueueHeader = () => {
+  const navigate = useNavigate();
   return (
     <AppBar>
       <StyledToolbar>
-        <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
-          <Grid item xs={10} md={4}>
+        <Grid container spacing={1} direction="row" alignItems="center" justifyContent="space-between">
+          <Grid item>
+            <IconButton onClick={()=> navigate('/') }>
+              <ArrowBackIcon/>
+            </IconButton>
+          </Grid>
+          <Grid item xs={9} md={4}>
             <Typography variant="h4">The Queue</Typography>
           </Grid>
           <Grid item>

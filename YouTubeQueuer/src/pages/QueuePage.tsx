@@ -1,13 +1,11 @@
 import QueueHeader from "../components/Queue/QueueHeader"
-import { Typography } from "@mui/material"
+import QueueList from "../components/Queue/QueueList"
 
 const QueuePage = () => {
   return (
     <>
-    <QueueHeader/>
-    <Typography>
-      This is the end of the world
-    </Typography>
+      <QueueHeader/>
+      <QueueList/>
     </>
   )
 }
