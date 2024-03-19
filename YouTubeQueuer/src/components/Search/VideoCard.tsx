@@ -5,6 +5,7 @@ import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { addToQueue } from "../../services/apiFajita"
 import { decode } from "html-entities"
 import { useState } from "react"
+import { useUser } from "../authentication/hooks/useUser"
 
 interface Props {
   data: YoutubeResponse
@@ -12,15 +13,15 @@ interface Props {
 
 const VideoCard: React.FC<Props> = ({data}) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const {user} = useUser();
 
   const handleClose = () => {
     setModalOpen(false);
   }
 
   const sendToQueue = (playNext: boolean) => {
-    // Alerts are bad - mmkay
     setModalOpen(false);
-    addToQueue(data.id.videoId, playNext);
+    addToQueue(user?.id, data.id.videoId, playNext);
   }
 
   const title: string = decode(data.snippet.title);

@@ -27,11 +27,10 @@ function deleteAllCookies() {
 
 export const getCurrentUser = () => {
   const cookieJSON: CookieJSON = generateCookieJSON();
-  localStorage.setItem("user", JSON.stringify(cookieJSON));
   return cookieJSON;
 }
 
 export const logoutCurrentUser = () => {
+  // Got to tell about Logout here?
   deleteAllCookies();
-  localStorage.clear();
 }

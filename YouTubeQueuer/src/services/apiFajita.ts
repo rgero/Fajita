@@ -1,6 +1,8 @@
 import { ResponseList } from "../dummyData/data"
 import axios from "axios";
+import { getCurrentUser } from "./apiAuthentication";
 import toast from "react-hot-toast";
+import { useUser } from "../components/authentication/hooks/useUser";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -35,12 +37,12 @@ export const getQueue = async () =>
   return response.data;
 }
 
-export const addToQueue = async (videoID: string, playNext: boolean) => 
+export const addToQueue = async (userID: number, videoID: string, playNext: boolean) => 
 {
   const queueURL = backendURL + "/api/q/add";
 
   const bodyOfReq = {
-    user_id: 1,
+    user_id: userID,
     video_id: videoID,
     play_next: playNext
   }
