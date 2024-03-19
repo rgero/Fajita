@@ -14,7 +14,7 @@ const generateCookieJSON = () => {
   }
 }
 
-function deleteAllCookies() {
+export const deleteAllCookies = () => {
   const cookies = document.cookie.split(";");
 
   for (let i = 0; i < cookies.length; i++) {
