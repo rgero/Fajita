@@ -12,8 +12,8 @@ const SearchResults = () => {
         <>
           {
             searchResults.map( (entry: YoutubeResponse, index: number) => (
-              <Box sx={{paddingBottom: {xs: 2}}}>
-                <VideoCard data={entry} key={index}/>
+              <Box sx={{paddingBottom: {xs: 2}}} key={index}>
+                <VideoCard data={entry}/>
               </Box>
             ))
           }
