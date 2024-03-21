@@ -1,9 +1,9 @@
-import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
+import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from "react-router-dom";
 
-const HomeOption = () => {
+const SearchOption = () => {
   const navigate = useNavigate();
 
   const processClick = () => {
@@ -11,7 +11,7 @@ const HomeOption = () => {
   }
   
   return (
-    <ListItem key="home" disablePadding onClick={processClick}>
+    <ListItem key="backToSearch" disablePadding onClick={processClick}>
       <ListItemButton>
         <ListItemIcon>
           <SearchIcon/>
@@ -22,4 +22,4 @@ const HomeOption = () => {
   )
 }
 
-export default HomeOption
+export default SearchOption

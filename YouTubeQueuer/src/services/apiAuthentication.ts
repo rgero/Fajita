@@ -1,8 +1,12 @@
 import { CookieJSON } from "../interfaces/CookieJSON";
 
+interface keyable {
+  [key: string]: string  
+}
+
 const generateCookieJSON = () => {
-  const parsedCookie:object = document.cookie.split('; ').reduce((prev, current) => {
-    const [name, ...value] = current.split('=');
+  const parsedCookie:keyable = document.cookie.split('; ').reduce((prev: keyable, current) => {
+    const [name, ...value]: string[] = current.split('=');
     prev[name] = value.join('=');
     return prev;
   }, {});

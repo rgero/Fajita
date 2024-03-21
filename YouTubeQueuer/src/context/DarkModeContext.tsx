@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { createContext, useContext, useMemo } from "react";
 
 import { Toaster } from "react-hot-toast";

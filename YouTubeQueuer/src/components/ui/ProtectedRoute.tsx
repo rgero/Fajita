@@ -9,20 +9,20 @@ type Props = {
 
 const ProtectedRoute = ({children} : Props) => {
   const navigate = useNavigate();
-  const {isLoading, isAuthenicated, fetchStatus} = useUser();
+  const {isLoading, isAuthenticated, fetchStatus} = useUser();
 
   useEffect( ()=> {
-    if (!isAuthenicated && !isLoading && fetchStatus !== "fetching")
+    if (!isAuthenticated && !isLoading && fetchStatus !== "fetching")
     {
       navigate('/landing');
     }
-  }, [isAuthenicated, isLoading, fetchStatus, navigate])
+  }, [isAuthenticated, isLoading, fetchStatus, navigate])
 
   if (isLoading) return (
     <Typography>Loading</Typography>
   );
 
-  if (isAuthenicated) return children;
+  if (isAuthenticated) return children;
 }
 
 export default ProtectedRoute

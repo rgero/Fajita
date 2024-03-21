@@ -3,14 +3,12 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
 import { useState } from "react";
-import { useUser } from "../authentication/hooks/useUser";
 
 interface Props {
   data: Interaction
 }
 
 const QueueCard: React.FC<Props> = ({data}) => {
-  const {user} = useUser();
   const [isModalOpen, setModalOpen] = useState(false);
 
   const {first_name} = data.user;
@@ -21,6 +19,7 @@ const QueueCard: React.FC<Props> = ({data}) => {
   }
 
   const jumpQueue = (targetID: number) => {
+    console.log(targetID);
     setModalOpen(false);
   }
   

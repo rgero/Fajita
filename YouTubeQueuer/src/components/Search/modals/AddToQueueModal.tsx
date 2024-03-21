@@ -27,7 +27,7 @@ const style = {
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) => {
   const [playNext, setPlayNext] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     const isPlayNext = playNext;
     setPlayNext(false);
     submitFn(isPlayNext);

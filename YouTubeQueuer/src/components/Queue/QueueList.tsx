@@ -9,6 +9,13 @@ const QueueList = () => {
   const {isLoading, queueData, error} = useYouTubeQueue();
   const {interactions} = queueData;
 
+  if (error)
+  {
+    // TO DO: Handle this
+    console.log(error);
+    return;
+  }
+
   return (
     <>
     {isLoading ? <Spinner/> : (

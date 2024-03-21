@@ -27,7 +27,7 @@ interface Props {
 
 const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn}) => {
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     submitFn(interaction.index);
   }
   

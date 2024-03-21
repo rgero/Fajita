@@ -21,7 +21,7 @@ const VideoCard: React.FC<Props> = ({data}) => {
 
   const sendToQueue = (playNext: boolean) => {
     setModalOpen(false);
-    addToQueue(user?.id, data.id.videoId, playNext);
+    addToQueue(user?.id as number, data.id.videoId, playNext);
   }
 
   const title: string = decode(data.snippet.title);

@@ -7,21 +7,21 @@ const FooterCard = () => {
   const {isLoading, currentlyPlaying} = useCurrentPlaying();
   if (isLoading) return (<Typography>Loading...</Typography>)
 
-  const isEmpty: boolean = Object.keys(currentlyPlaying).length == 0;
+  const isEmpty: boolean = currentlyPlaying == undefined;
 
   if (isEmpty)
   {
     return (
       <Grid>
-        <Typography variant="h4">Nothing is queued</Typography>
+        <Typography variant="h4">Nothing is playing</Typography>
         <Typography variant="h6">Go add something!</Typography>
       </Grid>
     )
   }
 
-  const title: string = decode(currentlyPlaying.snippet.title)
-  const channelTitle: string = decode(currentlyPlaying.snippet.channelTitle)
-  const imageURL: string = currentlyPlaying.snippet.thumbnails.default.url
+  const title: string = decode(currentlyPlaying?.snippet.title);
+  const channelTitle: string = decode(currentlyPlaying?.snippet.channelTitle);
+  const imageURL: string = currentlyPlaying ? currentlyPlaying.snippet.thumbnails.default.url : "";
  
   return (
     <Grid container justifyContent="center" spacing={{md: 2}}>

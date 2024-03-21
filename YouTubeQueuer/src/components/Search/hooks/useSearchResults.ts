@@ -5,6 +5,6 @@ import { useSearchParams } from "react-router-dom";
 export const useSearchResults = () => {
   const [searchParams] = useSearchParams();
   const searchTerm:string|null = searchParams.get("search");
-  const {isLoading, data: searchResults = [], error} = useQuery({queryKey: ["searchResults", searchTerm], queryFn: ()=>getSearchResults(searchTerm)});
+  const {isLoading, data: searchResults = [], error} = useQuery({queryKey: ["searchResults", searchTerm], queryFn: ()=>getSearchResults(searchTerm as string)});
   return { isLoading, searchResults, error};
 }

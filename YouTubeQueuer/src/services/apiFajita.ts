@@ -1,8 +1,6 @@
 import { ResponseList } from "../dummyData/data"
 import axios from "axios";
-import { getCurrentUser } from "./apiAuthentication";
 import toast from "react-hot-toast";
-import { useUser } from "../components/authentication/hooks/useUser";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 

@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography } from "@mui/material"
+import { Button, Container, Grid } from "@mui/material"
 
 const LandingPage = () => {
   return (

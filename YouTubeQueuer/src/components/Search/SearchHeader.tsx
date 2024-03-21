@@ -12,13 +12,12 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 const SearchHeader = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setTerm] = React.useState(searchParams.get("search") ? searchParams.get("search"): "");
+  const [searchTerm, setTerm] = React.useState<string>(searchParams.get("search") ? searchParams.get("search") as string: "");
 
   const theme = useTheme();
 
-  const processSubmit = (e) => {
-    e.target.blur();
-    searchParams.set("search", searchTerm);
+  const processSubmit = () => {
+    searchParams.set("search", searchTerm as string);
     setSearchParams(searchParams);
   }
 
@@ -50,7 +49,7 @@ const SearchHeader = () => {
               onKeyDown={(e) => {
                 if (e.key === "Enter")
                 {
-                  processSubmit(e);
+                  processSubmit();
                 }
               }}
               InputLabelProps={{

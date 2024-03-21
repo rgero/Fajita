@@ -7,5 +7,6 @@ export const useUser = () => {
     queryFn: getCurrentUser,
   });
 
-  return { isLoading, user, fetchStatus, isAuthenicated: user?.id > 0};
+  const isAuthenticated: boolean = user ? user.id > 0 : false;
+  return { isLoading, user, fetchStatus, isAuthenticated};
 }
