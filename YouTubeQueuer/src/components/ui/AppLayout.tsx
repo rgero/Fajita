@@ -7,7 +7,7 @@ const AppLayout = () => {
   return (
     <>
       <CssBaseline/>
-      <Container disableGutters className="mt-24 mb-32">
+      <Container disableGutters className="mt-24 mb-32" sx={{width: {xs: "100%", md:"40%"}}}>
         <Outlet/>
       </Container>
       <Footer/>

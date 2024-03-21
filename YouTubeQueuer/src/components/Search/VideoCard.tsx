@@ -32,7 +32,7 @@ const VideoCard: React.FC<Props> = ({data}) => {
       <AddToQueueModal open={isModalOpen} videoData={data} closeFn={handleClose} submitFn={sendToQueue}/>
       <Card>
         <CardMedia
-          sx={{height: {xs: 220, md: 550}}}
+          sx={{height: {xs: 220, md: 300}}}
           image={thumbnail} 
           title={title}
         />
