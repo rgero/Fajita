@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material"
 
-import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
+import { YoutubeResponse } from "../../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 
 interface Props {

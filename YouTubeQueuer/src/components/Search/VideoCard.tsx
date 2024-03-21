@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material"
 
-import AddToQueueModal from "../QueueModal/AddToQueueModal"
+import AddToQueueModal from "./modals/AddToQueueModal"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { addToQueue } from "../../services/apiFajita"
 import { decode } from "html-entities"

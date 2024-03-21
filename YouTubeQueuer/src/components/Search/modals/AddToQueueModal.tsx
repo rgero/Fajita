@@ -1,8 +1,7 @@
-import { Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Grid, Modal } from '@mui/material';
 
-import Modal from '@mui/material/Modal';
 import ModalCard from './ModalCard';
-import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
+import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
 import { useState } from 'react';
 
 interface Props {

@@ -15,7 +15,7 @@ const QueueList = () => {
       <Container> 
         {
           interactions.map( (entry: Interaction, index: number) => (
-            <Box sx={{paddingBottom: {xs: 2}}}>
+            <Box sx={{paddingBottom: {xs: 2}}} key={index}>
               <QueueCard data={entry} key={index}/>
               <Divider/>
             </Box>
