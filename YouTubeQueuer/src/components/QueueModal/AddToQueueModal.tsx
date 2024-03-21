@@ -13,11 +13,11 @@ interface Props {
 }
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: "80%",
+  width: {xs: '80%', md: "45%"},
   bgcolor: 'background.paper',
   border: '2px solid #000',
   borderRadius: 10,
@@ -47,8 +47,8 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
       <Grid container direction="column" sx={style}>
         <ModalCard videoData={videoData}/>
         <Grid item>
-          <Grid container direction="column"   justifyContent="flex-end" alignItems="flex-end">
-            <Grid item>
+          <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center">
+            <Grid item >
               <FormControlLabel 
                 labelPlacement="start" 
                 control={<Checkbox onChange={handleToggle} value={playNext}/>} 
