@@ -38,7 +38,7 @@ const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
       <Toaster 
         position="bottom-center"
         gutter={12}
-        containerStyle={{margin: "8px"}}
+        containerStyle={{margin: "8px", bottom:"17.5%"}}
         toastOptions={
           {
             success: {duration: 3000}, 

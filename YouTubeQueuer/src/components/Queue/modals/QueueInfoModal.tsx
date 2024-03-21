@@ -28,15 +28,10 @@ interface Props {
 const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn}) => {
 
   const handleSubmit = () => {
+    toast.success("Queue Jumped");
     submitFn(interaction.index);
   }
   
-   const copyVideoToClipboard = () => {
-    const targetURL = `https://www.youtube.com/watch?v=${interaction.video.video_id}`
-    navigator.clipboard.writeText(targetURL)
-    toast.success("Link Copied");
-  }
-
   return (
     <Modal
       open={open}
@@ -55,11 +50,6 @@ const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn})
           </CardContent>
         </Card>
         <Grid container alignItems="center" justifyContent="flex-end" spacing={5} sx={{paddingTop: "2em"}}>
-          <Grid item>
-            <IconButton onClick={copyVideoToClipboard}>
-              <ContentCopyIcon/>
-            </IconButton>
-          </Grid>
           <Grid item>
             <Button onClick={handleSubmit}>Jump Queue</Button>
           </Grid>

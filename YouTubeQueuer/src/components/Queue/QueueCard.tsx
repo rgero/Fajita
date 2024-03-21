@@ -2,6 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
+import toast from "react-hot-toast";
 import { useState } from "react";
 
 interface Props {
@@ -22,10 +23,25 @@ const QueueCard: React.FC<Props> = ({data}) => {
     console.log(targetID);
     setModalOpen(false);
   }
+  const copyToClipboard = async () => {
+    const targetURL = `https://www.youtube.com/watch?v=${data.video.video_id}`
+    await navigator.clipboard.writeText(targetURL).then(
+      ()=> {    
+        toast.success("Link Copied");
+        setModalOpen(false);
+      },
+      () => {
+        toast.error("Error");
+        setModalOpen(false);
+        alert("Error. Why though?")
+      }
+    )
+
+  }
   
   return (
     <>
-      <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>
+      <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} copyFn={copyToClipboard} submitFn={jumpQueue}/>
       <Card>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
