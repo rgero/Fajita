@@ -5,6 +5,7 @@ import QueueInfoModal from "./modals/QueueInfoModal";
 import toast from "react-hot-toast";
 import { useSocket } from "../../hooks/useWebSocket";
 import { useState } from "react";
+import { useTheme } from '@mui/material/styles';
 
 interface Props {
   data: Interaction
@@ -13,6 +14,7 @@ interface Props {
 
 const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
   const socket = useSocket();
+  const theme = useTheme();
   const [isModalOpen, setModalOpen] = useState(false);
 
   const {first_name} = data.user;
@@ -32,7 +34,7 @@ const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
   return (
     <>
       <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>
-      <Card sx={{width:"100%", backgroundColor: `${isCurrent ? "red" : ""}`}}>
+      <Card sx={{width:"100%", backgroundColor: `${isCurrent ? `${theme.palette.info.dark}` : ""}`, color: `${isCurrent ? `${theme.palette.primary.contrastText}` : ""}`}}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
             component="img"
@@ -40,8 +42,8 @@ const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
             image={thumbnail}
             alt={title}
           />
-          <CardContent sx={{flexGrow: 1}}>
-            <Typography variant="subtitle2">{title}</Typography>
+          <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
+            <Typography noWrap variant="subtitle2">{title}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>
           </CardContent>
         </CardActionArea>

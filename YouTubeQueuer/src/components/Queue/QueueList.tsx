@@ -67,7 +67,7 @@ const QueueList = () => {
       <Container> 
         {
           interactions.map( (entry: Interaction, index: number) => (
-            <Box sx={{paddingBottom: {xs: 2}}} key={index}>
+            <Box sx={{paddingBottom: {xs: 1}}} key={index}>
               <QueueCard isCurrent={currentIndex == entry.index} data={entry} key={index}/>
               <Divider/>
             </Box>
