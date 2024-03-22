@@ -24,8 +24,6 @@ const FooterCard = () => {
 
   useEffect(() => {
     if (Object.keys(queueData).length === 0) return;
-
-    console.log("I'm told to recompute");
     const currentIndex = queueData.current_index;
     const foundItems = queueData.interactions.filter((option: Interaction) =>{
       return option.index == currentIndex;
