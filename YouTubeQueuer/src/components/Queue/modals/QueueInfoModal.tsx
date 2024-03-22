@@ -1,9 +1,9 @@
-import { Card, CardContent, CardMedia, Grid, IconButton, Modal, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Grid, Modal, Typography } from '@mui/material';
 
 import { Button } from '@mui/base';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Interaction } from '../../../interfaces/Interaction';
 import toast from 'react-hot-toast';
+import { useSocket } from '../../../hooks/useWebSocket';
 
 const style = {
   position: 'absolute',
@@ -26,11 +26,6 @@ interface Props {
 }
 
 const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn}) => {
-
-  const handleSubmit = () => {
-    toast.success("Queue Jumped");
-    submitFn(interaction.index);
-  }
   
   return (
     <Modal
@@ -51,7 +46,7 @@ const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn})
         </Card>
         <Grid container alignItems="center" justifyContent="flex-end" spacing={5} sx={{paddingTop: "2em"}}>
           <Grid item>
-            <Button onClick={handleSubmit}>Jump Queue</Button>
+            <Button onClick={submitFn}>Jump Queue</Button>
           </Grid>
         </Grid>
 
