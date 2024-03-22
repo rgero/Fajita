@@ -3,6 +3,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
 import toast from "react-hot-toast";
+import { useSocket } from "../../hooks/useWebSocket";
 import { useState } from "react";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const QueueCard: React.FC<Props> = ({data}) => {
+  const socket = useSocket();
   const [isModalOpen, setModalOpen] = useState(false);
 
   const {first_name} = data.user;
@@ -19,30 +21,17 @@ const QueueCard: React.FC<Props> = ({data}) => {
     setModalOpen(false);
   }
 
-  const jumpQueue = (targetID: number) => {
-    console.log(targetID);
+  const jumpQueue = () => {
+    const videoIndex = data.index;
+    socket.emit("set_player_index", videoIndex)
     setModalOpen(false);
-  }
-  const copyToClipboard = async () => {
-    const targetURL = `https://www.youtube.com/watch?v=${data.video.video_id}`
-    await navigator.clipboard.writeText(targetURL).then(
-      ()=> {    
-        toast.success("Link Copied");
-        setModalOpen(false);
-      },
-      () => {
-        toast.error("Error");
-        setModalOpen(false);
-        alert("Error. Why though?")
-      }
-    )
-
+    toast.success("Jumping to Video")
   }
   
   return (
     <>
-      <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} copyFn={copyToClipboard} submitFn={jumpQueue}/>
-      <Card>
+      <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>
+      <Card sx={{width:"100%"}}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
             component="img"
