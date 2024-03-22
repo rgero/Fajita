@@ -3,7 +3,7 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
-import { useYouTubeQueue } from "./hooks/useYouTubeQueue"
+import { useYouTubeQueue } from "../../hooks/useYouTubeQueue"
 
 const QueueList = () => {
   const {isLoading, queueData, error} = useYouTubeQueue();
