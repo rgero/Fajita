@@ -2,16 +2,11 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
+import { Message } from "../../interfaces/Message";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
 import { useSocket } from "../../hooks/useWebSocket";
 import { useYouTubeQueue } from "../../hooks/useYouTubeQueue"
-
-type Message = {
-  current_index: number,
-  player_state: string,
-  player_state_int: number
-}
 
 const QueueList = () => {
   const socket = useSocket();
