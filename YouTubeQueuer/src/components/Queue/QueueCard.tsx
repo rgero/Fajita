@@ -40,7 +40,7 @@ const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
             image={thumbnail}
             alt={title}
           />
-          <CardContent>
+          <CardContent sx={{flexGrow: 1}}>
             <Typography variant="subtitle2">{title}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>
           </CardContent>
