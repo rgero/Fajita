@@ -1,4 +1,4 @@
-import { Box, Container, Divider } from "@mui/material";
+import { Box, Container, Divider, Typography } from "@mui/material";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
@@ -9,11 +9,23 @@ const QueueList = () => {
   const {isLoading, queueData, error} = useYouTubeQueue();
   const {interactions} = queueData;
 
+  if(isLoading) return (<Spinner/>)
+  if (interactions.length == 0)
+  {
+    return (
+      <Container>
+        <Typography>There are no videos currently in the queue</Typography>
+      </Container>
+    )
+  }
+
   if (error)
   {
-    // TO DO: Handle this
-    console.log(error);
-    return;
+    return (
+      <Container>
+        <Typography>An error has occurred. Oops.</Typography>
+      </Container>
+    )
   }
 
   return (
