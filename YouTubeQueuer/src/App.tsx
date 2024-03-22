@@ -9,6 +9,7 @@ import MainPage from "./pages/MainPage";
 import ProtectedRoute from "./components/ui/ProtectedRoute";
 import QueuePage from "./pages/QueuePage";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SocketProvider } from "./context/WebSocketContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,24 +23,26 @@ const App = () => {
  
   return (
     <DarkModeProvider>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <BrowserRouter>
-          <Routes>
-            <Route element={
-              <ProtectedRoute>
-                <AppLayout/>
-              </ProtectedRoute>
-            }>
-              <Route index element={<MainPage/>}/>
-              <Route path="queue" element={<QueuePage/>}/>
-            </Route>
-            <Route path="landing" element={<LandingPage/>} />
-            <Route path="logout" element={<LogoutPage/>} />
-            <Route path='*' element={<Navigate to='/' />} />
-          </Routes>
-        </BrowserRouter>
-      </QueryClientProvider>
+      <SocketProvider>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <BrowserRouter>
+            <Routes>
+              <Route element={
+                <ProtectedRoute>
+                  <AppLayout/>
+                </ProtectedRoute>
+              }>
+                <Route index element={<MainPage/>}/>
+                <Route path="queue" element={<QueuePage/>}/>
+              </Route>
+              <Route path="landing" element={<LandingPage/>} />
+              <Route path="logout" element={<LogoutPage/>} />
+              <Route path='*' element={<Navigate to='/' />} />
+            </Routes>
+          </BrowserRouter>
+        </QueryClientProvider>
+      </SocketProvider>
     </DarkModeProvider>
   )
 }
