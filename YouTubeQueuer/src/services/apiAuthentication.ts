@@ -14,7 +14,7 @@ const generateCookieJSON = () => {
   return {
     email: parsedCookie.user_email,
     id: parseInt(parsedCookie.user_id),
-    name: parsedCookie.user_name
+    name: parsedCookie.first_name
   }
 }
 
