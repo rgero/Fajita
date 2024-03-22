@@ -8,9 +8,10 @@ import { useState } from "react";
 
 interface Props {
   data: Interaction
+  isCurrent: boolean
 }
 
-const QueueCard: React.FC<Props> = ({data}) => {
+const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
   const socket = useSocket();
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -31,7 +32,7 @@ const QueueCard: React.FC<Props> = ({data}) => {
   return (
     <>
       <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>
-      <Card sx={{width:"100%"}}>
+      <Card sx={{width:"100%", backgroundColor: `${isCurrent ? "red" : ""}`}}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
             component="img"

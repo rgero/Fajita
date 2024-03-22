@@ -1,13 +1,39 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
+import { useSocket } from "../../hooks/useWebSocket";
 import { useYouTubeQueue } from "../../hooks/useYouTubeQueue"
 
 const QueueList = () => {
-  const {isLoading, queueData, error} = useYouTubeQueue();
-  const {interactions} = queueData;
+  const socket = useSocket();
+  const {isLoading, queueData, error, refetch} = useYouTubeQueue();
+  const {current_index, interactions} = queueData;
+  const [currentIndex, setCurrentIndex] = useState<number>(current_index);
+
+  const onMessage = useCallback( async (message) => {
+    setCurrentIndex( () => message.current_index)
+  }, []);
+
+  const onNewVideo = useCallback( async () => {
+    refetch();
+  }, []);
+
+  useEffect(() => {
+    socket.on("player_status", onMessage);
+    socket.on("new_video_interaction", onNewVideo);
+
+    return () => {
+      socket.off("player_status", onMessage);
+      socket.off("new_video_interaction", onNewVideo);
+    };
+  }, [socket, onMessage]);
+
+  useEffect(()=> {
+    setCurrentIndex( () => current_index)
+  }, current_index);
 
   if(isLoading) return (<Spinner/>)
   if (interactions.length == 0)
@@ -35,7 +61,7 @@ const QueueList = () => {
         {
           interactions.map( (entry: Interaction, index: number) => (
             <Box sx={{paddingBottom: {xs: 2}}} key={index}>
-              <QueueCard data={entry} key={index}/>
+              <QueueCard isCurrent={currentIndex == entry.index} data={entry} key={index}/>
               <Divider/>
             </Box>
           ))
