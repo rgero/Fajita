@@ -1,27 +1,64 @@
 import { Grid, Typography } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
 
-import { decode } from "html-entities";
-import { useCurrentPlaying } from "../../hooks/useCurrentPlaying";
+import { Interaction } from "../../interfaces/Interaction";
+import Spinner from "../ui/Spinner";
+import { useSocket } from "../../hooks/useWebSocket";
+import { useYouTubeQueue } from "../../hooks/useYouTubeQueue";
 
 const FooterCard = () => {
-  const {isLoading, currentlyPlaying} = useCurrentPlaying();
-  if (isLoading) return (<Typography>Loading...</Typography>)
+  const socket = useSocket();
+  const {isLoading, queueData, refetch} = useYouTubeQueue();
+  const [currentlyPlaying, setCurrentPlay] = useState<Interaction>({});
 
-  const isEmpty: boolean = currentlyPlaying == undefined;
+  const onMessage = useCallback( async (message) => {
+    refetch();
+  }, []);
 
-  if (isEmpty)
+  useEffect(() => {
+    socket.on("player_status", onMessage);
+    return () => {
+      socket.off("player_status", onMessage);
+    };
+  }, [socket, onMessage]);
+
+  useEffect(() => {
+    if (Object.keys(queueData).length === 0) return;
+
+    console.log("I'm told to recompute");
+    const currentIndex = queueData.current_index;
+    const foundItems = queueData.interactions.filter((option: Interaction) =>{
+      return option.index == currentIndex;
+    })
+    
+    if (foundItems.length == 1)
+    {
+      setCurrentPlay( () => foundItems[0]);
+    }
+  }, [queueData])
+
+
+  if (isLoading)
+  {
+    return (<Spinner/>)
+  }
+
+  // If we have nothing
+  if (currentlyPlaying && Object.keys(currentlyPlaying).length === 0)
   {
     return (
-      <Grid>
-        <Typography variant="h4">Nothing is playing</Typography>
-        <Typography variant="h6">Go add something!</Typography>
+      <Grid container justifyContent="center">
+        <Grid item>
+          <Typography>Nothing Playing</Typography>
+        </Grid>
       </Grid>
+
     )
   }
 
-  const title: string = decode(currentlyPlaying?.snippet.title);
-  const channelTitle: string = decode(currentlyPlaying?.snippet.channelTitle);
-  const imageURL: string = currentlyPlaying ? currentlyPlaying.snippet.thumbnails.default.url : "";
+  const title: string =  currentlyPlaying.video.title;
+  const imageURL: string = currentlyPlaying.video.thumbnail;
+  const targetUser: string = currentlyPlaying.user.first_name;
  
   return (
     <Grid container justifyContent="center" spacing={{md: 2}}>
@@ -29,9 +66,9 @@ const FooterCard = () => {
         <img className="image-contain max-h-24" src={imageURL} alt={title}/>
       </Grid>
       <Grid item xs={8} md="auto">
-        <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>{!isEmpty ? "Currently Playing" : "Add to Queue!"}</Typography>
+        <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>Currently Playing</Typography>
         <Typography variant="subtitle2">{title}</Typography>
-        <Typography variant="subtitle2">{channelTitle}</Typography>
+        <Typography variant="subtitle2">Added by {targetUser}</Typography>
       </Grid>
     </Grid>
   )

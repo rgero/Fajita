@@ -33,7 +33,7 @@ const QueueList = () => {
 
   useEffect(()=> {
     setCurrentIndex( () => current_index)
-  }, current_index);
+  }, [current_index]);
 
   if(isLoading) return (<Spinner/>)
   if (interactions.length == 0)
