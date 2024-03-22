@@ -7,13 +7,20 @@ import Spinner from "../ui/Spinner";
 import { useSocket } from "../../hooks/useWebSocket";
 import { useYouTubeQueue } from "../../hooks/useYouTubeQueue"
 
+type Message = {
+  current_index: number,
+  player_state: string,
+  player_state_int: number
+}
+
 const QueueList = () => {
   const socket = useSocket();
   const {isLoading, queueData, error, refetch} = useYouTubeQueue();
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(current_index);
 
-  const onMessage = useCallback( async (message) => {
+  const onMessage = useCallback( async (message: Message) => {
+    console.log(message);
     setCurrentIndex( () => message.current_index)
   }, []);
 

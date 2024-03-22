@@ -1,4 +1,4 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material"
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
 
 import AddToQueueModal from "./modals/AddToQueueModal"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"

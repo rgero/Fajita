@@ -9,9 +9,9 @@ import { useYouTubeQueue } from "../../hooks/useYouTubeQueue";
 const FooterCard = () => {
   const socket = useSocket();
   const {isLoading, queueData, refetch} = useYouTubeQueue();
-  const [currentlyPlaying, setCurrentPlay] = useState<Interaction>({});
+  const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
 
-  const onMessage = useCallback( async (message) => {
+  const onMessage = useCallback( async () => {
     refetch();
   }, []);
 
@@ -42,7 +42,7 @@ const FooterCard = () => {
   }
 
   // If we have nothing
-  if (currentlyPlaying && Object.keys(currentlyPlaying).length === 0)
+  if (!currentlyPlaying || Object.keys(currentlyPlaying).length === 0)
   {
     return (
       <Grid container justifyContent="center">

@@ -2,13 +2,16 @@ import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/mater
 
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { useSocket } from "../../../hooks/useWebSocket";
 import { useState } from "react";
 
 const PlayOption = () => {
-  // Get Closed Captioning State
+  const socket = useSocket();
   const [isPlaying, setPlaying] = useState(false);
 
+
   const processClick = () => {
+    socket.emit("playPause");
     setPlaying( (prevValue) => !prevValue);
   }
 

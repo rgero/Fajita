@@ -2,8 +2,6 @@ import { Card, CardContent, CardMedia, Grid, Modal, Typography } from '@mui/mate
 
 import { Button } from '@mui/base';
 import { Interaction } from '../../../interfaces/Interaction';
-import toast from 'react-hot-toast';
-import { useSocket } from '../../../hooks/useWebSocket';
 
 const style = {
   position: 'absolute',
@@ -22,7 +20,7 @@ interface Props {
   open: boolean,
   interaction: Interaction,
   closeFn: () => void
-  submitFn: (targetID: number) => void;
+  submitFn: () => void;
 }
 
 const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn}) => {
