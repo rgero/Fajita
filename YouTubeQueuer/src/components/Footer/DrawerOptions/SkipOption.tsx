@@ -18,7 +18,7 @@ const SkipOption = () => {
         <ListItemIcon>
           <SkipNextIcon/>
         </ListItemIcon>
-        <ListItemText primary="Skip next video"/>
+        <ListItemText primary="Skip video"/>
       </ListItemButton>
     </ListItem>
   )
