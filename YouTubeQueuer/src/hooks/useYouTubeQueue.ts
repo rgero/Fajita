@@ -1,4 +1,4 @@
-import { getQueue } from "../../../services/apiFajita";
+import { getQueue } from "../services/apiFajita";
 import { useQuery } from "@tanstack/react-query";
 
 export const useYouTubeQueue = () => {
