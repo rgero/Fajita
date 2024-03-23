@@ -11,6 +11,9 @@ export const getCurrentPlaying = async () => {
 export const getSearchResults = async (searchTerm: string) => {
   if (searchTerm == null) { searchTerm = ""}
   const youTubeURL = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=20&q=${searchTerm}&key=${import.meta.env.VITE_YOUTUBE_KEY}`
+
+  console.log("I've been called");
+
   const response = await axios.get(youTubeURL);
 
   if(response.status != 200)
