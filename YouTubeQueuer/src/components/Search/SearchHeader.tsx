@@ -1,6 +1,6 @@
 import { AppBar, Grid, IconButton, InputAdornment, TextField, Toolbar, styled, useTheme } from "@mui/material";
+import React, { KeyboardEvent } from "react";
 
-import React from "react";
 import SearchIcon from '@mui/icons-material/Search';
 import UserAvatar from "../authentication/UserAvatar"
 import { inputLabelClasses } from "@mui/material/InputLabel";
@@ -46,9 +46,10 @@ const SearchHeader = () => {
                     </InputAdornment>
                   )
               }}
-              onKeyDown={(e) => {
+              onKeyDown={(e: KeyboardEvent) => {
                 if (e.key === "Enter")
                 {
+                  (e.target as HTMLElement).blur();
                   processSubmit();
                 }
               }}
