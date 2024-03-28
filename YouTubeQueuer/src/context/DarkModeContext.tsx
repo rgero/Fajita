@@ -43,6 +43,7 @@ const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
           {
             success: {duration: 3000}, 
             error: {duration: 5000},
+            loading: {duration: 1500},
             style: { 
               fontSize: '16px',
               fontWeight: 'bold',
