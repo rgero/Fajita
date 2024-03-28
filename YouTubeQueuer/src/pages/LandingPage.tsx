@@ -6,7 +6,7 @@ const LandingPage = () => {
   const theme = useTheme();
   return (
     <Container disableGutters sx={{minWidth: "100%", backgroundColor: `${theme.palette.background.paper}`, color: `${theme.palette.primary.light}`}}>
-      <Grid container sx={{height: "100vh", paddingTop: "2rem"}} direction="column"alignItems="center">
+      <Grid container sx={{height: "100vh", paddingTop: "2rem"}} direction="column" alignItems="center">
         <Grid item>
           <IconButton
             href={`${import.meta.env.VITE_BACKEND_URL}/login`}
