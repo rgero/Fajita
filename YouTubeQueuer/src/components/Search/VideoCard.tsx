@@ -21,12 +21,12 @@ const VideoCard: React.FC<Props> = ({data}) => {
 
   const sendToQueue = (playNext: boolean) => {
     setModalOpen(false);
-    addToQueue(user?.id as number, data.id.videoId, playNext);
+    addToQueue(user?.id as number, data.id, playNext);
   }
 
-  const title: string = decode(data.snippet.title);
-  const thumbnail: string = data.snippet.thumbnails.high.url;
-  const channelTitle: string = decode(data.snippet.channelTitle);
+  const title: string = decode(data.title);
+  const thumbnail: string = data.thumbnail_src;
+  const channelTitle: string = decode(data.author);
   return (
     <>
       <AddToQueueModal open={isModalOpen} videoData={data} closeFn={handleClose} submitFn={sendToQueue}/>

@@ -46,8 +46,8 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
       <Grid container direction="column" sx={style}>
         <ModalCard videoData={videoData}/>
         <Grid item>
-          <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center">
-            <Grid item >
+          <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center" sx={{paddingTop: 2}}>
+            <Grid item>
               <FormControlLabel 
                 labelPlacement="start" 
                 control={<Checkbox onChange={handleToggle} value={playNext}/>} 

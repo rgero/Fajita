@@ -1,4 +1,5 @@
 import { ResponseList } from "../dummyData/data"
+import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -10,28 +11,26 @@ export const getCurrentPlaying = async () => {
 
 export const getSearchResults = async (searchTerm: string) => {
 
-  /*
-    This needs to be changed. YouTube's daily quota is too insanely low.
+  if (!searchTerm) { return; }
 
-    Like seriously. They lowered it to 10,000 while leaving the other query limits the same. How does that make sense?
-
-    There's got to be a better way to do it.
-  */
-
-  if (searchTerm == null) { searchTerm = ""}
-  const youTubeURL = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=20&q=${searchTerm}&key=${import.meta.env.VITE_YOUTUBE_KEY}`
-
-  console.log("I've been called");
-
-  const response = await axios.get(youTubeURL);
+  const queryURL = backendURL + `/api/search?query=${searchTerm}`;
+  const response = await axios.get(queryURL);
 
   if(response.status != 200)
   {
     toast.error(response.statusText);
     return;
   }
-  const hitList = response.data.items;
-  return hitList;
+
+  if (response.data.length == 0)
+  {
+    toast.error("No Results found");
+    return;
+  }
+
+  // Process the results
+  const results = response.data.filter( (item: YoutubeResponse) => { return item.resultType.toLowerCase().includes("video")});
+  return results;
 }
 
 export const getQueue = async () => 

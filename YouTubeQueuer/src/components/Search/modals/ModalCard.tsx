@@ -9,9 +9,9 @@ interface Props {
 
 const ModalCard: React.FC<Props> = ({videoData}) => {
 
-  const title: string = decode(videoData.snippet.title)
-  const channelTitle: string = decode(videoData.snippet.channelTitle)
-  const imageURL: string = videoData.snippet.thumbnails.medium.url
+  const title: string = decode(videoData.title)
+  const channelTitle: string = decode(videoData.author)
+  const imageURL: string = videoData.thumbnail_src
 
  
   return (
