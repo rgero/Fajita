@@ -9,7 +9,7 @@ const SkipOption = () => {
 
   const processClick = () => {
     toast.success("Skipped!");
-    socket.emit('getNext');
+    socket.emit('skipVideo');
   }
 
   return (
