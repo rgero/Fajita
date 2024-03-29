@@ -25,7 +25,7 @@ const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
   }
 
   const jumpQueue = () => {
-    const videoIndex = data.index;
+    const videoIndex = data.id;
     socket.emit("set_player_index", videoIndex)
     setModalOpen(false);
     toast.success("Jumping to Video")
