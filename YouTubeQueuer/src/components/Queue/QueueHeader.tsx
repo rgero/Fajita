@@ -15,12 +15,16 @@ const QueueHeader = () => {
       <StyledToolbar>
         <Grid container spacing={1} direction="row" alignItems="center" justifyContent="space-between">
           <Grid item>
-            <IconButton onClick={()=> navigate('/') }>
-              <ArrowBackIcon/>
-            </IconButton>
-          </Grid>
-          <Grid item xs={9} md={4}>
-            <Typography variant="h4">The Queue</Typography>
+            <Grid container direction="row">
+              <Grid item>
+                <IconButton onClick={()=> navigate('/') }>
+                  <ArrowBackIcon/>
+                </IconButton>
+              </Grid>
+              <Grid item md={4}>
+                <Typography variant="h4">Queue</Typography>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item>
             <UserAvatar/>
