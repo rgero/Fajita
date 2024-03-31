@@ -10,6 +10,13 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 const QueueHeader = () => {
   const navigate = useNavigate();
+
+  const goBack = () => {
+    // We want to go back to the Search Page
+    // Ideally retaining what the person had searched before.
+    navigate(-1);
+  }
+
   return (
     <AppBar>
       <StyledToolbar>
@@ -17,7 +24,7 @@ const QueueHeader = () => {
           <Grid item>
             <Grid container direction="row">
               <Grid item>
-                <IconButton onClick={()=> navigate('/') }>
+                <IconButton onClick={goBack}>
                   <ArrowBackIcon/>
                 </IconButton>
               </Grid>

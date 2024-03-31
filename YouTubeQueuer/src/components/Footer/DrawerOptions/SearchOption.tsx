@@ -7,7 +7,9 @@ const SearchOption = () => {
   const navigate = useNavigate();
 
   const processClick = () => {
-    navigate("/");
+    // We want to go back to the Search Page
+    // Ideally retaining what the person had searched before.
+    navigate(-1);
   }
   
   return (
