@@ -14,9 +14,20 @@ const QueueList = () => {
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(current_index);
 
+  const scrollToCurrent = (target: number) => {
+    const yOffset = -80; 
+    if (!target) return;
+    const element = document.getElementById(target.toString());
+    
+    if (!element) return;
+    
+    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({top: y, behavior: 'smooth'});
+  }
+
   const onMessage = useCallback( async (message: Message) => {
-    console.log(message);
     setCurrentIndex( () => message.current_index)
+    scrollToCurrent(message.current_index);
   }, []);
 
   const onNewVideo = useCallback( async () => {
@@ -35,6 +46,7 @@ const QueueList = () => {
 
   useEffect(()=> {
     setCurrentIndex( () => current_index)
+    scrollToCurrent(current_index);
   }, [current_index]);
 
   if(isLoading) return (<Spinner/>)
@@ -57,20 +69,16 @@ const QueueList = () => {
   }
 
   return (
-    <>
-    {isLoading ? <Spinner/> : (
-      <Container> 
-        {
-          interactions.map( (entry: Interaction, index: number) => (
-            <Box sx={{paddingBottom: {xs: 1}}} key={index}>
-              <QueueCard isCurrent={currentIndex == entry.index} data={entry} key={index}/>
-              <Divider/>
-            </Box>
-          ))
-        }
-      </Container>
-    )}
-  </>
+    <Container> 
+      {
+        interactions.map( (entry: Interaction, index: number) => (
+          <Box sx={{paddingBottom: {xs: 1}}} key={index} id={`${entry.index}`}>
+            <QueueCard isCurrent={currentIndex == entry.index} data={entry} key={index}/>
+            <Divider/>
+          </Box>
+        ))
+      }
+    </Container>
   )
 }
 
