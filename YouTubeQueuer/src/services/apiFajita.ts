@@ -56,5 +56,17 @@ export const addToQueue = async (userID: number, videoID: string, playNext: bool
     play_next: playNext
   }
 
-  await axios.post(queueURL, bodyOfReq);
+  try {
+    const response = await axios.post(queueURL, bodyOfReq);
+    if (response.status != 200)
+    {
+      toast.error("Couldn't add video");
+      return;
+    }
+    toast.success("Video added!");
+  } catch (err)
+  {
+    toast.error("Couldn't add video");
+  }
+
 }
