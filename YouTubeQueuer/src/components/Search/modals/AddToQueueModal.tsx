@@ -1,6 +1,7 @@
 import { Button, Checkbox, FormControlLabel, Grid, Modal } from '@mui/material';
 
 import ModalCard from './ModalCard';
+import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
 import { useState } from 'react';
 
@@ -26,6 +27,7 @@ const style = {
 
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) => {
   const [playNext, setPlayNext] = useState(false);
+  const [selectedVisibility, setSelected] = useState<string|null>("normal");
 
   const handleSubmit = () => {
     const isPlayNext = playNext;
@@ -46,6 +48,9 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
       <Grid container direction="column" sx={style}>
         <ModalCard videoData={videoData}/>
         <Grid item>
+          <Grid item>
+            <VisibilityGroup selected={selectedVisibility} setSelected={setSelected}/>
+          </Grid>
           <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center" sx={{paddingTop: 2}}>
             <Grid item>
               <FormControlLabel 
