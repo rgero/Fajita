@@ -49,7 +49,7 @@ const SearchHeader = () => {
               value={searchTerm}
               onChange={(e) => setTerm( ()=> e.target.value) }
               inputProps={{
-                inputMode: "search",
+                enterKeyHint: "search",
                 spellCheck: false
               }}
               InputProps={{
