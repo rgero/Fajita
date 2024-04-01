@@ -22,6 +22,9 @@ const VisibilityButton : React.FC<Props> = ({id, activeButton, children, process
       variant="text"
       color={isActive ? "success" : undefined}
       onClick={processChange}
+      sx={{
+        fontWeight: `${isActive ? "bold" : ""}`
+      }}
     >
       {children}
     </Button>
