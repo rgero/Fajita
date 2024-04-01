@@ -1,7 +1,7 @@
 import { AppBar, Grid, IconButton, InputAdornment, TextField, Toolbar, styled, useTheme } from "@mui/material";
 import React, { KeyboardEvent } from "react";
 
-import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import UserAvatar from "../authentication/UserAvatar"
 import { inputLabelClasses } from "@mui/material/InputLabel";
 import { useSearchParams } from "react-router-dom";
@@ -21,6 +21,22 @@ const SearchHeader = () => {
     setSearchParams(searchParams);
   }
 
+  const processClear = () => {
+    setTerm( () => "" );
+  }
+
+  const endAdornment = searchTerm.length != 0 ? (
+    <InputAdornment position="end">
+      <IconButton
+        aria-label="search field"
+        onClick={processClear}
+        size="small"
+      >
+        <ClearIcon/>
+      </IconButton>
+    </InputAdornment>
+  ) : (null)
+
   return (
     <AppBar>
       <StyledToolbar>
@@ -33,20 +49,11 @@ const SearchHeader = () => {
               value={searchTerm}
               onChange={(e) => setTerm( ()=> e.target.value) }
               inputProps={{
+                inputMode: "search",
                 spellCheck: false
               }}
               InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="search field"
-                        onClick={processSubmit}
-                        edge="end"
-                      >
-                        <SearchIcon/>
-                      </IconButton>
-                    </InputAdornment>
-                  )
+                endAdornment: endAdornment
               }}
               onKeyDown={(e: KeyboardEvent) => {
                 if (e.key === "Enter")
