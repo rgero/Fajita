@@ -27,12 +27,14 @@ const SearchHeader = () => {
         <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
           <Grid item xs={10} md={4}>
             <TextField
-              id="outlined-search"
               variant="filled"
               label="Search"
               fullWidth
               value={searchTerm}
               onChange={(e) => setTerm( ()=> e.target.value) }
+              inputProps={{
+                spellCheck: false
+              }}
               InputProps={{
                 endAdornment: (
                     <InputAdornment position="end">
