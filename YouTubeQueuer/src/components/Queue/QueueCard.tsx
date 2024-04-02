@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
+import { QueueStatus } from "../../interfaces/QueueStatus";
+import { getSecretMessage } from "../../utils/SecretMessageGenerator";
 import toast from "react-hot-toast";
 import { useSocket } from "../../hooks/useWebSocket";
 import { useTheme } from '@mui/material/styles';
@@ -16,7 +18,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const socket = useSocket();
   const theme = useTheme();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [status, setIsVisible] = useState<QueueStatus>({isVisible: true, message: ""});
 
 
   const {first_name} = data.user;
@@ -24,7 +26,12 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
 
   useEffect(() => {
     const shouldBeVisible: boolean = (data.visibility != 0) || data.index <= current;
-    setIsVisible(shouldBeVisible);
+    const response: QueueStatus = {isVisible: shouldBeVisible, message: null}
+    if (!shouldBeVisible)
+    {
+      response["message"] = getSecretMessage();
+    }
+    setIsVisible(response);
   }, [data, current])
 
   const handleClose = () => {
@@ -47,7 +54,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   
   return (
     <>
-      {isVisible && <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>}
+      <QueueInfoModal open={isModalOpen} status={status} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>
       <Card sx={cardStyle}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
@@ -55,11 +62,11 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             sx={{
               width: {xs: 120, md: 300},
             }}
-            image={`${isVisible ? thumbnail : '/BlackBox.png'}`}
+            image={`${status.isVisible ? thumbnail : '/BlackBox.png'}`}
             alt={title}
           />
           <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
-            <Typography noWrap variant="subtitle2">{isVisible ? title : "Shh it's a secret"}</Typography>
+            <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>
           </CardContent>
         </CardActionArea>

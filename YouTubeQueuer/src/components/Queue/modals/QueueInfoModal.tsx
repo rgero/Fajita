@@ -2,6 +2,7 @@ import { Card, CardContent, CardMedia, Grid, Modal, Typography } from '@mui/mate
 
 import { Button } from '@mui/base';
 import { Interaction } from '../../../interfaces/Interaction';
+import { QueueStatus } from '../../../interfaces/QueueStatus';
 
 const style = {
   position: 'absolute',
@@ -18,12 +19,14 @@ const style = {
 
 interface Props {
   open: boolean,
+  status: QueueStatus,
   interaction: Interaction,
   closeFn: () => void
   submitFn: () => void;
 }
 
-const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn}) => {
+const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn, submitFn}) => {
+  const {title, thumbnail} = interaction.video;
   
   return (
     <Modal
@@ -35,11 +38,11 @@ const QueueInfoModal: React.FC<Props> = ({open, interaction, closeFn, submitFn})
           <CardMedia
               component="img"
               sx={{height: 150}}
-              image={interaction.video.thumbnail}
+              image={`${status.isVisible ? thumbnail : '/BlackBox.png'}`}
               alt={interaction.video.title}
           />
           <CardContent>
-            <Typography variant="body1">{interaction.video.title}</Typography>
+            <Typography variant="body1">{status.isVisible ? title : status.message}</Typography>
           </CardContent>
         </Card>
         <Grid container alignItems="center" justifyContent="flex-end" spacing={5} sx={{paddingTop: "2em"}}>
