@@ -77,11 +77,5 @@ export const deleteFromQueue = async (interactionID: number) => {
   const bodyOfReq = {
     interaction_id: interactionID
   }
-
-  try {
-    const response = await axios.post(deleteURL, bodyOfReq);
-  } catch (err)
-  {
-    throw new Error(err.message);
-  }
+  await axios.post(deleteURL, bodyOfReq);
 }
