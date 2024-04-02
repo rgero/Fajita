@@ -1,11 +1,11 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
+import { UserResponse, useUser } from "../authentication/hooks/useUser"
 
 import AddToQueueModal from "./modals/AddToQueueModal"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { addToQueue } from "../../services/apiFajita"
 import { decode } from "html-entities"
 import { useState } from "react"
-import { useUser } from "../authentication/hooks/useUser"
 
 interface Props {
   data: YoutubeResponse
@@ -13,7 +13,7 @@ interface Props {
 
 const VideoCard: React.FC<Props> = ({data}) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const {user} = useUser();
+  const {user}: UserResponse = useUser();
 
   const handleClose = () => {
     setModalOpen(false);

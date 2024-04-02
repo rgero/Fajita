@@ -1,7 +1,8 @@
+import { UserResponse, useUser } from "../authentication/hooks/useUser";
+
 import { Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../authentication/hooks/useUser";
 
 type Props = {
   children: React.ReactNode
@@ -9,7 +10,7 @@ type Props = {
 
 const ProtectedRoute = ({children} : Props) => {
   const navigate = useNavigate();
-  const {isLoading, isAuthenticated, fetchStatus} = useUser();
+  const {isLoading, isAuthenticated, fetchStatus}: UserResponse = useUser();
 
   useEffect( ()=> {
     if (!isAuthenticated && !isLoading && fetchStatus !== "fetching")

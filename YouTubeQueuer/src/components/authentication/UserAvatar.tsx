@@ -1,10 +1,11 @@
+import { UserResponse, useUser } from "./hooks/useUser";
+
 import { Avatar } from "@mui/material";
 import { useDarkMode } from "../../context/DarkModeContext";
-import { useUser } from "./hooks/useUser";
 
 const UserAvatar = () => {
   const { toggleDarkMode } = useDarkMode();
-  const {user} = useUser();
+  const {user}: UserResponse = useUser();
 
   // This should probably change to the First input Letter.
   return (
