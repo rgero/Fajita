@@ -10,6 +10,8 @@ const FooterCard = () => {
   const socket = useSocket();
   const {isLoading, queueData, refetch} = useYouTubeQueue();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number|null>(null);
+  const [total, setTotal] = useState<number|null>(null);
 
   const onMessage = useCallback( async () => {
     refetch();
@@ -17,8 +19,10 @@ const FooterCard = () => {
 
   useEffect(() => {
     socket.on("player_status", onMessage);
+    socket.on("new_video_interaction", onMessage);
     return () => {
       socket.off("player_status", onMessage);
+      socket.off("new_video_interaction", onMessage);
     };
   }, [socket, onMessage]);
 
@@ -32,8 +36,10 @@ const FooterCard = () => {
     if (foundItems.length == 1)
     {
       setCurrentPlay( () => foundItems[0]);
+      setCurrentIndex( () => queueData.interactions.indexOf(foundItems[0]) + 1 );
+      setTotal( () => queueData.interactions.length );
     }
-  }, [queueData])
+  }, [queueData, currentIndex, total])
 
 
   if (isLoading)
@@ -57,16 +63,23 @@ const FooterCard = () => {
   const title: string =  currentlyPlaying.video.title;
   const imageURL: string = currentlyPlaying.video.thumbnail;
   const targetUser: string = currentlyPlaying.user.first_name;
- 
+
   return (
     <Grid container justifyContent="center" spacing={{md: 2}}>
       <Grid item xs={4} md="auto">
         <img className="image-contain max-h-24" src={imageURL} alt={title}/>
       </Grid>
       <Grid item xs={8} md="auto">
-        <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>Currently Playing</Typography>
-        <Typography variant="subtitle2">{title}</Typography>
-        <Typography variant="subtitle2">Added by {targetUser}</Typography>
+          <Grid container direction="row" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>Currently Playing</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>{currentIndex} / {total}</Typography>
+            </Grid>
+          </Grid>
+          <Typography variant="subtitle2">{title}</Typography>
+          <Typography variant="subtitle2">Added by {targetUser}</Typography>
       </Grid>
     </Grid>
   )
