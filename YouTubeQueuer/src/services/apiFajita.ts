@@ -70,5 +70,18 @@ export const addToQueue = async (userID: number, videoID: string, playNext: bool
   {
     toast.error("Couldn't add video");
   }
+}
 
+export const deleteFromQueue = async (interactionID: number) => {
+  const deleteURL = backendURL + "/api/q/delete";
+  const bodyOfReq = {
+    interaction_id: interactionID
+  }
+
+  try {
+    const response = await axios.post(deleteURL, bodyOfReq);
+  } catch (err)
+  {
+    throw new Error(err.message);
+  }
 }

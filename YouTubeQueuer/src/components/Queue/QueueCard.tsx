@@ -6,6 +6,7 @@ import QueueInfoModal from "./modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
 import toast from "react-hot-toast";
+import { useDeleteInteraction } from "./hooks/useDeleteInteraction";
 import { useSocket } from "../../hooks/useWebSocket";
 import { useTheme } from '@mui/material/styles';
 
@@ -19,6 +20,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const theme = useTheme();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: true, message: ""});
+  const {deleteInteraction} = useDeleteInteraction();
 
 
   const {first_name} = data.user;
@@ -38,13 +40,22 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     setModalOpen(false);
   }
 
+  const handleDelete = () => {
+    if (data.index == current)
+    {
+      toast.error("Cannot delete current video");
+    } else {
+      deleteInteraction(data.id);
+    }
+    setModalOpen(false);
+  }
+
   const jumpQueue = () => {
     const videoIndex = data.id;
     socket.emit("set_player_index", videoIndex)
     setModalOpen(false);
     toast.success("Jumping to Video")
   }
-
 
   const cardStyle = {
     width:"100%", 
@@ -54,7 +65,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   
   return (
     <>
-      <QueueInfoModal open={isModalOpen} status={status} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>
+      <QueueInfoModal open={isModalOpen} status={status} interaction={data} deleteFn={handleDelete} closeFn={handleClose} submitFn={jumpQueue}/>
       <Card sx={cardStyle}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia

@@ -1,8 +1,8 @@
-import { Card, CardContent, CardMedia, Grid, Modal, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Grid, Modal, Typography } from '@mui/material';
 
-import { Button } from '@mui/base';
 import { Interaction } from '../../../interfaces/Interaction';
 import { QueueStatus } from '../../../interfaces/QueueStatus';
+import { useDeleteInteraction } from '../hooks/useDeleteInteraction';
 
 const style = {
   position: 'absolute',
@@ -22,10 +22,11 @@ interface Props {
   status: QueueStatus,
   interaction: Interaction,
   closeFn: () => void
+  deleteFn: () => void;
   submitFn: () => void;
 }
 
-const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn, submitFn}) => {
+const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, closeFn, submitFn}) => {
   const {title, thumbnail} = interaction.video;
   
   return (
@@ -47,6 +48,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn, su
         </Card>
         <Grid container alignItems="center" justifyContent="flex-end" spacing={5} sx={{paddingTop: "2em"}}>
           <Grid item>
+            <Button color="error" onClick={deleteFn}>Delete</Button>
             <Button onClick={submitFn}>Jump Queue</Button>
           </Grid>
         </Grid>
