@@ -1,12 +1,13 @@
+import { SearchResponse, useSearchResults } from "./hooks/useSearchResults"
+
 import { Box } from "@mui/material"
 import Empty from "../ui/Empty"
 import Spinner from "../ui/Spinner"
 import VideoCard from "./VideoCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
-import { useSearchResults } from "./hooks/useSearchResults"
 
 const SearchResults = () => {
-  const {isLoading, searchResults} = useSearchResults();
+  const {isLoading, searchResults}: SearchResponse = useSearchResults();
 
   if (isLoading) return (<Spinner/>)
 
