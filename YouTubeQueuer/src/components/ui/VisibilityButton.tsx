@@ -3,8 +3,8 @@ import { useEffect, useState } from "react"
 import { Button } from "@mui/material"
 
 interface Props {
-  id: string,
-  activeButton: string | null,
+  id: number,
+  activeButton: number,
   children: React.ReactNode,
   processChange: (e: React.MouseEvent<HTMLButtonElement>) => void
 }

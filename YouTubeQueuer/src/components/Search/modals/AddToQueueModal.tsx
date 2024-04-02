@@ -1,6 +1,7 @@
 import { Button, Checkbox, FormControlLabel, Grid, Modal } from '@mui/material';
 
 import ModalCard from './ModalCard';
+import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
 import { useState } from 'react';
@@ -9,7 +10,7 @@ interface Props {
   open: boolean,
   videoData: YoutubeResponse,
   closeFn: () => void
-  submitFn: (playNext: boolean) => void;
+  submitFn: (playNext: boolean, visibility: number) => void;
 }
 
 const style = {
@@ -27,12 +28,15 @@ const style = {
 
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) => {
   const [playNext, setPlayNext] = useState(false);
-  const [selectedVisibility, setSelected] = useState<string|null>("normal");
+  const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
 
   const handleSubmit = () => {
     const isPlayNext = playNext;
     setPlayNext(false);
-    submitFn(isPlayNext);
+
+    
+    
+    submitFn(isPlayNext, selectedVisibility);
   }
 
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) =>
