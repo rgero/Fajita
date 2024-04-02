@@ -1,24 +1,36 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
+import { useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
 import toast from "react-hot-toast";
 import { useSocket } from "../../hooks/useWebSocket";
-import { useState } from "react";
 import { useTheme } from '@mui/material/styles';
 
 interface Props {
   data: Interaction
-  isCurrent: boolean
+  current: number
 }
 
-const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
+const QueueCard: React.FC<Props> = ({data, current}) => {
   const socket = useSocket();
   const theme = useTheme();
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
 
   const {first_name} = data.user;
   const {title, thumbnail} = data.video
+
+  useEffect(() => {
+    let shouldBeVisible: boolean = data.visibility != 0;
+    if (data.index <= current)
+    {
+      console.log(current);
+      shouldBeVisible = true;
+    }
+    setIsVisible(shouldBeVisible);
+  }, [data, current])
 
   const handleClose = () => {
     setModalOpen(false);
@@ -30,20 +42,29 @@ const QueueCard: React.FC<Props> = ({data, isCurrent}) => {
     setModalOpen(false);
     toast.success("Jumping to Video")
   }
+
+
+  const cardStyle = {
+    width:"100%", 
+    backgroundColor: `${data.index == current ? `${theme.palette.info.dark}` : ""}`,
+    color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
+  }
   
   return (
     <>
-      <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>
-      <Card sx={{width:"100%", backgroundColor: `${isCurrent ? `${theme.palette.info.dark}` : ""}`, color: `${isCurrent ? `${theme.palette.primary.contrastText}` : ""}`}}>
+      {isVisible && <QueueInfoModal open={isModalOpen} interaction={data} closeFn={handleClose} submitFn={jumpQueue}/>}
+      <Card sx={cardStyle}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
             component="img"
-            sx={{width: {xs: 120, md: 300}}}
-            image={thumbnail}
+            sx={{
+              width: {xs: 120, md: 300},
+            }}
+            image={`${isVisible ? thumbnail : '/BlackBox.png'}`}
             alt={title}
           />
           <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
-            <Typography noWrap variant="subtitle2">{title}</Typography>
+            <Typography noWrap variant="subtitle2">{isVisible ? title : "Shh it's a secret"}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>
           </CardContent>
         </CardActionArea>

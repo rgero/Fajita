@@ -14,6 +14,7 @@ export interface Interaction {
   id: number,
   index: number,
   play_next: boolean,
-  user : User
-  video: Video
+  user : User,
+  video: Video,
+  visibility: number
 }

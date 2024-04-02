@@ -47,7 +47,7 @@ const QueueList = () => {
   useEffect(()=> {
     setCurrentIndex( () => current_index)
     scrollToCurrent(current_index);
-  }, [current_index]);
+  }, [queueData, current_index]);
 
   if(isLoading) return (<Spinner/>)
   if (interactions.length == 0)
@@ -73,7 +73,7 @@ const QueueList = () => {
       {
         interactions.map( (entry: Interaction, index: number) => (
           <Box sx={{paddingBottom: {xs: 1}}} key={index} id={`${entry.index}`}>
-            <QueueCard isCurrent={currentIndex == entry.index} data={entry} key={index}/>
+            <QueueCard current={currentIndex} data={entry} key={index}/>
             <Divider/>
           </Box>
         ))
