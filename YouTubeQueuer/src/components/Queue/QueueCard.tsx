@@ -23,12 +23,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const {title, thumbnail} = data.video
 
   useEffect(() => {
-    let shouldBeVisible: boolean = data.visibility != 0;
-    if (data.index <= current)
-    {
-      console.log(current);
-      shouldBeVisible = true;
-    }
+    const shouldBeVisible: boolean = (data.visibility != 0) || data.index <= current;
     setIsVisible(shouldBeVisible);
   }, [data, current])
 
