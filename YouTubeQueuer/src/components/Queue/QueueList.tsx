@@ -1,15 +1,15 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
+import { YouTubeQueueResponse, useYouTubeQueue } from "../../hooks/useYouTubeQueue"
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
 import { useSocket } from "../../hooks/useWebSocket";
-import { useYouTubeQueue } from "../../hooks/useYouTubeQueue"
 
 const QueueList = () => {
   const socket = useSocket();
-  const {isLoading, queueData, error, refetch} = useYouTubeQueue();
+  const {isLoading, queueData, error, refetch}: YouTubeQueueResponse = useYouTubeQueue();
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
 

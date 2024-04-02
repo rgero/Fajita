@@ -1,14 +1,14 @@
 import { Grid, Typography } from "@mui/material";
+import { YouTubeQueueResponse, useYouTubeQueue } from "../../hooks/useYouTubeQueue";
 import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
 import { useSocket } from "../../hooks/useWebSocket";
-import { useYouTubeQueue } from "../../hooks/useYouTubeQueue";
 
 const FooterCard = () => {
   const socket = useSocket();
-  const {isLoading, queueData, refetch} = useYouTubeQueue();
+  const {isLoading, queueData, refetch} : YouTubeQueueResponse = useYouTubeQueue();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
   const [total, setTotal] = useState<number|null>(null);
