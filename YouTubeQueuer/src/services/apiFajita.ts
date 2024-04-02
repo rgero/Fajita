@@ -46,14 +46,15 @@ export const getQueue = async () =>
   return response.data;
 }
 
-export const addToQueue = async (userID: number, videoID: string, playNext: boolean) => 
+export const addToQueue = async (userID: number, videoID: string, playNext: boolean, visibility: number) => 
 {
   const queueURL = backendURL + "/api/q/add";
 
   const bodyOfReq = {
     user_id: userID,
     video_id: videoID,
-    play_next: playNext
+    play_next: playNext,
+    visibility: visibility,
   }
 
   try {
@@ -61,6 +62,7 @@ export const addToQueue = async (userID: number, videoID: string, playNext: bool
     if (response.status != 200)
     {
       toast.error("Couldn't add video");
+      console.log(response.statusText);
       return;
     }
     toast.success("Video added!");
