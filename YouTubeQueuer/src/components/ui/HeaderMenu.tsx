@@ -3,9 +3,8 @@ import {Grid, Menu, MenuItem} from "@mui/material";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React from "react";
-import { logoutCurrentUser } from "../../services/apiAuthentication";
+import { deleteAllCookies } from "../../services/apiAuthentication";
 import { useDarkMode } from "../../context/DarkModeContext";
-import { useNavigate } from "react-router-dom";
 
 interface Props
 {
@@ -16,12 +15,11 @@ interface Props
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const { toggleDarkMode } = useDarkMode();
   const isOpen = Boolean(anchorEl);
-
-  const navigate = useNavigate();
+  
   const handleLogout = () =>
   {
-    logoutCurrentUser();
-    navigate(`${import.meta.env.VITE_BACKEND_URL}`, {replace: true});
+    deleteAllCookies();
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/logout`;
   }
 
 
