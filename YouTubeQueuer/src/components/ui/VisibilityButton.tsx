@@ -18,7 +18,7 @@ const VisibilityButton : React.FC<Props> = ({id, activeButton, children, process
 
   return (
     <Button
-      id={id}
+      id={id.toString()}
       variant="text"
       color={isActive ? "success" : undefined}
       onClick={processChange}
