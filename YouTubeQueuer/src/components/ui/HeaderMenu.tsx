@@ -1,8 +1,9 @@
-import { Avatar, Box, Grid, Menu, MenuItem } from "@mui/material";
+import {Grid, Menu, MenuItem} from "@mui/material";
 
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React from "react";
+import { logoutCurrentUser } from "../../services/apiAuthentication";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +20,8 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const navigate = useNavigate();
   const handleLogout = () =>
   {
-    navigate(`/logout`, {replace: true});
+    logoutCurrentUser();
+    navigate(`${import.meta.env.VITE_BACKEND_URL}`, {replace: true});
   }
 
 
