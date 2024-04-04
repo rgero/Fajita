@@ -1,15 +1,27 @@
 import { UserResponse, useUser } from "./hooks/useUser";
 
 import { Avatar } from "@mui/material";
-import { useDarkMode } from "../../context/DarkModeContext";
+import HeaderMenu from "../ui/HeaderMenu";
+import { useState } from "react";
 
 const UserAvatar = () => {
-  const { toggleDarkMode } = useDarkMode();
   const {user}: UserResponse = useUser();
 
-  // This should probably change to the First input Letter.
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Avatar onClick={toggleDarkMode} >{user?.name[0]}</Avatar>  
+    <>
+      <Avatar onClick={handleClick}>{user?.name[0]}</Avatar>
+      <HeaderMenu anchorEl={anchorEl} closeFn={handleClose}/>
+    </>  
   )
 }
 
