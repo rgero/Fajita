@@ -1,34 +1,68 @@
-import { Card, CardContent, CardMedia, Typography } from "@mui/material"
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
 
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 
 interface Props {
-  videoData: YoutubeResponse,
+  data: YoutubeResponse,
+  clickFn?: () => void | undefined
 }
 
-const ModalCard: React.FC<Props> = ({videoData}) => {
+const styles = {
+  card: {
+    position: 'relative',
+  },
+  overlay: {
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    color: 'white',
+    backgroundColor: 'black',
+    fontWeight: 'bold',
+    paddingX: '10px',
+    paddingY: "3px",
+    borderRadius: 10
+  }
+}
 
-  const title: string = decode(videoData.title)
-  const channelTitle: string = decode(videoData.author)
-  const imageURL: string = videoData.thumbnail_src
+const ModalCard: React.FC<Props> = ({data, clickFn}) => {
 
- 
-  return (
-    <Card sx={{display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: 'center'}}>
+  const title: string = decode(data.title)
+  const channelTitle: string = decode(data.author)
+  const imageURL: string = data.thumbnail_src
+  const views: string = data.views;
+  const duration: string = data.duration;
+
+  let cardContent = (
+    <>
       <CardMedia
-        sx={{height: {xs: 220, md: 300}, width:"100%"}}
+        sx={{height: {xs: 220, md: 300}}}
         image={imageURL} 
         title={title}
       />
+      <Typography sx={styles.overlay}>{duration}</Typography>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {channelTitle}
+          {channelTitle} - {views}
         </Typography>
       </CardContent>
+    </>
+  )
+
+  if (typeof clickFn === "function") {
+    cardContent = (
+      <CardActionArea onClick={clickFn}>
+        {cardContent}
+      </CardActionArea>
+    )
+  }
+
+  return (
+    <Card sx={styles.card}>
+        {cardContent}
     </Card>
   )
 }

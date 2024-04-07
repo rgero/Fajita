@@ -33,9 +33,6 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
   const handleSubmit = () => {
     const isPlayNext = playNext;
     setPlayNext(false);
-
-    
-    
     submitFn(isPlayNext, selectedVisibility);
   }
 
@@ -50,7 +47,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
       onClose={closeFn}
     >
       <Grid container direction="column" sx={style}>
-        <ModalCard videoData={videoData}/>
+        <ModalCard data={videoData}/>
         <Grid item>
           <Grid item>
             <VisibilityGroup selected={selectedVisibility} setSelected={setSelected}/>
