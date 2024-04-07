@@ -1,11 +1,13 @@
 import { ReactElement, createContext } from "react";
 
+import { getCurrentUser } from "../services/apiAuthentication";
 import io from 'socket.io-client';
 
 const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
     withCredentials: true,
     extraHeaders: {
-        "Access-Control-Allow-Origin": "*"  // Match the origin allowed by Flask-SocketIO
+        "Access-Control-Allow-Origin": `${import.meta.env.VITE_BACKEND_URL}`, // Match the origin allowed by Flask-SocketIO
+        "user_id": getCurrentUser().id.toString()
     }
 });
 
