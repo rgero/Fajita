@@ -3,7 +3,7 @@ import { SearchResponse, useSearchResults } from "./hooks/useSearchResults"
 import { Box } from "@mui/material"
 import Empty from "../ui/Empty"
 import Spinner from "../ui/Spinner"
-import VideoCard from "./VideoCard"
+import VideoCard from "./SearchCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 
 const SearchResults = () => {

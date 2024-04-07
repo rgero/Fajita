@@ -1,15 +1,11 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
-import { UserResponse, useUser } from "../authentication/hooks/useUser"
 
-import AddToQueueModal from "./modals/AddToQueueModal"
-import ModalCard from "./modals/ModalCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
-import { addToQueue } from "../../services/apiFajita"
 import { decode } from "html-entities"
-import { useState } from "react"
 
 interface Props {
-  data: YoutubeResponse
+  data: YoutubeResponse,
+  clickFn?: () => void | undefined
 }
 
 const styles = {
@@ -29,27 +25,46 @@ const styles = {
   }
 }
 
-const VideoCard: React.FC<Props> = ({data}) => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const {user}: UserResponse = useUser();
+const ModalCard: React.FC<Props> = ({data, clickFn}) => {
 
-  const handleClose = () => {
-    setModalOpen(false);
-  }
+  const title: string = decode(data.title)
+  const channelTitle: string = decode(data.author)
+  const imageURL: string = data.thumbnail_src
+  const views: string = data.views;
+  const duration: string = data.duration;
 
-  const sendToQueue = (playNext: boolean, visibility: number) => {
-    setModalOpen(false);
-    addToQueue(user?.id as number, data.id, playNext, visibility);
+  let cardContent = (
+    <>
+      <CardMedia
+        sx={{height: {xs: 220, md: 300}}}
+        image={imageURL} 
+        title={title}
+      />
+      <Typography sx={styles.overlay}>{duration}</Typography>
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {channelTitle} - {views}
+        </Typography>
+      </CardContent>
+    </>
+  )
+
+  if (typeof clickFn === "function") {
+    cardContent = (
+      <CardActionArea onClick={clickFn}>
+        {cardContent}
+      </CardActionArea>
+    )
   }
 
   return (
-    <>
-      <AddToQueueModal open={isModalOpen} videoData={data} closeFn={handleClose} submitFn={sendToQueue}/>
-      <Card sx={styles.card}>
-        <ModalCard data={data} clickFn={() => setModalOpen( ()=> true )}/> 
-      </Card>
-    </>
+    <Card sx={styles.card}>
+        {cardContent}
+    </Card>
   )
 }
 
-export default VideoCard
+export default ModalCard

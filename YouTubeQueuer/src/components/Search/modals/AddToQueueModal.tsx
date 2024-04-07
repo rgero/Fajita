@@ -1,6 +1,6 @@
 import { Button, Checkbox, FormControlLabel, Grid, Modal } from '@mui/material';
 
-import ModalCard from './ModalCard';
+import ModalCard from '../VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
