@@ -12,25 +12,43 @@ const QueueList = () => {
   const {isLoading, queueData, error, refetch}: YouTubeQueueResponse = useYouTubeQueue();
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
+  const [targetIndex, setTargetIndex] = useState<number>(-1);
 
   const scrollToRef = useRef<HTMLElement>(null);
 
     // This is for video Interactions
   const onNewVideo = useCallback( async () => {
     refetch();
-  }, []);
+  }, [refetch]);
   
   useEffect(() => {
     socket.on("new_video_interaction", onNewVideo);
     return () => {
       socket.off("new_video_interaction", onNewVideo);
     };
-  }, [socket]);
+  }, [socket, onNewVideo]);
 
-  // This is for setting the current Index
+  // This is for setting the current Index and scrolling
   useEffect(()=> { 
+    const calculateTargetIndex = () => {
+      if (Object.keys(queueData).length === 0) return;
+      const currentIndex:number = queueData.current_index;
+      const foundItems:Interaction[] = queueData.interactions.filter((option: Interaction) =>{
+        return option.index == currentIndex;
+      })
+      
+      if (foundItems.length == 1)
+      {
+        const tIndex: number = queueData.interactions.indexOf(foundItems[0]) - 1;
+        const target: Interaction = queueData.interactions[tIndex];
+        if (target == undefined) return;
+        setTargetIndex( () => queueData.interactions[tIndex].index );
+      }
+    }
+
     setCurrentIndex( () => current_index);
-  }, [queueData, currentIndex]);
+    calculateTargetIndex();
+  }, [queueData, current_index]);
 
 
   // This is for the scrolling.
@@ -69,7 +87,7 @@ const QueueList = () => {
             sx={{paddingBottom: {xs: 1}}} 
             key={index} 
             id={`${entry.index}`}
-            ref={ entry.index === currentIndex ? scrollToRef : null } 
+            ref={ entry.index === targetIndex ? scrollToRef : null } 
           >
             <QueueCard current={currentIndex} data={entry} key={index}/>
             <Divider/>
