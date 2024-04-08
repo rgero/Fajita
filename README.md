@@ -11,3 +11,5 @@ A custom YouTube wrapper designed to maintain a group video queue during gatheri
 - Secretly adding a video to the queue
 
 All of these events are being set to a custom backend which sends them to a custom built front end so that we can have a customized viewing experience with our friend groups.
+
+This project is written in Typescript with React.
