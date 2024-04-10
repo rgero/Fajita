@@ -1,4 +1,4 @@
-const potentialMessages: string[] = [
+export const potentialMessages: string[] = [
   "Shh it's a secret",
   "SECRET VIDEO \\o/",
   "REDACTED",
