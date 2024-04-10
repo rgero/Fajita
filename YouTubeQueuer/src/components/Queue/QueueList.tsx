@@ -17,16 +17,18 @@ const QueueList = () => {
   const scrollToRef = useRef<HTMLElement>(null);
 
     // This is for video Interactions
-  const onNewVideo = useCallback( async () => {
+  const processChanges = useCallback( async () => {
     refetch();
   }, [refetch]);
   
   useEffect(() => {
-    socket.on("new_video_interaction", onNewVideo);
+    socket.on("new_video_interaction", processChanges);
+    socket.on("video_deleted", processChanges);
     return () => {
-      socket.off("new_video_interaction", onNewVideo);
+      socket.off("new_video_interaction", processChanges);
+      socket.off("video_deleted", processChanges);
     };
-  }, [socket, onNewVideo]);
+  }, [socket, processChanges]);
 
   // This is for setting the current Index and scrolling
   useEffect(()=> { 
