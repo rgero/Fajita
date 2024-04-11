@@ -32,6 +32,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
         <List>
           <PlayOption/>
           <SkipOption/>
+          <Divider/>
           <CopyOption/>
           <Divider/>
           {!isQueue ? <QueueOption/> : <SearchOption/>}
