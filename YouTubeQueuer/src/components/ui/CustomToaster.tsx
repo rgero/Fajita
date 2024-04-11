@@ -1,10 +1,21 @@
 import toast, { Toaster, useToasterStore } from "react-hot-toast";
+import { useEffect, useMemo } from "react";
 
-import { useEffect } from "react";
-import { useTheme } from "@mui/material"
+import { createTheme } from "@mui/material"
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const CustomToaster = () => {
-  const theme = useTheme();
+  const {isDarkMode} = useDarkMode();
+  const mode = isDarkMode ? "dark" : "light";
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        }
+      }),
+    [mode]
+  );
   const { toasts } = useToasterStore();
 
   // Limit the number of Toasts displayed
