@@ -1,0 +1,25 @@
+services:
+  youtube_queuer:
+    container_name: youtube_queuer
+    build:
+      context: .
+    depends_on:
+      - backend
+    networks:
+      - fajita
+    ports:
+      - "7000:7000"
+    volumes:
+      - ./YouTubeQueuer/src:/YouTubeQueuer/src
+      - ./YouTubeQueuer/public:/YouTubeQueuer/public
+    restart: always
+
+volumes:
+  pgdata:
+  pgadmindata:
+
+networks:
+  fajita:
+    driver: bridge
+  container-dmz:
+    external: true
