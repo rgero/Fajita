@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.39.7",
     "@tanstack/react-query": "^5.24.8",
     "axios": "^1.6.8",
+    "copy-to-clipboard": "^3.3.3",
     "html-entities": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,7 +1,10 @@
-import { Button, Card, CardContent, CardMedia, Grid, Modal, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Grid, IconButton, Modal, Typography } from '@mui/material';
 
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Interaction } from '../../../interfaces/Interaction';
 import { QueueStatus } from '../../../interfaces/QueueStatus';
+import ShareIcon from '@mui/icons-material/Share';
+import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import { useState } from 'react';
 
 const style = {
@@ -58,10 +61,15 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
         </Card>
 
           {!checkDelete && (
-            <Grid container alignItems="center" justifyContent="space-around" spacing={5} sx={{paddingTop: "1em"}}>
+            <Grid container alignItems="center" justifyContent="space-between" sx={{paddingTop: "1em"}}>
               <Grid item>
-                <Button color="error" onClick={checkConfirm}>Delete</Button>
+                <IconButton color="error" onClick={checkConfirm}><DeleteForeverIcon/></IconButton>
               </Grid>
+              {status.isVisible &&
+                <Grid item>
+                  <IconButton color="warning" onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
+                </Grid>
+              }
               <Grid item>
                 <Button onClick={submitFn}>Jump Queue</Button>
               </Grid>
