@@ -1,5 +1,5 @@
 import { AppBar, Grid, IconButton, InputAdornment, TextField, Toolbar, styled, useTheme } from "@mui/material";
-import React, { KeyboardEvent } from "react";
+import React, { KeyboardEvent, useRef } from "react";
 
 import ClearIcon from '@mui/icons-material/Clear';
 import UserAvatar from "../authentication/UserAvatar"
@@ -11,10 +11,10 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 }));
 
 const SearchHeader = () => {
+  const theme = useTheme();
+  const inputRef = useRef<HTMLInputElement>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setTerm] = React.useState<string>(searchParams.get("search") ? searchParams.get("search") as string: "");
-
-  const theme = useTheme();
 
   const processSubmit = () => {
     searchParams.set("search", searchTerm as string);
@@ -23,6 +23,10 @@ const SearchHeader = () => {
 
   const processClear = () => {
     setTerm( () => "" );
+    if (inputRef.current)
+    {
+      inputRef.current.focus();
+    }
   }
 
   const endAdornment = searchTerm.length != 0 ? (
@@ -46,6 +50,7 @@ const SearchHeader = () => {
               variant="filled"
               label="Search"
               fullWidth
+              inputRef={inputRef}
               value={searchTerm}
               onChange={(e) => setTerm( ()=> e.target.value) }
               inputProps={{
