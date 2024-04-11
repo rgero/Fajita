@@ -60,35 +60,36 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
             <Typography variant="body1">{status.isVisible ? title : status.message}</Typography>
           </CardContent>
         </Card>
-
-          {!checkDelete && (
-            <Grid container alignItems="center" justifyContent="space-between" sx={{paddingTop: "1em"}}>
-              <Grid item>
-                <IconButton color="error" onClick={checkConfirm}><DeleteForeverIcon/></IconButton>
-              </Grid>
-              {status.isVisible &&
-                <Grid item>
-                  <IconButton onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
-                </Grid>
-              }
-              <Grid item>
-                <IconButton color="success" onClick={submitFn}><PlayCircleIcon/></IconButton>
-              </Grid>
+            <Grid container alignItems="center" justifyContent="space-evenly" sx={{paddingTop: "1em", width: "100%"}}>
+              {!checkDelete && (
+                <>
+                  <Grid item>
+                    <IconButton color="error" onClick={checkConfirm}><DeleteForeverIcon/></IconButton>
+                  </Grid>
+                  {status.isVisible &&
+                    <Grid item>
+                      <IconButton onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
+                    </Grid>
+                  }
+                  <Grid item>
+                    <IconButton color="success" onClick={submitFn}><PlayCircleIcon/></IconButton>
+                  </Grid>
+                </>
+              )}
+              {checkDelete && (
+                <>
+                  <Grid item>
+                    <Typography>Are you sure?</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Button onClick={() => setConfirmDelete(false)}>No</Button>
+                  </Grid>
+                  <Grid item>
+                    <Button color="error" variant="contained" onClick={handleDelete}>Yes</Button>
+                  </Grid>
+                </>
+              )}
             </Grid>
-          )}
-          {checkDelete && (
-            <Grid container alignItems="center" justifyContent="space-between" sx={{paddingTop: "1rem"}}>
-              <Grid item>
-                <Typography>Are you sure?</Typography>
-              </Grid>
-              <Grid item>
-                <Button onClick={() => setConfirmDelete(false)}>No</Button>
-              </Grid>
-              <Grid item>
-                <Button color="error" variant="contained" onClick={handleDelete}>Yes</Button>
-              </Grid>
-            </Grid>
-          )}
       </Grid>
     </Modal>
   )
