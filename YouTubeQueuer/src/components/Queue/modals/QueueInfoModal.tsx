@@ -2,6 +2,7 @@ import { Button, Card, CardContent, CardMedia, Grid, IconButton, Modal, Typograp
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Interaction } from '../../../interfaces/Interaction';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { QueueStatus } from '../../../interfaces/QueueStatus';
 import ShareIcon from '@mui/icons-material/Share';
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
@@ -67,11 +68,11 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
               </Grid>
               {status.isVisible &&
                 <Grid item>
-                  <IconButton color="warning" onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
+                  <IconButton onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
                 </Grid>
               }
               <Grid item>
-                <Button onClick={submitFn}>Jump Queue</Button>
+                <IconButton color="success" onClick={submitFn}><PlayCircleIcon/></IconButton>
               </Grid>
             </Grid>
           )}
