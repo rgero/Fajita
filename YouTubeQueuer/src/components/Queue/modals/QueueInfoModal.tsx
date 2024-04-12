@@ -15,10 +15,11 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: {xs: '80%', md: "45%"},
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: '2px solid',
+  borderColor: "gray",
   borderRadius: 2,
   boxShadow: 24,
-  p: 4,
+  p: 2,
 };
 
 interface Props {
@@ -52,7 +53,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
         <Card>
           <CardMedia
               component="img"
-              sx={{height: 150}}
+              sx={{height: {xs: 150, md:400}}}
               image={`${status.isVisible ? thumbnail : '/BlackBox.png'}`}
               alt={interaction.video.title}
           />
@@ -60,7 +61,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
             <Typography variant="body1">{status.isVisible ? title : status.message}</Typography>
           </CardContent>
         </Card>
-            <Grid container alignItems="center" justifyContent="space-evenly" sx={{paddingTop: "1em", width: "100%"}}>
+            <Grid container alignItems="center" justifyContent="space-evenly" sx={{marginTop: "0.5rem", height: 55, width: "100%"}}>
               {!checkDelete && (
                 <>
                   <Grid item>

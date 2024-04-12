@@ -63,7 +63,7 @@ const QueueList = () => {
   }, [currentIndex]);
 
   if(isLoading) return (<Spinner/>)
-  if (interactions.length == 0)
+  if (!interactions || interactions.length == 0)
   {
     return (
       <Container>

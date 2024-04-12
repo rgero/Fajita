@@ -20,10 +20,11 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: {xs: '80%', md: "45%"},
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  borderColor: "gray",
+  border: '2px solid',
   borderRadius: 10,
   boxShadow: 24,
-  p: 4,
+  p: 2,
 };
 
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) => {
