@@ -84,7 +84,7 @@ const QueueList = () => {
   return (
     <Container> 
       {
-        interactions.sort((A:Interaction, B:Interaction) => { return A.index - B.index }).map( (entry: Interaction, index: number) => (
+        interactions.map( (entry: Interaction, index: number) => (
           <Box 
             sx={{paddingBottom: {xs: 1}}} 
             key={index} 

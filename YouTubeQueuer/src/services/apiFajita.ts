@@ -1,3 +1,4 @@
+import { Interaction } from "../interfaces/Interaction";
 import { ResponseList } from "../dummyData/data"
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import axios from "axios";
@@ -42,6 +43,11 @@ export const getQueue = async () =>
   {
     toast.error("Failed to get queue");
   }
+
+  const queueData = response.data;
+  
+  // Sort the Interactions
+  queueData.interactions = queueData.interactions.sort((A:Interaction, B:Interaction) => { return A.index - B.index })
 
   return response.data;
 }
