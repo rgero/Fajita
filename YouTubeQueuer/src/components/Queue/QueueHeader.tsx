@@ -1,8 +1,8 @@
 import { AppBar, Grid, IconButton, Toolbar, Typography, styled } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UserAvatar from "../authentication/UserAvatar"
-import { useNavigate } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -10,11 +10,17 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 const QueueHeader = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const goBack = () => {
     // We want to go back to the Search Page
     // Ideally retaining what the person had searched before.
-    navigate(-1);
+    if (location.key === "default")
+    {
+      navigate('/')
+    } else {
+      navigate(-1);
+    }
   }
 
   return (

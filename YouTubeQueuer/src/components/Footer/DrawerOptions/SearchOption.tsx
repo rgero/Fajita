@@ -1,15 +1,21 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import SearchIcon from '@mui/icons-material/Search';
-import { useNavigate } from "react-router-dom";
 
 const SearchOption = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const processClick = () => {
     // We want to go back to the Search Page
     // Ideally retaining what the person had searched before.
-    navigate(-1);
+    if (location.key === "default")
+    {
+      navigate('/')
+    } else {
+      navigate(-1);
+    }
   }
   
   return (
