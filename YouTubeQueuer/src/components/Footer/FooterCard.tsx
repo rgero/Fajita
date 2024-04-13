@@ -36,7 +36,7 @@ const FooterCard = () => {
     if (foundItems.length == 1)
     {
       setCurrentPlay( () => foundItems[0]);
-      setCurrentIndex( () => queueData.interactions.indexOf(foundItems[0]) + 1 );
+      setCurrentIndex( () => queueData.interactions.sort((A:Interaction, B:Interaction) => { return A.index - B.index }).indexOf(foundItems[0]) + 1 );
       setTotal( () => queueData.interactions.length );
     }
   }, [queueData, currentIndex, total])
