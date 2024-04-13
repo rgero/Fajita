@@ -19,9 +19,11 @@ const FooterCard = () => {
 
   useEffect(() => {
     socket.on("player_status", onMessage);
+    socket.on("video_deleted", onMessage);
     socket.on("new_video_interaction", onMessage);
     return () => {
       socket.off("player_status", onMessage);
+      socket.on("video_deleted", onMessage);
       socket.off("new_video_interaction", onMessage);
     };
   }, [socket, onMessage]);
