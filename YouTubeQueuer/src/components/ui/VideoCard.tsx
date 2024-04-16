@@ -25,7 +25,7 @@ const styles = {
   }
 }
 
-const ModalCard: React.FC<Props> = ({data, clickFn}) => {
+const VideoCard: React.FC<Props> = ({data, clickFn}) => {
 
   const title: string = decode(data.title)
   const channelTitle: string = decode(data.author)
@@ -67,4 +67,4 @@ const ModalCard: React.FC<Props> = ({data, clickFn}) => {
   )
 }
 
-export default ModalCard
+export default VideoCard

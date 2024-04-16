@@ -1,6 +1,6 @@
 import { Button, Checkbox, FormControlLabel, Grid, Modal } from '@mui/material';
 
-import ModalCard from '../VideoCard';
+import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
@@ -48,7 +48,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
       onClose={closeFn}
     >
       <Grid container direction="column" sx={style}>
-        <ModalCard data={videoData}/>
+        <VideoCard data={videoData}/>
         <Grid item>
           <Grid item>
             <VisibilityGroup selected={selectedVisibility} setSelected={setSelected}/>

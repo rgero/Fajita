@@ -2,7 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 import { UserResponse, useUser } from "../authentication/hooks/useUser"
 
 import AddToQueueModal from "./modals/AddToQueueModal"
-import ModalCard from "./VideoCard"
+import ModalCard from "../ui/VideoCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { addToQueue } from "../../services/apiFajita"
 import { decode } from "html-entities"
