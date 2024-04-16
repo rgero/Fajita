@@ -66,9 +66,6 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
             </Grid>
           </Grid>
         </Grid>
-
-        
-       
       </Grid>
     </Modal>
   )

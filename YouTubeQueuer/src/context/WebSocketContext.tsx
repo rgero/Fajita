@@ -3,6 +3,10 @@ import { ReactElement, createContext } from "react";
 import { getCurrentUser } from "../services/apiAuthentication";
 import io from 'socket.io-client';
 
+interface ISocketProvider {
+  children: ReactElement;
+}
+
 const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
     withCredentials: true,
     extraHeaders: {
@@ -12,11 +16,6 @@ const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
 });
 
 export const SocketContext = createContext(socket);
-
-interface ISocketProvider {
-  children: ReactElement;
-}
-
 export const SocketProvider = (props: ISocketProvider) => (
   <SocketContext.Provider value={socket}>{props.children}</SocketContext.Provider>
 );
