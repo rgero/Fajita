@@ -42,6 +42,7 @@ export const getQueue = async () =>
   if (response.status != 200)
   {
     toast.error("Failed to get queue");
+    return;
   }
 
   const queueData = response.data;
