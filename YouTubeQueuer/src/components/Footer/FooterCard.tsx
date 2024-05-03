@@ -69,7 +69,7 @@ const FooterCard = () => {
   return (
     <Grid container justifyContent="center" spacing={{md: 2}}>
       <Grid item xs={4} md="auto">
-        <img className="image-contain max-h-24" src={imageURL} alt={title}/>
+        <img src={imageURL} alt={title} style={{maxHeight:"6rem", objectFit: "contain"}} />
       </Grid>
       <Grid item xs={8} md="auto">
           <Grid container direction="row" justifyContent="space-between">
