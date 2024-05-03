@@ -25,7 +25,6 @@ const App = () => {
     <DarkModeProvider>
       <SocketProvider>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
           <BrowserRouter>
             <Routes>
               <Route element={
