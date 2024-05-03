@@ -1,5 +1,3 @@
-import './styles/index.css'
-
 import App from './App.tsx'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from './components/ui/ErrorFallback.tsx'
