@@ -8,7 +8,6 @@ import LogoutPage from "./pages/LogoutPage";
 import MainPage from "./pages/MainPage";
 import ProtectedRoute from "./components/ui/ProtectedRoute";
 import QueuePage from "./pages/QueuePage";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SocketProvider } from "./context/WebSocketContext";
 
 const queryClient = new QueryClient({
