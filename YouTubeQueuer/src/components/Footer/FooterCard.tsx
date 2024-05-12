@@ -16,7 +16,7 @@ const FooterCard = () => {
 
   const onMessage = useCallback( async () => {
     refetch();
-  }, []);
+  }, [refetch]);
 
   const processProgress = useCallback( (progressChanged: number) => {
     setProgress(progressChanged);
@@ -33,7 +33,7 @@ const FooterCard = () => {
       socket.on("video_deleted", onMessage);
       socket.off("new_video_interaction", onMessage);
     };
-  }, [socket, onMessage]);
+  }, [socket, onMessage, processProgress]);
 
   useEffect(() => {
     if (Object.keys(queueData).length === 0) return;
