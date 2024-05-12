@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, LinearProgress, Typography } from "@mui/material";
 import { YouTubeQueueResponse, useYouTubeQueue } from "../../hooks/useYouTubeQueue";
 import { useCallback, useEffect, useState } from "react";
 
@@ -12,17 +12,24 @@ const FooterCard = () => {
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
   const [total, setTotal] = useState<number|null>(null);
+  const [currentProgress, setProgress] = useState<number>(0);
 
   const onMessage = useCallback( async () => {
     refetch();
   }, []);
 
+  const processProgress = useCallback( (progressChanged: number) => {
+    setProgress(progressChanged);
+  }, [])
+
   useEffect(() => {
     socket.on("player_status", onMessage);
+    socket.on("progressChanged", processProgress);
     socket.on("video_deleted", onMessage);
     socket.on("new_video_interaction", onMessage);
     return () => {
       socket.off("player_status", onMessage);
+      socket.on("progressChanged", processProgress);
       socket.on("video_deleted", onMessage);
       socket.off("new_video_interaction", onMessage);
     };
@@ -65,6 +72,7 @@ const FooterCard = () => {
   const title: string =  currentlyPlaying.video.title;
   const imageURL: string = currentlyPlaying.video.thumbnail;
   const targetUser: string = currentlyPlaying.user.first_name;
+  const duration: number = currentlyPlaying.video.duration;
 
   return (
     <Grid container justifyContent="center" spacing={{md: 2}}>
@@ -80,8 +88,20 @@ const FooterCard = () => {
               <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>{currentIndex} / {total}</Typography>
             </Grid>
           </Grid>
-          <Typography variant="subtitle2">{title}</Typography>
-          <Typography variant="subtitle2">Added by {targetUser}</Typography>
+          <Grid container direction="column" spacing={0.25}>
+            <Grid item>
+              <Typography variant="subtitle2">{title}</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle2">Added by {targetUser}</Typography>
+            </Grid>
+            <Grid item>
+              <LinearProgress variant="determinate" value={Math.round(currentProgress/duration*100)} />
+            </Grid>
+          </Grid>
+
+
+
       </Grid>
     </Grid>
   )

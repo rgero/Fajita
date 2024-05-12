@@ -6,7 +6,8 @@ export interface Video {
   id: number,
   title: string,
   video_id: string,
-  thumbnail: string
+  thumbnail: string,
+  duration: number
 }
 
 export interface Interaction {
