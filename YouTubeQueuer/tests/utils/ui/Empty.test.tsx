@@ -9,7 +9,7 @@ describe("Empty UI Component", () => {
     render(<Empty resource={"tests"}/>)
 
     const expectedText = "No tests found."
-    const screenText = screen.getByText(expectedText)
+    const screenText = screen.getByText(expectedText);
     expect(screenText).toBeVisible();
   })
 
