@@ -1,17 +1,21 @@
 import { Button, Grid, TextField, Typography } from "@mui/material"
 
 import toast from "react-hot-toast";
+import { useCreateFeedback } from "./hooks/useCreateFeedback";
 import { useState } from "react"
 
 const FeedbackForm = () => {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
+  const {isAdding, addFeedback} = useCreateFeedback();
 
   const handleSubmit = () => {
     if (title == "")
     {
       toast.error("Suggestion field cannot be empty")
+      return;
     }
+    addFeedback({title, description: details})
   }
 
   return (
@@ -26,6 +30,7 @@ const FeedbackForm = () => {
             setTitle(event.target.value);
           }}
           required
+          disabled={isAdding}
         />
       </Grid>
       <Grid item>
@@ -39,6 +44,7 @@ const FeedbackForm = () => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             setDetails(event.target.value);
           }}
+          disabled={isAdding}
         />
       </Grid>
       <Grid container justifyContent={"space-evenly"} sx={{paddingTop: 4}}>
