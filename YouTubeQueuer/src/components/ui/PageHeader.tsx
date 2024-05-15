@@ -4,11 +4,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import UserAvatar from "../authentication/UserAvatar"
 
+interface Props {
+  title: string
+}
+
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: theme.spacing(2),
 }));
 
-const QueueHeader = () => {
+const PageHeader: React.FC<Props> = ({title}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -35,7 +39,7 @@ const QueueHeader = () => {
                 </IconButton>
               </Grid>
               <Grid item md={4}>
-                <Typography variant="h4">Queue</Typography>
+                <Typography variant="h4">{title}</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -48,4 +52,4 @@ const QueueHeader = () => {
   )
 }
 
-export default QueueHeader
+export default PageHeader

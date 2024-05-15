@@ -1,10 +1,10 @@
-import QueueHeader from "../components/Queue/QueueHeader"
+import PageHeader from "../components/ui/PageHeader"
 import QueueList from "../components/Queue/QueueList"
 
 const QueuePage = () => {
   return (
     <>
-      <QueueHeader/>
+      <PageHeader title={"Queue"}/>
       <QueueList/>
     </>
   )
