@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import AppLayout from "./components/ui/AppLayout";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import FeedbackPage from "./pages/FeedbackPage";
 import LandingPage from "./pages/LandingPage";
 import LogoutPage from "./pages/LogoutPage";
 import MainPage from "./pages/MainPage";
@@ -33,6 +34,7 @@ const App = () => {
               }>
                 <Route index element={<MainPage/>}/>
                 <Route path="queue" element={<QueuePage/>}/>
+                <Route path="feedback" element={<FeedbackPage/>}/>
               </Route>
               <Route path="landing" element={<LandingPage/>} />
               <Route path="logout" element={<LogoutPage/>} />

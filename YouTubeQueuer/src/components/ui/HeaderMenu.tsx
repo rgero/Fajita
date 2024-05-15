@@ -1,10 +1,12 @@
 import {Grid, Menu, MenuItem} from "@mui/material";
 
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React from "react";
 import { deleteAllCookies } from "../../services/apiAuthentication";
 import { useDarkMode } from "../../context/DarkModeContext";
+import { useNavigate } from "react-router-dom";
 
 interface Props
 {
@@ -15,14 +17,14 @@ interface Props
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const { toggleDarkMode } = useDarkMode();
   const isOpen = Boolean(anchorEl);
+  const navigate = useNavigate();
   
   const handleLogout = () =>
   {
     deleteAllCookies();
     window.location.href = `${import.meta.env.VITE_BACKEND_URL}/logout`;
   }
-
-
+  
   return (
     <Menu
       anchorEl={anchorEl}
@@ -40,6 +42,16 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
           </Grid>
           <Grid item>
             Toggle Dark Mode
+          </Grid>
+        </Grid>
+      </MenuItem>
+      <MenuItem onClick={()=> navigate('/feedback')}>
+        <Grid container direction="row" spacing={1}>
+          <Grid item>
+            <FeedbackIcon />
+          </Grid>
+          <Grid item>
+            Log Feedback
           </Grid>
         </Grid>
       </MenuItem>
