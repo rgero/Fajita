@@ -8,6 +8,7 @@ const FeedbackForm = () => {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
   const {isAdding, addFeedback} = useCreateFeedback();
+  const maxLength:number = 10000;
 
   const handleSubmit = async () => {
     if (title == "")
@@ -19,6 +20,10 @@ const FeedbackForm = () => {
       setDetails("");
       setTitle("");
     }});
+  }
+  
+  const formatNumber = (num: number): string => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   }
 
   return (
@@ -45,11 +50,21 @@ const FeedbackForm = () => {
             multiline
             rows={5}
             value={details}
+            inputProps={{
+              maxLength: 10000,
+            }}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setDetails(event.target.value);
             }}
             disabled={isAdding}
           />
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Typography variant="caption">
+                {formatNumber(details.length)} / {formatNumber(maxLength)}
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid container justifyContent={"space-evenly"} sx={{paddingTop: 4}}>
           <Grid item>
