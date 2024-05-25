@@ -1,10 +1,10 @@
 services:
   youtube_queuer:
     container_name: youtube_queuer
+    env_file:
+      - .env
     build:
       context: .
-    depends_on:
-      - backend
     networks:
       - fajita
     ports:
