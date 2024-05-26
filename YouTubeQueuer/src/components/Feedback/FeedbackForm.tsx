@@ -1,4 +1,5 @@
 import { Button, Container, Grid, TextField, Typography } from "@mui/material"
+import { UserResponse, useUser } from "../authentication/hooks/useUser";
 
 import SpinnerModal from "../ui/SpinnerModal";
 import toast from "react-hot-toast";
@@ -9,6 +10,7 @@ const FeedbackForm = () => {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
   const {isAdding, addFeedback} = useCreateFeedback();
+  const {user}: UserResponse = useUser();
   const maxLength:number = 10000;
 
   const handleSubmit = async () => {
@@ -17,6 +19,21 @@ const FeedbackForm = () => {
       toast.error("Suggestion field cannot be empty")
       return;
     }
+
+    if (user)
+    {
+      setDetails( (prevValue) => {
+        if (prevValue)
+        {
+          prevValue + "\n\nLogged By: " + user.name
+        } else {
+          prevValue = "Logged by " + user.name
+        }
+        return prevValue;
+      })
+    }
+
+    console.log(details);
     addFeedback({title, description: details}, {onSuccess: () => {
       setDetails("");
       setTitle("");
