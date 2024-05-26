@@ -1,5 +1,6 @@
 import { Button, Container, Grid, TextField, Typography } from "@mui/material"
 
+import SpinnerModal from "../ui/SpinnerModal";
 import toast from "react-hot-toast";
 import { useCreateFeedback } from "./hooks/useCreateFeedback";
 import { useState } from "react"
@@ -28,6 +29,7 @@ const FeedbackForm = () => {
 
   return (
     <Container>
+      <SpinnerModal isOpen={isAdding}/>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <TextField
@@ -68,10 +70,10 @@ const FeedbackForm = () => {
         </Grid>
         <Grid container justifyContent={"space-evenly"} sx={{paddingTop: 4}}>
           <Grid item>
-            <Button variant="contained" color="error"><Typography fontWeight={"bold"}>Clear</Typography></Button>
+            <Button variant="contained" color="error" disabled={isAdding}><Typography fontWeight={"bold"}>Clear</Typography></Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="success" onClick={handleSubmit}><Typography fontWeight={"bold"}>Submit</Typography></Button>
+            <Button variant="contained" color="success" disabled={isAdding} onClick={handleSubmit}><Typography fontWeight={"bold"}>Submit</Typography></Button>
           </Grid>
         </Grid>
       </Grid>
