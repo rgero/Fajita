@@ -8,18 +8,32 @@ import ShareIcon from '@mui/icons-material/Share';
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import { useState } from 'react';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: {xs: '80%', md: "45%"},
-  bgcolor: 'background.paper',
-  border: '2px solid',
-  borderColor: "gray",
-  borderRadius: 2,
-  boxShadow: 24,
-  p: 2,
+const styles = {
+  card: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: {xs: '80%', md: "45%"},
+    bgcolor: 'background.paper',
+    border: '2px solid',
+    borderColor: "gray",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 2,
+  },
+  overlay: {
+    position: 'absolute',
+    top: '22px',
+    right: '22px',
+    color: 'white',
+    backgroundColor: 'black',
+    fontWeight: 'bold',
+    paddingX: '10px',
+    paddingY: "3px",
+    borderRadius: 10
+  }
+
 };
 
 interface Props {
@@ -34,6 +48,7 @@ interface Props {
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, closeFn, submitFn}) => {
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
+  const parsedDuration = `${Math.floor(duration/60)}:${duration%60}`
 
   const checkConfirm = () => {
     setConfirmDelete(true);
@@ -44,28 +59,13 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
     deleteFn();
   }
 
-  const parsedDuration = `${Math.floor(duration/60)}:${duration%60}`
-
-  const styles = {
-    overlay: {
-      position: 'absolute',
-      top: '22px',
-      right: '22px',
-      color: 'white',
-      backgroundColor: 'black',
-      fontWeight: 'bold',
-      paddingX: '10px',
-      paddingY: "3px",
-      borderRadius: 10
-    }
-  }
 
   return (
     <Modal
       open={open}
       onClose={closeFn}
     >
-      <Grid container direction="column" sx={style}>
+      <Grid container direction="column" sx={styles.card}>
         <Card>
           <CardMedia
               component="img"

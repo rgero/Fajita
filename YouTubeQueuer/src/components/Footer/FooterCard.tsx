@@ -99,9 +99,6 @@ const FooterCard = () => {
               <LinearProgress variant="determinate" value={Math.round(currentProgress/duration*100)} />
             </Grid>
           </Grid>
-
-
-
       </Grid>
     </Grid>
   )
