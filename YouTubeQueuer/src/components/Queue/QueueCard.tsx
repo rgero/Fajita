@@ -24,7 +24,23 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
 
 
   const {first_name} = data.user;
-  const {title, thumbnail} = data.video
+  const {title, thumbnail, duration} = data.video
+
+  const parsedDuration = `${Math.floor(duration/60)}:${duration%60}`
+
+  const styles = {
+    overlay: {
+      position: 'absolute',
+      bottom: '10px',
+      right: '10px',
+      color: 'white',
+      backgroundColor: 'black',
+      fontWeight: 'bold',
+      paddingX: '10px',
+      paddingTop: "3px",
+      borderRadius: 10
+    }
+  }
 
   useEffect(() => {
     const shouldBeVisible: boolean = (data.visibility != 0) || data.index <= current;
@@ -76,6 +92,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             image={`${status.isVisible ? thumbnail : '/BlackBox.png'}`}
             alt={title}
           />
+          <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
           <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
             <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>

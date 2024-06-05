@@ -32,7 +32,7 @@ interface Props {
 }
 
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, closeFn, submitFn}) => {
-  const {title, thumbnail} = interaction.video;
+  const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
 
   const checkConfirm = () => {
@@ -42,6 +42,22 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
   const handleDelete = () => {
     setConfirmDelete(false);
     deleteFn();
+  }
+
+  const parsedDuration = `${Math.floor(duration/60)}:${duration%60}`
+
+  const styles = {
+    overlay: {
+      position: 'absolute',
+      top: '22px',
+      right: '22px',
+      color: 'white',
+      backgroundColor: 'black',
+      fontWeight: 'bold',
+      paddingX: '10px',
+      paddingY: "3px",
+      borderRadius: 10
+    }
   }
 
   return (
@@ -59,6 +75,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
           />
           <CardContent>
             <Typography variant="body1">{status.isVisible ? title : status.message}</Typography>
+            <Typography sx={styles.overlay}>{parsedDuration}</Typography>
           </CardContent>
         </Card>
         <Grid container alignItems="center" justifyContent="space-evenly" sx={{marginTop: "0.5rem", height: 55, width: "100%"}}>
