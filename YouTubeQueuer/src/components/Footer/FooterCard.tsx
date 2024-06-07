@@ -75,7 +75,7 @@ const FooterCard = () => {
   const duration: number = currentlyPlaying.video.duration;
 
   return (
-    <Grid container justifyContent="center" spacing={{md: 2}}>
+    <Grid container justifyContent="center" spacing={{xs: 5, md: 2}}>
       <Grid item xs={4} md="auto">
         <img src={imageURL} alt={title} style={{maxHeight:"6rem", objectFit: "contain"}} />
       </Grid>
