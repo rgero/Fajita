@@ -73,6 +73,16 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     toast.success("Jumping to Video")
   }
 
+  const GetSecretCover = () => {
+    if (status.isVisible) return;
+    if (status.message?.includes("Daisy"))
+    {
+      return '/Daisy.png'
+    } else {
+      return '/BlackBox.png'
+    }
+  }
+
   const cardStyle = {
     width:"100%", 
     backgroundColor: `${data.index == current ? `${theme.palette.info.dark}` : ""}`,
@@ -89,7 +99,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             sx={{
               width: {xs: 120, md: 300},
             }}
-            image={`${status.isVisible ? thumbnail : '/BlackBox.png'}`}
+            image={`${status.isVisible ? thumbnail : GetSecretCover()}`}
             alt={title}
           />
           <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
