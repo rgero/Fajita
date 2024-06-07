@@ -3,6 +3,9 @@ export const potentialMessages: string[] = [
   "SECRET VIDEO \\o/",
   "REDACTED",
   "{ Packet Lost }",
+  "Cubbie paid me to hide this",
+  "Daisy stole it",
+  "Hidden in one of Cohoe's pockets",
 ]
 
 export const getSecretMessage = (): string => {
