@@ -42,7 +42,7 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
       />
       <Typography sx={styles.overlay}>{duration}</Typography>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5" component="div" sx={{wordBreak: "break-word"}}>
           {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
