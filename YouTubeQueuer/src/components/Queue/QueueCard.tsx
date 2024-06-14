@@ -26,7 +26,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const {first_name} = data.user;
   const {title, thumbnail, duration} = data.video
 
-  const parsedDuration = `${Math.floor(duration/60)}:${duration%60}`
+  const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
   const styles = {
     overlay: {

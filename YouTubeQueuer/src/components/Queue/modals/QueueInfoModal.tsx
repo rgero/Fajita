@@ -48,7 +48,7 @@ interface Props {
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, closeFn, submitFn}) => {
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
-  const parsedDuration = `${Math.floor(duration/60)}:${duration%60}`
+  const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
   const checkConfirm = () => {
     setConfirmDelete(true);
