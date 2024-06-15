@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from '@testing-library/react';
 
-import ErrorFallback from "../../../src/components/ui/ErrorFallback";
+import ErrorFallback from "../../src/components/ui/ErrorFallback";
 import React from "react";
 
 describe("Error Fallback UI Component", () => {

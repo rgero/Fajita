@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from '@testing-library/react';
 
-import Empty from "../../../src/components/ui/Empty";
+import Empty from "../../src/components/ui/Empty";
 import React from "react";
 
 describe("Empty UI Component", () => {
