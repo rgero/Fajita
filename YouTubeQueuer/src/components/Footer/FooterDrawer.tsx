@@ -5,6 +5,7 @@ import PlayOption from "./DrawerOptions/PlayOption"
 import QueueOption from "./DrawerOptions/QueueOption"
 import SearchOption from "./DrawerOptions/SearchOption"
 import SkipOption from "./DrawerOptions/SkipOption"
+import YoutubeOption from "./DrawerOptions/YoutubeOption"
 import { useLocation } from "react-router-dom"
 
 interface Props {
@@ -33,6 +34,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
           <PlayOption/>
           <SkipOption/>
           <Divider/>
+          <YoutubeOption/>
           <CopyOption/>
           <Divider/>
           {!isQueue ? <QueueOption/> : <SearchOption/>}
