@@ -69,7 +69,6 @@ export const addToQueue = async (userID: number, videoID: string, playNext: bool
     if (response.status != 200)
     {
       toast.error("Couldn't add video");
-      console.log(response.statusText);
       return;
     }
     toast.success("Video added!");

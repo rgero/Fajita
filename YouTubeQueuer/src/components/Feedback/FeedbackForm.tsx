@@ -32,8 +32,6 @@ const FeedbackForm = () => {
         return prevValue;
       })
     }
-
-    console.log(details);
     addFeedback({title, description: details}, {onSuccess: () => {
       setDetails("");
       setTitle("");
