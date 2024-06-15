@@ -9,17 +9,27 @@ import { useSocket } from "../../../hooks/useWebSocket";
 
 const PlayOption = () => {
   const socket = useSocket();
-  const [isPlaying, setPlaying] = useState<boolean|null>();
+  const [isPlaying, setPlaying] = useState<boolean|null>(false);
   const [lastPress, setLastPress] = useState<Date|null>(new Date());
 
   const onMessage = useCallback( async (message:Message) => {
     setPlaying( () => message.player_state_int == 1)
   }, []);
 
+  const processIsPlaying = useCallback( async () => {
+    if(!isPlaying)
+    {
+      setPlaying(true);
+      socket.off("progressChanged", processIsPlaying);
+    }
+  }, [])
+
   useEffect(() => {
     socket.on("player_status", onMessage);
+    socket.on("progressChanged", processIsPlaying);
     return () => {
       socket.off("player_status", onMessage);
+      socket.off("progressChanged", processIsPlaying);
     };
   }, [socket, onMessage]);
 
@@ -44,7 +54,7 @@ const PlayOption = () => {
         <ListItemIcon>
           {isPlaying ? <PauseCircleOutlineIcon/> : <PlayArrowIcon/> }
         </ListItemIcon>
-        <ListItemText primary={ isPlaying == null ? "Toggle Play" : (isPlaying ? "Pause Video" : "Play Video")}/>
+        <ListItemText primary={isPlaying ? "Pause Video" : "Play Video"}/>
       </ListItemButton>
     </ListItem>
   )
