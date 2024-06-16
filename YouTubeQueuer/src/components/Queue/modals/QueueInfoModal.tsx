@@ -5,8 +5,10 @@ import { Interaction } from '../../../interfaces/Interaction';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { QueueStatus } from '../../../interfaces/QueueStatus';
 import ShareIcon from '@mui/icons-material/Share';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import { useState } from 'react';
+import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
 
 const styles = {
   card: {
@@ -94,9 +96,14 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
                 <IconButton color="error" onClick={checkConfirm}><DeleteForeverIcon/></IconButton>
               </Grid>
               {status.isVisible &&
-                <Grid item>
-                  <IconButton onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
-                </Grid>
+                <>
+                  <Grid item>
+                    <IconButton onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
+                  </Grid>
+                  <Grid item>
+                    <IconButton color="error" onClick={() => OpenYouTubeURL(interaction)}><YouTubeIcon/></IconButton>
+                  </Grid>                  
+                </>
               }
               <Grid item>
                 <IconButton color="success" onClick={submitFn}><PlayCircleIcon/></IconButton>
