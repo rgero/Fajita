@@ -29,6 +29,11 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
   const styles = {
+    cardStyle: {
+      width:"100%", 
+      backgroundColor: `${data.index == current ? `${theme.palette.info.dark}` : ""}`,
+      color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
+    },
     overlay: {
       position: 'absolute',
       bottom: '10px',
@@ -83,16 +88,10 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     }
   }
 
-  const cardStyle = {
-    width:"100%", 
-    backgroundColor: `${data.index == current ? `${theme.palette.info.dark}` : ""}`,
-    color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
-  }
-  
   return (
     <>
       <QueueInfoModal open={isModalOpen} status={status} interaction={data} deleteFn={handleDelete} closeFn={handleClose} submitFn={jumpQueue}/>
-      <Card sx={cardStyle}>
+      <Card sx={styles.cardStyle}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
             component="img"
