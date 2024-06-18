@@ -9,6 +9,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import { useState } from 'react';
 import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
+import GetSecretCover from '../../../utils/GetSecretCover';
 
 const styles = {
   card: {
@@ -61,16 +62,6 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
     deleteFn();
   }
 
-  const GetSecretCover = () => {
-    if (status.isVisible) return;
-    if (status.message?.includes("Daisy"))
-    {
-      return '/Daisy.png'
-    } else {
-      return '/BlackBox.png'
-    }
-  }
-  
   return (
     <Modal
       open={open}
@@ -81,7 +72,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
           <CardMedia
               component="img"
               sx={{height: {xs: 150, md:400}}}
-              image={`${status.isVisible ? thumbnail : GetSecretCover()}`}
+              image={`${status.isVisible ? thumbnail : GetSecretCover(status)}`}
               alt={interaction.video.title}
           />
           <CardContent>

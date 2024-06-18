@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useDeleteInteraction } from "./hooks/useDeleteInteraction";
 import { useSocket } from "../../hooks/useWebSocket";
 import { useTheme } from '@mui/material/styles';
+import GetSecretCover from "../../utils/GetSecretCover";
 
 interface Props {
   data: Interaction
@@ -78,15 +79,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     toast.success("Jumping to Video")
   }
 
-  const GetSecretCover = () => {
-    if (status.isVisible) return;
-    if (status.message?.includes("Daisy"))
-    {
-      return '/Daisy.png'
-    } else {
-      return '/BlackBox.png'
-    }
-  }
+
 
   return (
     <>
@@ -98,7 +91,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             sx={{
               width: {xs: 120, md: 300},
             }}
-            image={`${status.isVisible ? thumbnail : GetSecretCover()}`}
+            image={`${status.isVisible ? thumbnail : GetSecretCover(status)}`}
             alt={title}
           />
           <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
