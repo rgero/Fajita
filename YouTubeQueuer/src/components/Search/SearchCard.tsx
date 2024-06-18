@@ -1,11 +1,10 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
 import { UserResponse, useUser } from "../authentication/hooks/useUser"
 
 import AddToQueueModal from "./modals/AddToQueueModal"
+import { Card } from "@mui/material"
 import ModalCard from "../ui/VideoCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { addToQueue } from "../../services/apiFajita"
-import { decode } from "html-entities"
 import { useState } from "react"
 
 interface Props {

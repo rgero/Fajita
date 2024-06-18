@@ -1,14 +1,9 @@
 import { Interaction } from "../interfaces/Interaction";
-import { ResponseList } from "../dummyData/data"
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
-
-export const getCurrentPlaying = async () => {
-  return ResponseList[Math.floor(Math.random() * ResponseList.length)];
-}
 
 export const getSearchResults = async (searchTerm: string) => {
 
