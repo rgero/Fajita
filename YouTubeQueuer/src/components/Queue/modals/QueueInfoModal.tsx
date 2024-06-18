@@ -72,12 +72,12 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
           <CardMedia
               component="img"
               sx={{height: {xs: 150, md:400}}}
-              image={`${status.isVisible ? thumbnail : GetSecretCover(status)}`}
+              image={`${status.isVisible ? thumbnail : status.cover}`}
               alt={interaction.video.title}
           />
           <CardContent>
             <Typography variant="body1">{status.isVisible ? title : status.message}</Typography>
-            <Typography sx={styles.overlay}>{parsedDuration}</Typography>
+            {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>)}
           </CardContent>
         </Card>
         <Grid container alignItems="center" justifyContent="space-evenly" sx={{marginTop: "0.5rem", height: 55, width: "100%"}}>

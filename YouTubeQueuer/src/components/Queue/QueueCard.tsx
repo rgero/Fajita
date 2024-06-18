@@ -1,11 +1,11 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
-import toast from "react-hot-toast";
 import { useDeleteInteraction } from "./hooks/useDeleteInteraction";
 import { useSocket } from "../../hooks/useWebSocket";
 import { useTheme } from '@mui/material/styles';
@@ -20,13 +20,11 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const socket = useSocket();
   const theme = useTheme();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [status, setIsVisible] = useState<QueueStatus>({isVisible: true, message: ""});
+  const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
   const {deleteInteraction} = useDeleteInteraction();
-
 
   const {first_name} = data.user;
   const {title, thumbnail, duration} = data.video
-
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
   const styles = {
@@ -50,10 +48,11 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
 
   useEffect(() => {
     const shouldBeVisible: boolean = (data.visibility != 0) || data.index <= current;
-    const response: QueueStatus = {isVisible: shouldBeVisible, message: null}
+    const response: QueueStatus = {isVisible: shouldBeVisible, message: null, cover: null}
     if (!shouldBeVisible)
     {
       response["message"] = getSecretMessage();
+      response["cover"] = GetSecretCover(response);
     }
     setIsVisible(response);
   }, [data, current])
@@ -91,10 +90,10 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             sx={{
               width: {xs: 120, md: 300},
             }}
-            image={`${status.isVisible ? thumbnail : GetSecretCover(status)}`}
+            image={`${status.isVisible ? thumbnail : status.cover}`}
             alt={title}
           />
-          <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
+          {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>)}
           <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
             <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>
