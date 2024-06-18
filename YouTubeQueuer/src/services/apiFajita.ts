@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 export const getSearchResults = async (searchTerm: string) => {
-
   if (!searchTerm) { return; }
 
   const queryURL = backendURL + `/api/search?query=${searchTerm}`;
@@ -78,5 +77,15 @@ export const deleteFromQueue = async (interactionID: number) => {
   const bodyOfReq = {
     interaction_id: interactionID
   }
-  await axios.post(deleteURL, bodyOfReq);
+  try {
+    const response = await axios.post(deleteURL, bodyOfReq);
+    if (response.status != 200)
+    {
+      toast.error("Couldn't delete video");
+      return;
+    } 
+      toast.success("Video deleted");
+  } catch (err) {
+    toast.error("Couldn't delete video");
+  }
 }
