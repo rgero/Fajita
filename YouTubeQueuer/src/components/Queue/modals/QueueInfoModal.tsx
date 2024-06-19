@@ -9,7 +9,8 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import { useState } from 'react';
 import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
-import GetSecretCover from '../../../utils/GetSecretCover';
+import { useSocket } from '../../../hooks/useWebSocket';
+import toast from 'react-hot-toast';
 
 const styles = {
   card: {
@@ -45,10 +46,10 @@ interface Props {
   interaction: Interaction,
   closeFn: () => void
   deleteFn: () => void;
-  submitFn: () => void;
 }
 
-const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, closeFn, submitFn}) => {
+const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, closeFn}) => {
+  const socket = useSocket();
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
@@ -60,6 +61,13 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
   const handleDelete = () => {
     setConfirmDelete(false);
     deleteFn();
+  }
+
+  const jumpQueue = () => {
+    const videoIndex = interaction.id;
+    socket.emit("set_player_index", videoIndex)
+    toast.success("Jumping to Video");
+    closeFn();
   }
 
   return (
@@ -97,7 +105,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
                 </>
               }
               <Grid item>
-                <IconButton color="success" onClick={submitFn}><PlayCircleIcon/></IconButton>
+                <IconButton color="success" onClick={jumpQueue}><PlayCircleIcon/></IconButton>
               </Grid>
             </>
           )}

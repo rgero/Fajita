@@ -7,7 +7,6 @@ import QueueInfoModal from "./modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
 import { useDeleteInteraction } from "./hooks/useDeleteInteraction";
-import { useSocket } from "../../hooks/useWebSocket";
 import { useTheme } from '@mui/material/styles';
 import GetSecretCover from "../../utils/GetSecretCover";
 
@@ -17,7 +16,6 @@ interface Props {
 }
 
 const QueueCard: React.FC<Props> = ({data, current}) => {
-  const socket = useSocket();
   const theme = useTheme();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
@@ -71,18 +69,9 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     setModalOpen(false);
   }
 
-  const jumpQueue = () => {
-    const videoIndex = data.id;
-    socket.emit("set_player_index", videoIndex)
-    setModalOpen(false);
-    toast.success("Jumping to Video")
-  }
-
-
-
   return (
     <>
-      <QueueInfoModal open={isModalOpen} status={status} interaction={data} deleteFn={handleDelete} closeFn={handleClose} submitFn={jumpQueue}/>
+      <QueueInfoModal open={isModalOpen} status={status} interaction={data} deleteFn={handleDelete} closeFn={handleClose}/>
       <Card sx={styles.cardStyle}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
