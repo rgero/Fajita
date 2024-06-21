@@ -11,7 +11,9 @@ export const useDeleteInteraction = () => {
             queryClient.invalidateQueries({queryKey: ["queueList"]})
             toast.success("Video deleted!");
         },
-        onError: (err) => toast.error(err.message)
+        onError: (err) => {
+            toast.error(err.message)
+        }
     })
 
     return {isDeleting, deleteInteraction}

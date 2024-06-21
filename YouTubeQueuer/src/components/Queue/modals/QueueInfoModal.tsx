@@ -2,15 +2,16 @@ import { Button, Card, CardContent, CardMedia, Grid, IconButton, Modal, Typograp
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Interaction } from '../../../interfaces/Interaction';
+import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { QueueStatus } from '../../../interfaces/QueueStatus';
 import ShareIcon from '@mui/icons-material/Share';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
-import { useState } from 'react';
-import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
-import { useSocket } from '../../../hooks/useWebSocket';
 import toast from 'react-hot-toast';
+import { useDeleteInteraction } from '../hooks/useDeleteInteraction';
+import { useSocket } from '../../../hooks/useWebSocket';
+import { useState } from 'react';
 
 const styles = {
   card: {
@@ -37,7 +38,6 @@ const styles = {
     paddingY: "3px",
     borderRadius: 10
   }
-
 };
 
 interface Props {
@@ -45,11 +45,11 @@ interface Props {
   status: QueueStatus,
   interaction: Interaction,
   closeFn: () => void
-  deleteFn: () => void;
 }
 
-const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, closeFn}) => {
+const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) => {
   const socket = useSocket();
+  const {deleteInteraction} = useDeleteInteraction();
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
@@ -58,9 +58,10 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, deleteFn, c
     setConfirmDelete(true);
   }
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setConfirmDelete(false);
-    deleteFn();
+    await deleteInteraction(interaction.id);
+    closeFn();
   }
 
   const jumpQueue = () => {

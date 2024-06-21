@@ -1,14 +1,12 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 
+import GetSecretCover from "../../utils/GetSecretCover";
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
-import { useDeleteInteraction } from "./hooks/useDeleteInteraction";
 import { useTheme } from '@mui/material/styles';
-import GetSecretCover from "../../utils/GetSecretCover";
 
 interface Props {
   data: Interaction
@@ -19,7 +17,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const theme = useTheme();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
-  const {deleteInteraction} = useDeleteInteraction();
+
 
   const {first_name} = data.user;
   const {title, thumbnail, duration} = data.video
@@ -59,19 +57,9 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     setModalOpen(false);
   }
 
-  const handleDelete = () => {
-    if (data.index == current)
-    {
-      toast.error("Cannot delete current video");
-    } else {
-      deleteInteraction(data.id);
-    }
-    setModalOpen(false);
-  }
-
   return (
     <>
-      <QueueInfoModal open={isModalOpen} status={status} interaction={data} deleteFn={handleDelete} closeFn={handleClose}/>
+      <QueueInfoModal open={isModalOpen} status={status} interaction={data} closeFn={handleClose}/>
       <Card sx={styles.cardStyle}>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia

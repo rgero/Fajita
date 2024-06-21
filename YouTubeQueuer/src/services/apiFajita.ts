@@ -77,15 +77,14 @@ export const deleteFromQueue = async (interactionID: number) => {
   const bodyOfReq = {
     interaction_id: interactionID
   }
-  try {
-    const response = await axios.post(deleteURL, bodyOfReq);
-    if (response.status != 200)
+  
+  await axios.post(deleteURL, bodyOfReq).catch( (err) => {
+    if (err.response)
     {
-      toast.error("Couldn't delete video");
-      return;
-    } 
-      toast.success("Video deleted");
-  } catch (err) {
-    toast.error("Couldn't delete video");
-  }
+      const errMessage = err.response.data.error;
+      throw new Error(errMessage);
+    }
+    throw new Error("Error deleting video");
+  });
+  
 }
