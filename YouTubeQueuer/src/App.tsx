@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
+import AnnouncementPage from "./pages/AnnouncementPage";
 import AppLayout from "./components/ui/AppLayout";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import FeedbackPage from "./pages/FeedbackPage";
@@ -35,6 +36,7 @@ const App = () => {
                 <Route index element={<MainPage/>}/>
                 <Route path="queue" element={<QueuePage/>}/>
                 <Route path="feedback" element={<FeedbackPage/>}/>
+                <Route path="announce" element={<AnnouncementPage/>}/>
               </Route>
               <Route path="landing" element={<LandingPage/>} />
               <Route path="logout" element={<LogoutPage/>} />
