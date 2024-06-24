@@ -1,5 +1,6 @@
 import {Grid, Menu, MenuItem} from "@mui/material";
 
+import CloseIcon from '@mui/icons-material/Close';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -42,6 +43,16 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
           </Grid>
           <Grid item>
             Toggle Dark Mode
+          </Grid>
+        </Grid>
+      </MenuItem>
+      <MenuItem>
+        <Grid container direction="row" spacing={1}>
+          <Grid item>
+            <CloseIcon/> 
+          </Grid>
+          <Grid item>
+            Close the Queue
           </Grid>
         </Grid>
       </MenuItem>
