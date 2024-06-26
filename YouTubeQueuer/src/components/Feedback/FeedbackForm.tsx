@@ -36,7 +36,7 @@ const FeedbackForm = () => {
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <TextField
-            id="outlined-controlled"
+            id="outlined-controlled suggestion"
             label="Suggestion"
             fullWidth
             value={title}
@@ -49,7 +49,7 @@ const FeedbackForm = () => {
         </Grid>
         <Grid item>
           <TextField
-            id="outlined-controlled"
+            id="outlined-controlled details"
             label="Additional Details"
             fullWidth
             multiline
