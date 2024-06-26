@@ -46,16 +46,6 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
           </Grid>
         </Grid>
       </MenuItem>
-      <MenuItem>
-        <Grid container direction="row" spacing={1}>
-          <Grid item>
-            <CloseIcon/> 
-          </Grid>
-          <Grid item>
-            Close the Queue
-          </Grid>
-        </Grid>
-      </MenuItem>
       <MenuItem onClick={()=> navigate('/feedback')}>
         <Grid container direction="row" spacing={1}>
           <Grid item>
