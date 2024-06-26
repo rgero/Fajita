@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const submitFeedback = async ({title, description} : {title: string, description: string}) => {
+export const submitFeedback = async ({user, title, description} : {user: string|undefined, title: string, description: string}) => {
   const feedbackURL = import.meta.env.VITE_FEEDBACK_URL;
   const targetKey = import.meta.env.VITE_FEEDBACK_KEY;
 
@@ -8,6 +8,11 @@ export const submitFeedback = async ({title, description} : {title: string, desc
     headers: {
       "Authorization": targetKey
     }
+  }
+
+  if (user)
+  {
+    description = description ? `${description}\n\nLogged By ${user}` : `Logged by ${user}`
   }
 
   const feedback = {

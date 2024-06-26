@@ -4,7 +4,7 @@ import { useMutation, } from "@tanstack/react-query";
 
 export const useCreateFeedback = () => {
   const {isPending: isAdding, mutate: addFeedback} = useMutation({
-      mutationFn: ({title, description}: {title: string, description: string}) => submitFeedback({title, description}),
+      mutationFn: ({user, title, description}: {user: string|undefined, title: string, description: string}) => submitFeedback({user, title, description}),
       onSuccess: () => {
           toast.success("Feedback Submitted");
       },

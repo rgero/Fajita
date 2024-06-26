@@ -19,20 +19,8 @@ const FeedbackForm = () => {
       toast.error("Suggestion field cannot be empty")
       return;
     }
-
-    if (user)
-    {
-      setDetails( (prevValue) => {
-        if (prevValue)
-        {
-          prevValue + "\n\nLogged By: " + user.name
-        } else {
-          prevValue = "Logged by " + user.name
-        }
-        return prevValue;
-      })
-    }
-    addFeedback({title, description: details}, {onSuccess: () => {
+    
+    addFeedback({user: user?.name, title, description: details}, {onSuccess: () => {
       setDetails("");
       setTitle("");
     }});
