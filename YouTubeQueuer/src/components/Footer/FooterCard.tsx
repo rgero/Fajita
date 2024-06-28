@@ -29,8 +29,8 @@ const FooterCard = () => {
     socket.on("new_video_interaction", onMessage);
     return () => {
       socket.off("player_status", onMessage);
-      socket.on("progressChanged", processProgress);
-      socket.on("video_deleted", onMessage);
+      socket.off("progressChanged", processProgress);
+      socket.off("video_deleted", onMessage);
       socket.off("new_video_interaction", onMessage);
     };
   }, [socket, onMessage, processProgress]);
