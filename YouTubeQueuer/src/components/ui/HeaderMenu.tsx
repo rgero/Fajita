@@ -1,6 +1,5 @@
 import {Grid, Menu, MenuItem} from "@mui/material";
 
-import CloseIcon from '@mui/icons-material/Close';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LogoutIcon from '@mui/icons-material/Logout';
