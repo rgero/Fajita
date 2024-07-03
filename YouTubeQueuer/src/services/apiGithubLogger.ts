@@ -10,6 +10,11 @@ export const submitFeedback = async ({user, title, description} : {user: string|
     }
   }
 
+  if(!title)
+  {
+    throw new Error("Suggestion cannot be blank.");
+  }
+
   if (user)
   {
     description = description ? `${description}\n\nLogged By ${user}` : `Logged by ${user}`
