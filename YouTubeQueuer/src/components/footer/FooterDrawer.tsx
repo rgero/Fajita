@@ -1,11 +1,11 @@
 import { Box, Divider, List, SwipeableDrawer } from "@mui/material"
 
-import CopyOption from "./DrawerOptions/CopyOption"
-import PlayOption from "./DrawerOptions/PlayOption"
-import QueueOption from "./DrawerOptions/QueueOption"
-import SearchOption from "./DrawerOptions/SearchOption"
-import SkipOption from "./DrawerOptions/SkipOption"
-import YoutubeOption from "./DrawerOptions/YoutubeOption"
+import CopyOption from "./options/CopyOption"
+import PlayOption from "./options/PlayOption"
+import QueueOption from "./options/QueueOption"
+import SearchOption from "./options/SearchOption"
+import SkipOption from "./options/SkipOption"
+import YoutubeOption from "./options/YoutubeOption"
 import { useLocation } from "react-router-dom"
 
 interface Props {

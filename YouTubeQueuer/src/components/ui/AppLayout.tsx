@@ -1,6 +1,6 @@
 import { Container, CssBaseline } from "@mui/material"
 
-import Footer from "../Footer/FooterContainer"
+import Footer from "../footer/FooterContainer"
 import { Outlet } from "react-router-dom"
 
 const AppLayout = () => {
