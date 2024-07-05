@@ -1,21 +1,8 @@
 import { CookieJSON } from "../interfaces/CookieJSON";
+import axios from "axios";
 
 interface keyable {
   [key: string]: string  
-}
-
-const generateCookieJSON = () => {
-  const parsedCookie:keyable = document.cookie.split('; ').reduce((prev: keyable, current) => {
-    const [name, ...value]: string[] = current.split('=');
-    prev[name] = value.join('=');
-    return prev;
-  }, {});
-
-  return {
-    email: parsedCookie.user_email,
-    id: parseInt(parsedCookie.user_id),
-    name: parsedCookie.first_name
-  }
 }
 
 export const deleteAllCookies = () => {
@@ -29,9 +16,21 @@ export const deleteAllCookies = () => {
   }
 }
 
-export const getCurrentUser = () => {
-  const cookieJSON: CookieJSON = generateCookieJSON();
-  return cookieJSON;
+export const getCurrentUser = async () => {
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_user_info`)
+    .then( (response) => {
+      if (response.status == 200 && response.data)
+      {
+        return response.data;
+      }
+    })
+    .catch( (err) => {
+    if (err.response.status == 401)
+    {
+      window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login`;
+    }
+  });
+  return response;
 }
 
 export const logoutCurrentUser = () => {
