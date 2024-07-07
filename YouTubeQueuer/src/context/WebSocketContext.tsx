@@ -8,12 +8,11 @@ interface ISocketProvider {
 }
 
 const user = await getCurrentUser();
-
 const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
     withCredentials: true,
     extraHeaders: {
         "Access-Control-Allow-Origin": `${import.meta.env.VITE_BACKEND_URL}`, // Match the origin allowed by Flask-SocketIO
-        "user_id": user.id.toString()
+        "user_id": user ? user.id.toString() : ""
     }
 });
 

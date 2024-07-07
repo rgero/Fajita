@@ -1,9 +1,4 @@
-import { CookieJSON } from "../interfaces/CookieJSON";
 import axios from "axios";
-
-interface keyable {
-  [key: string]: string  
-}
 
 export const deleteAllCookies = () => {
   const cookies = document.cookie.split(";");
@@ -17,7 +12,7 @@ export const deleteAllCookies = () => {
 }
 
 export const getCurrentUser = async () => {
-  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_user_info`)
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_user_info`, {withCredentials: true})
     .then( (response) => {
       if (response.status == 200 && response.data)
       {
@@ -25,15 +20,11 @@ export const getCurrentUser = async () => {
       }
     })
     .catch( (err) => {
-    if (err.response.status == 401)
-    {
-      window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login`;
-    }
+      console.log(err);
   });
   return response;
 }
 
 export const logoutCurrentUser = () => {
-  // Got to tell about Logout here?
   deleteAllCookies();
 }
