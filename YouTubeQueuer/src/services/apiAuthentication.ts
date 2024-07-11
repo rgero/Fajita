@@ -1,4 +1,4 @@
-import axios from "axios";
+import { fajitaAxios } from "./axios";
 
 export const deleteAllCookies = () => {
   const cookies = document.cookie.split(";");
@@ -12,7 +12,7 @@ export const deleteAllCookies = () => {
 }
 
 export const getCurrentUser = async () => {
-  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/get_user_info`, {withCredentials: true})
+  const response = await fajitaAxios.get(`${import.meta.env.VITE_BACKEND_URL}/get_user_info`)
     .then( (response) => {
       if (response.status == 200 && response.data)
       {
