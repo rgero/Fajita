@@ -1,6 +1,6 @@
 import { Interaction } from "../interfaces/Interaction";
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
-import axios from "axios";
+import { fajitaAxios } from "./axios";
 import toast from "react-hot-toast";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -9,7 +9,7 @@ export const getSearchResults = async (searchTerm: string) => {
   if (!searchTerm) { return; }
 
   const queryURL = backendURL + `/api/search?query=${searchTerm}`;
-  const response = await axios.get(queryURL);
+  const response = await fajitaAxios.get(queryURL);
 
   if(response.status != 200)
   {
@@ -32,7 +32,7 @@ export const getQueue = async () =>
 {
   const queueURL = backendURL + "/api/q";
 
-  const response = await axios.get(queueURL);
+  const response = await fajitaAxios.get(queueURL);
   if (response.status != 200)
   {
     toast.error("Failed to get queue");
@@ -59,7 +59,7 @@ export const addToQueue = async (userID: number, videoID: string, playNext: bool
   }
 
   try {
-    const response = await axios.post(queueURL, bodyOfReq);
+    const response = await fajitaAxios.post(queueURL, bodyOfReq);
     if (response.status != 200)
     {
       toast.error("Couldn't add video");
@@ -78,7 +78,7 @@ export const deleteFromQueue = async (interactionID: number) => {
     interaction_id: interactionID
   }
   
-  await axios.post(deleteURL, bodyOfReq).catch( (err) => {
+  await fajitaAxios.post(deleteURL, bodyOfReq).catch( (err) => {
     if (err.response)
     {
       const errMessage = err.response.data.error;

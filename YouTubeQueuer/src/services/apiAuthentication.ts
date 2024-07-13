@@ -1,22 +1,4 @@
-import { CookieJSON } from "../interfaces/CookieJSON";
-
-interface keyable {
-  [key: string]: string  
-}
-
-const generateCookieJSON = () => {
-  const parsedCookie:keyable = document.cookie.split('; ').reduce((prev: keyable, current) => {
-    const [name, ...value]: string[] = current.split('=');
-    prev[name] = value.join('=');
-    return prev;
-  }, {});
-
-  return {
-    email: parsedCookie.user_email,
-    id: parseInt(parsedCookie.user_id),
-    name: parsedCookie.first_name
-  }
-}
+import { fajitaAxios } from "./axios";
 
 export const deleteAllCookies = () => {
   const cookies = document.cookie.split(";");
@@ -29,12 +11,20 @@ export const deleteAllCookies = () => {
   }
 }
 
-export const getCurrentUser = () => {
-  const cookieJSON: CookieJSON = generateCookieJSON();
-  return cookieJSON;
+export const getCurrentUser = async () => {
+  const response = await fajitaAxios.get(`${import.meta.env.VITE_BACKEND_URL}/get_user_info`)
+    .then( (response) => {
+      if (response.status == 200 && response.data)
+      {
+        return response.data;
+      }
+    })
+    .catch( (err) => {
+      console.log(err);
+  });
+  return response;
 }
 
 export const logoutCurrentUser = () => {
-  // Got to tell about Logout here?
   deleteAllCookies();
 }
