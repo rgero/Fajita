@@ -24,9 +24,16 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
   const [queueOwner, setOwner] = useState("");
 
   useEffect( () => {
+    const checkQueues = async () => {
+      const queues = await getActiveQueues();
+      if (queues.length == 1)
+      {
+        connectToQueue(queues[0].id);
+      }
+    }
+    
     const checkIfQueueIsActive = async (targetID: number) => {
       const queues = await getActiveQueues();
-      
       const isActive = queues.some( (obj) => obj.id == targetID );
       if (!isActive)
       {
@@ -38,12 +45,18 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
       }
     }
 
-    const queueObject = JSON.parse(queue);
-    setID( queueObject.id);
-    setOwner( queueObject.owner.first_name);
+    if (queue)
+    {
+      const queueObject = JSON.parse(queue);
+      setID( queueObject.id);
+      setOwner( queueObject.owner.first_name);
+      
+      // Is this queue still active?
+      checkIfQueueIsActive(queueObject.id);
+    } else {
+      checkQueues();
+    }
 
-    // Is this queue Active?
-    checkIfQueueIsActive(queueObject.id);
   }, [queue])
 
 

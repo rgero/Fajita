@@ -58,7 +58,7 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
     play_next: playNext,
     visibility: visibility,
   }
-
+  
   try {
     const response = await fajitaAxios.post(queueURL, bodyOfReq);
     if (response.status != 200)
@@ -93,112 +93,20 @@ export const deleteFromQueue = async (queueID: number, interactionID: number) =>
 
 // QUEUE STUFF
 export const getActiveQueues = async () => {
-  const queuesURL = backendURL + "/api/queues";
+  const queuesURL = backendURL + "/api/queues/active";
 
-  const response = await fajitaAxios.get(queuesURL);
-
-  return response.data;
-
-
-  return [
+  try {
+    const response = await fajitaAxios.get(queuesURL);
+    if (response.status != 200)
     {
-      "interactions": [
-          {
-              "user": {
-                  "first_name": "Roy"
-              },
-              "video": {
-                  "id": 468,
-                  "title": "Rise Against - Re-Education (Through Labor) (Uncensored)",
-                  "video_id": "_RYBDTnS7dg",
-                  "thumbnail": "https://i.ytimg.com/vi/_RYBDTnS7dg/default.jpg",
-                  "duration": 240
-              },
-              "id": 907,
-              "index": 100,
-              "play_next": false,
-              "created_at": "2024-07-14T02:20:16.946220",
-              "visibility": 1
-          }
-      ],
-      "max_index": 100,
-      "owner": {
-        "first_name": "Roy",
-      },
-      "id": 40,
-      "active": true,
-      "locked": false,
-      "player_sid": "r65v1jKMisIL1dwxAAAe",
-      "current_index": 100,
-      "playlist_id": null,
-      "created_at": "2024-07-14T00:00:00",
-      "modified_at": "2024-07-14T02:20:16.992783"
-    },
-    {
-      "interactions": [
-          {
-              "user": {
-                  "first_name": "Roy"
-              },
-              "video": {
-                  "id": 468,
-                  "title": "Rise Against - Re-Education (Through Labor) (Uncensored)",
-                  "video_id": "_RYBDTnS7dg",
-                  "thumbnail": "https://i.ytimg.com/vi/_RYBDTnS7dg/default.jpg",
-                  "duration": 240
-              },
-              "id": 907,
-              "index": 100,
-              "play_next": false,
-              "created_at": "2024-07-14T02:20:16.946220",
-              "visibility": 1
-          }
-      ],
-      "max_index": 100,
-      "owner": {
-        "first_name": "Vince",
-      },
-      "id": 41,
-      "active": true,
-      "locked": false,
-      "player_sid": "r65v1jKMisIL1dwxAAAe",
-      "current_index": 100,
-      "playlist_id": null,
-      "created_at": "2024-07-14T00:00:00",
-      "modified_at": "2024-07-14T02:20:16.992783"
-    },
-    {
-      "interactions": [
-          {
-              "user": {
-                  "first_name": "Roy"
-              },
-              "video": {
-                  "id": 468,
-                  "title": "Rise Against - Re-Education (Through Labor) (Uncensored)",
-                  "video_id": "_RYBDTnS7dg",
-                  "thumbnail": "https://i.ytimg.com/vi/_RYBDTnS7dg/default.jpg",
-                  "duration": 240
-              },
-              "id": 907,
-              "index": 100,
-              "play_next": false,
-              "created_at": "2024-07-14T02:20:16.946220",
-              "visibility": 1
-          }
-      ],
-      "max_index": 100,
-      "owner": {
-          "first_name": "Anna",
-      },
-      "id": 42,
-      "active": true,
-      "locked": false,
-      "player_sid": "r65v1jKMisIL1dwxAAAe",
-      "current_index": 100,
-      "playlist_id": null,
-      "created_at": "2024-07-14T00:00:00",
-      "modified_at": "2024-07-14T02:20:16.992783"
-    },
-  ]
+      toast.error("Couldn't get active queues");
+      return [];
+    }
+    return response.data;
+  } 
+  catch (err)
+  {
+    toast.error("Couldn't get active queues");
+  }
+
 }

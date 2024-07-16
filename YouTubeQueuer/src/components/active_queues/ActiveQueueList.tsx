@@ -17,10 +17,10 @@ const ActiveQueueList = () => {
   if (!queues) return <Empty resource={"Active Queues"}/>
   return (
     <Container>
-      <Grid container direction="column">
+      <Grid container direction="column" spacing={2}>
         {queues.map( (queue) => {
           return (
-            <ActiveQueueListItem owner={queue.owner.first_name} id={queue.id}/>
+            <ActiveQueueListItem owner={queue.owner.first_name} id={queue.id} image={queue.owner.picture}/>
           )
         })}
       </Grid>
