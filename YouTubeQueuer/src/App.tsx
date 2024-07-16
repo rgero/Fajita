@@ -21,39 +21,46 @@ const queryClient = new QueryClient({
   }
 })
 
+const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
+  return (
+    <QueueProvider>
+      <SocketProvider>
+        <QueryClientProvider client={queryClient}>
+          <ProtectedRoute>
+            {children}
+          </ProtectedRoute>
+        </QueryClientProvider>
+      </SocketProvider>
+    </QueueProvider>
+  )
+}
+
 const App = () => {
- 
   return (
     <DarkModeProvider>
-      <QueueProvider>
-        <SocketProvider>
-          <QueryClientProvider client={queryClient}>
-            <BrowserRouter>
-              <Routes>
-                <Route element={
-                  <ProtectedRoute>
-                    <AppLayout/>
-                  </ProtectedRoute>
-                }>
-                  <Route index element={<MainPage/>}/>
-                  <Route path="queue" element={<QueuePage/>}/>
-                  <Route path="feedback" element={<FeedbackPage/>}/>
-                </Route>
-                <Route element={
-                  <ProtectedRoute>
-                    <Outlet/>
-                  </ProtectedRoute>
-                }>
-                  <Route path="queues" element={<ActiveQueuesPage/>}/>
-                </Route>
-                <Route path="landing" element={<LandingPage/>} />
-                <Route path="logout" element={<LogoutPage/>} />
-                <Route path='*' element={<Navigate to='/' />} />
-              </Routes>
-            </BrowserRouter>
-          </QueryClientProvider>
-        </SocketProvider>
-      </QueueProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={
+            <AuthRouteWrapper>
+             <AppLayout/>
+            </AuthRouteWrapper>
+          }>
+            <Route index element={<MainPage/>}/>
+            <Route path="queue" element={<QueuePage/>}/>
+            <Route path="feedback" element={<FeedbackPage/>}/>
+          </Route>
+          <Route element={
+            <AuthRouteWrapper>
+              <Outlet/>
+            </AuthRouteWrapper>
+          }>
+            <Route path="queues" element={<ActiveQueuesPage/>}/>
+          </Route>
+          <Route path="landing" element={<LandingPage/>} />
+          <Route path="logout" element={<LogoutPage/>} />
+          <Route path='*' element={<Navigate to='/' />} />
+        </Routes>
+      </BrowserRouter>
     </DarkModeProvider>
   )
 }
