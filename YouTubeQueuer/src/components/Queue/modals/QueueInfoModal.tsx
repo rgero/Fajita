@@ -10,7 +10,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import toast from 'react-hot-toast';
 import { useDeleteInteraction } from '../hooks/useDeleteInteraction';
-import { useSocket } from '../../../hooks/useWebSocket';
+import { useSocket } from '../../../context/WebSocketContext';
 import { useState } from 'react';
 
 const styles = {

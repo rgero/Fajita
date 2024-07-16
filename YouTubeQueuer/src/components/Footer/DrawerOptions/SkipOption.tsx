@@ -2,7 +2,7 @@ import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/mater
 
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import toast from "react-hot-toast";
-import { useSocket } from "../../../hooks/useWebSocket";
+import { useSocket } from "../../../context/WebSocketContext";
 
 const SkipOption = () => {
   const socket = useSocket();

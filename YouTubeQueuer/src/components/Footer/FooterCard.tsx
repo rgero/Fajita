@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
-import { useSocket } from "../../hooks/useWebSocket";
+import { useSocket } from "../../context/WebSocketContext";
 
 const FooterCard = () => {
   const socket = useSocket();

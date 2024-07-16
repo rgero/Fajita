@@ -5,7 +5,7 @@ import { Message } from "../../../interfaces/Message";
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import toast from "react-hot-toast";
-import { useSocket } from "../../../hooks/useWebSocket";
+import { useSocket } from "../../../context/WebSocketContext";
 
 const PlayOption = () => {
   const socket = useSocket();
