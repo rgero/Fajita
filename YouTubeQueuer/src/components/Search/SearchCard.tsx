@@ -5,6 +5,7 @@ import { Card } from "@mui/material"
 import ModalCard from "../ui/VideoCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { addToQueue } from "../../services/apiFajita"
+import { useQueueProvider } from "../../context/QueueContext"
 import { useState } from "react"
 
 interface Props {
@@ -31,6 +32,7 @@ const styles = {
 const VideoCard: React.FC<Props> = ({data}) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const {user}: UserResponse = useUser();
+  const {getQueueID} = useQueueProvider();
 
   const handleClose = () => {
     setModalOpen(false);
@@ -38,7 +40,7 @@ const VideoCard: React.FC<Props> = ({data}) => {
 
   const sendToQueue = (playNext: boolean, visibility: number) => {
     setModalOpen(false);
-    addToQueue(user?.id as number, data.id, playNext, visibility);
+    addToQueue(getQueueID(), user?.id as number, data.id, playNext, visibility);
   }
 
   return (
