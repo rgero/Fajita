@@ -7,7 +7,7 @@ const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 export const getSearchResults = async (searchTerm: string) => {
   if (!searchTerm) { return; }
-
+  
   const queryURL = backendURL + `/api/search?query=${searchTerm}`;
   const response = await fajitaAxios.get(queryURL);
 
@@ -28,9 +28,9 @@ export const getSearchResults = async (searchTerm: string) => {
   return results;
 }
 
-export const getQueue = async () => 
+export const getQueue = async (queueID: number) => 
 {
-  const queueURL = backendURL + "/api/q";
+  const queueURL = backendURL + `/api/q/${queueID}`;
 
   const response = await fajitaAxios.get(queueURL);
   if (response.status != 200)
@@ -47,11 +47,12 @@ export const getQueue = async () =>
   return response.data;
 }
 
-export const addToQueue = async (userID: number, videoID: string, playNext: boolean, visibility: number) => 
+export const addToQueue = async (queueID: number, userID: number, videoID: string, playNext: boolean, visibility: number) => 
 {
   const queueURL = backendURL + "/api/q/add";
 
   const bodyOfReq = {
+    queue_id: queueID,
     user_id: userID,
     video_id: videoID,
     play_next: playNext,
@@ -72,9 +73,10 @@ export const addToQueue = async (userID: number, videoID: string, playNext: bool
   }
 }
 
-export const deleteFromQueue = async (interactionID: number) => {
+export const deleteFromQueue = async (queueID: number, interactionID: number) => {
   const deleteURL = backendURL + "/api/q/delete";
   const bodyOfReq = {
+    queue_id: queueID,
     interaction_id: interactionID
   }
   
@@ -85,6 +87,118 @@ export const deleteFromQueue = async (interactionID: number) => {
       throw new Error(errMessage);
     }
     throw new Error("Error deleting video");
-  });
-  
+  }); 
+}
+
+
+// QUEUE STUFF
+export const getActiveQueues = async () => {
+  const queuesURL = backendURL + "/api/queues";
+
+  const response = await fajitaAxios.get(queuesURL);
+
+  return response.data;
+
+
+  return [
+    {
+      "interactions": [
+          {
+              "user": {
+                  "first_name": "Roy"
+              },
+              "video": {
+                  "id": 468,
+                  "title": "Rise Against - Re-Education (Through Labor) (Uncensored)",
+                  "video_id": "_RYBDTnS7dg",
+                  "thumbnail": "https://i.ytimg.com/vi/_RYBDTnS7dg/default.jpg",
+                  "duration": 240
+              },
+              "id": 907,
+              "index": 100,
+              "play_next": false,
+              "created_at": "2024-07-14T02:20:16.946220",
+              "visibility": 1
+          }
+      ],
+      "max_index": 100,
+      "owner": {
+        "first_name": "Roy",
+      },
+      "id": 40,
+      "active": true,
+      "locked": false,
+      "player_sid": "r65v1jKMisIL1dwxAAAe",
+      "current_index": 100,
+      "playlist_id": null,
+      "created_at": "2024-07-14T00:00:00",
+      "modified_at": "2024-07-14T02:20:16.992783"
+    },
+    {
+      "interactions": [
+          {
+              "user": {
+                  "first_name": "Roy"
+              },
+              "video": {
+                  "id": 468,
+                  "title": "Rise Against - Re-Education (Through Labor) (Uncensored)",
+                  "video_id": "_RYBDTnS7dg",
+                  "thumbnail": "https://i.ytimg.com/vi/_RYBDTnS7dg/default.jpg",
+                  "duration": 240
+              },
+              "id": 907,
+              "index": 100,
+              "play_next": false,
+              "created_at": "2024-07-14T02:20:16.946220",
+              "visibility": 1
+          }
+      ],
+      "max_index": 100,
+      "owner": {
+        "first_name": "Vince",
+      },
+      "id": 41,
+      "active": true,
+      "locked": false,
+      "player_sid": "r65v1jKMisIL1dwxAAAe",
+      "current_index": 100,
+      "playlist_id": null,
+      "created_at": "2024-07-14T00:00:00",
+      "modified_at": "2024-07-14T02:20:16.992783"
+    },
+    {
+      "interactions": [
+          {
+              "user": {
+                  "first_name": "Roy"
+              },
+              "video": {
+                  "id": 468,
+                  "title": "Rise Against - Re-Education (Through Labor) (Uncensored)",
+                  "video_id": "_RYBDTnS7dg",
+                  "thumbnail": "https://i.ytimg.com/vi/_RYBDTnS7dg/default.jpg",
+                  "duration": 240
+              },
+              "id": 907,
+              "index": 100,
+              "play_next": false,
+              "created_at": "2024-07-14T02:20:16.946220",
+              "visibility": 1
+          }
+      ],
+      "max_index": 100,
+      "owner": {
+          "first_name": "Anna",
+      },
+      "id": 42,
+      "active": true,
+      "locked": false,
+      "player_sid": "r65v1jKMisIL1dwxAAAe",
+      "current_index": 100,
+      "playlist_id": null,
+      "created_at": "2024-07-14T00:00:00",
+      "modified_at": "2024-07-14T02:20:16.992783"
+    },
+  ]
 }
