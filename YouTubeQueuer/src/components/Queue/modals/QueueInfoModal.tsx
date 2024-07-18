@@ -10,6 +10,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import toast from 'react-hot-toast';
 import { useDeleteInteraction } from '../hooks/useDeleteInteraction';
+import { useQueueProvider } from '../../../context/QueueContext';
 import { useSocket } from '../../../context/WebSocketContext';
 import { useState } from 'react';
 
@@ -49,6 +50,7 @@ interface Props {
 
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) => {
   const socket = useSocket();
+  const {getQueueID} = useQueueProvider();
   const {deleteInteraction} = useDeleteInteraction();
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
@@ -66,7 +68,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
 
   const jumpQueue = () => {
     const videoIndex = interaction.id;
-    socket.emit("set_player_index", videoIndex)
+    socket.emit("set_player_index", {queue_id: getQueueID(), video_id: videoIndex})
     toast.success("Jumping to Video");
     closeFn();
   }
