@@ -4,10 +4,17 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
+import { useQueueProvider } from "../../context/QueueContext";
 import { useSocket } from "../../context/WebSocketContext";
+
+interface ProgressResponse {
+  queue_id: number,
+  progress: number
+}
 
 const FooterCard = () => {
   const socket = useSocket();
+  const {getQueueID} = useQueueProvider();
   const {isLoading, queueData, refetch} : YouTubeQueueResponse = useYouTubeQueue();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
@@ -18,8 +25,11 @@ const FooterCard = () => {
     refetch();
   }, [refetch]);
 
-  const processProgress = useCallback( (progressChanged: number) => {
-    setProgress(progressChanged);
+  const processProgress = useCallback( (progressResponse: ProgressResponse) => {
+    if (progressResponse.queue_id == getQueueID())
+    {
+      setProgress(progressResponse.progress);
+    }
   }, [])
 
   useEffect(() => {
