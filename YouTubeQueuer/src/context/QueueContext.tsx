@@ -37,7 +37,7 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
       const isActive = queues.some( (obj) => obj.id == targetID );
       if (!isActive)
       {
-        toast.error("Queue not active, please connect");
+        toast.error("Selected queue is not active");
         setID(-1);
         setOwner("");
       } else {

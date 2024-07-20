@@ -30,6 +30,10 @@ export const getSearchResults = async (searchTerm: string) => {
 
 export const getQueue = async (queueID: number) => 
 {
+  // Negative queue id is reserved for invalid queues.
+  // No sense in trying to connect.
+  if (queueID == -1) return {};
+
   const queueURL = backendURL + `/api/q/${queueID}`;
 
   const response = await fajitaAxios.get(queueURL);
@@ -40,6 +44,10 @@ export const getQueue = async (queueID: number) =>
   }
 
   const queueData = response.data;
+  if (!queueData.active)
+  {
+    return {};
+  }
   
   // Sort the Interactions
   queueData.interactions = queueData.interactions.sort((A:Interaction, B:Interaction) => { return A.index - B.index })
