@@ -1,11 +1,7 @@
-import { ReactElement, createContext } from "react";
+import { createContext, useContext } from "react";
 
 import { getCurrentUser } from "../services/apiAuthentication";
 import io from 'socket.io-client';
-
-interface ISocketProvider {
-  children: ReactElement;
-}
 
 const user = await getCurrentUser();
 const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
@@ -16,7 +12,17 @@ const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
     }
 });
 
-export const SocketContext = createContext(socket);
-export const SocketProvider = (props: ISocketProvider) => (
-  <SocketContext.Provider value={socket}>{props.children}</SocketContext.Provider>
+const SocketContext = createContext(socket);
+
+const SocketProvider = ({children}: {children: React.ReactNode}) => (
+  <SocketContext.Provider value={socket}>
+    {children}
+  </SocketContext.Provider>
 );
+
+const useSocket = () => {
+  const socket = useContext(SocketContext);
+  return socket;
+};
+
+export {SocketProvider, useSocket};

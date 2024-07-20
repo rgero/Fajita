@@ -1,6 +1,7 @@
 import { QueueData } from "../interfaces/QueueData";
 import { getQueue } from "../services/apiFajita";
 import { useQuery } from "@tanstack/react-query";
+import { useQueueProvider } from "../context/QueueContext";
 
 export interface YouTubeQueueResponse
 {
@@ -11,6 +12,7 @@ export interface YouTubeQueueResponse
 }
 
 export const useYouTubeQueue = (): YouTubeQueueResponse => {
-  const {isLoading, data: queueData = {}, error, refetch} = useQuery({queryKey: ["queueList"], queryFn: ()=>getQueue()});
+  const {getQueueID} = useQueueProvider();
+  const {isLoading, data: queueData = {}, error, refetch} = useQuery({queryKey: ["queueList"], queryFn: ()=> getQueue(getQueueID())});
   return { isLoading, queueData, error, refetch};
 }

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
-import { useSocket } from "../../hooks/useWebSocket";
+import { useSocket } from "../../context/WebSocketContext";
 
 const QueueList = () => {
   const socket = useSocket();

@@ -22,6 +22,11 @@ const FeedbackForm = () => {
       }
     );
   }
+
+  const clearFeedback = () => {
+    setTitle("");
+    setDetails("");
+  }
   
   const formatNumber = (num: number): string => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -70,7 +75,7 @@ const FeedbackForm = () => {
         </Grid>
         <Grid container justifyContent={"space-evenly"} sx={{paddingTop: 4}}>
           <Grid item>
-            <Button variant="contained" color="error" disabled={isAdding}><Typography fontWeight={"bold"}>Clear</Typography></Button>
+            <Button variant="contained" color="error" disabled={isAdding} onClick={clearFeedback}><Typography fontWeight={"bold"}>Clear</Typography></Button>
           </Grid>
           <Grid item>
             <Button variant="contained" color="success" disabled={isAdding} onClick={handleSubmit}><Typography fontWeight={"bold"}>Submit</Typography></Button>

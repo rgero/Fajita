@@ -45,7 +45,7 @@ const SearchHeader = () => {
     <AppBar>
       <StyledToolbar>
         <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
-          <Grid item xs={10} md={4}>
+          <Grid item xs={8} md={4}>
             <TextField
               variant="filled"
               label="Search"
