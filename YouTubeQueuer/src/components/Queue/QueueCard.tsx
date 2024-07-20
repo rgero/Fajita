@@ -68,7 +68,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
               width: {xs: 120, md: 300},
             }}
             image={`${status.isVisible ? thumbnail : status.cover}`}
-            alt={title}
+            alt={`${status.isVisible ? title : "Hidden"}`}
           />
           {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>)}
           <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
