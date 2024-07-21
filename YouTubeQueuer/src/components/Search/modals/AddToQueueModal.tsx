@@ -1,10 +1,10 @@
-import { Button, Checkbox, FormControlLabel, Grid, Modal, useTheme } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
+import Modal from '../../ui/Modal';
 import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
-import { offsetHexColor } from '../../../utils/HexColorOffset';
 import { useState } from 'react';
 
 interface Props {
@@ -14,25 +14,9 @@ interface Props {
   submitFn: (playNext: boolean, visibility: number) => void;
 }
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: {xs: '80%', md: "45%"},
-  bgcolor: 'background.paper',
-  borderRadius: 2,
-  boxShadow: 24,
-  p: 2,
-};
-
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) => {
   const [playNext, setPlayNext] = useState(false);
   const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
-
-  const theme = useTheme();
-  const colorOffset = 30;
-  style.bgcolor = theme.palette.mode == "light" ? 'background.paper' : offsetHexColor(theme.palette.background.paper, colorOffset);
 
   const handleSubmit = () => {
     const isPlayNext = playNext;
@@ -48,9 +32,9 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) 
   return (
     <Modal
       open={open}
-      onClose={closeFn}
+      closeFn={closeFn}
     >
-      <Grid container direction="column" sx={style}>
+      <Grid container direction="column">
         <VideoCard data={videoData}/>
         <Grid item>
           <Grid item>

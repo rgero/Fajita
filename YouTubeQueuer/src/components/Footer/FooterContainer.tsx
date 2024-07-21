@@ -29,7 +29,7 @@ export default function Footer() {
 
   const style = {
     bgcolor: `${theme.palette.background.default}`,
-    borderTop: `2px solid ${theme.palette.primary.light}`,
+    borderTop: `1px solid black`,
     minWidth: "100%",
     bottom: 0,
     padding: "8px 8px 20px 8px",

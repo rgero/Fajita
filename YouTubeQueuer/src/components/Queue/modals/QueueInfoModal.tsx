@@ -1,16 +1,16 @@
-import {Card, CardContent, CardMedia, Grid, Modal, Typography, useTheme} from '@mui/material';
+import {Card, CardContent, CardMedia, Grid, Typography} from '@mui/material';
 
 import Button from '../../ui/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { Interaction } from '../../../interfaces/Interaction';
+import Modal from '../../ui/Modal';
 import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { QueueStatus } from '../../../interfaces/QueueStatus';
 import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
-import { offsetHexColor } from '../../../utils/HexColorOffset';
 import toast from 'react-hot-toast';
 import { useDeleteInteraction } from '../hooks/useDeleteInteraction';
 import { useQueueProvider } from '../../../context/QueueContext';
@@ -18,17 +18,6 @@ import { useSocket } from '../../../context/WebSocketContext';
 import { useState } from 'react';
 
 const styles = {
-  card: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: {xs: '80%', md: "45%"},
-    bgcolor: 'background.paper',
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 2,
-  },
   overlay: {
     position: 'absolute',
     top: '22px',
@@ -57,10 +46,6 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
-  const theme = useTheme();
-  const colorOffset = 30;
-  styles.card.bgcolor = theme.palette.mode == "light" ? 'background.paper' : offsetHexColor(theme.palette.background.paper, colorOffset);
-
   const checkConfirm = () => {
     setConfirmDelete(true);
   }
@@ -81,9 +66,9 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
   return (
     <Modal
       open={open}
-      onClose={closeFn}
+      closeFn={closeFn}
     >
-      <Grid container direction="column" sx={styles.card}>
+      <Grid container direction="column">
         <Card>
           <CardMedia
               component="img"
