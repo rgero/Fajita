@@ -23,7 +23,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
       anchor={"bottom"}
       open={isOpen}
       onClose={toggleDrawer(false)}
-      onOpen={toggleDrawer(false)}
+      onOpen={toggleDrawer(true)}
     >
       <Box
         role="presentation"
