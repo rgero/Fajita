@@ -1,6 +1,8 @@
-import { Button, Card, CardContent, CardMedia, Grid, IconButton, Modal, Typography, useTheme } from '@mui/material';
+import {Card, CardContent, CardMedia, Grid, Modal, Typography, useTheme} from '@mui/material';
 
+import Button from '../../ui/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { Interaction } from '../../../interfaces/Interaction';
 import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
@@ -98,33 +100,30 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
           {!checkDelete && (
             <>
               <Grid item>
-                <IconButton color="error" onClick={checkConfirm}><DeleteForeverIcon/></IconButton>
+                <Button onClick={checkConfirm} icon={(<DeleteForeverIcon color="error"/>)} title="Delete"/>
               </Grid>
               {status.isVisible &&
                 <>
                   <Grid item>
-                    <IconButton onClick={() => copyToClipboard(interaction)}><ShareIcon/></IconButton>
+                    <Button onClick={()=> copyToClipboard(interaction)} icon={(<ShareIcon/>)} title="Copy"/>
                   </Grid>
                   <Grid item>
-                    <IconButton color="error" onClick={() => OpenYouTubeURL(interaction)}><YouTubeIcon/></IconButton>
+                    <Button onClick={() => OpenYouTubeURL(interaction)} icon={(<YouTubeIcon color="error"/>)} title="YouTube"/>
                   </Grid>                  
                 </>
               }
               <Grid item>
-                <IconButton color="success" onClick={jumpQueue}><PlayCircleIcon/></IconButton>
+                <Button onClick={() => jumpQueue()} icon={(<PlayCircleIcon color="success"/>)} title="Play"/>
               </Grid>
             </>
           )}
           {checkDelete && (
             <>
               <Grid item>
-                <Typography>Are you sure?</Typography>
+                <Button onClick={() => setConfirmDelete(false)} icon={(<DoNotDisturbIcon/>)} title="Cancel"/>
               </Grid>
               <Grid item>
-                <Button onClick={() => setConfirmDelete(false)}>No</Button>
-              </Grid>
-              <Grid item>
-                <Button color="error" variant="contained" onClick={handleDelete}>Yes</Button>
+                <Button onClick={handleDelete} icon={(<DeleteForeverIcon color="error"/>)} title="Delete"/>
               </Grid>
             </>
           )}
