@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CardMedia, Grid, IconButton, Modal, Typography } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Grid, IconButton, Modal, Typography, useTheme } from '@mui/material';
 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Interaction } from '../../../interfaces/Interaction';
@@ -8,6 +8,7 @@ import { QueueStatus } from '../../../interfaces/QueueStatus';
 import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
+import { offsetHexColor } from '../../../utils/HexColorOffset';
 import toast from 'react-hot-toast';
 import { useDeleteInteraction } from '../hooks/useDeleteInteraction';
 import { useQueueProvider } from '../../../context/QueueContext';
@@ -22,8 +23,6 @@ const styles = {
     transform: 'translate(-50%, -50%)',
     width: {xs: '80%', md: "45%"},
     bgcolor: 'background.paper',
-    border: '2px solid',
-    borderColor: "gray",
     borderRadius: 2,
     boxShadow: 24,
     p: 2,
@@ -55,6 +54,10 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
+
+  const theme = useTheme();
+  const colorOffset = 30;
+  styles.card.bgcolor = theme.palette.mode == "light" ? 'background.paper' : offsetHexColor(theme.palette.background.paper, colorOffset);
 
   const checkConfirm = () => {
     setConfirmDelete(true);
