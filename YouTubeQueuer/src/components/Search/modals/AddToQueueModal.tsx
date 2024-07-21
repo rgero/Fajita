@@ -1,9 +1,10 @@
-import { Button, Checkbox, FormControlLabel, Grid, Modal } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Grid, Modal, useTheme } from '@mui/material';
 
 import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
+import { offsetHexColor } from '../../../utils/HexColorOffset';
 import { useState } from 'react';
 
 interface Props {
@@ -20,9 +21,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: {xs: '80%', md: "45%"},
   bgcolor: 'background.paper',
-  borderColor: "gray",
-  border: '2px solid',
-  borderRadius: 10,
+  borderRadius: 2,
   boxShadow: 24,
   p: 2,
 };
@@ -30,6 +29,10 @@ const style = {
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, submitFn}) => {
   const [playNext, setPlayNext] = useState(false);
   const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
+
+  const theme = useTheme();
+  const colorOffset = 30;
+  style.bgcolor = theme.palette.mode == "light" ? 'background.paper' : offsetHexColor(theme.palette.background.paper, colorOffset);
 
   const handleSubmit = () => {
     const isPlayNext = playNext;
