@@ -20,7 +20,7 @@ const ActiveQueueList = () => {
       <Grid container direction="column" spacing={2}>
         {queues.map( (queue) => {
           return (
-            <ActiveQueueListItem owner={queue.owner.first_name} id={queue.id} image={queue.owner.picture}/>
+            <ActiveQueueListItem key={queue.id} owner={queue.owner.first_name} id={queue.id} image={queue.owner.picture}/>
           )
         })}
       </Grid>
