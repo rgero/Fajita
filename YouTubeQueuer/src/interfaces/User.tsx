@@ -1,4 +1,4 @@
-export interface CookieJSON
+export interface User
 {
   email: string,
   id: number,

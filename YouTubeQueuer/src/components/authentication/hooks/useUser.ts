@@ -1,4 +1,4 @@
-import { CookieJSON } from "../../../interfaces/CookieJSON";
+import { User } from "../../../interfaces/User";
 import { getCurrentUser } from "../../../services/apiAuthentication"
 import { useQuery } from "@tanstack/react-query"
 
@@ -7,7 +7,7 @@ export interface UserResponse
   isLoading: boolean,
   isAuthenticated: boolean,
   fetchStatus: string,
-  user: CookieJSON | undefined
+  user: User | undefined
 }
 
 export const useUser = (): UserResponse => {

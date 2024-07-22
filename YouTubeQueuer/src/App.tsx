@@ -23,15 +23,15 @@ const queryClient = new QueryClient({
 
 const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
   return (
-    <QueueProvider>
-      <SocketProvider>
-        <QueryClientProvider client={queryClient}>
-          <ProtectedRoute>
-            {children}
-          </ProtectedRoute>
-        </QueryClientProvider>
-      </SocketProvider>
-    </QueueProvider>
+    <QueryClientProvider client={queryClient}>
+      <QueueProvider>
+        <SocketProvider>
+            <ProtectedRoute>
+              {children}
+            </ProtectedRoute>
+        </SocketProvider>
+      </QueueProvider>
+    </QueryClientProvider>
   )
 }
 
