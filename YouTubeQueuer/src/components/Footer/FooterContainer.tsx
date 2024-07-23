@@ -3,6 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import FooterCard from './FooterCard';
 import FooterDrawer from './FooterDrawer';
+import { offsetHexColor } from '../../utils/HexColorOffset';
 import { useTheme } from '@mui/material/styles';
 
 export default function Footer() {
@@ -27,8 +28,10 @@ export default function Footer() {
     setOpen(true);
   }
 
+  const backgroundLightened = offsetHexColor(theme.palette.background.default, 30);
+
   const style = {
-    bgcolor: `${theme.palette.background.default}`,
+    bgcolor: `${backgroundLightened}`,
     borderTop: `1px solid black`,
     minWidth: "100%",
     bottom: 0,

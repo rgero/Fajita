@@ -1,4 +1,4 @@
-import {Box, Typography} from "@mui/material"
+import {Box, ButtonBase, Typography} from "@mui/material"
 
 import React from "react"
 
@@ -10,15 +10,23 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({icon, onClick, title}) => {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
+    <ButtonBase 
+      sx={{
+        borderRadius: "20px",
+        padding: "10px"
+      }}
       onClick={onClick}
     >
-      {icon}
-      <Typography variant="caption">{title}</Typography>
-    </Box>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+
+      >
+        {icon}
+        <Typography variant="caption">{title}</Typography>
+      </Box>
+    </ButtonBase>
   )
 }
 
