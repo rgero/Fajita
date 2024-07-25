@@ -12,8 +12,8 @@ const Button: React.FC<ButtonProps> = ({icon, onClick, title}) => {
   return (
     <ButtonBase 
       sx={{
-        borderRadius: "20px",
-        padding: "10px"
+        borderRadius: "40px",
+        paddingInline: "10px"
       }}
       onClick={onClick}
     >
