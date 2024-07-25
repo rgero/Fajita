@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { getActiveQueues } from "../services/apiFajita";
 import toast from "react-hot-toast";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { useUser } from "../components/authentication/hooks/useUser";
 
 interface QueueContextType {
   connectToQueue: (id: number) => void;
@@ -22,6 +23,8 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
   const [queueId, setID] = useState(-1);
   const [queueOwner, setOwner] = useState("");
+  const {isAuthenticated} = useUser();
+
 
   useEffect( () => {
     const checkQueues = async () => {
@@ -44,7 +47,7 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
         toast.success("Connected to Queue");
       }
     }
-
+    
     if (queue)
     {
       const queueObject = JSON.parse(queue);
@@ -82,6 +85,7 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
     return queueOwner;
   }
 
+  if (!isAuthenticated) return;
   return (
     <QueueContext.Provider value={{connectToQueue, getQueueID, getQueueOwner}}>
       {children}
