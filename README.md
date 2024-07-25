@@ -2,9 +2,11 @@
 A custom YouTube wrapper designed to maintain a group video queue during gathering.
 
 **Current Functionality**
+- Joining an existing queue
+- Switching to a new queue
 - Searching for videos
-- Adding videos to the queue
-- Adding videos to be played next - (skipping the queue)
+- Adding videos to a queue
+- Adding videos to be played next - (skipping a queue)
 - Deleting videos from the queue
 - Skipping to a different video in the queue
 - Play/Pause
