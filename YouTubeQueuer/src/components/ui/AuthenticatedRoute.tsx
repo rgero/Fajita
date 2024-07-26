@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode
 }
 
-const ProtectedRoute = ({children} : Props) => {
+const AuthenticatedRoute = ({children} : Props) => {
   const navigate = useNavigate();
   const {isLoading, isAuthenticated, fetchStatus}: UserResponse = useUser();
 
@@ -26,4 +26,4 @@ const ProtectedRoute = ({children} : Props) => {
   if (isAuthenticated) return children;
 }
 
-export default ProtectedRoute
+export default AuthenticatedRoute
