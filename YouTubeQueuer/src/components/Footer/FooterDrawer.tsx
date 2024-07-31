@@ -2,6 +2,7 @@ import { Box, Divider, List, SwipeableDrawer } from "@mui/material"
 
 import CopyOption from "./DrawerOptions/CopyOption"
 import PlayOption from "./DrawerOptions/PlayOption"
+import PlaylistOption from "./DrawerOptions/PlaylistOption"
 import QueueOption from "./DrawerOptions/QueueOption"
 import SearchOption from "./DrawerOptions/SearchOption"
 import SkipOption from "./DrawerOptions/SkipOption"
@@ -37,6 +38,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
           <YoutubeOption/>
           <CopyOption/>
           <Divider/>
+          <PlaylistOption/>
           {!isQueue ? <QueueOption/> : <SearchOption/>}
         </List>
       </Box>

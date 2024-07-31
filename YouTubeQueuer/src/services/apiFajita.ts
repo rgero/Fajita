@@ -28,6 +28,7 @@ export const getSearchResults = async (searchTerm: string) => {
   return results;
 }
 
+// QUEUE STUFF
 export const getQueue = async (queueID: number) => 
 {
   // Negative queue id is reserved for invalid queues.
@@ -98,8 +99,6 @@ export const deleteFromQueue = async (queueID: number, interactionID: number) =>
   }); 
 }
 
-
-// QUEUE STUFF
 export const getActiveQueues = async () => {
   const queuesURL = backendURL + "/api/queues/active";
 
@@ -117,4 +116,23 @@ export const getActiveQueues = async () => {
     toast.error("Couldn't get active queues");
   }
 
+}
+
+// PLAYLIST STUFF
+export const getPlaylists = async () => {
+  const playlistsURL = backendURL + "/api/users/playlists";
+
+  try {
+    const response = await fajitaAxios.get(playlistsURL);
+    if (response.status != 200)
+    {
+      toast.error("Couldn't get playlists");
+      return [];
+    }
+    return response.data;
+  } 
+  catch (err)
+  {
+    toast.error("Couldn't get playlists");
+  }
 }

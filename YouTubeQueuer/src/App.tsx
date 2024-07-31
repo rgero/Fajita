@@ -9,6 +9,7 @@ import FeedbackPage from "./pages/FeedbackPage";
 import LandingPage from "./pages/LandingPage";
 import LogoutPage from "./pages/LogoutPage";
 import MainPage from "./pages/MainPage";
+import PlaylistsPage from "./pages/PlaylistsPage";
 import QueuePage from "./pages/QueuePage";
 import { QueueProvider } from "./context/QueueContext";
 import { SocketProvider } from "./context/WebSocketContext";
@@ -55,6 +56,7 @@ const App = () => {
             </AuthRouteWrapper>
           }>
             <Route path="queues" element={<ActiveQueuesPage/>}/>
+            <Route path="playlists" element={<PlaylistsPage/>}/>
           </Route>
           <Route path="landing" element={<LandingPage/>} />
           <Route path="logout" element={<LogoutPage/>} />
