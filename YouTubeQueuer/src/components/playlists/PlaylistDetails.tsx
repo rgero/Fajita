@@ -1,8 +1,7 @@
-import { Box, Button } from "@mui/material";
-
+import { Button } from "@mui/material";
 import PageHeader from "../ui/PageHeader";
 import { Playlist } from "../../interfaces/Playlist";
-import VideoCard from "../ui/VideoCard";
+import PlaylistCard from "./PlaylistCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import { useGetPlaylistData } from "./hooks/useGetPlaylistData";
 
@@ -16,12 +15,9 @@ const PlaylistDetails = ({playlist, clearFunction}: {playlist: Playlist, clearFu
         Switch Playlist
       </Button>
       {playlistData.map( (entry: YoutubeResponse, index: number) => (
-        <Box sx={{paddingBottom: {xs: 2}}} key={index}>
-          <VideoCard data={entry}/>
-        </Box>
+        <PlaylistCard key={index} video={entry} index={index}/>
       ))}
     </>
   )
 }
-
 export default PlaylistDetails

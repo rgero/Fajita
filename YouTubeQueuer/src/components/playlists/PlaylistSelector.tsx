@@ -14,7 +14,7 @@ const PlaylistSelector = ({setPlaylistFn} : {setPlaylistFn: (playlist: string) =
       <Container>
         <Grid container direction="column">
           <Grid item container justifyContent="space-between">
-            <Grid item direction="column">
+            <Grid item>
               <Typography>Name</Typography>
             </Grid>
             <Grid item>
@@ -23,7 +23,7 @@ const PlaylistSelector = ({setPlaylistFn} : {setPlaylistFn: (playlist: string) =
           </Grid>
           {playlists.map( (item, index) => {
             return (
-              <Grid item>
+              <Grid key={index} item>
                 <PlaylistSelectItem playlist={item} index={index} submitFn={setPlaylistFn}/>
               </Grid>
             )
