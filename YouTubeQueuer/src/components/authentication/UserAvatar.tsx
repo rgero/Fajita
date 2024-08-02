@@ -6,8 +6,9 @@ import { useState } from "react";
 
 const UserAvatar = () => {
   const {user}: UserResponse = useUser();
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const userAvatarURL = user?.picture ? user.picture : "default-user.jpg";
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,7 +20,7 @@ const UserAvatar = () => {
 
   return (
     <>
-      <Avatar onClick={handleClick}>{user?.name[0]}</Avatar>
+      <Avatar onClick={handleClick} src={userAvatarURL}/>
       <HeaderMenu anchorEl={anchorEl} closeFn={handleClose}/>
     </>  
   )
