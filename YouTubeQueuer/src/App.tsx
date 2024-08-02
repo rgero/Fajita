@@ -48,6 +48,7 @@ const App = () => {
           }>
             <Route index element={<MainPage/>}/>
             <Route path="queue" element={<QueuePage/>}/>
+            <Route path="playlists" element={<PlaylistsPage/>}/>
             <Route path="feedback" element={<FeedbackPage/>}/>
           </Route>
           <Route element={
@@ -56,7 +57,6 @@ const App = () => {
             </AuthRouteWrapper>
           }>
             <Route path="queues" element={<ActiveQueuesPage/>}/>
-            <Route path="playlists" element={<PlaylistsPage/>}/>
           </Route>
           <Route path="landing" element={<LandingPage/>} />
           <Route path="logout" element={<LogoutPage/>} />

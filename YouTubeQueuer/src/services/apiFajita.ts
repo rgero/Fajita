@@ -1,3 +1,5 @@
+import { playListData, playlistInfoData } from "./dummyData";
+
 import { Interaction } from "../interfaces/Interaction";
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import { fajitaAxios } from "./axios";
@@ -121,7 +123,23 @@ export const getActiveQueues = async () => {
 // PLAYLIST STUFF
 export const getPlaylists = async () => {
   const playlistsURL = backendURL + "/api/users/playlists";
+  try {
+    const response = await fajitaAxios.get(playlistsURL);
+    if (response.status != 200)
+    {
+      toast.error("Couldn't get playlists");
+      return [];
+    }
+    return response.data;
+  } 
+  catch (err)
+  {
+    toast.error("Couldn't get playlists");
+  }
+}
 
+export const getPlaylistData = async (id: string) => {
+  const playlistsURL = backendURL + `/api/users/playlists/${id}`;
   try {
     const response = await fajitaAxios.get(playlistsURL);
     if (response.status != 200)
