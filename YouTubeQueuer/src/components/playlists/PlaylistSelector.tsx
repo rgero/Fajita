@@ -1,3 +1,5 @@
+import { Container, Grid, Typography } from "@mui/material";
+
 import PageHeader from "../ui/PageHeader";
 import PlaylistSelectItem from "./PlaylistSelectItem";
 import { useGetPlaylists } from "./hooks/useGetPlaylists"
@@ -9,11 +11,25 @@ const PlaylistSelector = ({setPlaylistFn} : {setPlaylistFn: (playlist: string) =
   return (
     <>
       <PageHeader title="Select Playlist"/>
-      {playlists.map( (item) => {
-        return (
-          <PlaylistSelectItem playlist={item} submitFn={setPlaylistFn}/>
-        )
-      })}
+      <Container>
+        <Grid container direction="column">
+          <Grid item container justifyContent="space-between">
+            <Grid item direction="column">
+              <Typography>Name</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>Video Count</Typography>
+            </Grid>
+          </Grid>
+          {playlists.map( (item, index) => {
+            return (
+              <Grid item>
+                <PlaylistSelectItem playlist={item} index={index} submitFn={setPlaylistFn}/>
+              </Grid>
+            )
+          })}
+        </Grid>
+      </Container>
     </>
   )
 }

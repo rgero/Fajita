@@ -16,7 +16,7 @@ const PlaylistOption = () => {
         <ListItemIcon>
           <QueueMusicIcon/>
         </ListItemIcon>
-        <ListItemText primary="View Playlist"/>
+        <ListItemText primary="Saved Videos"/>
       </ListItemButton>
     </ListItem>
   )
