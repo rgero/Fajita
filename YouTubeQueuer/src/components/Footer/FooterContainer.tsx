@@ -18,7 +18,7 @@ export default function Footer() {
     onSwipedDown: () => navigate('/'),
     onTap: () => openDrawer(),
     delta: 10,
-    preventScrollOnSwipe: false,
+    preventScrollOnSwipe: true,
     trackTouch: true,
     trackMouse: true,
     rotationAngle: 0,
