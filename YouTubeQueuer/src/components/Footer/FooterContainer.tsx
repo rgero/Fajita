@@ -4,11 +4,27 @@ import Box from '@mui/material/Box';
 import FooterCard from './FooterCard';
 import FooterDrawer from './FooterDrawer';
 import { offsetHexColor } from '../../utils/HexColorOffset';
+import { useNavigate } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
 import { useTheme } from '@mui/material/styles';
 
 export default function Footer() {
   const theme = useTheme();
   const [isOpen, setOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const handlers = useSwipeable({
+    onSwipedUp: () => navigate('/queue'),
+    onSwipedDown: () => navigate('/'),
+    onTap: () => openDrawer(),
+    delta: 10,
+    preventScrollOnSwipe: false,
+    trackTouch: true,
+    trackMouse: true,
+    rotationAngle: 0,
+    swipeDuration: Infinity,
+    touchEventOptions: { passive: true },
+  });
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => 
   {
@@ -41,7 +57,7 @@ export default function Footer() {
 
 
   return (
-    <Box position="fixed" sx={style} id="containingBox" onClick={openDrawer}>
+    <Box {...handlers} position="fixed" sx={style} id="containingBox">
       <FooterCard/>
       <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen}/>
     </Box>
