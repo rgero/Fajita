@@ -1,10 +1,11 @@
 import * as React from 'react';
 
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import Box from '@mui/material/Box';
 import FooterCard from './FooterCard';
 import FooterDrawer from './FooterDrawer';
 import { offsetHexColor } from '../../utils/HexColorOffset';
-import { useNavigate } from 'react-router-dom';
 import { useSwipeable } from 'react-swipeable';
 import { useTheme } from '@mui/material/styles';
 
@@ -12,10 +13,22 @@ export default function Footer() {
   const theme = useTheme();
   const [isOpen, setOpen] = React.useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const goBack = () => {
+    // We want to go back to the Search Page
+    // Ideally retaining what the person had searched before.
+    if (location.key === "default")
+    {
+      navigate('/')
+    } else {
+      navigate(-1);
+    }
+  }
 
   const handlers = useSwipeable({
     onSwipedUp: () => navigate('/queue'),
-    onSwipedDown: () => navigate('/'),
+    onSwipedDown: () => goBack(),
     onTap: () => openDrawer(),
     delta: 10,
     preventScrollOnSwipe: true,
