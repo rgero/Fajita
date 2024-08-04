@@ -11,13 +11,17 @@ import { useTheme } from '@mui/material/styles';
 
 export default function Footer() {
   const theme = useTheme();
-  const [isOpen, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isOpen, setOpen] = React.useState(false);
+
+  const goToQueue = () => {
+    if (location.pathname.toLowerCase().includes('queue')) return;
+    navigate('/queue')
+  }
 
   const goBack = () => {
-    // We want to go back to the Search Page
-    // Ideally retaining what the person had searched before.
+    if (!location.pathname.toLowerCase().includes('queue')) return;
     if (location.key === "default")
     {
       navigate('/')
@@ -26,10 +30,16 @@ export default function Footer() {
     }
   }
 
+  const openDrawer = () =>
+  {
+    if (isOpen) return;
+    setOpen(true);
+  }
+
   const handlers = useSwipeable({
-    onSwipedUp: () => navigate('/queue'),
-    onSwipedDown: () => goBack(),
-    onTap: () => openDrawer(),
+    onSwipedUp: goToQueue,
+    onSwipedDown: goBack,
+    onTap: openDrawer,
     delta: 10,
     preventScrollOnSwipe: true,
     trackTouch: true,
@@ -47,15 +57,7 @@ export default function Footer() {
     setOpen(() => open);
   };
 
-  // This needs to exist because otherwise the event lose the race condition.
-  const openDrawer = () =>
-  {
-    if (isOpen)
-    {
-      return;
-    } 
-    setOpen(true);
-  }
+
 
   const backgroundLightened = offsetHexColor(theme.palette.background.default, 30);
 
