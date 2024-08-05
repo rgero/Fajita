@@ -2,10 +2,10 @@ import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/mater
 
 import QueueIcon from '@mui/icons-material/Queue';
 
-const QueueOption = ({setQueueOpen} : {setQueueOpen: (open: boolean) => void}) => {
+const QueueOption = ({isQueueOpen, setQueueOpen} : {isQueueOpen: boolean, setQueueOpen: (open: boolean) => void}) => {
 
   const processClick = () => {
-    setQueueOpen(true);
+    setQueueOpen(!isQueueOpen);
   }
 
   return (
@@ -14,7 +14,7 @@ const QueueOption = ({setQueueOpen} : {setQueueOpen: (open: boolean) => void}) =
         <ListItemIcon>
           <QueueIcon/>
         </ListItemIcon>
-        <ListItemText primary="View Queue" />
+        <ListItemText primary={isQueueOpen ? "Collapse Queue" : "View Queue"}/>
       </ListItemButton>
     </ListItem>
   )

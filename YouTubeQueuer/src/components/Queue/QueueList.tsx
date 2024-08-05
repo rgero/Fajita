@@ -82,7 +82,7 @@ const QueueList = () => {
   }
 
   return (
-    <Container> 
+    <Box> 
       {
         interactions.map( (entry: Interaction, index: number) => (
           <Box 
@@ -96,7 +96,7 @@ const QueueList = () => {
           </Box>
         ))
       }
-    </Container>
+    </Box>
   )
 }
 

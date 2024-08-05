@@ -42,7 +42,7 @@ const SearchHeader = () => {
   ) : (null)
 
   return (
-    <AppBar>
+    <AppBar sx={{zIndex: 10}}>
       <StyledToolbar>
         <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
           <Grid item xs={9} sm={10} md={4}>

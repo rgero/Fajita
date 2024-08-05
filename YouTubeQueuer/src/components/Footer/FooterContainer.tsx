@@ -58,7 +58,7 @@ export default function Footer() {
     minWidth: "100%",
     bottom: 0,
     padding: "8px 8px 20px 8px",
-    zIndex: 25
+    zIndex: 30
   }
 
 
@@ -67,7 +67,7 @@ export default function Footer() {
       <QueueDialog open={isQueueOpen} setQueueOpen={setQueueOpen}/>
       <Box {...handlers} position="fixed" sx={style} id="containingBox">
         <FooterCard/>
-        <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen} setQueueOpen={setQueueOpen}/>
+        <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen} isQueueOpen={isQueueOpen} setQueueOpen={setQueueOpen}/>
       </Box>
     </>
   );

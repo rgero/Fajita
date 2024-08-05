@@ -1,4 +1,4 @@
-import { DialogContent, DialogTitle, Grid } from '@mui/material';
+import { DialogContent, DialogTitle, Grid, useTheme } from '@mui/material';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
@@ -19,21 +19,10 @@ const Transition = forwardRef(function Transition(
 });
 
 const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open: boolean) => void}) => {
-  const [currentIndex, setCurrentIndex] = useState<number>(-1);
-  const scrollRef = useRef<HTMLElement>(null);
- 
+  const theme = useTheme();
   const handleClose = () => {
     setQueueOpen(false);
   };
-
-    // This is for the scrolling.
-    useEffect( () => {
-      if( scrollRef.current ) {
-        const yOffset = -80;
-        const y = scrollRef?.current?.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({top: y, behavior: 'smooth'});
-      }
-    }, [currentIndex]);
 
   return (
     <Dialog
@@ -42,6 +31,7 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
       onClose={handleClose}
       scroll="paper"
       TransitionComponent={Transition}
+      sx={{zIndex: 15}}
     >
       <DialogTitle id="scroll-dialog-title">
         <Grid container alignItems="center">
@@ -62,8 +52,8 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
           </Grid>
         </Grid>
       </DialogTitle>
-      <DialogContent>
-        <QueueList scrollRef={scrollRef} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex}/>
+      <DialogContent sx={{background: theme.palette.background.paper}}>
+        <QueueList/>
       </DialogContent>
     </Dialog>
   );
