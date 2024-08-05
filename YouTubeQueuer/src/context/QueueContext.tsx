@@ -25,7 +25,6 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
   const [queueOwner, setOwner] = useState("");
   const {isAuthenticated} = useUser();
 
-
   useEffect( () => {
     const checkQueues = async () => {
       const queues = await getActiveQueues();
@@ -61,7 +60,6 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
     }
 
   }, [queue])
-
 
   // Functions to Export
   const connectToQueue = async (id: number) => {

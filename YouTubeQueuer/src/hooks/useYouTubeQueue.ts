@@ -13,6 +13,8 @@ export interface YouTubeQueueResponse
 
 export const useYouTubeQueue = (): YouTubeQueueResponse => {
   const {getQueueID} = useQueueProvider();
-  const {isLoading, data: queueData = {}, error, refetch} = useQuery({queryKey: ["queueList"], queryFn: ()=> getQueue(getQueueID())});
+  const queueID = getQueueID();
+  
+  const {isLoading, data: queueData = {}, error, refetch} = useQuery({queryKey: ["queueList", queueID], queryFn: ()=> getQueue(queueID)});
   return { isLoading, queueData, error, refetch};
 }
