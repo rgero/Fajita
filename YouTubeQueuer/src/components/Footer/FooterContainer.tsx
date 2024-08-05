@@ -1,33 +1,24 @@
 import * as React from 'react';
 
-import { useLocation, useNavigate } from 'react-router-dom';
-
 import Box from '@mui/material/Box';
 import FooterCard from './FooterCard';
 import FooterDrawer from './FooterDrawer';
+import QueueDialog from '../Queue/QueueDialog';
 import { offsetHexColor } from '../../utils/HexColorOffset';
 import { useSwipeable } from 'react-swipeable';
 import { useTheme } from '@mui/material/styles';
 
 export default function Footer() {
   const theme = useTheme();
-  const navigate = useNavigate();
-  const location = useLocation();
   const [isOpen, setOpen] = React.useState(false);
+  const [isQueueOpen, setQueueOpen] = React.useState(false);
 
   const goToQueue = () => {
-    if (location.pathname.toLowerCase().includes('queue')) return;
-    navigate('/queue')
+    setQueueOpen(true);
   }
 
   const goBack = () => {
-    if (!location.pathname.toLowerCase().includes('queue')) return;
-    if (location.key === "default")
-    {
-      navigate('/')
-    } else {
-      navigate(-1);
-    }
+    setQueueOpen(false);
   }
 
   const openDrawer = () =>
@@ -72,9 +63,12 @@ export default function Footer() {
 
 
   return (
-    <Box {...handlers} position="fixed" sx={style} id="containingBox">
-      <FooterCard/>
-      <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen}/>
-    </Box>
+    <>
+      <QueueDialog open={isQueueOpen} setQueueOpen={setQueueOpen}/>
+      <Box {...handlers} position="fixed" sx={style} id="containingBox">
+        <FooterCard/>
+        <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen} setQueueOpen={setQueueOpen}/>
+      </Box>
+    </>
   );
 }

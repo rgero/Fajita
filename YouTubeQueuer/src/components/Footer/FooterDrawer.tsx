@@ -3,21 +3,16 @@ import { Box, Divider, List, SwipeableDrawer } from "@mui/material"
 import CopyOption from "./DrawerOptions/CopyOption"
 import PlayOption from "./DrawerOptions/PlayOption"
 import QueueOption from "./DrawerOptions/QueueOption"
-import SearchOption from "./DrawerOptions/SearchOption"
 import SkipOption from "./DrawerOptions/SkipOption"
 import YoutubeOption from "./DrawerOptions/YoutubeOption"
-import { useLocation } from "react-router-dom"
 
 interface Props {
   isOpen: boolean,
   toggleDrawer: (arg0: boolean) =>  React.ReactEventHandler,
+  setQueueOpen: (arg0: boolean) =>  void,
 }
 
-const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
-  const route = useLocation();
-  const isQueue = route.pathname.includes("queue");
-
-
+const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer, setQueueOpen}) => {
   return (
     <SwipeableDrawer
       anchor={"bottom"}
@@ -37,7 +32,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
           <YoutubeOption/>
           <CopyOption/>
           <Divider/>
-          {!isQueue ? <QueueOption/> : <SearchOption/>}
+          <QueueOption setQueueOpen={setQueueOpen}/>
         </List>
       </Box>
     </SwipeableDrawer>
