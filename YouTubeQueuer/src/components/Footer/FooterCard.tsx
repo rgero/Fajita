@@ -14,36 +14,23 @@ interface ProgressResponse {
 
 const FooterCard = () => {
   const socket = useSocket();
-  const {getQueueID} = useQueueProvider();
   const {isLoading, queueData, refetch} : YouTubeQueueResponse = useYouTubeQueue();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
   const [total, setTotal] = useState<number|null>(null);
   const [currentProgress, setProgress] = useState<number>(0);
+  const [queueID, setQueueID] = useState<number>(0);
 
   const onMessage = useCallback( async () => {
     refetch();
   }, [refetch]);
 
   const processProgress = useCallback( (progressResponse: ProgressResponse) => {
-    if (progressResponse.queue_id == getQueueID())
+    if (progressResponse.queue_id == queueData.id)
     {
       setProgress(progressResponse.progress);
     }
-  }, [])
-
-  useEffect(() => {
-    socket.on("player_status", onMessage);
-    socket.on("progressChanged", processProgress);
-    socket.on("video_deleted", onMessage);
-    socket.on("new_video_interaction", onMessage);
-    return () => {
-      socket.off("player_status", onMessage);
-      socket.off("progressChanged", processProgress);
-      socket.off("video_deleted", onMessage);
-      socket.off("new_video_interaction", onMessage);
-    };
-  }, [socket, onMessage, processProgress]);
+  }, [queueID])
 
   useEffect(() => {
     if (Object.keys(queueData).length === 0) return;
@@ -57,9 +44,22 @@ const FooterCard = () => {
       setCurrentPlay( () => foundItems[0]);
       setCurrentIndex( () => queueData.interactions.indexOf(foundItems[0]) + 1 );
       setTotal( () => queueData.interactions.length );
+      setQueueID( () => queueData.id );
     }
   }, [queueData, currentIndex, total])
 
+  useEffect(() => {
+    socket.on("player_status", onMessage);
+    socket.on("progressChanged", processProgress);
+    socket.on("video_deleted", onMessage);
+    socket.on("new_video_interaction", onMessage);
+    return () => {
+      socket.off("player_status", onMessage);
+      socket.off("progressChanged", processProgress);
+      socket.off("video_deleted", onMessage);
+      socket.off("new_video_interaction", onMessage);
+    };
+  }, [socket, onMessage, processProgress]);
 
   if (isLoading)
   {
