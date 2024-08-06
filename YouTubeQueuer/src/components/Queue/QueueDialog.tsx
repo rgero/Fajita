@@ -1,13 +1,14 @@
-import { DialogContent, DialogTitle, Grid, useTheme } from '@mui/material';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { DialogTitle, Grid } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
-import QueueList from './QueueList';
+import QueueContent from './QueueContent';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
+import { forwardRef } from 'react';
+import { useSwipeable } from 'react-swipeable';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -19,10 +20,22 @@ const Transition = forwardRef(function Transition(
 });
 
 const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open: boolean) => void}) => {
-  const theme = useTheme();
+  
   const handleClose = () => {
     setQueueOpen(false);
   };
+
+  const handlers = useSwipeable({
+    onSwipedDown: handleClose,
+    onTap: handleClose,
+    delta: 10,
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+    trackMouse: true,
+    rotationAngle: 0,
+    swipeDuration: Infinity,
+    touchEventOptions: { passive: true },
+  });
 
   return (
     <Dialog
@@ -33,7 +46,7 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
       TransitionComponent={Transition}
       sx={{zIndex: 15}}
     >
-      <DialogTitle id="scroll-dialog-title">
+      <DialogTitle {...handlers} id="scroll-dialog-title">
         <Grid container alignItems="center">
           <Grid item>
             <IconButton
@@ -52,9 +65,7 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
           </Grid>
         </Grid>
       </DialogTitle>
-      <DialogContent sx={{background: theme.palette.background.paper}}>
-        <QueueList/>
-      </DialogContent>
+      <QueueContent/>
     </Dialog>
   );
 }
