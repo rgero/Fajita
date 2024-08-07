@@ -33,6 +33,19 @@ const FooterCard = () => {
   }, [queueID])
 
   useEffect(() => {
+    socket.on("player_status", onMessage);
+    socket.on("progressChanged", processProgress);
+    socket.on("video_deleted", onMessage);
+    socket.on("new_video_interaction", onMessage);
+    return () => {
+      socket.off("player_status", onMessage);
+      socket.off("progressChanged", processProgress);
+      socket.off("video_deleted", onMessage);
+      socket.off("new_video_interaction", onMessage);
+    };
+  }, [socket, onMessage, processProgress]);
+
+  useEffect(() => {
     if (Object.keys(queueData).length === 0) return;
     const currentIndex = queueData.current_index;
     const foundItems = queueData.interactions.filter((option: Interaction) =>{
@@ -47,19 +60,6 @@ const FooterCard = () => {
       setQueueID( () => queueData.id );
     }
   }, [queueData, currentIndex, total])
-
-  useEffect(() => {
-    socket.on("player_status", onMessage);
-    socket.on("progressChanged", processProgress);
-    socket.on("video_deleted", onMessage);
-    socket.on("new_video_interaction", onMessage);
-    return () => {
-      socket.off("player_status", onMessage);
-      socket.off("progressChanged", processProgress);
-      socket.off("video_deleted", onMessage);
-      socket.off("new_video_interaction", onMessage);
-    };
-  }, [socket, onMessage, processProgress]);
 
   if (isLoading)
   {
