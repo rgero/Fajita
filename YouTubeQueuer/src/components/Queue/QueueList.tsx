@@ -56,9 +56,7 @@ const QueueList = () => {
   // This is for the scrolling.
   useEffect( () => {
     if( scrollToRef.current ) {
-      const yOffset = -80;
-      const y = scrollToRef?.current?.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({top: y, behavior: 'smooth'});
+      scrollToRef.current.scrollIntoView({behavior: 'smooth'})
     }
   }, [currentIndex]);
 
