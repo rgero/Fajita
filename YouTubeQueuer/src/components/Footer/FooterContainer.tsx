@@ -5,10 +5,12 @@ import FooterCard from './FooterCard';
 import FooterDrawer from './FooterDrawer';
 import QueueDialog from '../Queue/QueueDialog';
 import { offsetHexColor } from '../../utils/HexColorOffset';
+import { useDarkMode } from '../../context/DarkModeContext';
 import { useSwipeable } from 'react-swipeable';
 import { useTheme } from '@mui/material/styles';
 
 export default function Footer() {
+  const {isDarkMode} = useDarkMode();
   const theme = useTheme();
   const [isOpen, setOpen] = React.useState(false);
   const [isQueueOpen, setQueueOpen] = React.useState(false);
@@ -50,7 +52,7 @@ export default function Footer() {
 
 
 
-  const backgroundLightened = offsetHexColor(theme.palette.background.default, 30);
+  const backgroundLightened =  isDarkMode ? (offsetHexColor(theme.palette.background.default, 30)) : theme.palette.background.paper;
 
   const style = {
     bgcolor: `${backgroundLightened}`,

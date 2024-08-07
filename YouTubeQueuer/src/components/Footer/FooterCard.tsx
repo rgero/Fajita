@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from "../../context/QueueContext";
 import { useSocket } from "../../context/WebSocketContext";
 
 interface ProgressResponse {
