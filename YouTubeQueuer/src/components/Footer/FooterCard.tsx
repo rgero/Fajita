@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from "../../context/QueueContext";
 import { useSocket } from "../../context/WebSocketContext";
 
 interface ProgressResponse {
@@ -14,23 +13,23 @@ interface ProgressResponse {
 
 const FooterCard = () => {
   const socket = useSocket();
-  const {getQueueID} = useQueueProvider();
   const {isLoading, queueData, refetch} : YouTubeQueueResponse = useYouTubeQueue();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
   const [total, setTotal] = useState<number|null>(null);
   const [currentProgress, setProgress] = useState<number>(0);
+  const [queueID, setQueueID] = useState<number>(0);
 
   const onMessage = useCallback( async () => {
     refetch();
   }, [refetch]);
 
   const processProgress = useCallback( (progressResponse: ProgressResponse) => {
-    if (progressResponse.queue_id == getQueueID())
+    if (progressResponse.queue_id == queueData.id)
     {
       setProgress(progressResponse.progress);
     }
-  }, [])
+  }, [queueID])
 
   useEffect(() => {
     socket.on("player_status", onMessage);
@@ -57,9 +56,9 @@ const FooterCard = () => {
       setCurrentPlay( () => foundItems[0]);
       setCurrentIndex( () => queueData.interactions.indexOf(foundItems[0]) + 1 );
       setTotal( () => queueData.interactions.length );
+      setQueueID( () => queueData.id );
     }
   }, [queueData, currentIndex, total])
-
 
   if (isLoading)
   {

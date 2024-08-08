@@ -4,21 +4,17 @@ import CopyOption from "./DrawerOptions/CopyOption"
 import PlayOption from "./DrawerOptions/PlayOption"
 import PlaylistOption from "./DrawerOptions/PlaylistOption"
 import QueueOption from "./DrawerOptions/QueueOption"
-import SearchOption from "./DrawerOptions/SearchOption"
 import SkipOption from "./DrawerOptions/SkipOption"
 import YoutubeOption from "./DrawerOptions/YoutubeOption"
-import { useLocation } from "react-router-dom"
 
 interface Props {
   isOpen: boolean,
+  isQueueOpen: boolean,
   toggleDrawer: (arg0: boolean) =>  React.ReactEventHandler,
+  setQueueOpen: (arg0: boolean) =>  void,
 }
 
-const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
-  const route = useLocation();
-  const isQueue = route.pathname.includes("queue");
-
-
+const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer, isQueueOpen, setQueueOpen}) => {
   return (
     <SwipeableDrawer
       anchor={"bottom"}
@@ -39,7 +35,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
           <CopyOption/>
           <Divider/>
           <PlaylistOption/>
-          {!isQueue ? <QueueOption/> : <SearchOption/>}
+          <QueueOption isQueueOpen={isQueueOpen} setQueueOpen={setQueueOpen}/>
         </List>
       </Box>
     </SwipeableDrawer>

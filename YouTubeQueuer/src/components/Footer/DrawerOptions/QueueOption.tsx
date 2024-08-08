@@ -1,13 +1,11 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 
 import QueueIcon from '@mui/icons-material/Queue';
-import { useNavigate } from "react-router-dom";
 
-const QueueOption = () => {
-  const navigate = useNavigate();
+const QueueOption = ({isQueueOpen, setQueueOpen} : {isQueueOpen: boolean, setQueueOpen: (open: boolean) => void}) => {
 
   const processClick = () => {
-    navigate("/queue");
+    setQueueOpen(!isQueueOpen);
   }
 
   return (
@@ -16,7 +14,7 @@ const QueueOption = () => {
         <ListItemIcon>
           <QueueIcon/>
         </ListItemIcon>
-        <ListItemText primary="View Queue" />
+        <ListItemText primary={isQueueOpen ? "Collapse Queue" : "View Queue"}/>
       </ListItemButton>
     </ListItem>
   )
