@@ -1,7 +1,7 @@
 import { Box, Modal as MaterialModel } from '@mui/material';
 
-import { ReactElement } from 'react';
 import { offsetHexColor } from "../../utils/HexColorOffset";
+import { useDarkMode } from '../../context/DarkModeContext';
 import { useTheme } from "@mui/material";
 
 const style = {
@@ -16,10 +16,11 @@ const style = {
   p: 2,
 };
 
-const Modal = ({open, closeFn, children} : {open: boolean, closeFn: ()=>void, children: ReactElement}) => {
+const Modal = ({open, closeFn, children} : {open: boolean, closeFn: ()=>void, children: React.ReactElement}) => {
+  const {isDarkMode} = useDarkMode();
   const theme = useTheme();
   const colorOffset = 30;
-  style.bgcolor = theme.palette.mode == "light" ? 'background.paper' : offsetHexColor(theme.palette.background.paper, colorOffset);
+  style.bgcolor = isDarkMode ? 'background.paper' : offsetHexColor(theme.palette.background.paper, colorOffset);
 
   return (
     <MaterialModel
