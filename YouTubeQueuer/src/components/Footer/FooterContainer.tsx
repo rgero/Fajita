@@ -3,6 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import FooterCard from './FooterCard';
 import FooterDrawer from './FooterDrawer';
+import PlaylistDialog from '../playlists/PlaylistDialog';
 import QueueDialog from '../Queue/QueueDialog';
 import { offsetHexColor } from '../../utils/HexColorOffset';
 import { useDarkMode } from '../../context/DarkModeContext';
@@ -14,6 +15,7 @@ export default function Footer() {
   const theme = useTheme();
   const [isOpen, setOpen] = React.useState(false);
   const [isQueueOpen, setQueueOpen] = React.useState(false);
+  const [isPlaylistOpen, setPlaylistOpen] = React.useState(false);
 
   const goToQueue = () => {
     setQueueOpen(true);
@@ -66,10 +68,18 @@ export default function Footer() {
 
   return (
     <>
+      <PlaylistDialog open={isPlaylistOpen} setPlaylistOpen={setPlaylistOpen}/>
       <QueueDialog open={isQueueOpen} setQueueOpen={setQueueOpen}/>
       <Box {...handlers} position="fixed" sx={style} id="containingBox">
         <FooterCard/>
-        <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen} isQueueOpen={isQueueOpen} setQueueOpen={setQueueOpen}/>
+        <FooterDrawer 
+          toggleDrawer={toggleDrawer} 
+          isOpen={isOpen} 
+          isQueueOpen={isQueueOpen} 
+          setQueueOpen={setQueueOpen}
+          isPlaylistOpen={isPlaylistOpen} 
+          setPlaylistOpen={setPlaylistOpen}
+        />
       </Box>
     </>
   );

@@ -1,6 +1,5 @@
 import { Container, Grid, Typography } from "@mui/material";
 
-import PageHeader from "../ui/PageHeader";
 import PlaylistSelectItem from "./PlaylistSelectItem";
 import { useGetPlaylists } from "./hooks/useGetPlaylists"
 
@@ -10,7 +9,6 @@ const PlaylistSelector = ({setPlaylistFn} : {setPlaylistFn: (playlist: string) =
   if (isLoading || !playlists || playlists.length == 0) {return;}
   return (
     <>
-      <PageHeader title="Select Playlist"/>
       <Container>
         <Grid container direction="column">
           <Grid item container justifyContent="space-between">

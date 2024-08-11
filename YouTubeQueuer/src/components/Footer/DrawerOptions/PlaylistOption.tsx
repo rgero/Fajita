@@ -1,13 +1,11 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 
 import QueueMusicIcon from '@mui/icons-material/QueueMusic';
-import { useNavigate } from "react-router-dom";
 
-const PlaylistOption = () => {
-  const navigate = useNavigate();
+const PlaylistOption = ({isPlaylistOpen, setPlaylistOpen} : {isPlaylistOpen: boolean, setPlaylistOpen: (open: boolean) => void}) => {
 
   const processClick = () => {
-    navigate("/playlists");
+    setPlaylistOpen(!isPlaylistOpen);
   }
 
   return (
@@ -16,7 +14,7 @@ const PlaylistOption = () => {
         <ListItemIcon>
           <QueueMusicIcon/>
         </ListItemIcon>
-        <ListItemText primary="Saved Videos"/>
+        <ListItemText primary={isPlaylistOpen ? "Collapse Saved Videos" : "Saved Videos"}/>
       </ListItemButton>
     </ListItem>
   )

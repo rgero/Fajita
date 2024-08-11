@@ -10,11 +10,13 @@ import YoutubeOption from "./DrawerOptions/YoutubeOption"
 interface Props {
   isOpen: boolean,
   isQueueOpen: boolean,
+  isPlaylistOpen: boolean,
   toggleDrawer: (arg0: boolean) =>  React.ReactEventHandler,
   setQueueOpen: (arg0: boolean) =>  void,
+  setPlaylistOpen: (arg0: boolean) =>  void,
 }
 
-const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer, isQueueOpen, setQueueOpen}) => {
+const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer, isQueueOpen, setQueueOpen, isPlaylistOpen, setPlaylistOpen}) => {
   return (
     <SwipeableDrawer
       anchor={"bottom"}
@@ -34,7 +36,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer, isQueueOpen, setQu
           <YoutubeOption/>
           <CopyOption/>
           <Divider/>
-          <PlaylistOption/>
+          <PlaylistOption isPlaylistOpen={isPlaylistOpen} setPlaylistOpen={setPlaylistOpen}/>
           <QueueOption isQueueOpen={isQueueOpen} setQueueOpen={setQueueOpen}/>
         </List>
       </Box>

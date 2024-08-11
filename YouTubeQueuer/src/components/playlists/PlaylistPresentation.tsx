@@ -4,15 +4,10 @@ import { useLocalStorageState } from "../../hooks/useLocalStorageState";
 
 const PlaylistPresentation = () => {
   const [playlist, setPlaylist] = useLocalStorageState("", "fajitaPlaylist");
-
-  const clearFunction = () => {
-    console.log("Hi");
-    setPlaylist("");
-  }
-
+  
   if (playlist)
   {
-    return <PlaylistDetails playlist={JSON.parse(playlist)} clearFunction={clearFunction}/>
+    return <PlaylistDetails playlist={JSON.parse(playlist)}/>
   } else {
     return <PlaylistSelector setPlaylistFn={setPlaylist}/>
   }
