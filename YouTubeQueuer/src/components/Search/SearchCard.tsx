@@ -29,7 +29,7 @@ const styles = {
   }
 }
 
-const VideoCard: React.FC<Props> = ({data}) => {
+const SearchCard: React.FC<Props> = ({data}) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const {user}: UserResponse = useUser();
   const {getQueueID} = useQueueProvider();
@@ -53,4 +53,4 @@ const VideoCard: React.FC<Props> = ({data}) => {
   )
 }
 
-export default VideoCard
+export default SearchCard

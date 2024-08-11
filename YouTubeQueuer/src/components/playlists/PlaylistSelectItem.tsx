@@ -4,6 +4,7 @@ import { Playlist } from "../../interfaces/Playlist";
 import React from "react";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { offsetHexColor } from "../../utils/HexColorOffset";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 interface Props {
   playlist: Playlist,
@@ -12,8 +13,9 @@ interface Props {
 }
 
 const PlaylistSelectItem: React.FC<Props> = ({playlist, index, submitFn}) => {
+  const {isDarkMode} = useDarkMode();
   const theme = useTheme();
-  const offsetDir = theme.palette.mode === "dark" ? 1 : -1;
+  const offsetDir = isDarkMode ? 1 : -1;
 
   const processSelection = (playlist: Playlist) => {
     submitFn(JSON.stringify(playlist));
