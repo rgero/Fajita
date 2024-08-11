@@ -29,7 +29,7 @@ const PageHeader: React.FC<Props> = ({title}) => {
   }
 
   return (
-    <AppBar>
+    <AppBar sx={{zIndex: 10}}>
       <StyledToolbar>
         <Grid container spacing={1} direction="row" alignItems="center" justifyContent="space-between">
           <Grid item>
