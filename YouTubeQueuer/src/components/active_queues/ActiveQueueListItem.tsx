@@ -4,7 +4,7 @@ import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import { useNavigate } from "react-router-dom";
 import { useQueueProvider } from "../../context/QueueContext"
 
-const ActiveQueueListItem = ({id, owner, image} : {id: number, owner: string, image: string}) => {
+const ActiveQueueListItem = ({id, owner, image} : {id: number, owner: string, image: string|undefined}) => {
   const {connectToQueue} = useQueueProvider();
   const navigate = useNavigate();
 
