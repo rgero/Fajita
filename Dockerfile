@@ -5,16 +5,28 @@ FROM node:alpine
 WORKDIR /YouTubeQueuer
 
 # Copy package.json and package-lock.json (if available)
-COPY YouTubeQueuer/package*.json .
+COPY YouTubeQueuer/package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
-COPY YouTubeQueuer .
+COPY YouTubeQueuer ./
 
-# Expose port 
+# Build the React app
+RUN npm run build
+
+# Use an Nginx image to serve the build files
+FROM nginx:alpine
+
+# Copy the build files from the previous step
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Copy the custom Nginx configuration file
+COPY server/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 7000
 EXPOSE 7000
 
-# Command to run the application
-CMD ["npm", "run", "dev"]
+# Start Nginx with the custom configuration
+CMD ["nginx", "-g", "daemon off;"]
