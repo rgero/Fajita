@@ -1,15 +1,15 @@
 import PlaylistDetails from "./PlaylistDetails";
 import PlaylistSelector from "./PlaylistSelector";
-import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { usePlaylistProvider } from "../../context/PlaylistContext";
 
 const PlaylistPresentation = () => {
-  const [playlist, setPlaylist] = useLocalStorageState("", "fajitaPlaylist");
+  const {playlist} = usePlaylistProvider();
   
   if (playlist)
   {
-    return <PlaylistDetails playlist={JSON.parse(playlist)}/>
+    return <PlaylistDetails/>
   } else {
-    return <PlaylistSelector setPlaylistFn={setPlaylist}/>
+    return <PlaylistSelector/>
   }
 }
 

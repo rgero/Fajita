@@ -9,7 +9,7 @@ import FeedbackPage from "./pages/FeedbackPage";
 import LandingPage from "./pages/LandingPage";
 import LogoutPage from "./pages/LogoutPage";
 import MainPage from "./pages/MainPage";
-import PlaylistsPage from "./pages/PlaylistsPage";
+import { PlaylistProvider } from "./context/PlaylistContext";
 import { QueueProvider } from "./context/QueueContext";
 import { SocketProvider } from "./context/WebSocketContext";
 
@@ -26,8 +26,10 @@ const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
     <QueryClientProvider client={queryClient}>
       <AuthenticatedRoute>
         <QueueProvider>
-          <SocketProvider>  
-            {children}
+          <SocketProvider>
+            <PlaylistProvider>  
+              {children}
+            </PlaylistProvider>
           </SocketProvider>
         </QueueProvider>
       </AuthenticatedRoute>
@@ -46,7 +48,6 @@ const App = () => {
             </AuthRouteWrapper>
           }>
             <Route index element={<MainPage/>}/>
-            <Route path="playlists" element={<PlaylistsPage/>}/>
             <Route path="feedback" element={<FeedbackPage/>}/>
           </Route>
           <Route element={

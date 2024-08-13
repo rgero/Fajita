@@ -1,12 +1,18 @@
 import { Container, Grid, Typography } from "@mui/material";
 
 import PlaylistSelectItem from "./PlaylistSelectItem";
+import Spinner from "../ui/Spinner";
 import { useGetPlaylists } from "./hooks/useGetPlaylists"
 
-const PlaylistSelector = ({setPlaylistFn} : {setPlaylistFn: (playlist: string) => void}) => {
+const PlaylistSelector = () => {
   const {isLoading, playlists} = useGetPlaylists();
+
+  if (isLoading) return (<Spinner/>)
   
-  if (isLoading || !playlists || playlists.length == 0) {return;}
+  if (!playlists || playlists.length == 0) {
+    return (<Typography>No Playlists found?</Typography>)
+  }
+  
   return (
     <>
       <Container>
@@ -22,7 +28,7 @@ const PlaylistSelector = ({setPlaylistFn} : {setPlaylistFn: (playlist: string) =
           {playlists.map( (item, index) => {
             return (
               <Grid key={index} item>
-                <PlaylistSelectItem playlist={item} index={index} submitFn={setPlaylistFn}/>
+                <PlaylistSelectItem playlist={item} index={index}/>
               </Grid>
             )
           })}

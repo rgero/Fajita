@@ -1,11 +1,14 @@
 import { Box } from "@mui/material";
-import { Playlist } from "../../interfaces/Playlist";
 import PlaylistCard from "./PlaylistCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import { useGetPlaylistData } from "./hooks/useGetPlaylistData";
+import { usePlaylistProvider } from "../../context/PlaylistContext";
 
-const PlaylistDetails = ({playlist}: {playlist: Playlist}) => {
-  const {playlistData} = useGetPlaylistData(playlist.id);
+const PlaylistDetails = () => {
+  const {playlist} = usePlaylistProvider();
+  const targetPlaylist = JSON.parse(playlist);
+  const {playlistData} = useGetPlaylistData(targetPlaylist.id);
+  
   if (!playlistData) return;
   
   return (

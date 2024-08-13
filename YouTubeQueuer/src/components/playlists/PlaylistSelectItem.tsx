@@ -1,24 +1,25 @@
-import { Box, ButtonBase, Grid, Typography, useTheme } from "@mui/material"
+import { ButtonBase, Grid, Typography, useTheme } from "@mui/material"
 
 import { Playlist } from "../../interfaces/Playlist";
 import React from "react";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { offsetHexColor } from "../../utils/HexColorOffset";
 import { useDarkMode } from "../../context/DarkModeContext";
+import { usePlaylistProvider } from "../../context/PlaylistContext";
 
 interface Props {
   playlist: Playlist,
   index: number,
-  submitFn: (playlist: string) => void,
 }
 
-const PlaylistSelectItem: React.FC<Props> = ({playlist, index, submitFn}) => {
+const PlaylistSelectItem: React.FC<Props> = ({playlist, index}) => {
   const {isDarkMode} = useDarkMode();
+  const {setTargetPlaylist} = usePlaylistProvider();
   const theme = useTheme();
   const offsetDir = isDarkMode ? 1 : -1;
 
   const processSelection = (playlist: Playlist) => {
-    submitFn(JSON.stringify(playlist));
+    setTargetPlaylist(playlist);
   }
     
   return (
