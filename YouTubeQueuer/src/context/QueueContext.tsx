@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
+import { Queue } from "../components/active_queues/hooks/useActiveQueues";
 import { getActiveQueues } from "../services/apiFajita";
 import toast from "react-hot-toast";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
@@ -14,7 +15,7 @@ interface QueueContextType {
 }
 
 const QueueContext = createContext<QueueContextType>({
-  connectToQueue: (id: number) => {},
+  connectToQueue: (id: number) => { return id},
   getQueueID: () => -1,
   getQueueOwner: () => ""
 })
@@ -36,7 +37,7 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
     
     const checkIfQueueIsActive = async (targetID: number) => {
       const queues = await getActiveQueues();
-      const isActive = queues.some( (obj) => obj.id == targetID );
+      const isActive = queues.some( (obj:Queue) => obj.id == targetID );
       if (!isActive)
       {
         toast.error("Selected queue is not active");
@@ -64,7 +65,7 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
   // Functions to Export
   const connectToQueue = async (id: number) => {
     const queues = await getActiveQueues();
-    const targetQueue = queues.find( (obj) => obj.id == id);
+    const targetQueue = queues.find( (obj: Queue) => obj.id == id);
 
     if (!targetQueue)
     {

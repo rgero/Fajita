@@ -1,5 +1,5 @@
 # Use the official Node.js image as a base
-FROM node:alpine
+FROM node:alpine AS build
 
 # Set the working directory inside the container
 WORKDIR /YouTubeQueuer
@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the build files from the previous step
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/nacho
 
 # Copy the custom Nginx configuration file
 COPY server/nginx.conf /etc/nginx/conf.d/default.conf
