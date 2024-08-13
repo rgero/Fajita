@@ -1,6 +1,9 @@
 # Use the official Node.js image as a base
 FROM node:alpine AS build
 
+# ADD THE ADDRESS
+# ENV VITE_BACKEND_URL
+
 # Set the working directory inside the container
 WORKDIR /YouTubeQueuer
 
