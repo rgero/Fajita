@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the build files from the previous step
-COPY --from=build /app/build /usr/share/nginx/nacho
+COPY --from=build /YouTubeQueuer/dist /usr/share/nginx/nacho
 
 # Copy the custom Nginx configuration file
 COPY server/nginx.conf /etc/nginx/conf.d/default.conf
