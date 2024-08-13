@@ -1,5 +1,3 @@
-import { playListData, playlistInfoData } from "./dummyData";
-
 import { Interaction } from "../interfaces/Interaction";
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import { fajitaAxios } from "./axios";
@@ -26,7 +24,7 @@ export const getSearchResults = async (searchTerm: string) => {
   }
 
   // Process the results
-  const results = response.data.filter( (item: YoutubeResponse) => { return item.resultType.toLowerCase().includes("video")});
+  const results = response.data.filter( (item: YoutubeResponse) => { return item.resultType?.toLowerCase().includes("video")});
   return results;
 }
 

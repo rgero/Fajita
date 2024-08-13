@@ -8,7 +8,7 @@ import { useLocalStorageState } from "../hooks/useLocalStorageState";
 const PlaylistContext = createContext({
   playlist: "",
   clearPlaylist: () => {},
-  setTargetPlaylist: (playlist: Playlist) => {}
+  setTargetPlaylist: (_playlist: Playlist) => { }
 })
 
 const PlaylistProvider = ({children} : {children: React.ReactNode}) => {
