@@ -9,10 +9,13 @@ export interface PlaylistResponse
   playlistData: YoutubeResponse[] | undefined
 }
 
+const targetStaleTime = 1000 * 60 * 60 * 24; // One Day
+
 export const useGetPlaylistData = (playlistId: string): PlaylistResponse => {
   const { isLoading, fetchStatus, data: playlistData } = useQuery({
     queryKey: ["playlistData", playlistId],
     queryFn: () => getPlaylistData(playlistId),
+    staleTime: targetStaleTime
   });
 
   return { isLoading, playlistData, fetchStatus};
