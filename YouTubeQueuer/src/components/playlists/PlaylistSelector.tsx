@@ -1,6 +1,6 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-import PlaylistSelectItem from "./PlaylistSelectItem";
+import PlaylistCard from "./PlaylistCard";
 import Spinner from "../ui/Spinner";
 import { useGetPlaylists } from "./hooks/useGetPlaylists"
 
@@ -15,25 +15,14 @@ const PlaylistSelector = () => {
   
   return (
     <>
-      <Container>
-        <Grid container direction="column">
-          <Grid item container justifyContent="space-between">
-            <Grid item>
-              <Typography>Name</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>Video Count</Typography>
-            </Grid>
-          </Grid>
-          {playlists.map( (item, index) => {
-            return (
-              <Grid key={index} item>
-                <PlaylistSelectItem playlist={item} index={index}/>
-              </Grid>
-            )
-          })}
-        </Grid>
-      </Container>
+      <Box sx={{paddingTop: 2}}> 
+      {playlists.map( (item, index) => {
+          return (
+            <PlaylistCard playlist={item} index={index}/>
+          )
+        })
+      }
+      </Box>
     </>
   )
 }

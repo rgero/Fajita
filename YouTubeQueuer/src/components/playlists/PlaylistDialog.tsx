@@ -26,7 +26,7 @@ const PlaylistDialog = ({open, setPlaylistOpen} : {open: boolean, setPlaylistOpe
   }
 
   return (
-    <DialogComponent title={playlist ? JSON.parse(playlist).title : "Playlist"} open={open} setDialogOpen={setPlaylistOpen} addHeaders={switchPlaylistHeader}>
+    <DialogComponent title={playlist ? JSON.parse(playlist).title : "Your Playlists"} open={open} setDialogOpen={setPlaylistOpen} addHeaders={switchPlaylistHeader}>
       <DialogContent sx={{background: theme.palette.background.paper, paddingBottom: "120px"}}>
         <PlaylistPresentation/>
       </DialogContent>

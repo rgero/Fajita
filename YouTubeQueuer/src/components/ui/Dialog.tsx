@@ -65,7 +65,7 @@ const DialogComponent: React.FC<Props> = ({open, setDialogOpen, title, children,
     >
       <DialogTitle {...handlers} id="scroll-dialog-title">
         <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
+          <Grid item xs={10}>
             <Grid container alignItems="center">
               <Grid item>
                 <IconButton
@@ -77,8 +77,17 @@ const DialogComponent: React.FC<Props> = ({open, setDialogOpen, title, children,
                   <CloseIcon />
                 </IconButton>
               </Grid>
-              <Grid item>
-                <Typography variant="h5">
+              <Grid item xs={10}>
+                <Typography 
+                  variant="h6"
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "1",
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
                   {title}
                 </Typography>
               </Grid>

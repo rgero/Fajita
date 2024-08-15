@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import PlaylistCard from "./PlaylistCard";
+import PlaylistCard from "./PlaylistItemCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import { useGetPlaylistData } from "./hooks/useGetPlaylistData";
 import { usePlaylistProvider } from "../../context/PlaylistContext";

@@ -1,59 +1,52 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography, useTheme } from "@mui/material"
-import { UserResponse, useUser } from "../authentication/hooks/useUser";
+import { Card, CardActionArea, CardContent, Typography, useTheme } from "@mui/material"
 
-import AddToQueueModal from "../Search/modals/AddToQueueModal";
-import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
-import { addToQueue } from "../../services/apiFajita";
+import { Playlist } from "../../interfaces/Playlist";
+import YouTubeIcon from '@mui/icons-material/YouTube';
 import { offsetHexColor } from "../../utils/HexColorOffset";
-import { useQueueProvider } from "../../context/QueueContext";
-import { useState } from "react";
+import { usePlaylistProvider } from "../../context/PlaylistContext";
 
-const PlaylistCard = ({video, index} : {video: YoutubeResponse, index: number}) => {
+interface Props {
+  playlist: Playlist,
+  index: number,
+}
+
+const PlaylistCard: React.FC<Props> = ({index, playlist}) => {
   const theme = useTheme();
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const {user}: UserResponse = useUser();
-  const {getQueueID} = useQueueProvider();
-
-  const handleClose = () => {
-    setModalOpen(false);
-  }
-
-  const sendToQueue = (playNext: boolean, visibility: number) => {
-    setModalOpen(false);
-    addToQueue(getQueueID(), user?.id as number, video.id, playNext, visibility);
-  }
+  const {setTargetPlaylist} = usePlaylistProvider();
 
   const styles = {
     cardStyle: {
-      width: "95%",
+      width: "99%",
       margin: "auto",
-      backgroundColor: index % 2 == 0 ? theme.palette.background.paper : offsetHexColor(theme.palette.background.paper, 20)
+      backgroundColor: index % 2 == 0 ? theme.palette.background.paper : offsetHexColor(theme.palette.background.paper, 20),
+      marginBottom: 1
     }
   }
-  
-  return (
-    <>
-      <AddToQueueModal open={isModalOpen} videoData={video} closeFn={handleClose} submitFn={sendToQueue}/>
-      <Card sx={styles.cardStyle}>
-        <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( ()=> true )}>
-          <CardMedia
-            component="img"
-            sx={{
-              width: {xs: 120, md: 300},
-              objectFit: "cover"
-            }}
-            image={video.thumbnail_src}
-            alt={video.title}
-          />
-          <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
-            <Typography noWrap variant="subtitle2">{video.title}</Typography>
-            <Typography variant="subtitle2">{video.author}</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </>
 
+  return (
+    <Card sx={styles.cardStyle}>
+      <CardActionArea sx={{display: 'flex'}} onClick={() => {setTargetPlaylist(playlist)}}>
+        <CardContent>
+          <YouTubeIcon/>
+        </CardContent>
+        <CardContent sx={{flexGrow: 1}}>
+          <Typography variant="subtitle2"
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: "2",
+              WebkitBoxOrient: "vertical",
+            }}
+          >
+            {playlist.title}
+          </Typography>
+        </CardContent>
+        <CardContent>
+          {playlist.itemCount}
+        </CardContent>
+      </CardActionArea>
+    </Card>
   )
 }
 
