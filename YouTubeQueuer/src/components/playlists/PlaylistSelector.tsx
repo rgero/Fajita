@@ -15,7 +15,7 @@ const PlaylistSelector = () => {
   
   return (
     <>
-      <Box sx={{paddingTop: 2}}> 
+      <Box sx={{paddingTop: 2, paddingBottom: "70px"}}> 
       {playlists.map( (item, index) => {
           return (
             <PlaylistCard playlist={item} index={index}/>
