@@ -3,6 +3,8 @@ FROM node:alpine AS build
 
 # ADD THE ADDRESS
 # ENV VITE_BACKEND_URL
+# ENV VITE_FEEDBACK_URL
+# ENV VITE_FEEDBACK_KEY
 
 # Set the working directory inside the container
 WORKDIR /YouTubeQueuer
