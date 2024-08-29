@@ -9,14 +9,7 @@ services:
       - fajita
     ports:
       - "7000:7000"
-    volumes:
-      - ./YouTubeQueuer/src:/YouTubeQueuer/src
-      - ./YouTubeQueuer/public:/YouTubeQueuer/public
     restart: always
-
-volumes:
-  pgdata:
-  pgadmindata:
 
 networks:
   fajita:
