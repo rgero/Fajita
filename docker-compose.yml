@@ -7,6 +7,13 @@ services:
       context: .
     networks:
       - fajita
+      - container-dmz
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nacho.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.nacho.entrypoints=websecure"
+      - "traefik.http.routers.nacho.tls.certresolver=production"
+      - "traefik.http.services.nacho.loadbalancer.server.port=7000"
     ports:
       - "7000:7000"
     restart: always
