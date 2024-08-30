@@ -59,18 +59,15 @@ export default function Footer() {
   const style = {
     bgcolor: `${backgroundLightened}`,
     borderTop: `1px solid black`,
-    minWidth: "100%",
-    bottom: 0,
     padding: "8px 8px 20px 8px",
     zIndex: 30
   }
-
 
   return (
     <>
       <PlaylistDialog open={isPlaylistOpen} setPlaylistOpen={setPlaylistOpen}/>
       <QueueDialog open={isQueueOpen} setQueueOpen={setQueueOpen}/>
-      <Box {...handlers} position="fixed" sx={style} id="containingBox">
+      <Box {...handlers} sx={style} id="containingBox">
         <FooterCard/>
         <FooterDrawer 
           toggleDrawer={toggleDrawer} 
