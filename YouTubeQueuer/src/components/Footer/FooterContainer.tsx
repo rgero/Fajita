@@ -14,9 +14,29 @@ export default function Footer() {
   const theme = useTheme();
   const [isOpen, setOpen] = React.useState(false);
   const [isQueueOpen, setQueueOpen] = React.useState(false);
+  const isQueueOpenRef = React.useRef(isQueueOpen);
+
+  React.useEffect(() => {
+    isQueueOpenRef.current = isQueueOpen;
+  }, [isQueueOpen]);
+
+  React.useEffect(() => {
+    const handlePopState = () => {
+      if (isQueueOpenRef.current) {
+        setQueueOpen(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isQueueOpen]);
 
   const goToQueue = () => {
     setQueueOpen(true);
+    history.pushState(null, '', window.location.href);
   }
 
   const goBack = () => {
@@ -50,10 +70,7 @@ export default function Footer() {
     setOpen(() => open);
   };
 
-
-
   const backgroundLightened =  isDarkMode ? (offsetHexColor(theme.palette.background.default, 30)) : theme.palette.background.paper;
-
   const style = {
     bgcolor: `${backgroundLightened}`,
     borderTop: `1px solid black`,
