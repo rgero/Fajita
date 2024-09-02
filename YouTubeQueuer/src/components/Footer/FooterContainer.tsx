@@ -28,7 +28,7 @@ export default function Footer() {
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('popstate', handlePopState, { passive: false });
 
     return () => {
       window.removeEventListener('popstate', handlePopState);
