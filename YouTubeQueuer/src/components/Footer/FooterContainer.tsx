@@ -21,9 +21,10 @@ export default function Footer() {
   }, [isQueueOpen]);
 
   React.useEffect(() => {
-    const handlePopState = () => {
+    const handlePopState = (event: PopStateEvent) => {
       if (isQueueOpenRef.current) {
         setQueueOpen(false);
+        event.preventDefault();
       }
     };
 
@@ -32,7 +33,7 @@ export default function Footer() {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [isQueueOpen]);
+  }, []);
 
   const goToQueue = () => {
     setQueueOpen(true);
@@ -40,8 +41,11 @@ export default function Footer() {
   }
 
   const goBack = () => {
-    setQueueOpen(false);
-  }
+    if (isQueueOpen) {
+      setQueueOpen(false);
+      history.back();
+    }
+  };
 
   const openDrawer = () =>
   {
