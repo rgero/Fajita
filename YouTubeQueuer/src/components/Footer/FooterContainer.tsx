@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { useLocation, useNavigate } from "react-router-dom";
+
 import Box from '@mui/material/Box';
 import FooterCard from './FooterCard';
 import FooterDrawer from './FooterDrawer';
@@ -15,6 +17,8 @@ export default function Footer() {
   const [isOpen, setOpen] = React.useState(false);
   const [isQueueOpen, setQueueOpen] = React.useState(false);
   const isQueueOpenRef = React.useRef(isQueueOpen);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   React.useEffect(() => {
     isQueueOpenRef.current = isQueueOpen;
@@ -37,7 +41,8 @@ export default function Footer() {
 
   const goToQueue = () => {
     setQueueOpen(true);
-    history.pushState(null, '', window.location.href);
+    const fullPath = `${location.pathname}${location.search}${location.hash}`;
+    navigate(fullPath, { replace: false });
   }
 
   const goBack = () => {
