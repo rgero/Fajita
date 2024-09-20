@@ -65,10 +65,9 @@ export default function Footer() {
     delta: 15,
     preventScrollOnSwipe: true,
     trackTouch: true,
-    trackMouse: true,
+    trackMouse: false,
     rotationAngle: 0,
-    swipeDuration: Infinity,
-    touchEventOptions: { passive: true },
+    swipeDuration: Infinity
   });
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => 
