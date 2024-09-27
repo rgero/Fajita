@@ -1,4 +1,4 @@
-import { DialogTitle, Grid } from '@mui/material';
+import { Box, Button, DialogTitle, Grid } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
@@ -8,7 +8,6 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
 import { forwardRef } from 'react';
-import { useSwipeable } from 'react-swipeable';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,18 +24,6 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
     setQueueOpen(false);
   };
 
-  const handlers = useSwipeable({
-    onSwipedDown: handleClose,
-    onTap: handleClose,
-    delta: 10,
-    preventScrollOnSwipe: true,
-    trackTouch: true,
-    trackMouse: true,
-    rotationAngle: 0,
-    swipeDuration: Infinity,
-    touchEventOptions: { passive: true },
-  });
-
   return (
     <Dialog
       fullScreen
@@ -46,7 +33,7 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
       TransitionComponent={Transition}
       sx={{zIndex: 15}}
     >
-      <DialogTitle {...handlers} id="scroll-dialog-title">
+      <DialogTitle id="scroll-dialog-title">
         <Grid container alignItems="center">
           <Grid item>
             <IconButton
@@ -66,6 +53,11 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
         </Grid>
       </DialogTitle>
       <QueueContent/>
+      <Box sx={{padding: 2}}>
+        <Button onClick={handleClose} variant="contained" fullWidth>
+          Close Queue
+        </Button>
+      </Box>
     </Dialog>
   );
 }
