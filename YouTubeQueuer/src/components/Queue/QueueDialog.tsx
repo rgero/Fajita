@@ -1,4 +1,4 @@
-import { Box, Button, DialogTitle, Grid } from '@mui/material';
+import { Box, Button, ButtonProps, DialogTitle, Grid, styled } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
@@ -8,6 +8,7 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
 import { forwardRef } from 'react';
+import { grey } from '@mui/material/colors';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -17,6 +18,14 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const CloseButton = styled(Button)<ButtonProps>(({ theme }) => ({
+  color: theme.palette.getContrastText(grey[500]),
+  backgroundColor: grey[700],
+  '&:hover': {
+    backgroundColor: grey[800],
+  },
+}));
 
 const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open: boolean) => void}) => {
   
@@ -54,9 +63,9 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
       </DialogTitle>
       <QueueContent/>
       <Box sx={{padding: 2}}>
-        <Button onClick={handleClose} variant="contained" fullWidth>
+        <CloseButton onClick={handleClose} variant="contained" fullWidth>
           Close Queue
-        </Button>
+        </CloseButton>
       </Box>
     </Dialog>
   );
