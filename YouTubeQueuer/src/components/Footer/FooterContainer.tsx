@@ -6,7 +6,6 @@ import FooterDrawer from './FooterDrawer';
 import QueueDialog from '../Queue/QueueDialog';
 import { offsetHexColor } from '../../utils/HexColorOffset';
 import { useDarkMode } from '../../context/DarkModeContext';
-import { useSwipeable } from 'react-swipeable';
 import { useTheme } from '@mui/material/styles';
 
 export default function Footer() {
@@ -21,16 +20,6 @@ export default function Footer() {
     if (isOpen) return;
     setOpen(true);
   }
-
-  const handlers = useSwipeable({
-    onTap: openDrawer,
-    delta: 15,
-    preventScrollOnSwipe: true,
-    trackTouch: true,
-    trackMouse: true,
-    rotationAngle: 0,
-    swipeDuration: Infinity
-  });
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => 
   {
@@ -50,7 +39,7 @@ export default function Footer() {
 
   return (
     <>
-      <Box {...handlers} sx={style} id="containingBox">
+      <Box onClick={openDrawer} sx={style} id="containingBox">
         <FooterCard/>
         <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen} isQueueOpen={isQueueOpen} setQueueOpen={setQueueOpen}/>
       </Box>
