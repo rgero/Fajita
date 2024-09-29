@@ -50,11 +50,11 @@ export default function Footer() {
 
   return (
     <>
-      <QueueDialog open={isQueueOpen} setQueueOpen={setQueueOpen}/>
       <Box {...handlers} sx={style} id="containingBox">
         <FooterCard/>
         <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen} isQueueOpen={isQueueOpen} setQueueOpen={setQueueOpen}/>
       </Box>
+      <QueueDialog open={isQueueOpen} setQueueOpen={setQueueOpen}/>
     </>
   );
 }
