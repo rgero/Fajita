@@ -22,44 +22,49 @@ const QueueContext = createContext<QueueContextType>({
 
 const QueueProvider = ({children} : {children: React.ReactNode}) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
-  const [queueId, setID] = useState(-1);
-  const [queueOwner, setOwner] = useState("");
   const {isAuthenticated} = useUser();
 
   useEffect( () => {
-    const checkQueues = async () => {
-      const queues = await getActiveQueues();
-      if (queues.length == 1)
-      {
-        connectToQueue(queues[0].id);
-      }
-    }
-    
-    const checkIfQueueIsActive = async (targetID: number) => {
+    /*
+      Check the Queue Data
+        - If it exists, check to see if Queue ID is still active.
+          - Connect if it is active
+          - Clear Value if it is not active.
+        - If it does not exist, check to see if there is a singular queue open
+          - If there is a singular queue, connect to it.
+    */
+    const checkActiveQueue = async (targetID: number) => {
       const queues = await getActiveQueues();
       const isActive = queues.some( (obj:Queue) => obj.id == targetID );
       if (!isActive)
       {
-        toast.error("Selected queue is not active");
-        setID(-1);
-        setOwner("");
+        setQueue("");
+      }
+    }
+
+    const tryToConnect = async () => {
+      const queues = await getActiveQueues();
+      if (queues.length == 1)
+      {
+        connectToQueue(queues[0].id);
       } else {
-        toast.success("Connected to Queue");
+        toast.error("Cannot auto-connect");
       }
     }
     
-    if (queue)
-    {
+    try {
       const queueObject = JSON.parse(queue);
-      setID( queueObject.id);
-      setOwner( queueObject.owner.first_name);
-      
-      // Is this queue still active?
-      checkIfQueueIsActive(queueObject.id);
-    } else {
-      checkQueues();
+      if (queueObject.id)
+      {
+        checkActiveQueue(queueObject.id);
+      } else {
+        tryToConnect();
+      }
+    } catch (err)
+    {
+      tryToConnect();
     }
-
+    
   }, [queue])
 
   // Functions to Export
@@ -74,14 +79,27 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
     }
 
     setQueue(JSON.stringify(targetQueue));
+    toast.success("Connected");
   }
 
   const getQueueID = () : number => {
-    return queueId;
+    try {
+      const queueObject = JSON.parse(queue);
+      return queueObject.id;
+    } catch (err)
+    {
+      return -1;
+    }
   }
 
   const getQueueOwner = () : string => {
-    return queueOwner;
+    try {
+      const queueObject = JSON.parse(queue);
+      return queueObject.owner.first_name;
+    } catch (err)
+    {
+      return "";
+    }
   }
 
   if (!isAuthenticated) return;
