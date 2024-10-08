@@ -64,7 +64,7 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
       <QueueContent/>
       <Box sx={{padding: 2}}>
         <CloseButton onClick={handleClose} variant="contained" fullWidth>
-          Close Queue
+          Close
         </CloseButton>
       </Box>
     </Dialog>
