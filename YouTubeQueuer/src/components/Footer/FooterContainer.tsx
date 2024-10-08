@@ -16,7 +16,6 @@ export default function Footer() {
 
   const openDrawer = () =>
   {
-    console.log("I'm tapped?")
     if (isOpen) return;
     setOpen(true);
   }
