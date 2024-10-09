@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 
 import { Queue } from "../components/active_queues/hooks/useActiveQueues";
 import { getActiveQueues } from "../services/apiFajita";

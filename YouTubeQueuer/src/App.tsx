@@ -1,7 +1,6 @@
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import ActiveQueuesPage from "./pages/ActiveQueuesPage";
 import AppLayout from "./components/ui/AppLayout";
 import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
 import { DarkModeProvider } from "./context/DarkModeContext";
