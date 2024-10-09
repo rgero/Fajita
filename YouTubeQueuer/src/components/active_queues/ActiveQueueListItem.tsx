@@ -1,20 +1,18 @@
 import { Avatar, Grid, Typography } from '@mui/material';
 
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import { useNavigate } from "react-router-dom";
 import { useQueueProvider } from "../../context/QueueContext"
 
-const ActiveQueueListItem = ({id, owner, image} : {id: number, owner: string, image: string|undefined}) => {
+const ActiveQueueListItem = ({id, owner, image, closeFn} : {id: number, owner: string, image: string|undefined, closeFn: () => void}) => {
   const {connectToQueue} = useQueueProvider();
-  const navigate = useNavigate();
 
   const processConnect = () => {
     connectToQueue(id);
-    navigate("/");
+    closeFn();
   }
 
   return (
-    <Grid item container direction="row" justifyContent="flex-start" spacing={3} onClick={processConnect}>
+    <Grid item container direction="row" justifyContent="center" spacing={3} onClick={processConnect}>
       <Grid item>
         {image ? <Avatar src={image}/> : (<Avatar><EmojiPeopleIcon/></Avatar>)}
       </Grid> 

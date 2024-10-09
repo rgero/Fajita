@@ -1,11 +1,10 @@
-import { Container, Grid } from "@mui/material";
-
 import ActiveQueueListItem from "./ActiveQueueListItem";
 import Empty from "../ui/Empty";
+import { Grid } from "@mui/material";
 import Spinner from "../ui/Spinner";
 import { useActiveQueues } from "./hooks/useActiveQueues"
 
-const ActiveQueueList = () => {
+const ActiveQueueList = ({closeFn} : {closeFn: () => void}) => {
 
   const {isLoading, queues} = useActiveQueues();
 
@@ -16,15 +15,13 @@ const ActiveQueueList = () => {
 
   if (!queues) return <Empty resource={"Active Queues"}/>
   return (
-    <Container>
-      <Grid container direction="column" spacing={2}>
-        {queues.map( (queue) => {
-          return (
-            <ActiveQueueListItem key={queue.id} owner={queue.owner.first_name} id={queue.id} image={queue.owner.picture}/>
-          )
-        })}
-      </Grid>
-    </Container>
+    <Grid container direction="column" spacing={2} paddingTop={3}>
+      {queues.map( (queue) => {
+        return (
+          <ActiveQueueListItem key={queue.id} owner={queue.owner.first_name} id={queue.id} image={queue.owner.picture} closeFn={closeFn}/>
+        )
+      })}
+    </Grid>
   )
 }
 

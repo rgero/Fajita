@@ -47,13 +47,6 @@ const App = () => {
             <Route index element={<MainPage/>}/>
             <Route path="feedback" element={<FeedbackPage/>}/>
           </Route>
-          <Route element={
-            <AuthRouteWrapper>
-              <Outlet/>
-            </AuthRouteWrapper>
-          }>
-            <Route path="queues" element={<ActiveQueuesPage/>}/>
-          </Route>
           <Route path="landing" element={<LandingPage/>} />
           <Route path="logout" element={<LogoutPage/>} />
           <Route path='*' element={<Navigate to='/' />} />

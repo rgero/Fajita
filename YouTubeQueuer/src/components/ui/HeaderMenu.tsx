@@ -1,5 +1,6 @@
 import {Divider, Grid, Menu, MenuItem, Typography} from "@mui/material";
 
+import ActiveQueueDialog from "../active_queues/ActiveQueueDialog";
 import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -21,6 +22,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const isOpen = Boolean(anchorEl);
   const navigate = useNavigate();
   const {getQueueOwner} = useQueueProvider();
+  const [activeQueuesOpen, setActiveQueuesOpen] = React.useState(false);
   
   const handleLogout = () =>
   {
@@ -31,69 +33,72 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const queueOwner: string = getQueueOwner();
   
   return (
-    <Menu
-      anchorEl={anchorEl}
-      id="account-menu"
-      open={isOpen}
-      onClose={closeFn}
-      onClick={closeFn}
-      transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-      anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-    >
-      {queueOwner && (
-        <MenuItem>
-          <Grid container direction="row" spacing={1} justifyContent="center">
+    <>
+      <ActiveQueueDialog open={activeQueuesOpen} setOpen={setActiveQueuesOpen}/>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={isOpen}
+        onClose={closeFn}
+        onClick={closeFn}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        {queueOwner && (
+          <MenuItem>
+            <Grid container direction="row" spacing={1} justifyContent="center">
+              <Grid item>
+                <Typography>
+                  {queueOwner}'s Queue
+                </Typography>
+              </Grid>
+            </Grid>
+          </MenuItem>
+        )}
+        <MenuItem onClick={() => setActiveQueuesOpen(true)}>
+          <Grid container direction="row" spacing={1}>
             <Grid item>
-              <Typography>
-                {queueOwner}'s Queue
-              </Typography>
+              <CameraswitchIcon/> 
+            </Grid>
+            <Grid item>
+              Connect to Queue
             </Grid>
           </Grid>
         </MenuItem>
-      )}
-      <MenuItem onClick={() => navigate('/queues')}>
-        <Grid container direction="row" spacing={1}>
-          <Grid item>
-            <CameraswitchIcon/> 
+        <Divider/>
+        <MenuItem onClick={toggleDarkMode}>
+          <Grid container direction="row" spacing={1}>
+            <Grid item>
+              <LightModeIcon/> 
+            </Grid>
+            <Grid item>
+              Toggle Dark Mode
+            </Grid>
           </Grid>
-          <Grid item>
-            Connect to Queue
+        </MenuItem>
+        <Divider/>
+        <MenuItem onClick={()=> navigate('/feedback')}>
+          <Grid container direction="row" spacing={1}>
+            <Grid item>
+              <FeedbackIcon />
+            </Grid>
+            <Grid item>
+              Log Feedback
+            </Grid>
           </Grid>
-        </Grid>
-      </MenuItem>
-      <Divider/>
-      <MenuItem onClick={toggleDarkMode}>
-        <Grid container direction="row" spacing={1}>
-          <Grid item>
-            <LightModeIcon/> 
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <Grid container direction="row" spacing={1}>
+            <Grid item>
+              <LogoutIcon />
+            </Grid>
+            <Grid item>
+              Log out
+            </Grid>
           </Grid>
-          <Grid item>
-            Toggle Dark Mode
-          </Grid>
-        </Grid>
-      </MenuItem>
-      <Divider/>
-      <MenuItem onClick={()=> navigate('/feedback')}>
-        <Grid container direction="row" spacing={1}>
-          <Grid item>
-            <FeedbackIcon />
-          </Grid>
-          <Grid item>
-            Log Feedback
-          </Grid>
-        </Grid>
-      </MenuItem>
-      <MenuItem onClick={handleLogout}>
-        <Grid container direction="row" spacing={1}>
-          <Grid item>
-            <LogoutIcon />
-          </Grid>
-          <Grid item>
-            Log out
-          </Grid>
-        </Grid>
-      </MenuItem>
-    </Menu>
+        </MenuItem>
+      </Menu>
+    </>
   );
 }
 
