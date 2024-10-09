@@ -1,11 +1,7 @@
-import { UserResponse, useUser } from "../authentication/hooks/useUser"
-
 import AddToQueueModal from "./modals/AddToQueueModal"
 import { Card } from "@mui/material"
 import ModalCard from "../ui/VideoCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
-import { addToQueue } from "../../services/apiFajita"
-import { useQueueProvider } from "../../context/QueueContext"
 import { useState } from "react"
 
 interface Props {
@@ -31,21 +27,14 @@ const styles = {
 
 const VideoCard: React.FC<Props> = ({data}) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const {user}: UserResponse = useUser();
-  const {getQueueID} = useQueueProvider();
 
   const handleClose = () => {
     setModalOpen(false);
   }
 
-  const sendToQueue = (playNext: boolean, visibility: number) => {
-    setModalOpen(false);
-    addToQueue(getQueueID(), user?.id as number, data.id, playNext, visibility);
-  }
-
   return (
     <>
-      <AddToQueueModal open={isModalOpen} videoData={data} closeFn={handleClose} submitFn={sendToQueue}/>
+      <AddToQueueModal open={isModalOpen} videoData={data} closeFn={handleClose}/>
       <Card sx={styles.card}>
         <ModalCard data={data} clickFn={() => setModalOpen( ()=> true )}/> 
       </Card>

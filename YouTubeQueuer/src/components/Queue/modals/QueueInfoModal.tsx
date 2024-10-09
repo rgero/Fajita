@@ -12,7 +12,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import toast from 'react-hot-toast';
-import { useDeleteInteraction } from '../hooks/useDeleteInteraction';
 import { useQueueProvider } from '../../../context/QueueContext';
 import { useSocket } from '../../../context/WebSocketContext';
 import { useState } from 'react';
@@ -41,7 +40,7 @@ interface Props {
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) => {
   const socket = useSocket();
   const {getQueueID} = useQueueProvider();
-  const {deleteInteraction} = useDeleteInteraction();
+  const {deleteVideoFromQueue} = useQueueProvider();
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
@@ -52,7 +51,7 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
 
   const handleDelete = async () => {
     setConfirmDelete(false);
-    await deleteInteraction(interaction.id);
+    await deleteVideoFromQueue(interaction.id);
     closeFn();
   }
 

@@ -18,7 +18,6 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
 
-
   const {first_name} = data.user;
   const {title, thumbnail, duration} = data.video
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`

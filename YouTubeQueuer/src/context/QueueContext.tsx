@@ -1,28 +1,36 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import { addToQueue, deleteFromQueue, getActiveQueues } from "../services/apiFajita";
 import { createContext, useContext, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Queue } from "../components/active_queues/hooks/useActiveQueues";
-import { getActiveQueues } from "../services/apiFajita";
 import toast from "react-hot-toast";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 import { useUser } from "../components/authentication/hooks/useUser";
 
 interface QueueContextType {
+  addVideoToQueue: (id: string, playNext: boolean, selectedVisibility: number) => void;
   connectToQueue: (id: number) => void;
   getQueueID: () => number;
   getQueueOwner: () => string;
+  isActionPending: boolean;
+  deleteVideoFromQueue: (id: number) => void;
 }
 
 const QueueContext = createContext<QueueContextType>({
+  addVideoToQueue: () => {},
   connectToQueue: (id: number) => { return id},
   getQueueID: () => -1,
-  getQueueOwner: () => ""
+  getQueueOwner: () => "",
+  isActionPending: false,
+  deleteVideoFromQueue: (id: number) => {}
 })
 
 const QueueProvider = ({children} : {children: React.ReactNode}) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
-  const {isAuthenticated} = useUser();
+  const {user, isAuthenticated} = useUser();
+  const queryClient = useQueryClient();
 
   useEffect( () => {
     /*
@@ -102,9 +110,24 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
     }
   }
 
+  const addVideoToQueue = (id: string, playNext: boolean, selectedVisibility: number) : void => {
+    addToQueue(getQueueID(), user?.id as number, id, playNext, selectedVisibility);
+  }
+
+  const { isPending: isActionPending, mutate: deleteVideoFromQueue } = useMutation({
+    mutationFn: (id: number) => deleteFromQueue(getQueueID(), id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["queueList"] });
+      toast.success("Video deleted!");
+    },
+    onError: (err: any) => {
+      toast.error(err.message);
+    }
+  });
+
   if (!isAuthenticated) return;
   return (
-    <QueueContext.Provider value={{connectToQueue, getQueueID, getQueueOwner}}>
+    <QueueContext.Provider value={{addVideoToQueue, connectToQueue, deleteVideoFromQueue, isActionPending, getQueueID, getQueueOwner}}>
       {children}
     </QueueContext.Provider>
   )
