@@ -8,7 +8,7 @@ const ActiveQueueDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boo
   }
 
   return (
-    <Dialog open={open} setOpen={setOpen} title={"Queues"}>
+    <Dialog open={open} setOpen={setOpen} title={"Active Queues"}>
       <ActiveQueueList closeFn={closeDialog}/>
     </Dialog>
   )
