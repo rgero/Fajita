@@ -11,11 +11,7 @@ export interface SearchResponse {
 
 const getQueryResults = async (searchTerm: string) => {
   const results = await getSearchResults(searchTerm as string);
-  if (results)
-  {
-    return results;
-  }
-  return [];
+  return results ? results : []; // I need this line so the React Querry doesn't error on empty string
 }
 
 export const useSearchResults = (): SearchResponse => {

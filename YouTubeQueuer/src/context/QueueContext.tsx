@@ -111,7 +111,11 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
   }
 
   const addVideoToQueue = (id: string, playNext: boolean, selectedVisibility: number) : void => {
-    addToQueue(getQueueID(), user?.id as number, id, playNext, selectedVisibility);
+    try {
+      addToQueue(getQueueID(), user?.id as number, id, playNext, selectedVisibility);
+    } catch {
+      toast.error("Error adding video to queue");
+    }
   }
 
   const { isPending: isActionPending, mutate: deleteVideoFromQueue } = useMutation({

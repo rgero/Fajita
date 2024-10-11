@@ -5,12 +5,17 @@ import Empty from "../ui/Empty"
 import Spinner from "../ui/Spinner"
 import VideoCard from "./SearchCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
+import toast from "react-hot-toast"
 
 const SearchResults = () => {
-  const {isLoading, searchResults}: SearchResponse = useSearchResults();
+  const {isLoading, searchResults, error}: SearchResponse = useSearchResults();
 
   if (isLoading) return (<Spinner/>)
 
+  if (error) {
+    toast.error("Error fetching search results");
+  }
+  
   if (searchResults.length == 0)
   {
     return <Empty resource="videos"/>

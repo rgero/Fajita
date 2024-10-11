@@ -1,7 +1,6 @@
 import { Interaction } from "../interfaces/Interaction";
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import { fajitaAxios } from "./axios";
-import toast from "react-hot-toast";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -13,16 +12,9 @@ export const getSearchResults = async (searchTerm: string) => {
 
   if(response.status != 200)
   {
-    toast.error(response.statusText);
-    return;
+    throw new Error("Failed to get search results");
   }
-
-  if (response.data.length == 0)
-  {
-    toast.error("No Results found");
-    return;
-  }
-
+  
   // Process the results
   const results = response.data.filter( (item: YoutubeResponse) => { return item.resultType.toLowerCase().includes("video")});
   return results;
@@ -39,8 +31,7 @@ export const getQueue = async (queueID: number) =>
   const response = await fajitaAxios.get(queueURL);
   if (response.status != 200)
   {
-    toast.error("Failed to get queue");
-    return;
+    throw new Error("Failed to get queue");
   }
 
   const queueData = response.data;
@@ -49,7 +40,6 @@ export const getQueue = async (queueID: number) =>
     return {};
   }
   
-  // Sort the Interactions
   queueData.interactions = queueData.interactions.sort((A:Interaction, B:Interaction) => { return A.index - B.index })
 
   return response.data;
@@ -71,13 +61,10 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
     const response = await fajitaAxios.post(queueURL, bodyOfReq);
     if (response.status != 200)
     {
-      toast.error("Couldn't add video");
-      return;
+      throw new Error("Failed to add video");
     }
-    toast.success("Video added!");
-  } catch (err)
-  {
-    toast.error("Couldn't add video");
+  } catch {
+    throw new Error("Failed to add video");
   }
 }
 
@@ -107,14 +94,11 @@ export const getActiveQueues = async () => {
     const response = await fajitaAxios.get(queuesURL);
     if (response.status != 200)
     {
-      toast.error("Couldn't get active queues");
-      return [];
+      throw new Error("Failed to get active queues");
     }
     return response.data;
-  } 
-  catch (err)
-  {
-    toast.error("Couldn't get active queues");
+  } catch {
+    throw new Error("Failed to get active queues");
   }
 
 }
