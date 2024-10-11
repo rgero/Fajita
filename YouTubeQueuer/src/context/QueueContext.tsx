@@ -24,7 +24,7 @@ const QueueContext = createContext<QueueContextType>({
   getQueueID: () => -1,
   getQueueOwner: () => "",
   isActionPending: false,
-  deleteVideoFromQueue: (id: number) => {}
+  deleteVideoFromQueue: (id: number) => { return id }
 })
 
 const QueueProvider = ({children} : {children: React.ReactNode}) => {
