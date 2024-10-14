@@ -6,6 +6,7 @@ export const potentialMessages: string[] = [
   "Cubbie paid me to hide this",
   "Daisy stole it",
   "Hidden in one of Cohoe's pockets",
+  "Anna's sleeping on it",
 ]
 
 export const getSecretMessage = (): string => {

@@ -9,6 +9,7 @@ const acceptedMessages: string[] = [
   "Cubbie paid me to hide this",
   "Daisy stole it",
   "Hidden in one of Cohoe's pockets",
+  "Anna's sleeping on it",
 ]
 
 test('Secret Message List', ()=> {
