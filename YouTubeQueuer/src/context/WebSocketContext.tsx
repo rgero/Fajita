@@ -2,10 +2,10 @@ import { createContext, useContext } from "react";
 
 import io from 'socket.io-client';
 
-const socket = io(`${import.meta.env.VITE_BACKEND_URL}`, {
+const socket = io(`${import.meta.env.VITE_WEBSOCKET_URL}`, {
   withCredentials: true,
   extraHeaders: {
-      "Access-Control-Allow-Origin": `${import.meta.env.VITE_BACKEND_URL}`, // Match the origin allowed by Flask-SocketIO
+      "Access-Control-Allow-Origin": `${import.meta.env.VITE_WEBSOCKET_URL}`, // Match the origin allowed by Flask-SocketIO
   }
 });
 
