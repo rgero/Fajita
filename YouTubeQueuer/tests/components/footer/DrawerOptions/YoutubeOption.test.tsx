@@ -2,12 +2,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { OpenYouTubeURL } from '../../../../src/utils/OpenYoutubeURL';
+import React from 'react';
 import YoutubeOption from '../../../../src/components/Footer/DrawerOptions/YoutubeOption';
 import toast from 'react-hot-toast';
-import { useYouTubeQueue } from '../../../../src/hooks/useYouTubeQueue';
+import { useQueueProvider } from '../../../../src/context/QueueContext';
 
 // Mock the hooks and utilities
-vi.mock('../../../../src/hooks/useYouTubeQueue');
+vi.mock('../../../../src/context/QueueContext');
 vi.mock('../../../../src/utils/OpenYoutubeURL');
 vi.mock('react-hot-toast');
 
@@ -20,7 +21,7 @@ describe('YoutubeOption', () => {
   };
 
   beforeEach(() => {
-    (useYouTubeQueue as jest.Mock).mockReturnValue({ queueData: mockQueueData });
+    (useQueueProvider as vi.Mock).mockReturnValue({ queueData: mockQueueData });
     vi.clearAllMocks();
   });
 
@@ -37,7 +38,7 @@ describe('YoutubeOption', () => {
   });
 
   it('should show error toast when nothing is currently playing', () => {
-    (useYouTubeQueue as jest.Mock).mockReturnValue({ queueData: { current_index: 1, interactions: [] } });
+    (useQueueProvider as vi.Mock).mockReturnValue({ queueData: { current_index: -1, interactions: [] } });
     render(<YoutubeOption />);
     const listItem = screen.getByRole('button');
     fireEvent.click(listItem);

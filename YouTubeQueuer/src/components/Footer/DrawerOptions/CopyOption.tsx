@@ -1,13 +1,13 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
-import { YouTubeQueueResponse, useYouTubeQueue } from "../../../hooks/useYouTubeQueue";
 import { useEffect, useState } from "react";
 
 import { Interaction } from "../../../interfaces/Interaction";
 import ShareIcon from '@mui/icons-material/Share';
 import { copyToClipboard } from "../../../utils/CopyToClipboard";
+import { useQueueProvider } from "../../../context/QueueContext";
 
 const CopyOption = () => {
-  const {queueData} : YouTubeQueueResponse = useYouTubeQueue();
+  const {queueData} = useQueueProvider();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
 
   useEffect(() => {

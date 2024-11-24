@@ -11,3 +11,15 @@ exports[`UserAvatar Tests > renders data returned by useCustomHook 1`] = `
   />
 </div>
 `;
+
+exports[`UserAvatar Tests > renders data returned by useUser 1`] = `
+<div
+  className="MuiAvatar-root MuiAvatar-circular css-1wlk0hk-MuiAvatar-root"
+  onClick={[Function]}
+>
+  <img
+    className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+    src="default-user.jpg"
+  />
+</div>
+`;

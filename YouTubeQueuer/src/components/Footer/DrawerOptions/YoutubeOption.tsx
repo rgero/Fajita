@@ -1,14 +1,14 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { YouTubeQueueResponse, useYouTubeQueue } from "../../../hooks/useYouTubeQueue";
 import { useEffect, useState } from "react";
 
 import { Interaction } from "../../../interfaces/Interaction";
 import { OpenYouTubeURL } from "../../../utils/OpenYoutubeURL";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import toast from "react-hot-toast";
+import { useQueueProvider } from "../../../context/QueueContext";
 
 const YoutubeOption = () => {
-  const { queueData }: YouTubeQueueResponse = useYouTubeQueue();
+  const {queueData} = useQueueProvider();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction | null>(null);
 
   useEffect(() => {

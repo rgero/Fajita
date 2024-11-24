@@ -2,10 +2,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import CopyOption from '../../../../src/components/Footer/DrawerOptions/CopyOption';
 import { copyToClipboard } from '../../../../src/utils/CopyToClipboard'
-import { useYouTubeQueue } from '../../../../src/hooks/useYouTubeQueue';
+import { useQueueProvider } from '../../../../src/context/QueueContext';
 
 // Mock the hooks and utilities
-vi.mock('../../../../src/hooks/useYouTubeQueue');
+vi.mock('../../../../src/context/QueueContext');
 vi.mock('../../../../src/utils/CopyToClipboard');
 
 describe('CopyOption', () => {
@@ -18,7 +18,7 @@ describe('CopyOption', () => {
   };
 
   beforeEach(() => {
-    (useYouTubeQueue as jest.Mock).mockReturnValue({ queueData: mockQueueData });
+    (useQueueProvider as jest.Mock).mockReturnValue({ queueData: mockQueueData });
     (copyToClipboard as jest.Mock).mockClear();
   });
 

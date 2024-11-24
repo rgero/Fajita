@@ -1,9 +1,9 @@
 import { Grid, LinearProgress, Typography } from "@mui/material";
-import { YouTubeQueueResponse, useYouTubeQueue } from "../../hooks/useYouTubeQueue";
 import { useCallback, useEffect, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
+import { useQueueProvider } from "../../context/QueueContext";
 import { useSocket } from "../../context/WebSocketContext";
 
 interface ProgressResponse {
@@ -13,7 +13,7 @@ interface ProgressResponse {
 
 const FooterCard = () => {
   const socket = useSocket();
-  const {isLoading, queueData, refetch} : YouTubeQueueResponse = useYouTubeQueue();
+  const {isLoading, queueData, refetch} = useQueueProvider();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
   const [total, setTotal] = useState<number|null>(null);

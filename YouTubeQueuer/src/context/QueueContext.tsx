@@ -1,15 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { addToQueue, deleteFromQueue, getActiveQueues } from "../services/apiFajita";
+import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from "../services/apiFajita";
 import { createContext, useContext, useEffect } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Queue } from "../components/active_queues/hooks/useActiveQueues";
+import { QueueData } from "../interfaces/QueueData";
 import toast from "react-hot-toast";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 import { useUser } from "../components/authentication/hooks/useUser";
 
 interface QueueContextType {
+  isLoading: boolean;
+  queueData: QueueData;
+  error: Error | null;
+  refetch: () => void;
   addVideoToQueue: (id: string, playNext: boolean, selectedVisibility: number) => void;
   connectToQueue: (id: number) => void;
   getQueueID: () => number;
@@ -18,106 +20,90 @@ interface QueueContextType {
   deleteVideoFromQueue: (id: number) => void;
 }
 
-const QueueContext = createContext<QueueContextType>({
-  addVideoToQueue: () => {},
-  connectToQueue: (id: number) => { return id},
-  getQueueID: () => -1,
-  getQueueOwner: () => "",
-  isActionPending: false,
-  deleteVideoFromQueue: (id: number) => { return id }
-})
+const QueueContext = createContext<QueueContextType | undefined>(undefined);
 
-const QueueProvider = ({children} : {children: React.ReactNode}) => {
+const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
-  const {user, isAuthenticated} = useUser();
+  const { user, isAuthenticated } = useUser();
   const queryClient = useQueryClient();
 
-  useEffect( () => {
-    /*
-      Check the Queue Data
-        - If it exists, check to see if Queue ID is still active.
-          - Connect if it is active
-          - Clear Value if it is not active.
-        - If it does not exist, check to see if there is a singular queue open
-          - If there is a singular queue, connect to it.
-    */
+  const getQueueID = () => {
+    try {
+      const queueObject = JSON.parse(queue);
+      return queueObject.id || -1;
+    } catch {
+      return -1;
+    }
+  };
+
+  const { isLoading, data: queueData = {}, error, refetch } = useQuery({
+    queryKey: ["queueList", getQueueID()],
+    queryFn: () => getQueue(getQueueID()),
+    enabled: getQueueID() !== -1, // Avoid unnecessary queries
+  });
+
+  // Auto-connection logic for queues
+  useEffect(() => {
     const checkActiveQueue = async (targetID: number) => {
       const queues = await getActiveQueues();
-      const isActive = queues.some( (obj:Queue) => obj.id == targetID );
-      if (!isActive)
-      {
+      const isActive: boolean = queues.some((obj: { id: number }) => obj.id === targetID);
+      if (!isActive) {
         setQueue("");
       }
-    }
+    };
 
     const tryToConnect = async () => {
       const queues = await getActiveQueues();
-      if (queues.length == 1)
-      {
+      if (queues.length === 1) {
         connectToQueue(queues[0].id);
       } else {
         toast.error("Cannot auto-connect");
       }
-    }
-    
+    };
+
     try {
       const queueObject = JSON.parse(queue);
-      if (queueObject.id)
-      {
+      if (queueObject.id) {
         checkActiveQueue(queueObject.id);
       } else {
         tryToConnect();
       }
-    } catch (err)
-    {
+    } catch {
       tryToConnect();
     }
-    
-  }, [queue])
+  }, [queue]);
 
-  // Functions to Export
+  // Functions to manage the queue
   const connectToQueue = async (id: number) => {
     const queues = await getActiveQueues();
-    const targetQueue = queues.find( (obj: Queue) => obj.id == id);
+    const targetQueue = queues.find((obj: { id: number; }) => obj.id === id);
 
-    if (!targetQueue)
-    {
+    if (!targetQueue) {
       toast.error("Error connecting to queue");
       return;
     }
 
     setQueue(JSON.stringify(targetQueue));
     toast.success("Connected");
-  }
+  };
 
-  const getQueueID = () : number => {
+  const getQueueOwner = () => {
     try {
       const queueObject = JSON.parse(queue);
-      return queueObject.id;
-    } catch (err)
-    {
-      return -1;
-    }
-  }
-
-  const getQueueOwner = () : string => {
-    try {
-      const queueObject = JSON.parse(queue);
-      return queueObject.owner.first_name;
-    } catch (err)
-    {
+      return queueObject.owner.first_name || "";
+    } catch {
       return "";
     }
-  }
+  };
 
-  const addVideoToQueue = (id: string, playNext: boolean, selectedVisibility: number) : void => {
+  const addVideoToQueue = (id: string, playNext: boolean, selectedVisibility: number) => {
     try {
       addToQueue(getQueueID(), user?.id as number, id, playNext, selectedVisibility);
       toast.success("Video added");
     } catch {
       toast.error("Error adding video to queue");
     }
-  }
+  };
 
   const { isPending: isActionPending, mutate: deleteVideoFromQueue } = useMutation({
     mutationFn: (id: number) => deleteFromQueue(getQueueID(), id),
@@ -127,21 +113,37 @@ const QueueProvider = ({children} : {children: React.ReactNode}) => {
     },
     onError: (err: any) => {
       toast.error(err.message);
-    }
+    },
   });
 
-  if (!isAuthenticated) return;
+  if (!isAuthenticated) return null;
+
   return (
-    <QueueContext.Provider value={{addVideoToQueue, connectToQueue, deleteVideoFromQueue, isActionPending, getQueueID, getQueueOwner}}>
+    <QueueContext.Provider
+      value={{
+        isLoading,
+        queueData,
+        error,
+        refetch,
+        addVideoToQueue,
+        connectToQueue,
+        deleteVideoFromQueue,
+        isActionPending,
+        getQueueID,
+        getQueueOwner,
+      }}
+    >
       {children}
     </QueueContext.Provider>
-  )
-}
+  );
+};
 
 const useQueueProvider = () => {
   const context = useContext(QueueContext);
-  if (context === undefined) throw new Error("QueueContext was used outside of QueueProvider");
+  if (!context) {
+    throw new Error("useQueueProvider must be used within a QueueProvider");
+  }
   return context;
-}
+};
 
 export { QueueProvider, useQueueProvider };

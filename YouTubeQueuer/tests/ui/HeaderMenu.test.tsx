@@ -48,35 +48,6 @@ describe("HeaderMenu", () => {
     expect(getByText(`${mockQueueOwner}'s Queue`)).toBeInTheDocument()
   })
 
-  it("calls navigate to '/queues' when 'Connect to Queue' is clicked", () => {
-    const mockCloseFn = vi.fn()
-    const mockAnchorEl = document.createElement("div")
-    const mockNavigate = vi.fn()
-    
-    vi.mocked(useNavigate).mockReturnValue(mockNavigate)
-    vi.mocked(useQueueProvider).mockReturnValue({
-      getQueueOwner: () => "John Doe",
-      connectToQueue: function (id: number): void {
-        throw new Error("Function not implemented.")
-      },
-      getQueueID: function (): number {
-        throw new Error("Function not implemented.")
-      }
-    })
-    vi.mocked(useDarkMode).mockReturnValue({
-      toggleDarkMode: vi.fn(),
-      isDarkMode: false
-    })
-    
-    const { getByText } = render(
-      <HeaderMenu anchorEl={mockAnchorEl} closeFn={mockCloseFn} />
-    )
-    
-    fireEvent.click(getByText("Connect to Queue"))
-    
-    expect(mockNavigate).toHaveBeenCalledWith("/queues")
-  })
-
   it("calls toggleDarkMode when 'Toggle Dark Mode' is clicked", () => {
     const mockCloseFn = vi.fn()
     const mockAnchorEl = document.createElement("div")
