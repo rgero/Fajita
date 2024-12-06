@@ -13,7 +13,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../context/QueueContext';
-import { useSocket } from '../../../context/WebSocketContext';
+import { useSocketProvider } from '../../../context/WebSocketContext';
 import { useState } from 'react';
 
 const styles = {
@@ -38,7 +38,7 @@ interface Props {
 }
 
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) => {
-  const socket = useSocket();
+  const {socket} = useSocketProvider();
   const {getQueueID} = useQueueProvider();
   const {deleteVideoFromQueue} = useQueueProvider();
   const {title, thumbnail, duration} = interaction.video;

@@ -4,7 +4,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import PlayOption from '../../../../src/components/Footer/DrawerOptions/PlayOption';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../../src/context/QueueContext';
-import { useSocket } from '../../../../src/context/WebSocketContext';
+import { useSocketProvider } from '../../../../src/context/WebSocketContext';
 
 // Mock the hooks and utilities
 vi.mock('../../../../src/context/QueueContext');
@@ -19,7 +19,7 @@ describe('PlayOption', () => {
 
   beforeEach(() => {
     (useQueueProvider as jest.Mock).mockReturnValue({ getQueueID: vi.fn() });
-    (useSocket as jest.Mock).mockReturnValue(mockSocket);
+    (useSocketProvider as jest.Mock).mockReturnValue(mockSocket);
     vi.clearAllMocks();
   });
 

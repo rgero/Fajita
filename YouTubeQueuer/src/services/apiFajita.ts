@@ -26,7 +26,7 @@ export const getQueue = async (queueID: number) =>
   // No sense in trying to connect.
   if (queueID == -1) return {};
 
-  const queueURL = backendURL + `/api/q/${queueID}`;
+  const queueURL = backendURL + `/api/queue/${queueID}`;
 
   const response = await fajitaAxios.get(queueURL);
   if (response.status != 200)
@@ -47,7 +47,7 @@ export const getQueue = async (queueID: number) =>
 
 export const addToQueue = async (queueID: number, userID: number, videoID: string, playNext: boolean, visibility: number) => 
 {
-  const queueURL = backendURL + "/api/q/add";
+  const queueURL = backendURL + "/api/interaction";
 
   const bodyOfReq = {
     queue_id: queueID,
@@ -69,13 +69,8 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
 }
 
 export const deleteFromQueue = async (queueID: number, interactionID: number) => {
-  const deleteURL = backendURL + "/api/q/delete";
-  const bodyOfReq = {
-    queue_id: queueID,
-    interaction_id: interactionID
-  }
-  
-  await fajitaAxios.post(deleteURL, bodyOfReq).catch( (err) => {
+  const deleteURL = backendURL + `/api/interaction/${interactionID}`;
+  await fajitaAxios.delete(deleteURL).catch( (err) => {
     if (err.response)
     {
       const errMessage = err.response.data.error;
@@ -88,7 +83,7 @@ export const deleteFromQueue = async (queueID: number, interactionID: number) =>
 
 // QUEUE STUFF
 export const getActiveQueues = async () => {
-  const queuesURL = backendURL + "/api/queues/active";
+  const queuesURL = backendURL + "/api/queues";
 
   try {
     const response = await fajitaAxios.get(queuesURL);

@@ -1,27 +1,49 @@
-import { createContext, useContext } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import io, { Socket } from 'socket.io-client';
 
-import io from 'socket.io-client';
+import { useQueueProvider } from "./QueueContext";
 
-const socket = io(`${import.meta.env.VITE_WEBSOCKET_URL}`, {
-  withCredentials: true,
-  extraHeaders: {
-      "Access-Control-Allow-Origin": `${import.meta.env.VITE_WEBSOCKET_URL}`, // Match the origin allowed by Flask-SocketIO
-  }
-});
+interface SocketContextType {
+  socket: Socket
+}
 
-const SocketContext = createContext(socket);
+const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
-const SocketProvider = ({children}: {children: React.ReactNode}) => {
+const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+  const [socket, setSocket] = useState<Socket | undefined>(undefined);
+  const {queueData} = useQueueProvider();
+
+  const initializeSocket = useCallback((params: Record<string, number>) => {
+    const newSocket = io(`${import.meta.env.VITE_WEBSOCKET_URL}/player`, {
+      withCredentials: true,
+      query: params,
+    });
+    setSocket(newSocket);
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.disconnect();
+    }
+
+    console.log(queueData.id);
+
+    initializeSocket({queue_id: queueData.id});
+  }, [queueData, initializeSocket]);
+
   return (
-    <SocketContext.Provider value={socket}>
+    <SocketContext.Provider value={{socket}}>
       {children}
     </SocketContext.Provider>
-  )
+  );
 };
 
-const useSocket = () => {
-  const socket = useContext(SocketContext);
-  return socket;
+const useSocketProvider = () => {
+  const context = useContext(SocketContext);
+  if (!context) {
+    throw new Error('useSocketProvider must be used within a SocketProvider');
+  }
+  return context;
 };
 
-export {SocketProvider, useSocket};
+export { SocketProvider, useSocketProvider };

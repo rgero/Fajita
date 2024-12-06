@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
 import { useQueueProvider } from "../../context/QueueContext";
-import { useSocket } from "../../context/WebSocketContext";
+import { useSocketProvider } from "../../context/WebSocketContext";
 
 interface ProgressResponse {
   queue_id: number,
@@ -12,7 +12,7 @@ interface ProgressResponse {
 }
 
 const FooterCard = () => {
-  const socket = useSocket();
+  const {socket} = useSocketProvider();
   const {isLoading, queueData, refetch} = useQueueProvider();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
@@ -32,11 +32,17 @@ const FooterCard = () => {
   }, [queueID])
 
   useEffect(() => {
+    if (!socket) return;
+    socket.on('connect', ()=> {
+      console.log("I'm connected... finally?");
+    });
+    socket.on("messsage", onMessage);
     socket.on("player_status", onMessage);
     socket.on("progressChanged", processProgress);
     socket.on("video_deleted", onMessage);
     socket.on("new_video_interaction", onMessage);
     return () => {
+      socket.off("messsage", onMessage);
       socket.off("player_status", onMessage);
       socket.off("progressChanged", processProgress);
       socket.off("video_deleted", onMessage);

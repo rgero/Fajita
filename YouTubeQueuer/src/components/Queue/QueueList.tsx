@@ -5,10 +5,10 @@ import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
 import { useQueueProvider } from "../../context/QueueContext";
-import { useSocket } from "../../context/WebSocketContext";
+import { useSocketProvider } from "../../context/WebSocketContext";
 
 const QueueList = () => {
-  const socket = useSocket();
+  const {socket} = useSocketProvider();
   const {isLoading, queueData, error, refetch} = useQueueProvider();
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(-1);

@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import SkipOption from '../../../../src/components/Footer/DrawerOptions/SkipOption';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../../src/context/QueueContext';
-import { useSocket } from '../../../../src/context/WebSocketContext';
+import { useSocketProvider } from '../../../../src/context/WebSocketContext';
 
 // Mock the hooks and utilities
 vi.mock('../../../../src/context/QueueContext');
@@ -18,7 +18,7 @@ describe('SkipOption', () => {
 
   beforeEach(() => {
     (useQueueProvider as jest.Mock).mockReturnValue({ getQueueID: vi.fn().mockReturnValue('test-queue-id') });
-    (useSocket as jest.Mock).mockReturnValue(mockSocket);
+    (useSocketProvider as jest.Mock).mockReturnValue(mockSocket);
     vi.clearAllMocks();
   });
 

@@ -6,10 +6,10 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import toast from "react-hot-toast";
 import { useQueueProvider } from "../../../context/QueueContext";
-import { useSocket } from "../../../context/WebSocketContext";
+import { useSocketProvider } from "../../../context/WebSocketContext";
 
 const PlayOption = () => {
-  const socket = useSocket();
+  const {socket} = useSocketProvider();
   const {getQueueID} = useQueueProvider();
 
   const [isPlaying, setPlaying] = useState<boolean|null>(false);
@@ -20,6 +20,7 @@ const PlayOption = () => {
   }, []);
 
   const processIsPlaying = useCallback( async () => {
+    if (!socket) return;
     if(!isPlaying)
     {
       setPlaying(true);
@@ -28,6 +29,8 @@ const PlayOption = () => {
   }, [])
 
   useEffect(() => {
+    if (!socket) return;
+    
     socket.on("player_status", onMessage);
     socket.on("progressChanged", processIsPlaying);
     return () => {
