@@ -106,7 +106,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const { isPending: isActionPending, mutate: deleteVideoFromQueue } = useMutation({
-    mutationFn: (id: number) => deleteFromQueue(getQueueID(), id),
+    mutationFn: (id: number) => deleteFromQueue(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
       toast.success("Video deleted!");

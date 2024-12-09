@@ -4,14 +4,14 @@ import io, { Socket } from 'socket.io-client';
 import { useQueueProvider } from "./QueueContext";
 
 interface SocketContextType {
-  socket: Socket
+  socket: Socket | undefined
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
 const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
-  const {queueData} = useQueueProvider();
+  const {queueData, refetch} = useQueueProvider();
 
   const initializeSocket = useCallback((params: Record<string, number>) => {
     const newSocket = io(`${import.meta.env.VITE_WEBSOCKET_URL}/player`, {
@@ -25,11 +25,26 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     if (socket) {
       socket.disconnect();
     }
-
-    console.log(queueData.id);
-
+    
     initializeSocket({queue_id: queueData.id});
   }, [queueData, initializeSocket]);
+
+
+  // Websocket events that correspond to the Queue.
+  const onDataChange = useCallback( async () => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on('new_interaction', onDataChange);
+    socket.on("video_deleted", onDataChange);
+    return () => {
+      socket.off('new_interaction', onDataChange);
+      socket.off('video_deleted', onDataChange);
+    };
+  }, [socket, onDataChange]);
 
   return (
     <SocketContext.Provider value={{socket}}>

@@ -68,7 +68,7 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
   }
 }
 
-export const deleteFromQueue = async (queueID: number, interactionID: number) => {
+export const deleteFromQueue = async (interactionID: number) => {
   const deleteURL = backendURL + `/api/interaction/${interactionID}`;
   await fajitaAxios.delete(deleteURL).catch( (err) => {
     if (err.response)

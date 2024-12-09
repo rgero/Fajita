@@ -1,34 +1,18 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
 import { useQueueProvider } from "../../context/QueueContext";
-import { useSocketProvider } from "../../context/WebSocketContext";
 
 const QueueList = () => {
-  const {socket} = useSocketProvider();
-  const {isLoading, queueData, error, refetch} = useQueueProvider();
+  const {isLoading, queueData, error} = useQueueProvider();
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [targetIndex, setTargetIndex] = useState<number>(-1);
 
   const scrollToRef = useRef<HTMLElement>(null);
-
-  // This is for video Interactions
-  const processChanges = useCallback( async () => {
-    refetch();
-  }, [refetch]);
-  
-  useEffect(() => {
-    socket.on("new_video_interaction", processChanges);
-    socket.on("video_deleted", processChanges);
-    return () => {
-      socket.off("new_video_interaction", processChanges);
-      socket.off("video_deleted", processChanges);
-    };
-  }, [socket, processChanges]);
 
   // This is for setting the current Index and scrolling
   useEffect(()=> { 

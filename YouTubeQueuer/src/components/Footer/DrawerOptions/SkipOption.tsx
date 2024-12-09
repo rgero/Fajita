@@ -11,7 +11,9 @@ const SkipOption = () => {
 
   const processClick = () => {
     toast.success("Skipped!");
-    socket.emit('skipVideo', {queue_id: getQueueID()});
+    if (socket) {
+      socket.emit('skip_video', {queue_id: getQueueID()});
+    }
   }
 
   return (

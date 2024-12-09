@@ -13,16 +13,12 @@ interface ProgressResponse {
 
 const FooterCard = () => {
   const {socket} = useSocketProvider();
-  const {isLoading, queueData, refetch} = useQueueProvider();
+  const {isLoading, queueData} = useQueueProvider();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
   const [currentIndex, setCurrentIndex] = useState<number|null>(null);
   const [total, setTotal] = useState<number|null>(null);
   const [currentProgress, setProgress] = useState<number>(0);
   const [queueID, setQueueID] = useState<number>(0);
-
-  const onMessage = useCallback( async () => {
-    refetch();
-  }, [refetch]);
 
   const processProgress = useCallback( (progressResponse: ProgressResponse) => {
     if (progressResponse.queue_id == queueData.id)
@@ -33,22 +29,11 @@ const FooterCard = () => {
 
   useEffect(() => {
     if (!socket) return;
-    socket.on('connect', ()=> {
-      console.log("I'm connected... finally?");
-    });
-    socket.on("messsage", onMessage);
-    socket.on("player_status", onMessage);
-    socket.on("progressChanged", processProgress);
-    socket.on("video_deleted", onMessage);
-    socket.on("new_video_interaction", onMessage);
+    socket.on("player_progress", processProgress);
     return () => {
-      socket.off("messsage", onMessage);
-      socket.off("player_status", onMessage);
-      socket.off("progressChanged", processProgress);
-      socket.off("video_deleted", onMessage);
-      socket.off("new_video_interaction", onMessage);
+      socket.off("player_progress", processProgress);
     };
-  }, [socket, onMessage, processProgress]);
+  }, [socket, processProgress]);
 
   useEffect(() => {
     if (Object.keys(queueData).length === 0) return;

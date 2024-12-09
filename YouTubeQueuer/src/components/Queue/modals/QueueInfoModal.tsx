@@ -57,7 +57,9 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
 
   const jumpQueue = () => {
     const videoIndex = interaction.id;
-    socket.emit("set_player_index", {queue_id: getQueueID(), video_id: videoIndex})
+    if (socket) {
+      socket.emit("set_player_index", {queue_id: getQueueID(), video_id: videoIndex});
+    }
     toast.success("Jumping to Video");
     closeFn();
   }
