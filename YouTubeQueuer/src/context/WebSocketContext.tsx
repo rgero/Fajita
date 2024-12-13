@@ -37,12 +37,9 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!socket) return;
-
-    socket.on('new_interaction', onDataChange);
-    socket.on("video_deleted", onDataChange);
+    socket.on("queue_updated", onDataChange);
     return () => {
-      socket.off('new_interaction', onDataChange);
-      socket.off('video_deleted', onDataChange);
+      socket.off('queue_updated', onDataChange);
     };
   }, [socket, onDataChange]);
 
