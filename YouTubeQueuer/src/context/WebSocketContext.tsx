@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import io, { Socket } from 'socket.io-client';
 
+import InfoToast from "../components/ui/InfoToast";
 import { useQueueProvider } from "./QueueContext";
 
 interface SocketContextType {
@@ -35,11 +36,25 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     refetch();
   }, [refetch]);
 
+  const queueLocked = () => {
+    InfoToast("Queue is locked");
+  }
+
+  const queueUnlocked = () => {
+    InfoToast("Queue is unlocked");
+  }
+
+
+
   useEffect(() => {
     if (!socket) return;
     socket.on("queue_updated", onDataChange);
+    socket.on("queue_locked", queueLocked);
+    socket.on("queue_unlocked", queueUnlocked);
     return () => {
       socket.off('queue_updated', onDataChange);
+      socket.off("queue_locked", queueLocked);
+      socket.off("queue_unlocked", queueUnlocked);
     };
   }, [socket, onDataChange]);
 

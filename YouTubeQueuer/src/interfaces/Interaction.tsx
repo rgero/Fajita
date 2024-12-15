@@ -1,21 +1,22 @@
-interface User {
-  first_name: string
+import { Owner } from "./Owner";
+
+export interface Interaction {
+  user:        Owner;
+  video:       Video;
+  youtube_id:  string;
+  id:          number;
+  index:       number;
+  priority:    number;
+  created_at:  Date;
+  modified_at: Date;
+  visibility:  number;
+  played:      boolean;
 }
 
 export interface Video {
-  id: number,
-  title: string,
-  video_id: string,
-  thumbnail: string,
-  duration: number
-}
-
-export interface Interaction {
-  created_at: string,
-  id: number,
-  index: number,
-  play_next: boolean,
-  user : User,
-  video: Video,
-  visibility: number
+  id:        number;
+  title:     string;
+  video_id:  string;
+  thumbnail: string;
+  duration:  number;
 }
