@@ -2,6 +2,7 @@ import {Divider, Menu} from "@mui/material";
 
 import ActiveQueueDialog from "../active_queues/ActiveQueueDialog";
 import FeedbackOption from "./HeaderOptions/FeedbackOption";
+import LockQueueModal from "./modals/LockQueueModal";
 import LockQueueOption from "./HeaderOptions/LockQueueOption";
 import LogoutOption from "./HeaderOptions/LogoutOption";
 import QueueManagement from "./HeaderOptions/QueueManagement";
@@ -16,11 +17,13 @@ interface Props
 
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const [activeQueuesOpen, setActiveQueuesOpen] = React.useState(false);
+  const [lockQueueOpen, setLockQueueOpen] = React.useState(false);
   const isOpen = Boolean(anchorEl);
 
   return (
     <>
       <ActiveQueueDialog open={activeQueuesOpen} setOpen={setActiveQueuesOpen}/>
+      <LockQueueModal open={lockQueueOpen} closeFn={() => setLockQueueOpen(false)}/>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -32,7 +35,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
       >
         <QueueManagement setOpen={setActiveQueuesOpen}/>
         <Divider/>
-        <LockQueueOption/>
+        <LockQueueOption setShowLockModal={setLockQueueOpen}/>
         <Divider/>
         <ToggleDarkModeOption/>
         <Divider/>

@@ -3,20 +3,13 @@ import { Grid, MenuItem } from "@mui/material"
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { useQueueProvider } from "../../../context/QueueContext";
-import { useSocketProvider } from "../../../context/WebSocketContext";
 
-const LockQueueOption = () => {
+const LockQueueOption = ({setShowLockModal} : {setShowLockModal: (showModal: boolean) => void}) => {
   const {queueData} = useQueueProvider();
-  const {socket} = useSocketProvider();
   const isQueueLocked = queueData?.locked;
 
   const toggleQueueLock = () => {
-    if (isQueueLocked)
-    {
-      socket?.emit("unlock_queue", {queue_id: queueData?.id});
-    } else {
-      socket?.emit("lock_queue", {queue_id: queueData?.id});
-    }
+    setShowLockModal(true);
   }
 
   return (
