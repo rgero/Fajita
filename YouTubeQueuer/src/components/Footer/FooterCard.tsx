@@ -1,6 +1,7 @@
 import { Grid, LinearProgress, Typography } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 
+import BlankCard from "./BlankCard";
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
 import { useQueueProvider } from "../../context/QueueContext";
@@ -56,28 +57,10 @@ const FooterCard = () => {
     return (<Spinner/>)
   }
 
-  // If we have nothing
+  // If we have nothing in the queue
   if (!currentlyPlaying || Object.keys(currentlyPlaying).length === 0)
   {
-    return (
-      <Grid container justifyContent="center" spacing={5}>
-        <Grid item xs={4} md="auto">
-          <img src={"./Daisy.png"} alt={"Nothing Playing"} style={{maxHeight:"6rem", objectFit: "contain"}} />
-        </Grid>
-        <Grid item xs={8} md={6}>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item>
-                <Typography variant="subtitle1" sx={{fontWeight: 'bold'}}>Nothing Playing</Typography>
-              </Grid>
-            </Grid>
-            <Grid container direction="column" spacing={0.25}>
-              <Grid item>
-                <Typography variant="subtitle2">Have you considered adding songs?</Typography>
-              </Grid>
-            </Grid>
-        </Grid>
-      </Grid>
-    )
+    return (<BlankCard/>)
   }
 
   const title: string =  currentlyPlaying.video.title;
