@@ -83,7 +83,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
   
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) =>
   {
-    setPriority(Priority.playNext);
+    setPriority(event.target.checked ? Priority.playNext : Priority.normal);
   }
 
   return (
@@ -102,7 +102,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
               <Grid item>
                 <FormControlLabel 
                   labelPlacement="start" 
-                  control={<Checkbox onChange={handleToggle} value={priority === Priority.playNext || priority === Priority.impatient}/>} 
+                  control={<Checkbox onChange={handleToggle} value={priority === Priority.playNext}/>} 
                   label="Play Next?" 
                 />
               </Grid>
