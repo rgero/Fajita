@@ -1,5 +1,7 @@
+import { AddCircle, CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
+import FajitaButton from '../../ui/Button';
 import Modal from '../../ui/Modal';
 import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
@@ -25,9 +27,9 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
     closeFn();
   }
 
-  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const handleToggle = () => 
   {
-    setPlayNext(event.target.checked);
+    setPlayNext(!playNext);
   }
 
   return (
@@ -43,14 +45,10 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
           </Grid>
           <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center" sx={{paddingTop: 2}}>
             <Grid item>
-              <FormControlLabel 
-                labelPlacement="start" 
-                control={<Checkbox onChange={handleToggle} value={playNext}/>} 
-                label="Play Next?" 
-              />
+              <FajitaButton onClick={handleToggle} icon={playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={handleSubmit} color="success">Add</Button>
+              <FajitaButton onClick={handleSubmit} icon={(<AddCircle color="success"/>)} title="Add"/>
             </Grid>
           </Grid>
         </Grid>
