@@ -1,4 +1,5 @@
 import { Interaction } from "../interfaces/Interaction";
+import { Priority } from "../interfaces/Priority";
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import { fajitaAxios } from "./axios";
 
@@ -45,7 +46,7 @@ export const getQueue = async (queueID: number) =>
   return response.data;
 }
 
-export const addToQueue = async (queueID: number, userID: number, videoID: string, playNext: boolean, visibility: number) => 
+export const addToQueue = async (queueID: number, userID: number, videoID: string, priority: Priority, visibility: number) => 
 {
   const queueURL = backendURL + "/api/interaction";
 
@@ -53,7 +54,7 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
     queue_id: queueID,
     user_id: userID,
     video_id: videoID,
-    play_next: playNext,
+    priority: priority,
     visibility: visibility,
   }
   

@@ -2,6 +2,7 @@ import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from "../servi
 import { createContext, useContext, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { Priority } from "../interfaces/Priority";
 import { QueueData } from "../interfaces/QueueData";
 import toast from "react-hot-toast";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
@@ -12,8 +13,9 @@ interface QueueContextType {
   queueData: QueueData;
   error: Error | null;
   refetch: () => void;
-  addVideoToQueue: (id: string, playNext: boolean, selectedVisibility: number) => void;
+  addVideoToQueue: (id: string, priority: Priority, selectedVisibility: number) => void;
   connectToQueue: (id: number) => void;
+  checkForPlayNext: () => boolean,
   getQueueID: () => number;
   getQueueOwner: () => string;
   isActionPending: boolean;
@@ -96,14 +98,24 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const addVideoToQueue = (id: string, playNext: boolean, selectedVisibility: number) => {
+  const addVideoToQueue = (id: string, priority: Priority, selectedVisibility: number) => {
     try {
-      addToQueue(getQueueID(), user?.id as number, id, playNext, selectedVisibility);
+      addToQueue(getQueueID(), user?.id as number, id, priority, selectedVisibility);
       toast.success("Video added");
     } catch {
       toast.error("Error adding video to queue");
     }
   };
+
+  const checkForPlayNext = () => {
+    if (!queueData.next_interaction) return false;
+    if (queueData.next_interaction.priority > 1)
+    {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const { isPending: isActionPending, mutate: deleteVideoFromQueue } = useMutation({
     mutationFn: (id: number) => deleteFromQueue(id),
@@ -127,6 +139,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         refetch,
         addVideoToQueue,
         connectToQueue,
+        checkForPlayNext,
         deleteVideoFromQueue,
         isActionPending,
         getQueueID,
