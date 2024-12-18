@@ -15,18 +15,14 @@ interface ProgressResponse {
 const FooterCard = () => {
   const {socket} = useSocketProvider();
   const {isLoading, queueData} = useQueueProvider();
-  const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
-  const [currentIndex, setCurrentIndex] = useState<number|null>(null);
-  const [total, setTotal] = useState<number|null>(null);
   const [currentProgress, setProgress] = useState<number>(0);
-  const [queueID, setQueueID] = useState<number>(0);
 
   const processProgress = useCallback( (progressResponse: ProgressResponse) => {
     if (progressResponse.queue_id == queueData.id)
     {
       setProgress(progressResponse.progress);
     }
-  }, [queueID])
+  }, [queueData])
 
   useEffect(() => {
     if (!socket) return;
@@ -36,37 +32,24 @@ const FooterCard = () => {
     };
   }, [socket, processProgress]);
 
-  useEffect(() => {
-    if (Object.keys(queueData).length === 0) return;
-    const currentIndex = queueData.current_index;
-    const foundItems = queueData.interactions.filter((option: Interaction) =>{
-      return option.index == currentIndex;
-    })
-    
-    if (foundItems.length == 1)
-    {
-      setCurrentPlay( () => foundItems[0]);
-      setCurrentIndex( () => queueData.interactions.indexOf(foundItems[0]) + 1 );
-      setTotal( () => queueData.interactions.length );
-      setQueueID( () => queueData.id );
-    }
-  }, [queueData, currentIndex, total])
-
   if (isLoading)
   {
     return (<Spinner/>)
   }
 
   // If we have nothing in the queue
-  if (!currentlyPlaying || Object.keys(currentlyPlaying).length === 0)
+  if (queueData.interactions.length === 0)
   {
     return (<BlankCard/>)
   }
 
-  const title: string =  currentlyPlaying.video.title;
-  const imageURL: string = currentlyPlaying.video.thumbnail;
-  const targetUser: string = currentlyPlaying.user.first_name;
-  const duration: number = currentlyPlaying.video.duration;
+  const title: string =  queueData.current_interaction.video.title;
+  const imageURL: string = queueData.current_interaction.video.thumbnail;
+  const targetUser: string = queueData.current_interaction.user.first_name;
+  const duration: number = queueData.current_interaction.video.duration;
+
+  const currentIndex = queueData.interactions.findIndex((option: Interaction) => option.index === queueData.current_index) + 1;
+  const total = queueData.interactions.length;
 
   return (
     <Grid container justifyContent="center" spacing={5}>
