@@ -1,6 +1,6 @@
 services:
-  youtube_queuer:
-    container_name: youtube_queuer
+  nacho:
+    container_name: nacho
     env_file:
       - .env
     build:

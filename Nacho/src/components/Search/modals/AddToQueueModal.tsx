@@ -1,7 +1,7 @@
 import { AddCircle, CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
-import { Button, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
 import FajitaButton from '../../ui/Button';
+import { Grid } from '@mui/material';
 import Modal from '../../ui/Modal';
 import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
