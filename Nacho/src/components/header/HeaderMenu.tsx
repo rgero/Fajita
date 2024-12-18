@@ -7,7 +7,8 @@ import LockQueueOption from "./HeaderOptions/LockQueueOption";
 import LogoutOption from "./HeaderOptions/LogoutOption";
 import QueueManagement from "./HeaderOptions/QueueManagement";
 import React from "react";
-import ToggleDarkModeOption from "./HeaderOptions/ToggleDarkModeOption";
+import UserSettingsDialog from "../settings/UserSettingsDialog";
+import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
 
 interface Props
 {
@@ -17,11 +18,13 @@ interface Props
 
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const [activeQueuesOpen, setActiveQueuesOpen] = React.useState(false);
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
   const [lockQueueOpen, setLockQueueOpen] = React.useState(false);
   const isOpen = Boolean(anchorEl);
 
   return (
     <>
+      <UserSettingsDialog open={settingsOpen} setOpen={setSettingsOpen}/>
       <ActiveQueueDialog open={activeQueuesOpen} setOpen={setActiveQueuesOpen}/>
       <LockQueueModal open={lockQueueOpen} closeFn={() => setLockQueueOpen(false)}/>
       <Menu
@@ -37,9 +40,9 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
         <Divider/>
         <LockQueueOption setShowLockModal={setLockQueueOpen}/>
         <Divider/>
-        <ToggleDarkModeOption/>
-        <Divider/>
         <FeedbackOption/>
+        <Divider/>
+        <UserSettingsOption setOpen={setSettingsOpen}/>
         <LogoutOption/>
       </Menu>
     </>
