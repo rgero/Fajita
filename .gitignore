@@ -1,4 +1,4 @@
-YouTubeQueuer/.env
-YouTubeQueuer/src/dummyData/
+Nacho/.env
+Nacho/src/dummyData/
 .env
-YouTubeQueuer/src/services/dummyData.ts
+Nacho/src/services/dummyData.ts
