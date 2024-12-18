@@ -1,7 +1,7 @@
+import { AddCircle, CheckBox, CheckBoxOutlineBlank, SelfImprovement, Speed, Star } from '@mui/icons-material';
 import { Button, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material';
-import { SelfImprovement, Speed, Star } from '@mui/icons-material';
 
-import FajitaButton from "../../ui/Button"
+import FajitaButton from '../../ui/Button';
 import Modal from '../../ui/Modal';
 import { Priority } from '../../../interfaces/Priority';
 import VideoCard from '../../ui/VideoCard';
@@ -81,9 +81,9 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
     closeFn();
   }
   
-  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const handleToggle = () =>
   {
-    setPriority(event.target.checked ? Priority.playNext : Priority.normal);
+    setPriority( (prevState) => { return prevState === Priority.normal ? Priority.playNext : Priority.normal });
   }
 
   return (
@@ -100,14 +100,10 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
             </Grid>
             <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center" sx={{paddingTop: 2}}>
               <Grid item>
-                <FormControlLabel 
-                  labelPlacement="start" 
-                  control={<Checkbox onChange={handleToggle} value={priority === Priority.playNext}/>} 
-                  label="Play Next?" 
-                />
+                <FajitaButton onClick={handleToggle} icon={priority != Priority.normal ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
               </Grid>
               <Grid item>
-                <Button variant="contained" onClick={checkPlayNext} color="success">Add</Button>
+                <FajitaButton onClick={checkPlayNext} icon={(<AddCircle color="success"/>)} title="Add"/>
               </Grid>
             </Grid>
           </Grid>
