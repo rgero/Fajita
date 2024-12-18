@@ -1,14 +1,7 @@
-<<<<<<< HEAD:YouTubeQueuer/src/components/Search/modals/AddToQueueModal.tsx
 import { AddCircle, CheckBox, CheckBoxOutlineBlank, SelfImprovement, Speed, Star } from '@mui/icons-material';
-import { Button, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
-import FajitaButton from '../../ui/Button';
-=======
-import { AddCircle, CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
-
-import FajitaButton from '../../ui/Button';
-import { Grid } from '@mui/material';
->>>>>>> main:Nacho/src/components/Search/modals/AddToQueueModal.tsx
+import FajitaButton from "../../ui/Button"
 import Modal from '../../ui/Modal';
 import { Priority } from '../../../interfaces/Priority';
 import VideoCard from '../../ui/VideoCard';
@@ -45,7 +38,6 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
     closeFn();
   }
 
-<<<<<<< HEAD:YouTubeQueuer/src/components/Search/modals/AddToQueueModal.tsx
   const checkPlayNext = async () => {
     if (priority != Priority.normal && playNextCondition == PlayNextCondition.None)
     {
@@ -91,12 +83,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
   
   const handleToggle = () =>
   {
-    setPriority( (prevState) => { return prevState === Priority.normal ? Priority.playNext : Priority.normal });
-=======
-  const handleToggle = () => 
-  {
-    setPlayNext(!playNext);
->>>>>>> main:Nacho/src/components/Search/modals/AddToQueueModal.tsx
+    setPriority( (prevState) => { return prevState === Priority.playNext ? Priority.normal : Priority.playNext; });
   }
 
   return (
@@ -109,22 +96,15 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
         {playNextCondition == PlayNextCondition.None ? (
           <Grid item>
             <Grid item>
-<<<<<<< HEAD:YouTubeQueuer/src/components/Search/modals/AddToQueueModal.tsx
               <VisibilityGroup selected={selectedVisibility} setSelected={setSelected}/>
             </Grid>
             <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center" sx={{paddingTop: 2}}>
               <Grid item>
-                <FajitaButton onClick={handleToggle} icon={priority != Priority.normal ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
+                <FajitaButton onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
               </Grid>
               <Grid item>
                 <FajitaButton onClick={checkPlayNext} icon={(<AddCircle color="success"/>)} title="Add"/>
               </Grid>
-=======
-              <FajitaButton onClick={handleToggle} icon={playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
-            </Grid>
-            <Grid item>
-              <FajitaButton onClick={handleSubmit} icon={(<AddCircle color="success"/>)} title="Add"/>
->>>>>>> main:Nacho/src/components/Search/modals/AddToQueueModal.tsx
             </Grid>
           </Grid>
         ) : (
