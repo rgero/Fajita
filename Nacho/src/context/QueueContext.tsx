@@ -13,7 +13,7 @@ interface QueueContextType {
   queueData: QueueData;
   error: Error | null;
   refetch: () => void;
-  addVideoToQueue: (id: string, priority: Priority, selectedVisibility: number) => void;
+  addVideoToQueue: ({id, priority, visibility}: {id: string, priority: number, visibility: number}) => void;
   connectToQueue: (id: number) => void;
   checkForPlayNext: () => boolean,
   getQueueID: () => number;
@@ -40,7 +40,18 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
 
   const { isLoading, data: queueData = {}, error, refetch } = useQuery({
     queryKey: ["queueList", getQueueID()],
-    queryFn: () => getQueue(getQueueID()),
+    queryFn: async () => {
+      try {
+        return await getQueue(getQueueID());
+      } catch (err: any) {
+        if (err.response?.status === 403) {
+          toast.error("Access forbidden: You do not have permission to access this queue.");
+        } else {
+          toast.error(err.message);
+        }
+        throw err;
+      }
+    },
     enabled: getQueueID() !== -1, // Avoid unnecessary queries
   });
 
@@ -98,14 +109,20 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const addVideoToQueue = (id: string, priority: Priority, selectedVisibility: number) => {
-    try {
-      addToQueue(getQueueID(), user?.id as number, id, priority, selectedVisibility);
+  const { mutate: addVideoToQueue} = useMutation({
+    mutationFn: ({ id, priority, visibility }: { id: string; priority: Priority; visibility: number }) => addToQueue(getQueueID(), user?.id as number, id, priority, visibility),
+    onSuccess: ()=> {
+      queryClient.invalidateQueries({queryKey: ["queueList"]});
       toast.success("Video added");
-    } catch {
-      toast.error("Error adding video to queue");
+    },
+    onError: (err: any) => {
+      if (err.response?.status === 403) {
+        toast.error("The Queue is locked.");
+      } else {
+        toast.error(err.message);
+      }
     }
-  };
+  })
 
   const checkForPlayNext = () => {
     if (!queueData.next_interaction) return false;
@@ -124,7 +141,11 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
       toast.success("Video deleted!");
     },
     onError: (err: any) => {
-      toast.error(err.message);
+      if (err.response?.status === 403) {
+        toast.error("Access forbidden: You do not have permission to delete this video.");
+      } else {
+        toast.error(err.message);
+      }
     },
   });
 

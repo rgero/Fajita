@@ -77,7 +77,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
 
     setPriority(Priority.normal);
     setPlayNextCondition(PlayNextCondition.None);
-    addVideoToQueue(videoData.id, targetPriority, selectedVisibility);
+    addVideoToQueue({id: videoData.id, priority: targetPriority, visibility: selectedVisibility});
     closeFn();
   }
   
