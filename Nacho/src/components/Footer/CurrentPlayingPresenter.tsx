@@ -38,7 +38,7 @@ const CurrentPlayingPresenter = () => {
   }
 
   // If we have nothing in the queue
-  if (queueData.interactions.length === 0)
+  if (!queueData.interactions || queueData.interactions.length === 0)
   {
     return (<BlankCard/>)
   }
