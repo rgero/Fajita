@@ -10,8 +10,8 @@ const SettingsContext = createContext({
 const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
 
   const [isFooterCompact, setIsFooterCompact] = useLocalStorageState(
+    false,
     "isFooterCompact",
-    "false"
   );
 
 
