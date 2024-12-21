@@ -111,7 +111,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
           <Grid item>
             <Grid container direction="column" spacing={2} sx={{padding: 2}}>
               <Grid item alignSelf={"center"}>
-                <Typography variant="h6">Warning: Someone has used their play next.</Typography>
+                <Typography variant="h6">Warning: Someone else has used their play next.</Typography>
               </Grid>
               <Grid item>
                 <Grid container justifyContent={"space-around"}>
