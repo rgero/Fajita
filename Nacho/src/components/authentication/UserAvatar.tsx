@@ -1,7 +1,7 @@
 import { UserResponse, useUser } from "./hooks/useUser";
 
 import { Avatar } from "@mui/material";
-import HeaderMenu from "../ui/HeaderMenu";
+import HeaderMenu from "../header/HeaderMenu";
 import { useState } from "react";
 
 const UserAvatar = () => {

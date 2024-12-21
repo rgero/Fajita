@@ -9,6 +9,7 @@ import LandingPage from "./pages/LandingPage";
 import LogoutPage from "./pages/LogoutPage";
 import MainPage from "./pages/MainPage";
 import { QueueProvider } from "./context/QueueContext";
+import { SettingsProvider } from "./context/SettingsContext";
 import { SocketProvider } from "./context/WebSocketContext";
 
 const queryClient = new QueryClient({
@@ -23,11 +24,13 @@ const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthenticatedRoute>
-        <QueueProvider>
-          <SocketProvider>  
-            {children}
-          </SocketProvider>
-        </QueueProvider>
+        <SettingsProvider>
+          <QueueProvider>
+            <SocketProvider>  
+              {children}
+            </SocketProvider>
+          </QueueProvider>
+        </SettingsProvider>
       </AuthenticatedRoute>
     </QueryClientProvider>
   )

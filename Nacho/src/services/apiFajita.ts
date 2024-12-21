@@ -1,4 +1,5 @@
 import { Interaction } from "../interfaces/Interaction";
+import { Priority } from "../interfaces/Priority";
 import { YoutubeResponse } from "../interfaces/YoutubeResponse";
 import { fajitaAxios } from "./axios";
 
@@ -26,7 +27,7 @@ export const getQueue = async (queueID: number) =>
   // No sense in trying to connect.
   if (queueID == -1) return {};
 
-  const queueURL = backendURL + `/api/q/${queueID}`;
+  const queueURL = backendURL + `/api/queue/${queueID}`;
 
   const response = await fajitaAxios.get(queueURL);
   if (response.status != 200)
@@ -45,15 +46,15 @@ export const getQueue = async (queueID: number) =>
   return response.data;
 }
 
-export const addToQueue = async (queueID: number, userID: number, videoID: string, playNext: boolean, visibility: number) => 
+export const addToQueue = async (queueID: number, userID: number, videoID: string, priority: Priority, visibility: number) => 
 {
-  const queueURL = backendURL + "/api/q/add";
+  const queueURL = backendURL + "/api/interaction";
 
   const bodyOfReq = {
     queue_id: queueID,
     user_id: userID,
     video_id: videoID,
-    play_next: playNext,
+    priority: priority,
     visibility: visibility,
   }
   
@@ -68,14 +69,9 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
   }
 }
 
-export const deleteFromQueue = async (queueID: number, interactionID: number) => {
-  const deleteURL = backendURL + "/api/q/delete";
-  const bodyOfReq = {
-    queue_id: queueID,
-    interaction_id: interactionID
-  }
-  
-  await fajitaAxios.post(deleteURL, bodyOfReq).catch( (err) => {
+export const deleteFromQueue = async (interactionID: number) => {
+  const deleteURL = backendURL + `/api/interaction/${interactionID}`;
+  await fajitaAxios.delete(deleteURL).catch( (err) => {
     if (err.response)
     {
       const errMessage = err.response.data.error;
@@ -88,7 +84,7 @@ export const deleteFromQueue = async (queueID: number, interactionID: number) =>
 
 // QUEUE STUFF
 export const getActiveQueues = async () => {
-  const queuesURL = backendURL + "/api/queues/active";
+  const queuesURL = backendURL + "/api/queues";
 
   try {
     const response = await fajitaAxios.get(queuesURL);

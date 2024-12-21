@@ -1,40 +1,41 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Message } from "../../../interfaces/Message";
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import toast from "react-hot-toast";
 import { useQueueProvider } from "../../../context/QueueContext";
-import { useSocket } from "../../../context/WebSocketContext";
+import { useSocketProvider } from "../../../context/WebSocketContext";
 
 const PlayOption = () => {
-  const socket = useSocket();
+  const {socket} = useSocketProvider();
   const {getQueueID} = useQueueProvider();
 
   const [isPlaying, setPlaying] = useState<boolean|null>(false);
   const [lastPress, setLastPress] = useState<Date|null>(new Date());
 
-  const onMessage = useCallback( async (message:Message) => {
-    setPlaying( () => message.player_state_int == 1)
-  }, []);
-
-  const processIsPlaying = useCallback( async () => {
-    if(!isPlaying)
-    {
-      setPlaying(true);
-      socket.off("progressChanged", processIsPlaying);
-    }
-  }, [])
-
   useEffect(() => {
-    socket.on("player_status", onMessage);
-    socket.on("progressChanged", processIsPlaying);
-    return () => {
-      socket.off("player_status", onMessage);
-      socket.off("progressChanged", processIsPlaying);
+    if (!socket) return;
+    
+    const processPlayStatus = async (data: any) => {
+      setPlaying( () => data.player_state_int == 1)
     };
-  }, [socket, onMessage]);
+
+    const processIsPlaying = () => {
+      if(!isPlaying)
+      {
+        setPlaying(true);
+        socket.off("player_progress", processIsPlaying);
+      }
+    }
+    
+    socket.on("player_status", processPlayStatus);
+    socket.on("player_progress", processIsPlaying);
+    return () => {
+      socket.off("player_status", processPlayStatus);
+      socket.off("player_progress", processIsPlaying);
+    };
+  }, [socket]);
 
   const processClick = () => {
     if (lastPress)
@@ -48,7 +49,9 @@ const PlayOption = () => {
       
     }
     setLastPress (() => new Date());
-    socket.emit("playPause", {queue_id: getQueueID()});
+    if (socket) {
+      socket.emit("play_pause", {queue_id: getQueueID()});
+    }
   }
 
   return (
