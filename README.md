@@ -21,3 +21,4 @@ This project is written in Typescript with React.
 
 ### Important Dates
 2024-12-12 - Incrementing version release to 0.5
+2024-12-21 - Enchilada Branch merged
