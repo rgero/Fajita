@@ -115,8 +115,8 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
               </Grid>
               <Grid item>
                 <Grid container justifyContent={"space-around"}>
-                  <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Rejected)} icon={<Speed/>} title="Regular"/>
-                  <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Accepted)} icon={<SelfImprovement color="warning"/>} title="Play Next"/>
+                  <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Rejected)} icon={<Speed/>} title="Nevermind"/>
+                  <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Accepted)} icon={<SelfImprovement color="warning"/>} title="I'll wait"/>
                   <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Impatient)} icon={<Star color="success"/>} title="Me First!"/>
                 </Grid>
               </Grid>
