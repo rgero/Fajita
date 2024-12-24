@@ -1,8 +1,10 @@
-import { AddCircle, CheckBox, CheckBoxOutlineBlank, SelfImprovement, Speed, Star } from '@mui/icons-material';
-import { Grid, Typography } from '@mui/material';
+import { AddCircle, CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
 
 import FajitaButton from "../../ui/Button"
+import { Grid } from '@mui/material';
 import Modal from '../../ui/Modal';
+import { PlayNextCondition } from '../interfaces/PlayNextCondition';
+import PlayNextWarning from '../ui/PlayNextWarning';
 import { Priority } from '../../../interfaces/Priority';
 import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
@@ -15,14 +17,6 @@ interface Props {
   open: boolean,
   videoData: YoutubeResponse,
   closeFn: () => void
-}
-
-enum PlayNextCondition {
-  None,
-  Need,
-  Accepted,
-  Rejected,
-  Impatient
 }
 
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
@@ -109,18 +103,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
           </Grid>
         ) : (
           <Grid item>
-            <Grid container direction="column" spacing={2} sx={{padding: 2}}>
-              <Grid item alignSelf={"center"}>
-                <Typography variant="h6">Warning: Someone else has used their play next.</Typography>
-              </Grid>
-              <Grid item>
-                <Grid container justifyContent={"space-around"}>
-                  <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Rejected)} icon={<Speed/>} title="Nevermind"/>
-                  <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Accepted)} icon={<SelfImprovement color="warning"/>} title="I'll wait"/>
-                  <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Impatient)} icon={<Star color="success"/>} title="Me First!"/>
-                </Grid>
-              </Grid>
-            </Grid>
+            <PlayNextWarning handleSubmit={handleSubmit}/>
           </Grid>
         )}
       </Grid>
