@@ -7,7 +7,7 @@ const LandingPage = () => {
   document.body.style.backgroundColor = `${theme.palette.background.paper}`;
 
   const sendToLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login`;
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login?next=nacho`;
   }
 
   return (
@@ -15,7 +15,7 @@ const LandingPage = () => {
       <Grid container sx={{height: "100vh", paddingTop: "2rem"}} direction="column" alignItems="center">
         <Grid item>
           <IconButton
-            href={`${import.meta.env.VITE_BACKEND_URL}/login`}
+            href={`${import.meta.env.VITE_BACKEND_URL}/login?next=nacho`}
             size="large"
           >
             <img width={200} src="fajita.svg"/>
