@@ -6,7 +6,6 @@ import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import FeedbackPage from "./pages/FeedbackPage";
 import LandingPage from "./pages/LandingPage";
-import LogoutPage from "./pages/LogoutPage";
 import MainPage from "./pages/MainPage";
 import { QueueProvider } from "./context/QueueContext";
 import { SettingsProvider } from "./context/SettingsContext";
@@ -50,7 +49,6 @@ const App = () => {
             <Route path="feedback" element={<FeedbackPage/>}/>
           </Route>
           <Route path="landing" element={<LandingPage/>} />
-          <Route path="logout" element={<LogoutPage/>} />
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       </BrowserRouter>
