@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import AppLayout from "./components/ui/AppLayout";
 import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
+import { AuthenticationProvider } from "./context/AuthenicationContext";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import FeedbackPage from "./pages/FeedbackPage";
 import LandingPage from "./pages/LandingPage";
@@ -20,38 +21,40 @@ const queryClient = new QueryClient({
 })
 
 const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AuthenticatedRoute>
-        <SettingsProvider>
-          <QueueProvider>
-            <SocketProvider>  
-              {children}
-            </SocketProvider>
-          </QueueProvider>
-        </SettingsProvider>
-      </AuthenticatedRoute>
-    </QueryClientProvider>
+  return (    
+    <AuthenticatedRoute>
+      <SettingsProvider>
+        <QueueProvider>
+          <SocketProvider>  
+            {children}
+          </SocketProvider>
+        </QueueProvider>
+      </SettingsProvider>
+    </AuthenticatedRoute>
   )
 }
 
 const App = () => {
   return (
     <DarkModeProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={
-            <AuthRouteWrapper>
-             <AppLayout/>
-            </AuthRouteWrapper>
-          }>
-            <Route index element={<MainPage/>}/>
-            <Route path="feedback" element={<FeedbackPage/>}/>
-          </Route>
-          <Route path="landing" element={<LandingPage/>} />
-          <Route path='*' element={<Navigate to='/' />} />
-        </Routes>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <AuthenticationProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route element={
+                <AuthRouteWrapper>
+                  <AppLayout/>
+                </AuthRouteWrapper>
+              }>
+                <Route index element={<MainPage/>}/>
+                <Route path="feedback" element={<FeedbackPage/>}/>
+              </Route>
+              <Route path="landing" element={<LandingPage/>} />
+              <Route path='*' element={<Navigate to='/' />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthenticationProvider>
+      </QueryClientProvider>
     </DarkModeProvider>
   )
 }

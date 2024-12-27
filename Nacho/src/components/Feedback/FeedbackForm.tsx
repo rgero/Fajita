@@ -1,8 +1,8 @@
 import { Button, Container, Grid, TextField, Typography } from "@mui/material"
-import { UserResponse, useUser } from "../authentication/hooks/useUser";
 
 import SpinnerModal from "../ui/SpinnerModal";
 import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthenicationContext";
 import { useCreateFeedback } from "./hooks/useCreateFeedback";
 import { useState } from "react"
 
@@ -10,7 +10,7 @@ const FeedbackForm = () => {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
   const {isAdding, addFeedback} = useCreateFeedback();
-  const {user}: UserResponse = useUser();
+  const {user} = useAuth();
   const maxLength:number = 10000;
 
   const handleSubmit = async () => {

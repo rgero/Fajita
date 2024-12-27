@@ -24,7 +24,3 @@ export const getCurrentUser = async () => {
   });
   return response;
 }
-
-export const logoutCurrentUser = () => {
-  deleteAllCookies();
-}

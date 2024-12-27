@@ -5,8 +5,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Priority } from "../interfaces/Priority";
 import { QueueData } from "../interfaces/QueueData";
 import toast from "react-hot-toast";
+import { useAuth } from "./AuthenicationContext";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
-import { useUser } from "../components/authentication/hooks/useUser";
 
 interface QueueContextType {
   isLoading: boolean;
@@ -26,7 +26,7 @@ const QueueContext = createContext<QueueContextType | undefined>(undefined);
 
 const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
-  const { user, isAuthenticated } = useUser();
+  const { user, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
 
   const getQueueID = () => {

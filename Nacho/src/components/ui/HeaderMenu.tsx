@@ -27,7 +27,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const handleLogout = () =>
   {
     deleteAllCookies();
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/logout`;
+    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/logout?next=nacho`;
   }
 
   const queueOwner: string = getQueueOwner();
