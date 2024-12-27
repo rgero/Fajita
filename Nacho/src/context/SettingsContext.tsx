@@ -4,7 +4,9 @@ import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 const SettingsContext = createContext({
   isFooterCompact: false,
-  toggleFooterCompact: () => {}
+  toggleFooterCompact: () => {},
+  shareOptions: { clipboard: true, youtube: true },
+  updateShareOptions: (options: { clipboard: boolean, youtube: boolean }) => {}
 });
 
 const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
@@ -14,16 +16,27 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     "isFooterCompact",
   );
 
+  const [shareOptions, setShareOptions] = useLocalStorageState(
+    JSON.stringify({ clipboard: true, youtube: true }),
+    "shareOptions"
+  );
+
 
   const toggleFooterCompact = () => {
     setIsFooterCompact((isCompact: boolean) => !isCompact);
+  }
+
+  const updateShareOptions = (options: { clipboard: boolean, youtube: boolean }) => {
+    setShareOptions(JSON.stringify(options));
   }
 
   return (
     <SettingsContext.Provider 
       value={{
         isFooterCompact, 
-        toggleFooterCompact
+        toggleFooterCompact,
+        shareOptions: JSON.parse(shareOptions),
+        updateShareOptions
       }}
     >
       {children}

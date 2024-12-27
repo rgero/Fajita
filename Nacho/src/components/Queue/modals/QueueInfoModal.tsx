@@ -13,6 +13,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube'
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../context/QueueContext';
+import { useSettings } from '../../../context/SettingsContext';
 import { useSocketProvider } from '../../../context/WebSocketContext';
 import { useState } from 'react';
 
@@ -40,6 +41,7 @@ interface Props {
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) => {
   const {socket} = useSocketProvider();
   const {getQueueID} = useQueueProvider();
+  const {shareOptions} = useSettings();
   const {deleteVideoFromQueue} = useQueueProvider();
   const {title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
@@ -90,12 +92,16 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
               </Grid>
               {status.isVisible &&
                 <>
-                  <Grid item>
-                    <Button onClick={()=> copyToClipboard(interaction)} icon={(<ShareIcon/>)} title="Copy"/>
-                  </Grid>
-                  <Grid item>
-                    <Button onClick={() => OpenYouTubeURL(interaction)} icon={(<YouTubeIcon color="error"/>)} title="YouTube"/>
-                  </Grid>                  
+                  {shareOptions.clipboard && (
+                    <Grid item>
+                      <Button onClick={()=> copyToClipboard(interaction)} icon={(<ShareIcon/>)} title="Copy"/>
+                    </Grid>
+                  )}
+                  {shareOptions.youtube && (
+                    <Grid item>
+                      <Button onClick={() => OpenYouTubeURL(interaction)} icon={(<YouTubeIcon color="error"/>)} title="YouTube"/>
+                    </Grid>   
+                  )}               
                 </>
               }
               <Grid item>
