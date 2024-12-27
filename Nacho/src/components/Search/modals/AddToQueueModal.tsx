@@ -23,7 +23,7 @@ interface Props {
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
-  const {addVideoToQueue, checkForPlayNext, error} = useQueueProvider();
+  const {addVideoToQueue, checkForPlayNext} = useQueueProvider();
 
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
 
