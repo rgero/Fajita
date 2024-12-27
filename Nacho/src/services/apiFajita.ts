@@ -57,16 +57,14 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
     priority: priority,
     visibility: visibility,
   }
-  
-  try {
-    const response = await fajitaAxios.post(queueURL, bodyOfReq);
-    if (response.status != 200)
+
+  await fajitaAxios.post(queueURL, bodyOfReq).catch ( (err) => {
+    if (err.response.status == 403)
     {
-      throw new Error("Failed to add video");
+      throw new Error("The Queue is locked");
     }
-  } catch {
     throw new Error("Failed to add video");
-  }
+  });
 }
 
 export const deleteFromQueue = async (interactionID: number) => {

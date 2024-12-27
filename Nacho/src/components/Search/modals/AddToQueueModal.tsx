@@ -10,6 +10,7 @@ import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
+import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../context/QueueContext';
 import { useState } from 'react';
 
@@ -22,7 +23,7 @@ interface Props {
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
-  const {addVideoToQueue, checkForPlayNext} = useQueueProvider();
+  const {addVideoToQueue, checkForPlayNext, error} = useQueueProvider();
 
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
 
@@ -71,8 +72,17 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
 
     setPriority(Priority.normal);
     setPlayNextCondition(PlayNextCondition.None);
-    addVideoToQueue({id: videoData.id, priority: targetPriority, visibility: selectedVisibility});
-    closeFn();
+    try {
+      await addVideoToQueue({id: videoData.id, priority: targetPriority, visibility: selectedVisibility});
+      toast.success("Video Added");
+      closeFn();
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message);
+      } else {
+        toast.error("Failed to add video");
+      }
+    }
   }
   
   const handleToggle = () =>

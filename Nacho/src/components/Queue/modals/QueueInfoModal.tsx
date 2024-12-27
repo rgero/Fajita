@@ -53,8 +53,13 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
 
   const handleDelete = async () => {
     setConfirmDelete(false);
-    await deleteVideoFromQueue(interaction.id);
-    closeFn();
+    try {
+      await deleteVideoFromQueue(interaction.id);
+      toast.success("Video Deleted");
+      closeFn();
+    } catch {
+      toast.error("Error Deleting Video");
+    }
   }
 
   const jumpQueue = () => {

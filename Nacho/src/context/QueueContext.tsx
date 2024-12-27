@@ -4,7 +4,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Priority } from "../interfaces/Priority";
 import { QueueData } from "../interfaces/QueueData";
-import toast from "react-hot-toast";
 import { useAuth } from "./AuthenicationContext";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
@@ -45,9 +44,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         return await getQueue(getQueueID());
       } catch (err: any) {
         if (err.response?.status === 403) {
-          toast.error("Access forbidden: You do not have permission to access this queue.");
-        } else {
-          toast.error(err.message);
+          throw new Error("Access forbidden: You do not have permission to access this queue.");
         }
         throw err;
       }
@@ -70,7 +67,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
       if (queues.length === 1) {
         connectToQueue(queues[0].id);
       } else {
-        toast.error("Cannot auto-connect");
+        throw new Error("Cannot auto-connect");
       }
     };
 
@@ -92,12 +89,10 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     const targetQueue = queues.find((obj: { id: number; }) => obj.id === id);
 
     if (!targetQueue) {
-      toast.error("Error connecting to queue");
-      return;
+      throw new Error("Error connecting to queue");
     }
 
     setQueue(JSON.stringify(targetQueue));
-    toast.success("Connected");
   };
 
   const getQueueOwner = () => {
@@ -109,20 +104,20 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const { mutate: addVideoToQueue} = useMutation({
-    mutationFn: ({ id, priority, visibility }: { id: string; priority: Priority; visibility: number }) => addToQueue(getQueueID(), user?.id as number, id, priority, visibility),
-    onSuccess: ()=> {
-      queryClient.invalidateQueries({queryKey: ["queueList"]});
-      toast.success("Video added");
+  const { mutateAsync: addVideoToQueue } = useMutation({
+    mutationFn: async ({ id, priority, visibility }: { id: string; priority: Priority; visibility: number }) => {
+      await addToQueue(getQueueID(), user?.id as number, id, priority, visibility);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["queueList"] });
     },
     onError: (err: any) => {
-      if (err.response?.status === 403) {
-        toast.error("The Queue is locked.");
-      } else {
-        toast.error(err.message);
+      if (err.response && err.response.status === 403) {
+        throw new Error("The Queue is locked");
       }
+      throw err;
     }
-  })
+  });
 
   const checkForPlayNext = () => {
     if (!queueData.next_interaction) return false;
@@ -134,18 +129,13 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  const { isPending: isActionPending, mutate: deleteVideoFromQueue } = useMutation({
+  const { isPending: isActionPending, mutateAsync: deleteVideoFromQueue } = useMutation({
     mutationFn: (id: number) => deleteFromQueue(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
-      toast.success("Video deleted!");
     },
     onError: (err: any) => {
-      if (err.response?.status === 403) {
-        toast.error("Access forbidden: You do not have permission to delete this video.");
-      } else {
-        toast.error(err.message);
-      }
+      throw err;
     },
   });
 
