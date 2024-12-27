@@ -13,7 +13,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthenticationProvider: React.FC = ({ children }) => {
+export const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => {
   const { isLoading, fetchStatus, data: user } = useQuery({
     queryKey: ['user'],
     queryFn: getCurrentUser,

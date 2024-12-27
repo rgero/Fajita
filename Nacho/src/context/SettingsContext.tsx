@@ -6,7 +6,7 @@ const SettingsContext = createContext({
   isFooterCompact: false,
   toggleFooterCompact: () => {},
   shareOptions: { clipboard: true, youtube: true },
-  updateShareOptions: (options: { clipboard: boolean, youtube: boolean }) => {}
+  updateShareOptions: (options: { clipboard: boolean; youtube: boolean }) => { console.log(options)}
 });
 
 const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
