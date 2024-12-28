@@ -1,4 +1,5 @@
 import { Box, Button, ButtonProps, DialogContent, DialogTitle, Grid, styled, useTheme } from '@mui/material';
+import { forwardRef, useEffect } from 'react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
@@ -6,7 +7,6 @@ import MaterialDialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
-import { forwardRef } from 'react';
 import { grey } from '@mui/material/colors';
 
 const Transition = forwardRef(function Transition(
@@ -32,6 +32,25 @@ const Dialog = ({open, setOpen, title, children} : {open: boolean, setOpen: (ope
   const handleClose = () => {
     setOpen(false);
   };
+
+  // An attempt at handling the back button.
+  useEffect(() => {
+    const handlePopState = () => {
+      if (open) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      window.history.pushState({ dialogOpen: true }, "Dialog Open", "/dialog");
+    }
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [open, setOpen]);
 
   return (
     <MaterialDialog
