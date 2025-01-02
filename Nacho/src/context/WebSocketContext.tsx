@@ -23,6 +23,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    if (!queueData || !queueData.id) return;
     if (socket) {
       socket.disconnect();
     }
