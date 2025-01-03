@@ -4,7 +4,7 @@ export interface Interaction {
   user:        Owner;
   video:       Video;
   youtube_id:  string;
-  id:          number;
+  id:          string;
   index:       number;
   priority:    number;
   created_at:  Date;

@@ -4,7 +4,7 @@ import { EmojiPeople } from '@mui/icons-material';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from "../../context/QueueContext"
 
-const ActiveQueueListItem = ({id, owner, image, closeFn} : {id: number, owner: string, image: string|undefined, closeFn: () => void}) => {
+const ActiveQueueListItem = ({id, owner, image, closeFn} : {id: string, owner: string, image: string|undefined, closeFn: () => void}) => {
   const {connectToQueue} = useQueueProvider();
 
   const processConnect = () => {

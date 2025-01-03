@@ -13,12 +13,12 @@ interface QueueContextType {
   error: Error | null;
   refetch: () => void;
   addVideoToQueue: ({id, priority, visibility}: {id: string, priority: number, visibility: number}) => void;
-  connectToQueue: (id: number) => void;
+  connectToQueue: (id: string) => void;
   checkForPlayNext: () => boolean,
-  getQueueID: () => number;
+  getQueueID: () => string;
   getQueueOwner: () => string;
   isActionPending: boolean;
-  deleteVideoFromQueue: (id: number) => void;
+  deleteVideoFromQueue: (id: string) => void;
 }
 
 const QueueContext = createContext<QueueContextType | undefined>(undefined);
@@ -31,9 +31,9 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const getQueueID = () => {
     try {
       const queueObject = JSON.parse(queue);
-      return queueObject.id || -1;
+      return queueObject.id || "";
     } catch {
-      return -1;
+      return "";
     }
   };
 
@@ -49,7 +49,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         throw err;
       }
     },
-    enabled: getQueueID() !== -1, // Avoid unnecessary queries
+    enabled: getQueueID() !== "", // Avoid unnecessary queries
   });
 
   // Auto-connection logic for queues
@@ -84,9 +84,9 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   }, [queue]);
 
   // Functions to manage the queue
-  const connectToQueue = async (id: number) => {
+  const connectToQueue = async (id: string) => {
     const queues = await getActiveQueues();
-    const targetQueue = queues.find((obj: { id: number; }) => obj.id === id);
+    const targetQueue = queues.find((obj: { id: string; }) => obj.id === id);
 
     if (!targetQueue) {
       throw new Error("Error connecting to queue");
@@ -106,7 +106,8 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
 
   const { mutateAsync: addVideoToQueue } = useMutation({
     mutationFn: async ({ id, priority, visibility }: { id: string; priority: Priority; visibility: number }) => {
-      await addToQueue(getQueueID(), user?.id as number, id, priority, visibility);
+      if (!user) { throw new Error("User not found"); }
+      await addToQueue(getQueueID(), user.id, id, priority, visibility);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
@@ -130,7 +131,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const { isPending: isActionPending, mutateAsync: deleteVideoFromQueue } = useMutation({
-    mutationFn: (id: number) => deleteFromQueue(id),
+    mutationFn: (id: string) => deleteFromQueue(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
     },

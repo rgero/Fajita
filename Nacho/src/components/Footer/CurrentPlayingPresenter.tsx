@@ -8,7 +8,7 @@ import { useQueueProvider } from "../../context/QueueContext";
 import { useSocketProvider } from "../../context/WebSocketContext";
 
 interface ProgressResponse {
-  queue_id: number,
+  queue_id: string,
   progress: number
 }
 

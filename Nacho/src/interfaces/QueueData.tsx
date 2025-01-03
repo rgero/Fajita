@@ -8,7 +8,7 @@ export interface QueueData {
   interactions:        Interaction[];
   current_interaction: Interaction;
   next_interaction:    Interaction;
-  id:                  number;
+  id:                  string;
   active:              boolean;
   locked:              boolean;
   player_sid:          string;

@@ -21,11 +21,11 @@ export const getSearchResults = async (searchTerm: string) => {
   return results;
 }
 
-export const getQueue = async (queueID: number) => 
+export const getQueue = async (queueID: string) => 
 {
   // Negative queue id is reserved for invalid queues.
   // No sense in trying to connect.
-  if (queueID == -1) return {};
+  if (queueID == "") return {};
 
   const queueURL = backendURL + `/api/queue/${queueID}`;
 
@@ -46,7 +46,7 @@ export const getQueue = async (queueID: number) =>
   return response.data;
 }
 
-export const addToQueue = async (queueID: number, userID: number, videoID: string, priority: Priority, visibility: number) => 
+export const addToQueue = async (queueID: string, userID: string, videoID: string, priority: Priority, visibility: number) => 
 {
   const queueURL = backendURL + "/api/interaction";
 
@@ -67,7 +67,7 @@ export const addToQueue = async (queueID: number, userID: number, videoID: strin
   });
 }
 
-export const deleteFromQueue = async (interactionID: number) => {
+export const deleteFromQueue = async (interactionID: string) => {
   const deleteURL = backendURL + `/api/interaction/${interactionID}`;
   await fajitaAxios.delete(deleteURL).catch( (err) => {
     if (err.response)

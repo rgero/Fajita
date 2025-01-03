@@ -14,7 +14,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
   const {queueData, refetch} = useQueueProvider();
 
-  const initializeSocket = useCallback((params: Record<string, number>) => {
+  const initializeSocket = useCallback((params: Record<string, string>) => {
     const newSocket = io(`${import.meta.env.VITE_WEBSOCKET_URL}/player`, {
       withCredentials: true,
       query: params,
