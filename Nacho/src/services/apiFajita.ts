@@ -82,7 +82,7 @@ export const deleteFromQueue = async (interactionID: string) => {
 
 // QUEUE STUFF
 export const getActiveQueues = async () => {
-  const queuesURL = backendURL + "/api/queues";
+  const queuesURL = backendURL + "/api/queues/active";
 
   try {
     const response = await fajitaAxios.get(queuesURL);
