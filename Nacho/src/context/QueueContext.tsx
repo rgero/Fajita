@@ -25,7 +25,7 @@ const QueueContext = createContext<QueueContextType | undefined>(undefined);
 
 const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
-  const { user, isAuthenticated } = useAuth();
+  const {user, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
 
   const getQueueID = () => {

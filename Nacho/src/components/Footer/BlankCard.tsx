@@ -1,6 +1,9 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material"
 
+import { useQueueProvider } from "../../context/QueueContext";
+
 const BlankCard = () => {
+  const {queueData} = useQueueProvider();
   return (
     <Card 
       sx={{ 
@@ -17,10 +20,10 @@ const BlankCard = () => {
         alt={"Nothing is Playing"}
       />
       <CardContent sx={{ display: "flex", flexGrow: 1, flexDirection: "column", minWidth: 0 }}>
-        <Typography variant="subtitle2" component="div" noWrap sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          Nothing in Queue
+        <Typography variant="subtitle2" component="div" noWrap sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: "bold"}}>
+          {queueData.id ? "Nothing in Queue" : "Not connected to queue"}
         </Typography>
-        <Typography variant="subtitle2">Have you considered adding songs?</Typography>
+        <Typography variant="subtitle2">{queueData.id ? "Have you considered adding songs?" : "Try connecting to one"}</Typography>
       </CardContent>
     </Card>
   );

@@ -47,6 +47,7 @@ export const getQueue = async (queueID: string) =>
 
 export const addToQueue = async (queueID: string, userID: string, videoID: string, priority: Priority, visibility: number) => 
 {
+  if (queueID == "") { throw new Error("Not connected to queue"); }
   const queueURL = backendURL + "/api/interaction";
 
   const bodyOfReq = {
