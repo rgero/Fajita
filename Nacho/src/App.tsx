@@ -11,6 +11,7 @@ import MainPage from "./pages/MainPage";
 import { QueueProvider } from "./context/QueueContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { SocketProvider } from "./context/WebSocketContext";
+import { StashProvider } from "./context/StashContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,11 +25,13 @@ const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
   return (    
     <AuthenticatedRoute>
       <SettingsProvider>
-        <QueueProvider>
-          <SocketProvider>  
-            {children}
-          </SocketProvider>
-        </QueueProvider>
+        <StashProvider>
+          <QueueProvider>
+            <SocketProvider>  
+              {children}
+            </SocketProvider>
+          </QueueProvider>
+        </StashProvider>
       </SettingsProvider>
     </AuthenticatedRoute>
   )

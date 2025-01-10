@@ -7,6 +7,8 @@ import LockQueueOption from "./HeaderOptions/LockQueueOption";
 import LogoutOption from "./HeaderOptions/LogoutOption";
 import QueueManagement from "./HeaderOptions/QueueManagement";
 import React from "react";
+import StashDialog from "../stash/StashDialog";
+import StashDisplayOption from "./HeaderOptions/StashDisplayOption";
 import UserSettingsDialog from "../settings/UserSettingsDialog";
 import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
 
@@ -19,6 +21,7 @@ interface Props
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const [activeQueuesOpen, setActiveQueuesOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const [stashOpen, setStashOpen] = React.useState(false);
   const [lockQueueOpen, setLockQueueOpen] = React.useState(false);
   const isOpen = Boolean(anchorEl);
 
@@ -26,6 +29,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
     <>
       <UserSettingsDialog open={settingsOpen} setOpen={setSettingsOpen}/>
       <ActiveQueueDialog open={activeQueuesOpen} setOpen={setActiveQueuesOpen}/>
+      <StashDialog open={stashOpen} setOpen={setStashOpen}/>
       <LockQueueModal open={lockQueueOpen} closeFn={() => setLockQueueOpen(false)}/>
       <Menu
         anchorEl={anchorEl}
@@ -37,6 +41,8 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <QueueManagement setOpen={setActiveQueuesOpen}/>
+        <Divider/>
+        <StashDisplayOption setOpen={setStashOpen}/>
         <Divider/>
         <LockQueueOption setShowLockModal={setLockQueueOpen}/>
         <Divider/>

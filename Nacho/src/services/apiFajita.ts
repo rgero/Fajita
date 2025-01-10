@@ -16,8 +16,7 @@ export const getSearchResults = async (searchTerm: string) => {
     throw new Error("Failed to get search results");
   }
   
-  // Process the results
-  const results = response.data.filter( (item: YoutubeResponse) => { return item.resultType.toLowerCase().includes("video")});
+  const results = response.data.filter( (item: YoutubeResponse) => { return item.resultType?.toLowerCase().includes("video")});
   return results;
 }
 
@@ -95,4 +94,35 @@ export const getActiveQueues = async () => {
     throw new Error("Failed to get active queues");
   }
 
+}
+
+
+// STASH STUFF
+export const getStashData = async () => {
+  const stashURL = backendURL + "/api/stash";
+
+  const response = await fajitaAxios.get(stashURL);
+  if (response.status != 200)
+  {
+    throw new Error("Failed to get stash data");
+  }
+  return response.data;
+}
+
+export const addToStash = async (videoID: string) => {
+  const stashURL = backendURL + "/api/artifact";
+  const bodyOfReq = {
+    video_id: videoID,
+  }
+
+  await fajitaAxios.post(stashURL, bodyOfReq).catch( () => {
+    throw new Error("Failed to add video to stash");
+  });
+}
+
+export const deleteFromStash = async (id: string) => {
+  const deleteURL = backendURL + `/api/artifact/${id}`;
+  await fajitaAxios.delete(deleteURL).catch( () => {
+    throw new Error("Error deleting video from stash");
+  });
 }

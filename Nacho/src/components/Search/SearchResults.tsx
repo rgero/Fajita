@@ -2,8 +2,8 @@ import { SearchResponse, useSearchResults } from "./hooks/useSearchResults"
 
 import { Box } from "@mui/material"
 import Empty from "../ui/Empty"
+import SearchCard from "./SearchCard"
 import Spinner from "../ui/Spinner"
-import VideoCard from "./SearchCard"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import toast from "react-hot-toast"
 
@@ -26,7 +26,7 @@ const SearchResults = () => {
       {
         searchResults.map( (entry: YoutubeResponse, index: number) => (
           <Box sx={{paddingBottom: {xs: 2}}} key={index}>
-            <VideoCard data={entry}/>
+            <SearchCard data={entry}/>
           </Box>
         ))
       }

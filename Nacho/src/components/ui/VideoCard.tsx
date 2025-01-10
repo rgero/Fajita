@@ -30,7 +30,7 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
   const title: string = decode(data.title)
   const channelTitle: string = decode(data.author)
   const imageURL: string = data.thumbnail_src
-  const views: string = data.views;
+  const views: string|undefined = data.views;
   const duration: string = data.duration;
 
   let cardContent = (
@@ -45,9 +45,11 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
         <Typography gutterBottom variant="h5" component="div" sx={{wordBreak: "break-word"}}>
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {channelTitle} - {views}
-        </Typography>
+        {channelTitle && views && (
+          <Typography variant="body2" color="text.secondary">
+            {channelTitle} - {views}
+          </Typography>
+        )}
       </CardContent>
     </>
   )
