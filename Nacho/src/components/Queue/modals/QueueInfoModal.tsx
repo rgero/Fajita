@@ -1,4 +1,5 @@
 import {Card, CardContent, CardMedia, Grid, Typography} from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
 import Button from '../../ui/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -15,6 +16,7 @@ import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../context/QueueContext';
 import { useSettings } from '../../../context/SettingsContext';
 import { useSocketProvider } from '../../../context/WebSocketContext';
+import { useStashProvider } from '../../../context/StashContext';
 import { useState } from 'react';
 
 const styles = {
@@ -41,9 +43,10 @@ interface Props {
 const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) => {
   const {socket} = useSocketProvider();
   const {getQueueID} = useQueueProvider();
+  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
   const {shareOptions} = useSettings();
   const {deleteVideoFromQueue} = useQueueProvider();
-  const {title, thumbnail, duration} = interaction.video;
+  const {video_id, title, thumbnail, duration} = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
@@ -69,6 +72,20 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
     }
     toast.success("Jumping to Video");
     closeFn();
+  }
+
+  const processStash = async () => {
+    try {
+      if (isInStash(video_id)) {
+        await deleteVideoFromStash(video_id);
+        toast.success("Video Removed from Stash");
+      } else {
+        await addVideoToStash(video_id);
+        toast.success("Video Added to Stash");
+      }
+    } catch {
+      toast.error("Error Stashing Video");
+    }
   }
 
   return (
@@ -102,11 +119,16 @@ const QueueInfoModal: React.FC<Props> = ({open, status, interaction, closeFn}) =
                       <Button onClick={()=> copyToClipboard(interaction)} icon={(<ShareIcon/>)} title="Copy"/>
                     </Grid>
                   )}
+                  {shareOptions.stash && (
+                    <Grid item>
+                      <Button onClick={processStash} icon={isInStash(video_id) ? <Favorite color="error"/> : <FavoriteBorder/>} title="Stash"/>
+                    </Grid>
+                  )}   
                   {shareOptions.youtube && (
                     <Grid item>
                       <Button onClick={() => OpenYouTubeURL(interaction)} icon={(<YouTubeIcon color="error"/>)} title="YouTube"/>
                     </Grid>   
-                  )}               
+                  )}
                 </>
               }
               <Grid item>

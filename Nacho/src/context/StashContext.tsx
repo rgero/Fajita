@@ -51,8 +51,8 @@ const StashProvider = ({ children }: { children: React.ReactNode }) => {
     },
   });
 
-  const isInStash = (id: string) => {
-    if (!stashData) { return false; }
+  const isInStash = (id: string|undefined) => {
+    if (!id || !stashData.artifacts) { return false; }
     return stashData.artifacts.some((artifact: Artifact) => artifact.video.video_id === id);
   }
 

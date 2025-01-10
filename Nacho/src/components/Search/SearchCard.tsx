@@ -1,5 +1,4 @@
 import { Card, IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
 
 import AddToQueueModal from "./modals/AddToQueueModal";
 import { FavoriteBorder } from "@mui/icons-material";
@@ -8,6 +7,7 @@ import VideoCard from "../ui/VideoCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from "react-hot-toast";
 import { useStashProvider } from "../../context/StashContext";
+import { useState } from "react";
 
 interface Props {
   data: YoutubeResponse;
@@ -31,20 +31,7 @@ const styles = {
 
 const SearchCard: React.FC<Props> = ({ data }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [inStash, setInStash] = useState(false);
-  const {addVideoToStash, deleteVideoFromStash, isLoading, stashData} = useStashProvider();
-
-  useEffect(() => {
-    if (!stashData || isLoading) {
-      return;
-    }
-
-    if (stashData.artifacts.some((artifact) => artifact.video.video_id === data.id)) {
-      setInStash(true);
-    } else {
-      setInStash(false);
-    }
-  }, [stashData])
+  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
 
   const handleAddToStash = async () => {
     try {
@@ -70,10 +57,10 @@ const SearchCard: React.FC<Props> = ({ data }) => {
       <Card sx={styles.card}>
         <IconButton
           sx={styles.overlayButton}
-          onClick={inStash ? handleRemoveFromStash : handleAddToStash}
-          aria-label={inStash ? "Remove from Stash" : "Add to Stash"}
+          onClick={isInStash(data.id) ? handleRemoveFromStash : handleAddToStash}
+          aria-label={isInStash(data.id) ? "Remove from Stash" : "Add to Stash"}
         >
-          {inStash ? <FavoriteIcon color="error" /> : <FavoriteBorder/> }
+          {isInStash(data.id) ? <FavoriteIcon color="error" /> : <FavoriteBorder/> }
         </IconButton>
         <VideoCard data={data} clickFn={() => setModalOpen(() => true)} />
       </Card>

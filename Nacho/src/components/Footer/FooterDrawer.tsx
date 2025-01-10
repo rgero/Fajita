@@ -1,5 +1,6 @@
 import { Box, Divider, List, SwipeableDrawer } from "@mui/material"
 
+import AddToStashOption from "./DrawerOptions/AddToStash"
 import CopyOption from "./DrawerOptions/CopyOption"
 import PlayOption from "./DrawerOptions/PlayOption"
 import QueueOption from "./DrawerOptions/QueueOption"
@@ -30,8 +31,9 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer, isQueueOpen, setQu
           <PlayOption/>
           <SkipOption/>
           <Divider/>
-          <YoutubeOption/>
+          <AddToStashOption/>
           <CopyOption/>
+          <YoutubeOption/>
           <Divider/>
           <QueueOption isQueueOpen={isQueueOpen} setQueueOpen={setQueueOpen}/>
         </List>

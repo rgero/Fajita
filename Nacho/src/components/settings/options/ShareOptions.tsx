@@ -5,7 +5,7 @@ import { useSettings } from "../../../context/SettingsContext"
 const ShareOptions  = () => {
   const {shareOptions, updateShareOptions} = useSettings();
 
-  const toggleShareOption = (option: 'clipboard' | 'youtube') => {
+  const toggleShareOption = (option: 'clipboard' | 'youtube' | 'stash') => {
     updateShareOptions({
       ...shareOptions,
       [option]: !shareOptions[option]
@@ -39,6 +39,21 @@ const ShareOptions  = () => {
               <Switch
                 checked={shareOptions.youtube}
                 onChange={() => toggleShareOption("youtube")}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item>
+        <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
+          <Grid item>
+            <Typography variant="body1">Stash</Typography>
+          </Grid>
+          <Grid item>
+            <Grid container alignItems="center">
+              <Switch
+                checked={shareOptions.stash}
+                onChange={() => toggleShareOption("stash")}
               />
             </Grid>
           </Grid>

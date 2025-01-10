@@ -5,7 +5,7 @@ import { useLocalStorageState } from "../hooks/useLocalStorageState";
 const SettingsContext = createContext({
   isFooterCompact: false,
   toggleFooterCompact: () => {},
-  shareOptions: { clipboard: true, youtube: true },
+  shareOptions: { clipboard: true, youtube: true, stash: true },
   updateShareOptions: (options: { clipboard: boolean; youtube: boolean }) => { console.log(options)}
 });
 
@@ -17,7 +17,7 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   );
 
   const [shareOptions, setShareOptions] = useLocalStorageState(
-    JSON.stringify({ clipboard: true, youtube: true }),
+    JSON.stringify({ clipboard: true, youtube: true, stash: true }),
     "shareOptions"
   );
 

@@ -13,7 +13,7 @@ const Button: React.FC<ButtonProps> = ({icon, onClick, title}) => {
     <ButtonBase 
       sx={{
         borderRadius: "40px",
-        paddingInline: "10px"
+        paddingInline: "5px"
       }}
       onClick={onClick}
     >
