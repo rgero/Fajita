@@ -1,12 +1,14 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
+
+const defaultShareOptions = { clipboard: false, youtube: true, stash: true };
 
 const SettingsContext = createContext({
   isFooterCompact: false,
   toggleFooterCompact: () => {},
-  shareOptions: { clipboard: false, youtube: true, stash: true },
-  updateShareOptions: (options: { clipboard: boolean; youtube: boolean }) => { console.log(options)}
+  shareOptions: defaultShareOptions,
+  updateShareOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) }
 });
 
 const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
@@ -17,16 +19,31 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   );
 
   const [shareOptions, setShareOptions] = useLocalStorageState(
-    JSON.stringify({ clipboard: false, youtube: true, stash: true }),
+    JSON.stringify(defaultShareOptions),
     "shareOptions"
   );
 
+  const validateShareOptions = (options: any) => {
+    return {
+      clipboard: options.clipboard ?? defaultShareOptions.clipboard,
+      youtube: options.youtube ?? defaultShareOptions.youtube,
+      stash: options.stash ?? defaultShareOptions.stash,
+    };
+  };
+
+  useEffect(() => {
+    const parsedShareOptions = JSON.parse(shareOptions);
+    const validatedShareOptions = validateShareOptions(parsedShareOptions);
+    if (JSON.stringify(parsedShareOptions) !== JSON.stringify(validatedShareOptions)) {
+      setShareOptions(JSON.stringify(validatedShareOptions));
+    }
+  }, []);
 
   const toggleFooterCompact = () => {
     setIsFooterCompact((isCompact: boolean) => !isCompact);
   }
 
-  const updateShareOptions = (options: { clipboard: boolean, youtube: boolean }) => {
+  const updateShareOptions = (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => {
     setShareOptions(JSON.stringify(options));
   }
 
@@ -35,7 +52,7 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
       value={{
         isFooterCompact, 
         toggleFooterCompact,
-        shareOptions: JSON.parse(shareOptions),
+        shareOptions: validateShareOptions(JSON.parse(shareOptions)),
         updateShareOptions
       }}
     >
