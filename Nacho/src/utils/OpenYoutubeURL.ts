@@ -1,6 +1,7 @@
+import { Artifact } from "../interfaces/Artifact";
 import { Interaction } from "../interfaces/Interaction";
 
-export const OpenYouTubeURL = (interaction: Interaction) => {
+export const OpenYouTubeURL = (interaction: Interaction|Artifact) => {
   const url = `https://www.youtube.com/watch?v=${interaction.video.video_id}`;
   const iosUrl = `youtube://${interaction.video.video_id}`;
   const androidUrl = `intent://www.youtube.com/watch?v=${interaction.video.video_id}#Intent;package=com.google.android.youtube;scheme=https;end`;

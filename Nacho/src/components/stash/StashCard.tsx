@@ -1,9 +1,14 @@
-import { Card, CardActionArea, CardContent, CardMedia, IconButton, Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, Typography } from "@mui/material";
+import { Share, YouTube } from "@mui/icons-material";
 
 import AddToQueueModal from "../Search/modals/AddToQueueModal";
 import { Artifact } from "../../interfaces/Artifact";
+import Button from "../ui/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";
+import { copyToClipboard } from "../../utils/CopyToClipboard";
 import toast from "react-hot-toast";
+import { useSettings } from "../../context/SettingsContext";
 import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
@@ -40,6 +45,7 @@ const styles = {
 
 const StashCard: React.FC<Props> = ({ data }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const {shareOptions} = useSettings();
   const {deleteVideoFromStash} = useStashProvider();
    
   const {title, thumbnail, duration} = data.video
@@ -50,14 +56,24 @@ const StashCard: React.FC<Props> = ({ data }) => {
       await deleteVideoFromStash(data.video.video_id);
       toast.success("Video removed from stash");
     } catch (err: any) {
-      console.log(err);
       toast.error("Failed to remove video from stash");
     }
   }
 
   return (
     <>
-      <AddToQueueModal open={isModalOpen} videoData={{id: data.video.video_id, title: title, duration: parsedDuration, thumbnail_src: thumbnail}} closeFn={() => setModalOpen(false)} />
+      <AddToQueueModal open={isModalOpen} videoData={{id: data.video.video_id, title: title, duration: parsedDuration, thumbnail_src: thumbnail}} closeFn={() => setModalOpen(false)}>
+        {shareOptions.clipboard ? (
+          <Grid item>
+            <Button onClick={()=> copyToClipboard(data)} icon={(<Share/>)} title="Copy"/>
+          </Grid>
+        ) : null }
+        {shareOptions.youtube ? (
+          <Grid item>
+            <Button onClick={() => OpenYouTubeURL(data)} icon={(<YouTube color="error"/>)} title="YouTube"/>
+          </Grid>   
+        ) : null }
+      </AddToQueueModal>
       <Card sx={styles.card}>
         <IconButton
           sx={styles.overlayButton}

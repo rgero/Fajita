@@ -17,10 +17,11 @@ import { useState } from 'react';
 interface Props {
   open: boolean,
   videoData: YoutubeResponse,
-  closeFn: () => void
+  closeFn: () => void,
+  children? : React.ReactNode
 }
 
-const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
+const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
   const {addVideoToQueue, checkForPlayNext} = useQueueProvider();
@@ -102,14 +103,26 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn}) => {
             <Grid item>
               <VisibilityGroup selected={selectedVisibility} setSelected={setSelected}/>
             </Grid>
-            <Grid container direction="row" justifyContent="flex-end" spacing={3} alignItems="center" sx={{paddingTop: 2}}>
+            <Grid container justifyContent={children ? "space-between" : "flex-end"}>
+              {children && (
+                <Grid item>
+                  <Grid container direction="row" alignItems="center" sx={{paddingTop: 2}}>
+                    {children}
+                  </Grid>
+                </Grid>
+              )}
               <Grid item>
-                <FajitaButton onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
-              </Grid>
-              <Grid item>
-                <FajitaButton onClick={checkPlayNext} icon={(<AddCircle color="success"/>)} title="Add"/>
+                <Grid container direction="row" justifyContent="flex-end" alignItems="center" sx={{paddingTop: 2}}>
+                  <Grid item>
+                    <FajitaButton onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
+                  </Grid>
+                  <Grid item>
+                    <FajitaButton onClick={checkPlayNext} icon={(<AddCircle color="success"/>)} title="Add"/>
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
+
           </Grid>
         ) : (
           <Grid item>
