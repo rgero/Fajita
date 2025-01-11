@@ -1,7 +1,6 @@
-import { Grid, MenuItem } from "@mui/material"
+import { Lock, LockOpen } from "@mui/icons-material";
 
-import LockIcon from '@mui/icons-material/Lock';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
+import HeaderMenuOption from "./HeaderMenuOption";
 import { useQueueProvider } from "../../../context/QueueContext";
 
 const LockQueueOption = ({setShowLockModal} : {setShowLockModal: (showModal: boolean) => void}) => {
@@ -13,16 +12,11 @@ const LockQueueOption = ({setShowLockModal} : {setShowLockModal: (showModal: boo
   }
 
   return (
-    <MenuItem onClick={toggleQueueLock}>
-      <Grid container direction="row" spacing={1}>
-        <Grid item>
-          {isQueueLocked ? <LockOpenIcon/> : <LockIcon/>}
-        </Grid>
-        <Grid item>
-          {isQueueLocked ? "Unlock Queue" : "Lock Queue" }
-        </Grid>
-      </Grid>
-    </MenuItem>
+    <HeaderMenuOption 
+      icon={isQueueLocked ? <LockOpen/> : <Lock/>} 
+      text={isQueueLocked ? "Unlock Queue" : "Lock Queue"}
+      onClick={toggleQueueLock}
+    />
   )
 }
 

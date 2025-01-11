@@ -1,19 +1,9 @@
-import { Grid, MenuItem } from "@mui/material"
-
 import { Favorite } from "@mui/icons-material"
+import HeaderMenuOption from "./HeaderMenuOption"
 
 const StashDisplayOption = ({setOpen} : {setOpen : (open: boolean) => void}) => {
   return (
-    <MenuItem onClick={() => setOpen(true)}>
-      <Grid container direction="row" spacing={1}>
-        <Grid item>
-          <Favorite/> 
-        </Grid>
-        <Grid item>
-          View Stash
-        </Grid>
-      </Grid>
-    </MenuItem> 
+    <HeaderMenuOption icon={<Favorite/>} text="View Stash" onClick={() => setOpen(true)}/>
   )
 }
 

@@ -1,6 +1,6 @@
 import { Cameraswitch, QueueMusic } from "@mui/icons-material";
-import { Grid, MenuItem } from "@mui/material"
 
+import HeaderMenuOption from "./HeaderMenuOption";
 import { useQueueProvider } from "../../../context/QueueContext";
 
 const QueueManagement = ({setOpen} : {setOpen : (open: boolean) => void}) => {
@@ -10,27 +10,9 @@ const QueueManagement = ({setOpen} : {setOpen : (open: boolean) => void}) => {
   return (
     <>
       {queueOwner && (
-        <MenuItem>
-          <Grid container direction="row" spacing={1}>
-            <Grid item>
-              <QueueMusic/> 
-            </Grid>
-            <Grid item>
-              {queueOwner}'s Queue
-            </Grid>
-          </Grid>
-        </MenuItem>
+        <HeaderMenuOption icon={<QueueMusic/>} text={`${queueOwner}'s Queue`}/>
       )}
-      <MenuItem onClick={() => setOpen(true)}>
-        <Grid container direction="row" spacing={1}>
-          <Grid item>
-            <Cameraswitch/> 
-          </Grid>
-          <Grid item>
-            Connect to Queue
-          </Grid>
-        </Grid>
-      </MenuItem> 
+      <HeaderMenuOption icon={<Cameraswitch/>} text="Connect to Queue" onClick={() => setOpen(true)}/>
     </>
   )
 }

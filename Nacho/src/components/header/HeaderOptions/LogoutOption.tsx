@@ -1,6 +1,5 @@
-import { Grid, MenuItem } from "@mui/material"
-
-import LogoutIcon from '@mui/icons-material/Logout';
+import HeaderMenuOption from "./HeaderMenuOption";
+import { Logout } from "@mui/icons-material";
 import { deleteAllCookies } from "../../../services/apiAuthentication";
 
 const LogoutOption = () => {
@@ -11,16 +10,7 @@ const LogoutOption = () => {
     }
 
   return (
-    <MenuItem onClick={handleLogout}>
-      <Grid container direction="row" spacing={1}>
-        <Grid item>
-          <LogoutIcon />
-        </Grid>
-        <Grid item>
-          Log out
-        </Grid>
-      </Grid>
-    </MenuItem>
+    <HeaderMenuOption icon={<Logout/>} text="Log out" onClick={handleLogout}/>
   )
 }
 
