@@ -1,6 +1,6 @@
-import { Grid, MenuItem, Typography } from "@mui/material"
+import { Cameraswitch, QueueMusic } from "@mui/icons-material";
+import { Grid, MenuItem } from "@mui/material"
 
-import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 import { useQueueProvider } from "../../../context/QueueContext";
 
 const QueueManagement = ({setOpen} : {setOpen : (open: boolean) => void}) => {
@@ -11,11 +11,12 @@ const QueueManagement = ({setOpen} : {setOpen : (open: boolean) => void}) => {
     <>
       {queueOwner && (
         <MenuItem>
-          <Grid container direction="row" spacing={1} justifyContent="center">
+          <Grid container direction="row" spacing={1}>
             <Grid item>
-              <Typography>
-                {queueOwner}'s Queue
-              </Typography>
+              <QueueMusic/> 
+            </Grid>
+            <Grid item>
+              {queueOwner}'s Queue
             </Grid>
           </Grid>
         </MenuItem>
@@ -23,7 +24,7 @@ const QueueManagement = ({setOpen} : {setOpen : (open: boolean) => void}) => {
       <MenuItem onClick={() => setOpen(true)}>
         <Grid container direction="row" spacing={1}>
           <Grid item>
-            <CameraswitchIcon/> 
+            <Cameraswitch/> 
           </Grid>
           <Grid item>
             Connect to Queue
