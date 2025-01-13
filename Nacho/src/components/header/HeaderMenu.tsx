@@ -11,6 +11,7 @@ import StashDialog from "../stash/StashDialog";
 import StashDisplayOption from "./HeaderOptions/StashDisplayOption";
 import UserSettingsDialog from "../settings/UserSettingsDialog";
 import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
+import { useDialogContext } from "../../context/DialogContext";
 
 interface Props
 {
@@ -19,9 +20,14 @@ interface Props
 }
 
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
-  const [activeQueuesOpen, setActiveQueuesOpen] = React.useState(false);
-  const [settingsOpen, setSettingsOpen] = React.useState(false);
-  const [stashOpen, setStashOpen] = React.useState(false);
+  const {
+    settingsOpen,
+    activeQueuesOpen,
+    stashOpen,
+    setSettingsOpen,
+    setActiveQueuesOpen,
+    setStashOpen
+  } = useDialogContext();
   const [lockQueueOpen, setLockQueueOpen] = React.useState(false);
   const isOpen = Boolean(anchorEl);
 

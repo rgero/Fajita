@@ -5,6 +5,7 @@ import AppLayout from "./components/ui/AppLayout";
 import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
 import { AuthenticationProvider } from "./context/AuthenicationContext";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import { DialogProvider } from "./context/DialogContext";
 import FeedbackPage from "./pages/FeedbackPage";
 import LandingPage from "./pages/LandingPage";
 import MainPage from "./pages/MainPage";
@@ -27,8 +28,10 @@ const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
       <SettingsProvider>
         <StashProvider>
           <QueueProvider>
-            <SocketProvider>  
-              {children}
+            <SocketProvider>
+              <DialogProvider>  
+                {children}
+              </DialogProvider>
             </SocketProvider>
           </QueueProvider>
         </StashProvider>

@@ -1,11 +1,14 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 
 import QueueIcon from '@mui/icons-material/Queue';
+import { useDialogContext } from "../../../context/DialogContext";
 
-const QueueOption = ({isQueueOpen, setQueueOpen} : {isQueueOpen: boolean, setQueueOpen: (open: boolean) => void}) => {
+const QueueOption = () => {
+
+  const { queueOpen, setQueueOpen } = useDialogContext();
 
   const processClick = () => {
-    setQueueOpen(!isQueueOpen);
+    setQueueOpen(!queueOpen);
   }
 
   return (
@@ -14,7 +17,7 @@ const QueueOption = ({isQueueOpen, setQueueOpen} : {isQueueOpen: boolean, setQue
         <ListItemIcon>
           <QueueIcon/>
         </ListItemIcon>
-        <ListItemText primary={isQueueOpen ? "Collapse Queue" : "View Queue"}/>
+        <ListItemText primary={queueOpen ? "Collapse Queue" : "View Queue"}/>
       </ListItemButton>
     </ListItem>
   )
