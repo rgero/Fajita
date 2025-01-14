@@ -2,23 +2,25 @@ import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from "../servi
 import { createContext, useContext, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { Interaction } from "../interfaces/Interaction";
 import { Priority } from "../interfaces/Priority";
 import { QueueData } from "../interfaces/QueueData";
 import { useAuth } from "./AuthenicationContext";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 interface QueueContextType {
-  isLoading: boolean;
-  queueData: QueueData;
-  error: Error | null;
-  refetch: () => void;
   addVideoToQueue: ({id, priority, visibility}: {id: string, priority: number, visibility: number}) => void;
-  connectToQueue: (id: string) => void;
   checkForPlayNext: () => boolean,
+  connectToQueue: (id: string) => void;
+  deleteVideoFromQueue: (id: string) => void;
+  error: Error | null;
   getQueueID: () => string;
   getQueueOwner: () => string;
   isActionPending: boolean;
-  deleteVideoFromQueue: (id: string) => void;
+  isInQueue: (id: string) => boolean;
+  isLoading: boolean;
+  queueData: QueueData;
+  refetch: () => void;
 }
 
 const QueueContext = createContext<QueueContextType | undefined>(undefined);
@@ -130,6 +132,11 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const isInQueue = (id: string) => {
+    if (!queueData.interactions) return false;
+    return queueData.interactions.some((interaction: Interaction) => interaction.youtube_id === id);
+  }
+
   const { isPending: isActionPending, mutateAsync: deleteVideoFromQueue } = useMutation({
     mutationFn: (id: string) => deleteFromQueue(id),
     onSuccess: () => {
@@ -145,17 +152,18 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueueContext.Provider
       value={{
-        isLoading,
-        queueData,
-        error,
-        refetch,
         addVideoToQueue,
-        connectToQueue,
         checkForPlayNext,
+        connectToQueue,
         deleteVideoFromQueue,
-        isActionPending,
+        error,
         getQueueID,
         getQueueOwner,
+        isActionPending,
+        isInQueue,
+        isLoading,
+        queueData,
+        refetch,
       }}
     >
       {children}
