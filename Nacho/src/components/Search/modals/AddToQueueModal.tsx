@@ -1,5 +1,6 @@
-import { AddCircle, CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
+import { AddCircle, CheckBox, CheckBoxOutlineBlank, Favorite, FavoriteBorder } from '@mui/icons-material';
 
+import Button from '../../ui/Button';
 import FajitaButton from "../../ui/Button"
 import { Grid } from '@mui/material';
 import Modal from '../../ui/Modal';
@@ -12,6 +13,7 @@ import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../context/QueueContext';
+import { useStashProvider } from '../../../context/StashContext';
 import { useState } from 'react';
 
 interface Props {
@@ -25,8 +27,23 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
   const {addVideoToQueue, checkForPlayNext} = useQueueProvider();
+  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
 
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
+
+  const processStash = async () => {
+    try {
+      if (isInStash(videoData.id)) {
+        await deleteVideoFromStash(videoData.id);
+        toast.success("Video Removed from Stash");
+      } else {
+        await addVideoToStash(videoData.id);
+        toast.success("Video Added to Stash");
+      }
+    } catch {
+      toast.error("Error Stashing Video");
+    }
+  }
 
   const cleanUpAndClose = () => {
     setPriority(Priority.normal);
@@ -103,16 +120,20 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
             <Grid item>
               <VisibilityGroup selected={selectedVisibility} setSelected={setSelected}/>
             </Grid>
-            <Grid container justifyContent={children ? "space-between" : "flex-end"}>
-              {children && (
+            <Grid container justifyContent={"space-between"} sx={{paddingTop: 2}}>
+              {children ? (
                 <Grid item>
-                  <Grid container direction="row" alignItems="center" sx={{paddingTop: 2}}>
+                  <Grid container direction="row" alignItems="center">
                     {children}
                   </Grid>
                 </Grid>
+              ) : (
+                <Grid item>
+                  <Button onClick={processStash} icon={isInStash(videoData.id) ? <Favorite color="error"/> : <FavoriteBorder/>} title="Stash"/>
+                </Grid>
               )}
               <Grid item>
-                <Grid container direction="row" justifyContent="flex-end" alignItems="center" sx={{paddingTop: 2}}>
+                <Grid container direction="row" justifyContent="flex-end" alignItems="center">
                   <Grid item>
                     <FajitaButton onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
                   </Grid>
