@@ -1,25 +1,23 @@
 # Fajita
-A custom YouTube wrapper designed to maintain a group video queue during gathering.
+Fajita is a project that a friend and I have been working on together. Its purpose is to be a tool that our friends use during our weekly hang outs to manage a queue of YouTube videos. 
 
-**Current Functionality**
-- Joining an existing queue
-- Switching to a new queue
-- Searching for videos
-- Adding videos to a queue
-- Adding videos to be played next - (skipping a queue)
-- Deleting videos from the queue
-- Skipping to a different video in the queue
-- Play/Pause
-- Secretly adding a video to the queue
-- Shouting to the room that you added a video
-- Opening the currently playing video in YouTube
-- Copy the URL of the currently playing video in YouTube
+This repository is specifically for Nacho, which is the web app that people use to manipulate the queue. This web app communicates to a custom service which also commits to a Player website. Nacho is written in Typescript, utilizing React and MaterialUI. 
 
-All of these events are being set to a custom backend which sends them to a custom built front end so that we can have a customized viewing experience with our friend groups.
-
-This project is written in Typescript with React.
+Nacho has the following functionality:
+- Ability to join an existing queue
+- Switch between queues
+- Search for videos
+- Add videos to the queue they are connected to
+-- Users can add videos in a variety of ways, such as marking it as secret, shouting to the audience, or making it the next video to be played.
+- Delete videos from the queue
+- Skip to a different video
+-- This can be done with the "Skip" functionality which just goes to the next video or by selecting a video from the queue and skipping to it.
+- Control playback - Currently this is only toggling the play status of the video, the ability to skip to a specific point in the video is being investigated
+- Adding videos to their personal stash, which in essence is a "Save for Later".
+- Share videos outside of Nacho
 
 ### Important Dates
 2024-12-12 - Incrementing version release to 0.5
 2024-12-21 - Enchilada Branch merged
 2025-01-06 - Incrementing the version to 0.6
+2025-01-17 - Added the Stash, which allows people to save things from/for the queue.
