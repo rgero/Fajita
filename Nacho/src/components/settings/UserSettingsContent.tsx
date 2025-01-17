@@ -8,15 +8,15 @@ const UserSettingsContent = () => {
   return (
     <Box style={{paddingTop: "1rem"}}>
       <Box>
-        <Typography variant="body1">General Settings</Typography>
+        <Typography variant="body1" sx={{fontWeight: "bold"}}>General Settings</Typography>
         <DarkModeToggle/>
       </Box>
       <Box>
-        <Typography variant="body1">Currently Playing Options</Typography>
+        <Typography variant="body1" sx={{fontWeight: "bold"}}>Currently Playing Options</Typography>
         <FooterCardOptions/>
       </Box>
       <Box>
-        <Typography variant="body1">Sharing Options</Typography>
+        <Typography variant="body1" sx={{fontWeight: "bold"}}>Sharing Options</Typography>
         <ShareOptions/>
       </Box>
     </Box>
