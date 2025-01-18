@@ -1,4 +1,4 @@
-import { Collapse, Container, Fade, IconButton, useTheme } from '@mui/material';
+import { Container, Fade, IconButton, useTheme } from '@mui/material';
 
 import Dialog from '../ui/Dialog';
 import QueueList from './QueueList';
@@ -8,7 +8,7 @@ import { useQueueProvider } from '../../context/QueueContext';
 import { useState } from 'react';
 
 const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open: boolean) => void}) => {
-  const { searchTerm, setSearchTerm} = useQueueProvider();
+  const {searchTerm, setSearchTerm} = useQueueProvider();
   const [showSearch, setShowSearch] = useState(false);
   const theme = useTheme();
 
