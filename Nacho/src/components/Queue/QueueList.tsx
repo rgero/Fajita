@@ -68,7 +68,9 @@ const QueueList = () => {
       {
         interactions.map( (entry: Interaction, index: number) => (
           <Box 
-            sx={{paddingBottom: {xs: 1}}} 
+            sx={{
+              paddingBottom: {xs: 1},
+            }} 
             key={index} 
             id={`${entry.index}`}
             ref={ entry.index === targetIndex ? scrollToRef : null } 

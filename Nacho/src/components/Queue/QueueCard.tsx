@@ -6,6 +6,7 @@ import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
+import { useQueueProvider } from "../../context/QueueContext";
 import { useTheme } from '@mui/material/styles';
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 
 const QueueCard: React.FC<Props> = ({data, current}) => {
   const theme = useTheme();
+  const {searchTerm} = useQueueProvider();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
 
@@ -22,10 +24,24 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const {title, thumbnail, duration} = data.video
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
+  const backgroundColor = () => {
+    if (data.index == current)
+    {
+      return theme.palette.info.dark
+    }
+
+    if (searchTerm && title.toLowerCase().includes(searchTerm.toLowerCase()))
+    {
+      return theme.palette.success.dark
+    }
+    
+    return "";
+  }
+
   const styles = {
     cardStyle: {
       width:"100%", 
-      backgroundColor: `${data.index == current ? `${theme.palette.info.dark}` : ""}`,
+      backgroundColor: backgroundColor,
       color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
     },
     overlay: {

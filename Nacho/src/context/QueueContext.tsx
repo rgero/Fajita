@@ -1,5 +1,5 @@
 import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from "../services/apiFajita";
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Interaction } from "../interfaces/Interaction";
@@ -21,6 +21,8 @@ interface QueueContextType {
   isLoading: boolean;
   queueData: QueueData;
   refetch: () => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
 const QueueContext = createContext<QueueContextType | undefined>(undefined);
@@ -28,6 +30,7 @@ const QueueContext = createContext<QueueContextType | undefined>(undefined);
 const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
   const {user, isAuthenticated } = useAuth();
+  const [ searchTerm, setSearchTerm ] = useState<string>("");
   const queryClient = useQueryClient();
 
   const getQueueID = () => {
@@ -164,6 +167,8 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         isLoading,
         queueData,
         refetch,
+        searchTerm,
+        setSearchTerm
       }}
     >
       {children}
