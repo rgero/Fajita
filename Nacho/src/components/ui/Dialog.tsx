@@ -26,7 +26,7 @@ const CloseButton = styled(Button)<ButtonProps>(({ theme }) => ({
   },
 }));
 
-const Dialog = ({open, setOpen, title, children} : {open: boolean, setOpen: (open: boolean) => void, title: string, children: React.ReactNode}) => {
+const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean, setOpen: (open: boolean) => void, title: string, children: React.ReactNode, titleButtons?: React.ReactNode}) => {
   const theme = useTheme();
   
   const handleClose = () => {
@@ -62,21 +62,28 @@ const Dialog = ({open, setOpen, title, children} : {open: boolean, setOpen: (ope
       sx={{zIndex: 15}}
     >
       <DialogTitle id="scroll-dialog-title">
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" justifyContent="space-between">
           <Grid item>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
-            >
-              <CloseIcon />
-            </IconButton>
+            <Grid container alignItems="center">
+              <Grid item>
+                <IconButton
+                  edge="start"
+                  color="inherit"
+                  onClick={handleClose}
+                  aria-label="close"
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <Typography variant="h5">
+                  {title}
+                </Typography>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="h5">
-              {title}
-            </Typography>
+            {titleButtons}
           </Grid>
         </Grid>
       </DialogTitle>

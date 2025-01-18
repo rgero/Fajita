@@ -5,11 +5,8 @@ import Empty from "../ui/Empty";
 import Spinner from "../ui/Spinner";
 import StashCard from "./StashCard";
 import toast from "react-hot-toast";
-import { useStashProvider } from "../../context/StashContext";
 
-const StashList = () => {
-  const { isLoading, stashData, error } = useStashProvider();
-
+const StashList = ({isLoading, stashData, error}: {isLoading: boolean, stashData: Artifact[], error: Error | null}) => {
   if (isLoading) return (<Spinner />)
 
   if (error) {
@@ -23,7 +20,7 @@ const StashList = () => {
   return (
     <Container disableGutters sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       {
-        stashData.artifacts.map((entry: Artifact, index: number) => (
+        stashData.map((entry: Artifact, index: number) => (
           <Box sx={{ paddingBottom: { xs: 2 }, width: '100%', maxWidth: 600 }} key={index}>
             <StashCard data={entry} />
           </Box>
