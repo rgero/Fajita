@@ -12,8 +12,13 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
   const [showSearch, setShowSearch] = useState(false);
   const theme = useTheme();
 
+  const processShowHideSearch = (show: boolean) => {
+    if (!show) { setSearchTerm(""); }
+    setShowSearch(show);
+  }
+
   const adornmentButtons = (
-    <IconButton onClick={() => setShowSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
+    <IconButton onClick={() => processShowHideSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
       <Search />
     </IconButton>
   )
@@ -34,11 +39,11 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
           disableGutters
           sx={{
             maxWidth: 600,
-            position: 'absolute', // Pinned to the top of the dialog
-            top: '75px', // Position below the title
+            position: 'absolute',
+            top: '75px',
             left: '50%',
             transform: 'translateX(-50%)',
-            zIndex: 10, // Ensures it's above other content
+            zIndex: 10,
             backgroundColor: theme.palette.background.default,
             padding: '10px',
             borderRadius: '8px',
@@ -49,12 +54,11 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
         </Container>
       </Fade>
 
-      {/* QueueList */}
       <Container
         disableGutters
         sx={{
-          marginTop: showSearch ? '90px' : '0px', // Add space to avoid overlap
-          transition: 'margin-top 0.3s ease', // Smooth transition
+          marginTop: showSearch ? '90px' : '0px',
+          transition: 'margin-top 0.3s ease',
         }}
       >
         <QueueList />

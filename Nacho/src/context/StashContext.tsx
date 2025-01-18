@@ -1,25 +1,27 @@
 import { addToStash, deleteFromStash, getStashData } from "../services/apiFajita";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Artifact } from "../interfaces/Artifact";
-import { StashData } from "../interfaces/StashData";
 
 interface StashContextType {
-  isLoading: boolean;
-  stashData: StashData;
-  error: Error | null;
-  refetch: () => void;
   addVideoToStash: (id: string) => void;
+  deleteVideoFromStash: (id: string) => void;
+  error: Error | null;
+  GetFilteredData: () => Artifact[];
   isActionPending: boolean;
   isInStash: (id: string) => boolean;
-  deleteVideoFromStash: (id: string) => void;
+  isLoading: boolean;
+  refetch: () => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }
 
 const StashContext = createContext<StashContextType| undefined>(undefined);
 
 const StashProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const { isLoading, data: stashData = {}, error, refetch } = useQuery({
     queryKey: ["stashData"],
@@ -56,16 +58,25 @@ const StashProvider = ({ children }: { children: React.ReactNode }) => {
     return stashData.artifacts.some((artifact: Artifact) => artifact.video.video_id === id);
   }
 
+  const GetFilteredData = () => {
+    if (searchTerm === "") return stashData.artifacts;
+    return stashData.artifacts.filter((artifact: Artifact) => {
+      return artifact.video.title.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  }
+
   return (
     <StashContext.Provider value={{
-      isLoading,
-      stashData,
-      error,
-      refetch,
       addVideoToStash,
       deleteVideoFromStash,
+      error,
+      GetFilteredData,
+      isActionPending,
       isInStash,
-      isActionPending
+      isLoading,
+      refetch,
+      searchTerm,
+      setSearchTerm
     }}>
       {children}
     </StashContext.Provider>

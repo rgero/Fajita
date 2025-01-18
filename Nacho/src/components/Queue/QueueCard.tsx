@@ -43,6 +43,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
       width:"100%", 
       backgroundColor: backgroundColor,
       color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
+      transition: "background-color 0.3s ease"
     },
     overlay: {
       position: 'absolute',

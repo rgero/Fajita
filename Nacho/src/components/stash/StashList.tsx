@@ -5,8 +5,12 @@ import Empty from "../ui/Empty";
 import Spinner from "../ui/Spinner";
 import StashCard from "./StashCard";
 import toast from "react-hot-toast";
+import { useStashProvider } from "../../context/StashContext";
 
-const StashList = ({isLoading, stashData, error}: {isLoading: boolean, stashData: Artifact[], error: Error | null}) => {
+const StashList = () => {
+  const {isLoading, GetFilteredData, error} = useStashProvider();
+  
+  const stashData = GetFilteredData();
   if (isLoading) return (<Spinner />)
 
   if (error) {
