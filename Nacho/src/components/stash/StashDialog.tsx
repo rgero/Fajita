@@ -1,11 +1,11 @@
 import { Container, Fade, IconButton, useTheme } from "@mui/material";
+import { KeyboardEvent as ReactKeyboardEvent, useState } from "react";
 
 import Dialog from "../ui/Dialog";
 import { Search } from "@mui/icons-material";
 import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
 import { useStashProvider } from "../../context/StashContext";
-import { useState } from "react";
 
 const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
   const { searchTerm, setSearchTerm } = useStashProvider();
@@ -41,16 +41,24 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
             boxShadow: theme.shadows[3],
           }}
         >
-          <SearchBar value={searchTerm} setValue={setSearchTerm} />
+          <SearchBar 
+            value={searchTerm} 
+            setValue={setSearchTerm} 
+            onKeyDown={(e: ReactKeyboardEvent) => {
+              if (e.key === "Enter")
+              {
+                (e.target as HTMLElement).blur();
+              }
+            }}  
+          />
         </Container>
       </Fade>
 
-      {/* QueueList */}
       <Container
         disableGutters
         sx={{
-          marginTop: showSearch ? '90px' : '0px', // Add space to avoid overlap
-          transition: 'margin-top 0.3s ease', // Smooth transition
+          marginTop: showSearch ? '90px' : '0px',
+          transition: 'margin-top 0.3s ease',
         }}
       >
         <StashList />

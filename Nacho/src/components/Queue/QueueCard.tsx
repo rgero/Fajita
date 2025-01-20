@@ -28,14 +28,14 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     if (data.index == current)
     {
       return theme.palette.info.dark
-    }
-
-    if (searchTerm && title.toLowerCase().includes(searchTerm.toLowerCase()))
-    {
-      return theme.palette.success.dark
-    }
-    
+    }   
     return "";
+  }
+
+  const shouldFilter = () => {
+    if (!searchTerm) return false;
+    if (data.index == current) return false;
+    if (searchTerm && !title.toLowerCase().includes(searchTerm.toLowerCase())) return true;
   }
 
   const styles = {
@@ -43,7 +43,8 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
       width:"100%", 
       backgroundColor: backgroundColor,
       color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
-      transition: "background-color 0.3s ease"
+      filter: shouldFilter() ? 'brightness(25%)' : 'none',
+      transition: "background-color 0.3s ease, filter 0.3s ease"
     },
     overlay: {
       position: 'absolute',
@@ -82,6 +83,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             component="img"
             sx={{
               width: {xs: 120, md: 300},
+
             }}
             image={`${status.isVisible ? thumbnail : status.cover}`}
             alt={`${status.isVisible ? title : "Hidden"}`}
