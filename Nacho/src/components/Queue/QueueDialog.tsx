@@ -1,11 +1,11 @@
 import { Container, Fade, IconButton, useTheme } from '@mui/material';
-import { KeyboardEvent as ReactKeyboardEvent, useState } from "react";
 
 import Dialog from '../ui/Dialog';
 import QueueList from './QueueList';
 import { Search } from '@mui/icons-material';
 import SearchBar from '../ui/SearchBar';
 import { useQueueProvider } from '../../context/QueueContext';
+import { useState } from "react";
 
 const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open: boolean) => void}) => {
   const {searchTerm, setSearchTerm} = useQueueProvider();
@@ -53,12 +53,6 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
           <SearchBar 
             value={searchTerm}
             setValue={setSearchTerm} 
-            onKeyDown={(e: ReactKeyboardEvent) => {
-              if (e.key === "Enter")
-              {
-                (e.target as HTMLElement).blur();
-              }
-            }}  
           />
         </Container>
       </Fade>

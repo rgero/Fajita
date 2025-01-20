@@ -3,7 +3,7 @@ import { IconButton, InputAdornment, TextField, inputLabelClasses, useTheme } fr
 import { Clear } from "@mui/icons-material";
 import { useRef } from "react";
 
-const SearchBar = ({value, setValue, onKeyDown} : {value: string, setValue: ( result: string) => void, onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void}) => {
+const SearchBar = ({value, setValue, additionalFnKeydown} : {value: string, setValue: ( result: string) => void, additionalFnKeydown?: () => void}) => {
   const theme = useTheme(); 
   const inputRef = useRef<HTMLInputElement>();
 
@@ -12,6 +12,17 @@ const SearchBar = ({value, setValue, onKeyDown} : {value: string, setValue: ( re
     if (inputRef.current)
     {
       inputRef.current.focus();
+    }
+  }
+
+  const processOnKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter")
+    {
+      (e.target as HTMLElement).blur();
+      if (additionalFnKeydown)
+      {
+        additionalFnKeydown();
+      }
     }
   }
 
@@ -42,7 +53,7 @@ const SearchBar = ({value, setValue, onKeyDown} : {value: string, setValue: ( re
       InputProps={{
         endAdornment: endAdornment
       }}
-      onKeyDown={onKeyDown}
+      onKeyDown={processOnKeyDown}
       InputLabelProps={{
         sx: {
           [`&.${inputLabelClasses.shrink}`]: {

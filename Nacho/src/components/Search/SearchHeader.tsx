@@ -1,6 +1,6 @@
 import { AppBar, Grid, Toolbar, styled } from "@mui/material";
-import React, { KeyboardEvent } from "react";
 
+import React from "react";
 import SearchBar from "../ui/SearchBar";
 import UserAvatar from "../authentication/UserAvatar"
 import { useSearchParams } from "react-router-dom";
@@ -26,13 +26,7 @@ const SearchHeader = () => {
             <SearchBar
               value={searchTerm}
               setValue={setTerm}
-              onKeyDown={(e: KeyboardEvent) => {
-                if (e.key === "Enter")
-                {
-                  (e.target as HTMLElement).blur();
-                  processSubmit();
-                }
-              }}
+              additionalFnKeydown={processSubmit}
             />
           </Grid>
           <Grid item>
