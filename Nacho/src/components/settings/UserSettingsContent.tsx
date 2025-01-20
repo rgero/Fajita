@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material"
 import DarkModeToggle from "./options/DarkModeToggle"
 import FooterCardOptions from "./options/FooterCardOptions"
 import ShareOptions from "./options/ShareOptions"
+import StashOptions from "./options/StashOptions"
 
 const UserSettingsContent = () => {
   return (
@@ -18,6 +19,10 @@ const UserSettingsContent = () => {
       <Box>
         <Typography variant="body1" sx={{fontWeight: "bold"}}>Sharing Options</Typography>
         <ShareOptions/>
+      </Box>
+      <Box>
+        <Typography variant="body1" sx={{fontWeight: "bold"}}>Stash Options</Typography>
+        <StashOptions/>
       </Box>
     </Box>
   )

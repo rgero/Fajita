@@ -6,7 +6,9 @@ const defaultShareOptions = { clipboard: false, youtube: true, stash: true };
 
 const SettingsContext = createContext({
   isFooterCompact: false,
+  isStashCompact: false,
   toggleFooterCompact: () => {},
+  toggleCompactStash: () => {},
   shareOptions: defaultShareOptions,
   updateShareOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) }
 });
@@ -16,6 +18,11 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   const [isFooterCompact, setIsFooterCompact] = useLocalStorageState(
     false,
     "isFooterCompact",
+  );
+
+  const [isStashCompact, setIsStashCompact] = useLocalStorageState(
+    false,
+    "isStashCompact",
   );
 
   const [shareOptions, setShareOptions] = useLocalStorageState(
@@ -43,6 +50,10 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     setIsFooterCompact((isCompact: boolean) => !isCompact);
   }
 
+  const toggleCompactStash = () => {
+    setIsStashCompact((isCompact: boolean) => !isCompact);
+  }
+
   const updateShareOptions = (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => {
     setShareOptions(JSON.stringify(options));
   }
@@ -50,8 +61,10 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   return (
     <SettingsContext.Provider 
       value={{
-        isFooterCompact, 
+        isFooterCompact,
+        isStashCompact, 
         toggleFooterCompact,
+        toggleCompactStash,
         shareOptions: validateShareOptions(JSON.parse(shareOptions)),
         updateShareOptions
       }}
