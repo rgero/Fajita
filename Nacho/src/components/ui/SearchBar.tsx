@@ -26,17 +26,22 @@ const SearchBar = ({value, setValue, additionalFnKeydown} : {value: string, setV
     }
   }
 
-  const endAdornment = value.length != 0 ? (
+  const endAdornment = (
     <InputAdornment position="end">
       <IconButton
         aria-label="search field"
         onClick={processClear}
         size="small"
+        sx={{
+          visibility: value ? 'visible' : 'hidden', 
+          opacity: value ? 1 : 0,
+          transition: 'opacity 0.3s ease, visibility 0.3s ease'
+        }}
       >
         <Clear/>
       </IconButton>
     </InputAdornment>
-  ) : (null)
+  )
 
   return (
     <TextField
