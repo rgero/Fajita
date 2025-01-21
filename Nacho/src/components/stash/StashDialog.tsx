@@ -17,6 +17,15 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
     setShowSearch(show);
   }
 
+  const processSetOpen = (open: boolean) => {
+    if (!open)
+    {
+      setSearchTerm("");
+      setShowSearch(false);
+    }
+    setOpen(open);
+  }
+
   const adornmentButtons = (
     <IconButton onClick={() => processShowHideSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
       <Search />
@@ -24,7 +33,7 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
   )
 
   return (
-    <Dialog open={open} setOpen={setOpen} title={"Your Stash"} titleButtons={adornmentButtons}>
+    <Dialog open={open} setOpen={processSetOpen} title={"Your Stash"} titleButtons={adornmentButtons}>
       <Fade in={showSearch} timeout={300}>
         <Container
           disableGutters

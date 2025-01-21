@@ -21,7 +21,7 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   );
 
   const [isStashCompact, setIsStashCompact] = useLocalStorageState(
-    false,
+    true,
     "isStashCompact",
   );
 
