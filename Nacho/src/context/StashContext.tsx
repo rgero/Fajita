@@ -1,4 +1,4 @@
-import { addToStash, deleteFromStash, getStashData } from "../services/apiFajita";
+import { addToStash, deleteFromStash, deleteStash as deleteStashAPI, getStashData } from "../services/apiFajita";
 import { createContext, useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -7,6 +7,7 @@ import { Artifact } from "../interfaces/Artifact";
 interface StashContextType {
   addVideoToStash: (id: string) => void;
   deleteVideoFromStash: (id: string) => void;
+  deleteStash: () => void;
   error: Error | null;
   GetFilteredData: () => Artifact[];
   isActionPending: boolean;
@@ -53,6 +54,18 @@ const StashProvider = ({ children }: { children: React.ReactNode }) => {
     },
   });
 
+  const { mutateAsync: deleteStash } = useMutation({
+    mutationFn: async () => {
+      await deleteStashAPI();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stashData"] });
+    },
+    onError: (err: any) => {
+      throw err;
+    },
+  });
+
   const isInStash = (id: string|undefined) => {
     if (!id || !stashData.artifacts) { return false; }
     return stashData.artifacts.some((artifact: Artifact) => artifact.video.video_id === id);
@@ -69,6 +82,7 @@ const StashProvider = ({ children }: { children: React.ReactNode }) => {
     <StashContext.Provider value={{
       addVideoToStash,
       deleteVideoFromStash,
+      deleteStash,
       error,
       GetFilteredData,
       isActionPending,

@@ -127,3 +127,10 @@ export const deleteFromStash = async (id: string) => {
     throw new Error("Error deleting video from stash");
   });
 }
+
+export const deleteStash = async () => {
+  const deleteURL = backendURL + "/api/stash";
+  await fajitaAxios.delete(deleteURL).catch( () => {
+    throw new Error("Error deleting stash");
+  });
+}
