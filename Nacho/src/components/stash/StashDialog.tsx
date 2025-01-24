@@ -1,14 +1,16 @@
 import { Container, Fade, IconButton, useTheme } from "@mui/material";
+import { DeleteForever, Search } from "@mui/icons-material";
 
+import ConfirmationModal from "../ui/ConfirmationModal";
 import Dialog from "../ui/Dialog";
-import { Search } from "@mui/icons-material";
 import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
 import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
 const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
-  const { searchTerm, setSearchTerm } = useStashProvider();
+  const { searchTerm, setSearchTerm, deleteStash } = useStashProvider();
+  const [deleteModal, setDeleteModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const theme = useTheme();
 
@@ -26,14 +28,26 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
     setOpen(open);
   }
 
+  const processConfirm = async () => {
+    await deleteStash();
+    setDeleteModal(false);
+  }
+
   const adornmentButtons = (
-    <IconButton onClick={() => processShowHideSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
-      <Search />
-    </IconButton>
+    <>
+      <IconButton onClick={() => setDeleteModal(true)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
+        <DeleteForever />
+      </IconButton>
+      <IconButton onClick={() => processShowHideSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
+        <Search />
+      </IconButton>
+    </>
+
   )
 
   return (
     <Dialog open={open} setOpen={processSetOpen} title={"Your Stash"} titleButtons={adornmentButtons}>
+      <ConfirmationModal isOpen={deleteModal} closeFn={()=> setDeleteModal(false)} confirmAction={processConfirm} />
       <Fade in={showSearch} timeout={300}>
         <Container
           disableGutters
