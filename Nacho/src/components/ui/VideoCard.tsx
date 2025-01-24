@@ -1,6 +1,5 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
 
-import { ConstructYoutubeThumbnailURL } from "../../utils/ConstructYoutubeThumbnailURL"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 
@@ -33,7 +32,6 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
   const imageURL: string = data.thumbnail_src
   const views: string|undefined = data.views;
   const duration: string = data.duration;
-  const constructedURL = ConstructYoutubeThumbnailURL(data.id);
 
   let cardContent = (
     <>
@@ -43,12 +41,9 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
           height: {xs: 220, md: 300},
           objectFit: "cover",
         }}
-        image={constructedURL}
+        image={imageURL}
         title={title}
         alt={title}
-        onError={(e: any) => {
-          (e.target as HTMLImageElement).src = imageURL;
-        }}
       />
       <Typography sx={styles.overlay}>{duration}</Typography>
       <CardContent>

@@ -4,7 +4,6 @@ import { Favorite, Share, YouTube } from "@mui/icons-material";
 import AddToQueueModal from "../Search/modals/AddToQueueModal";
 import { Artifact } from "../../interfaces/Artifact";
 import Button from "../ui/Button";
-import { ConstructYoutubeThumbnailURL } from "../../utils/ConstructYoutubeThumbnailURL";
 import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";
 import { copyToClipboard } from "../../utils/CopyToClipboard";
 import toast from "react-hot-toast";
@@ -21,8 +20,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
   const {shareOptions} = useSettings();
   const {deleteVideoFromStash} = useStashProvider();  
 
-  const {title, thumbnail, duration, video_id} = data.video
-  const constructedURL = ConstructYoutubeThumbnailURL(video_id);
+  const {title, thumbnail, duration} = data.video
 
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
@@ -96,11 +94,8 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
               height: "100%",
               objectFit: "cover",
             }}
-            image={constructedURL}
+            image={thumbnail}
             alt={title}
-            onError={(e: any) => {
-              (e.target as HTMLImageElement).src = thumbnail;
-            }}
           />
           <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
           <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}, marginBottom: "25px"}}>
