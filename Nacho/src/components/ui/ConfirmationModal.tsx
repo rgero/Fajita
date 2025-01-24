@@ -1,11 +1,10 @@
 import { DoNotDisturb, ThumbUpAlt } from "@mui/icons-material"
-import { Grid, Typography, useTheme } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 
 import Button from "./Button"
 import Modal from "./Modal"
 
 const ConfirmationModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()=>void, isOpen: boolean, closeFn: ()=> void}) => {
-  const theme = useTheme()
   return (
     <Modal
       open={isOpen}
