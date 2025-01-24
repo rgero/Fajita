@@ -37,6 +37,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
     cardStyle: {
       position: 'relative',
       width:"100%",
+      height: "110px",
       transition: "background-color 0.3s ease"
     },
     overlayButton: {
@@ -51,7 +52,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
     },
     overlay: {
       position: 'absolute',
-      bottom: '10px',
+      bottom: '20px',
       right: '10px',
       color: 'white',
       backgroundColor: 'black',
@@ -98,7 +99,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
             alt={title}
           />
           <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
-          <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}, marginBottom: "25px"}}>
+          <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}, marginBottom: "15px"}}>
             <Typography noWrap variant="subtitle2">{title}</Typography>
           </CardContent>
         </CardActionArea>
