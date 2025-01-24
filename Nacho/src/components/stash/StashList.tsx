@@ -25,7 +25,7 @@ const StashList = () => {
   }
 
   return (
-    <Container disableGutters sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <Container disableGutters sx={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "5px" }}>
       {
         stashData.map((entry: Artifact, index: number) => (
           <Box sx={{ paddingBottom: { xs: 1 }, width: '100%', maxWidth: 600 }} key={index}>

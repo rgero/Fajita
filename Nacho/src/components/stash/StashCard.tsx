@@ -4,6 +4,7 @@ import { Share, YouTube } from "@mui/icons-material";
 import AddToQueueModal from "../Search/modals/AddToQueueModal";
 import { Artifact } from "../../interfaces/Artifact";
 import Button from "../ui/Button";
+import { ConstructYoutubeThumbnailURL } from "../../utils/ConstructYoutubeThumbnailURL";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";
 import { copyToClipboard } from "../../utils/CopyToClipboard";
@@ -48,7 +49,8 @@ const StashCard: React.FC<Props> = ({ data }) => {
   const {shareOptions} = useSettings();
   const {deleteVideoFromStash} = useStashProvider();
    
-  const {title, thumbnail, duration} = data.video
+  const {title, thumbnail, duration, video_id} = data.video;
+  const constructedURL = ConstructYoutubeThumbnailURL(video_id);
   const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
   const handleRemoveFromStash = async () => {
@@ -86,11 +88,15 @@ const StashCard: React.FC<Props> = ({ data }) => {
           <CardMedia
             component="img"
             sx={{
-              height: { xs: 220, md: 300 },
+              height: {xs: 220, md: 300},
               objectFit: "cover",
-              width: "100%",
             }}
-            image={thumbnail}
+            image={constructedURL}
+            title={title}
+            alt={title}
+            onError={(e: any) => {
+              (e.target as HTMLImageElement).src = thumbnail;
+            }}
           />
           <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
           <CardContent>
