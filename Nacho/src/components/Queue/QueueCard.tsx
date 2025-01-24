@@ -89,7 +89,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             alt={`${status.isVisible ? title : "Hidden"}`}
           />
           {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>)}
-          <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}}}>
+          <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}}}>
             <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>
           </CardContent>

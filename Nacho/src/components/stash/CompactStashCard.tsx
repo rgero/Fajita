@@ -103,7 +103,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
             }}
           />
           <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
-          <CardContent sx={{flexGrow: 1, maxWidth: {xs:"70%", md: "55%"}, marginBottom: "25px"}}>
+          <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}, marginBottom: "25px"}}>
             <Typography noWrap variant="subtitle2">{title}</Typography>
           </CardContent>
         </CardActionArea>
