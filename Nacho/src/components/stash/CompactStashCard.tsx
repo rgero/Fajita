@@ -91,7 +91,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
           <CardMedia
             component="img"
             sx={{
-              width: {xs: 150, md: 300},
+              width: 150,
               height: "100%",
               objectFit: "cover",
             }}

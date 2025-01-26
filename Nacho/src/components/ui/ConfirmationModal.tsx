@@ -15,7 +15,7 @@ const ConfirmationModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()
             <Typography variant="h6" align="center" sx={{textAlign: "center"}}>Are you sure you want to clear your stash?</Typography>
           </Grid>
           <Grid item>
-            <Grid container spacing={2} justifyContent={"center"}>
+            <Grid container spacing={5} justifyContent="space-around">
               <Grid item>
                 <Button onClick={confirmAction} icon={<ThumbUpAlt color="success"/>} title="Delete"/>
               </Grid>

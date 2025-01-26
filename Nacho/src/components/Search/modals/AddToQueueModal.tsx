@@ -123,7 +123,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
             <Grid container justifyContent={"space-between"} sx={{paddingTop: 2}}>
               {children ? (
                 <Grid item>
-                  <Grid container direction="row" alignItems="center">
+                  <Grid container direction="row" spacing={1} alignItems="center">
                     {children}
                   </Grid>
                 </Grid>
@@ -133,7 +133,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
                 </Grid>
               )}
               <Grid item>
-                <Grid container direction="row" justifyContent="flex-end" alignItems="center">
+                <Grid container direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
                   <Grid item>
                     <FajitaButton onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
                   </Grid>
