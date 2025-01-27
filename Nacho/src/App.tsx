@@ -57,7 +57,6 @@ const App = () => {
                 <Route path="feedback" element={<FeedbackPage/>}/>
               </Route>
               <Route path="landing" element={<LandingPage/>} />
-              <Route path="testing" element={<TestingPage/>} />
               <Route path='*' element={<Navigate to='/' />} />
             </Routes>
           </BrowserRouter>
