@@ -6,6 +6,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import VideoCard from "../ui/VideoCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from "react-hot-toast";
+import { useQueueProvider } from "../../context/QueueContext";
 import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
@@ -32,6 +33,7 @@ const styles = {
 const SearchCard: React.FC<Props> = ({ data }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
+  const {isConnected} = useQueueProvider();
 
   const handleAddToStash = async () => {
     try {
@@ -51,6 +53,14 @@ const SearchCard: React.FC<Props> = ({ data }) => {
     }
   }
 
+  const processOpenModal = () => {
+    if (isConnected) {
+      setModalOpen(true);
+    } else {
+      toast.error("You must be connected to a queue to add videos");
+    }
+  }
+
   return (
     <>
       <AddToQueueModal open={isModalOpen} videoData={data} closeFn={() => setModalOpen(false)} />
@@ -62,7 +72,7 @@ const SearchCard: React.FC<Props> = ({ data }) => {
         >
           {isInStash(data.id) ? <FavoriteIcon color="error" /> : <FavoriteBorder/> }
         </IconButton>
-        <VideoCard data={data} clickFn={() => setModalOpen(() => true)} />
+        <VideoCard data={data} clickFn={processOpenModal} />
       </Card>
     </>
   );

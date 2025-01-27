@@ -13,6 +13,7 @@ interface QueueContextType {
   checkForPlayNext: () => boolean,
   connectToQueue: (id: string) => void;
   deleteVideoFromQueue: (id: string) => void;
+  isConnected: boolean;
   error: Error | null;
   getQueueID: () => string;
   getQueueOwner: () => string;
@@ -163,6 +164,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         getQueueID,
         getQueueOwner,
         isActionPending,
+        isConnected: !!queue,
         isInQueue,
         isLoading,
         queueData,
