@@ -25,7 +25,7 @@ interface Props {
 
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
-  const [selectedVisibility, setSelected] = useState<number>(Visibility.Normal);
+  const [selectedVisibility, setVisibility] = useState<number>(Visibility.Normal);
   const {addVideoToQueue, checkForPlayNext} = useQueueProvider();
   const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
 
@@ -47,6 +47,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
 
   const cleanUpAndClose = () => {
     setPriority(Priority.normal);
+    setVisibility(Visibility.Normal);
     setPlayNextCondition(PlayNextCondition.None);
     closeFn();
   }
@@ -118,7 +119,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
         {playNextCondition == PlayNextCondition.None ? (
           <Grid item>
             <Grid item>
-              <VisibilityGroup selected={selectedVisibility} setSelected={setSelected}/>
+              <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
             </Grid>
             <Grid container justifyContent={"space-between"} sx={{paddingTop: 2}}>
               {children ? (
