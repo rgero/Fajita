@@ -13,6 +13,7 @@ import { QueueProvider } from "./context/QueueContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { SocketProvider } from "./context/WebSocketContext";
 import { StashProvider } from "./context/StashContext";
+import TestingPage from "./pages/TestingPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,6 +57,7 @@ const App = () => {
                 <Route path="feedback" element={<FeedbackPage/>}/>
               </Route>
               <Route path="landing" element={<LandingPage/>} />
+              <Route path="testing" element={<TestingPage/>} />
               <Route path='*' element={<Navigate to='/' />} />
             </Routes>
           </BrowserRouter>
