@@ -13,7 +13,6 @@ import { QueueProvider } from "./context/QueueContext";
 import { SettingsProvider } from "./context/SettingsContext";
 import { SocketProvider } from "./context/WebSocketContext";
 import { StashProvider } from "./context/StashContext";
-import TestingPage from "./pages/TestingPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
