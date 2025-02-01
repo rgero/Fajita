@@ -1,11 +1,9 @@
 import { Feedback } from "@mui/icons-material";
 import HeaderMenuOption from "./HeaderMenuOption";
-import { useNavigate } from "react-router-dom";
 
-const FeedbackOption = () => {
-  const navigate = useNavigate();
+const FeedbackOption = ({setOpen} : {setOpen : (open: boolean) => void}) => {
   return (
-    <HeaderMenuOption icon={<Feedback />} text="Log Feedback" onClick={()=> navigate('/feedback')} />
+    <HeaderMenuOption icon={<Feedback />} text="Log Feedback" onClick={() => setOpen(true)} />
   )
 }
 

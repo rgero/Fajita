@@ -6,7 +6,6 @@ import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
 import { AuthenticationProvider } from "./context/AuthenicationContext";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { DialogProvider } from "./context/DialogContext";
-import FeedbackPage from "./pages/FeedbackPage";
 import LandingPage from "./pages/LandingPage";
 import MainPage from "./pages/MainPage";
 import { QueueProvider } from "./context/QueueContext";
@@ -53,7 +52,6 @@ const App = () => {
                 </AuthRouteWrapper>
               }>
                 <Route index element={<MainPage/>}/>
-                <Route path="feedback" element={<FeedbackPage/>}/>
               </Route>
               <Route path="landing" element={<LandingPage/>} />
               <Route path='*' element={<Navigate to='/' />} />

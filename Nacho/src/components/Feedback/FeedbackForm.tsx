@@ -1,5 +1,7 @@
-import { Button, Container, Grid, TextField, Typography } from "@mui/material"
+import { Container, Grid, TextField, Typography } from "@mui/material"
+import { DoNotDisturb, ThumbUpAlt } from "@mui/icons-material";
 
+import Button from "../ui/Button";
 import SpinnerModal from "../ui/SpinnerModal";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthenicationContext";
@@ -78,10 +80,10 @@ const FeedbackForm = () => {
         </Grid>
         <Grid container justifyContent={"space-evenly"} sx={{paddingTop: 4}}>
           <Grid item>
-            <Button variant="contained" color="error" disabled={isAdding} onClick={clearFeedback}><Typography fontWeight={"bold"}>Clear</Typography></Button>
+            <Button onClick={clearFeedback} icon={<DoNotDisturb color="error"/>} title="Clear"/>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="success" disabled={isAdding} onClick={handleSubmit}><Typography fontWeight={"bold"}>Submit</Typography></Button>
+            <Button onClick={handleSubmit} icon={<ThumbUpAlt color="success"/>} title="Submit"/>
           </Grid>
         </Grid>
       </Grid>

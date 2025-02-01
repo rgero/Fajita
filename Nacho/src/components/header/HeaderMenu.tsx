@@ -1,6 +1,7 @@
 import {Divider, Menu} from "@mui/material";
 
 import ActiveQueueDialog from "../active_queues/ActiveQueueDialog";
+import FeedbackDialog from "../Feedback/FeedbackDialog";
 import FeedbackOption from "./HeaderOptions/FeedbackOption";
 import LockQueueModal from "./modals/LockQueueModal";
 import LockQueueOption from "./HeaderOptions/LockQueueOption";
@@ -23,9 +24,11 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
   const {
     settingsOpen,
     activeQueuesOpen,
+    feedbackOpen,
     stashOpen,
     setSettingsOpen,
     setActiveQueuesOpen,
+    setFeedbackOpen,
     setStashOpen
   } = useDialogContext();
   const [lockQueueOpen, setLockQueueOpen] = React.useState(false);
@@ -36,6 +39,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
       <UserSettingsDialog open={settingsOpen} setOpen={setSettingsOpen}/>
       <ActiveQueueDialog open={activeQueuesOpen} setOpen={setActiveQueuesOpen}/>
       <StashDialog open={stashOpen} setOpen={setStashOpen}/>
+      <FeedbackDialog open={feedbackOpen} setOpen={setFeedbackOpen}/>
       <LockQueueModal open={lockQueueOpen} closeFn={() => setLockQueueOpen(false)}/>
       <Menu
         anchorEl={anchorEl}
@@ -52,7 +56,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
         <Divider/>
         <LockQueueOption setShowLockModal={setLockQueueOpen}/>
         <Divider/>
-        <FeedbackOption/>
+        <FeedbackOption setOpen={setFeedbackOpen}/>
         <Divider/>
         <UserSettingsOption setOpen={setSettingsOpen}/>
         <LogoutOption/>
