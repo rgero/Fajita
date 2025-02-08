@@ -13,6 +13,7 @@ import StashDisplayOption from "./HeaderOptions/StashDisplayOption";
 import UserSettingsDialog from "../settings/UserSettingsDialog";
 import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
 import { useDialogContext } from "../../context/DialogContext";
+import { useQueueProvider } from "../../context/QueueContext";
 
 interface Props
 {
@@ -32,6 +33,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
     setStashOpen
   } = useDialogContext();
   const [lockQueueOpen, setLockQueueOpen] = React.useState(false);
+  const {queueData} = useQueueProvider();
   const isOpen = Boolean(anchorEl);
 
   return (
@@ -53,8 +55,13 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
         <QueueManagement setOpen={setActiveQueuesOpen}/>
         <Divider/>
         <StashDisplayOption setOpen={setStashOpen}/>
-        <Divider/>
-        <LockQueueOption setShowLockModal={setLockQueueOpen}/>
+        {queueData.id ? (
+          <>
+            <Divider/>
+            <LockQueueOption setShowLockModal={setLockQueueOpen}/>
+          </>
+          ) : (null)
+        }
         <Divider/>
         <FeedbackOption setOpen={setFeedbackOpen}/>
         <Divider/>
