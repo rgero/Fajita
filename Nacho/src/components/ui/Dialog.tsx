@@ -88,7 +88,12 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
         </Grid>
       </DialogTitle>
       <DialogContent sx={{background: theme.palette.background.paper, paddingBottom: "120px"}}>
-        {children}
+        <Box sx={{
+          width: {xs: "100%", md: "60%"},
+          margin: "auto"
+        }}>
+          {children}
+        </Box>
       </DialogContent>
       <Box sx={{padding: 2}}>
         <CloseButton onClick={handleClose} variant="contained" fullWidth>
