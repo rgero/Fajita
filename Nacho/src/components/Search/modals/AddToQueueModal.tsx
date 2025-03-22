@@ -1,19 +1,15 @@
-import { AddCircle, CheckBox, CheckBoxOutlineBlank, Favorite, FavoriteBorder } from '@mui/icons-material';
-
-import Button from '../../ui/Button';
-import FajitaButton from "../../ui/Button"
+import AddToQueueOptions from '../ui/AddToQueueOptions';
 import { Grid } from '@mui/material';
+import IsInQueueWarning from '../ui/IsInQueueWarning';
 import Modal from '../../ui/Modal';
 import { PlayNextCondition } from '../interfaces/PlayNextCondition';
 import PlayNextWarning from '../ui/PlayNextWarning';
 import { Priority } from '../../../interfaces/Priority';
 import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '../../../interfaces/Visibility';
-import VisibilityGroup from '../../ui/VisibilityGroup';
 import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../context/QueueContext';
-import { useStashProvider } from '../../../context/StashContext';
 import { useState } from 'react';
 
 interface Props {
@@ -26,51 +22,54 @@ interface Props {
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setVisibility] = useState<number>(Visibility.Normal);
-  const {addVideoToQueue, checkForPlayNext} = useQueueProvider();
-  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
-
+  const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueProvider();
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
-
-  const processStash = async () => {
-    try {
-      if (isInStash(videoData.id)) {
-        await deleteVideoFromStash(videoData.id);
-        toast.success("Video Removed from Stash");
-      } else {
-        await addVideoToStash(videoData.id);
-        toast.success("Video Added to Stash");
-      }
-    } catch {
-      toast.error("Error Stashing Video");
-    }
-  }
+  const [confirmationNeeded, setConfirmationNeeded] = useState<boolean>(false);
 
   const cleanUpAndClose = () => {
     setPriority(Priority.normal);
     setVisibility(Visibility.Normal);
     setPlayNextCondition(PlayNextCondition.None);
+    setConfirmationNeeded(false);
     closeFn();
   }
 
+  const runChecksAndSubmit = async () => {
+    const playNext: boolean = await checkPlayNext();
+    const inQueue: boolean = await isInQueue(videoData.id);
+
+    if (playNext || inQueue)
+    {
+      setConfirmationNeeded(true);
+    } else {
+      handleSubmit(PlayNextCondition.None);
+    }
+  }
+
   const checkPlayNext = async () => {
+    let needPermission = false;
     if (priority != Priority.normal && playNextCondition == PlayNextCondition.None)
     {
-      const needPermission = await checkForPlayNext();
+      needPermission = await checkForPlayNext();
       if (needPermission)
       {
         setPlayNextCondition(PlayNextCondition.Need);
-        return;
       }
     }
-    handleSubmit(PlayNextCondition.None);
+    return needPermission;
+  }
+
+  const handleInQueue = async (accepted: boolean) => {
+    if (accepted)
+    {
+      setConfirmationNeeded(false);
+      handleSubmit(PlayNextCondition.None);
+    } else {
+      cleanUpAndClose();
+    }
   }
 
   const handleSubmit = async (acceptedCondition : PlayNextCondition) => {
-    if (acceptedCondition == PlayNextCondition.Need)
-    {
-      return;
-    }
-
     // If at this point, we're submitting.
     let targetPriority: Priority = priority;
     if (acceptedCondition == PlayNextCondition.Accepted)
@@ -104,9 +103,30 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
     }
   }
   
-  const handleToggle = () =>
-  {
+  const handleToggle = () => {
     setPriority( (prevState) => { return prevState === Priority.playNext ? Priority.normal : Priority.playNext; });
+  }
+
+  const displayObject = () => {
+    if (playNextCondition != PlayNextCondition.None)
+    {
+      return <PlayNextWarning handleSubmit={handleSubmit}/>
+    }
+
+    if (confirmationNeeded)
+    {
+      return <IsInQueueWarning handleInQueue={handleInQueue}/>
+    }
+
+    return <AddToQueueOptions
+      children={children}
+      priority={priority} 
+      selectedVisibility={selectedVisibility} 
+      setVisibility={setVisibility} 
+      videoData={videoData} 
+      runChecksAndSubmit={runChecksAndSubmit} 
+      handleToggle={handleToggle}
+    />
   }
 
   return (
@@ -116,41 +136,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
     >
       <Grid container direction="column">
         <VideoCard data={videoData}/>
-        {playNextCondition == PlayNextCondition.None ? (
-          <Grid item>
-            <Grid item>
-              <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
-            </Grid>
-            <Grid container justifyContent={"space-between"} sx={{paddingTop: 2}}>
-              {children ? (
-                <Grid item>
-                  <Grid container direction="row" spacing={1} alignItems="center">
-                    {children}
-                  </Grid>
-                </Grid>
-              ) : (
-                <Grid item>
-                  <Button onClick={processStash} icon={isInStash(videoData.id) ? <Favorite color="error"/> : <FavoriteBorder/>} title="Stash"/>
-                </Grid>
-              )}
-              <Grid item>
-                <Grid container direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
-                  <Grid item>
-                    <FajitaButton onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
-                  </Grid>
-                  <Grid item>
-                    <FajitaButton onClick={checkPlayNext} icon={(<AddCircle color="success"/>)} title="Add"/>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-
-          </Grid>
-        ) : (
-          <Grid item>
-            <PlayNextWarning handleSubmit={handleSubmit}/>
-          </Grid>
-        )}
+        {displayObject()}
       </Grid>
     </Modal>
   )
