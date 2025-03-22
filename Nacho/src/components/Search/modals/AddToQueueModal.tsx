@@ -93,7 +93,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
     try {
       await addVideoToQueue({id: videoData.id, priority: targetPriority, visibility: selectedVisibility});
       toast.success("Video Added");
-      closeFn();
+      cleanUpAndClose();
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message);
