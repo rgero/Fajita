@@ -5,6 +5,7 @@ import GetSecretCover from "../../utils/GetSecretCover";
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "./modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
+import { getParsedDuration } from "../../utils/getParsedDuration";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
 import { useQueueProvider } from "../../context/QueueContext";
 import { useTheme } from '@mui/material/styles';
@@ -22,7 +23,6 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
 
   const {first_name} = data.user;
   const {title, thumbnail, duration} = data.video
-  const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
   const backgroundColor = () => {
     if (data.index == current)
@@ -88,7 +88,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             image={`${status.isVisible ? thumbnail : status.cover}`}
             alt={`${status.isVisible ? title : "Hidden"}`}
           />
-          {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>)}
+          {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>)}
           <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}}}>
             <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
             <Typography variant="subtitle2">Added by {first_name}</Typography>

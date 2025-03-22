@@ -9,19 +9,10 @@ type InfoToastProps = {
 
 const InfoToastObject: React.FC<InfoToastProps> = ({ message }) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        padding: '8px 12px',
-        borderRadius: '8px',
-        color: '#CDC1FF',
-      }}
-    >
+    <>
       <InfoIcon fontSize="medium" style={{ color: '#CDC1FF' }} />
-      <span style={{ fontSize: '22px' }}>{message}</span>
-    </div>
+      <span style={{paddingLeft: "10px"}}>{message}</span>
+    </>
   );
 };
 

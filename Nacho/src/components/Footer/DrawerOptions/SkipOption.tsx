@@ -2,18 +2,14 @@ import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/mater
 
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import toast from "react-hot-toast";
-import { useQueueProvider } from "../../../context/QueueContext";
 import { useSocketProvider } from "../../../context/WebSocketContext";
 
 const SkipOption = () => {
-  const {socket} = useSocketProvider();
-  const {getQueueID} = useQueueProvider();
+  const {skipVideo} = useSocketProvider();
 
   const processClick = () => {
     toast.success("Skipped!");
-    if (socket) {
-      socket.emit('skip_video', {queue_id: getQueueID()});
-    }
+    skipVideo();
   }
 
   return (

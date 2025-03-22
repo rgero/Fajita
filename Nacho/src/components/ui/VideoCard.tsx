@@ -2,6 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
+import { getParsedDuration } from "../../utils/getParsedDuration"
 
 interface Props {
   data: YoutubeResponse,
@@ -31,7 +32,7 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
   const channelTitle: string = decode(data.author)
   const imageURL: string = data.thumbnail_src
   const views: string|undefined = data.views;
-  const duration: string = data.duration;
+  const duration: string|number = data.duration;
 
   let cardContent = (
     <>
@@ -45,7 +46,7 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
         title={title}
         alt={title}
       />
-      <Typography sx={styles.overlay}>{duration}</Typography>
+      <Typography sx={styles.overlay}>{getParsedDuration(duration)}</Typography>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div" sx={{wordBreak: "break-word"}}>
           {title}

@@ -55,13 +55,10 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
         <QueueManagement setOpen={setActiveQueuesOpen}/>
         <Divider/>
         <StashDisplayOption setOpen={setStashOpen}/>
-        {queueData.id ? (
-          <>
-            <Divider/>
-            <LockQueueOption setShowLockModal={setLockQueueOpen}/>
-          </>
-          ) : (null)
-        }
+        {queueData.id ? [
+          <Divider key="lock-divider" />,
+          <LockQueueOption key="lock-option" setShowLockModal={setLockQueueOpen} />
+        ] : null}
         <Divider/>
         <FeedbackOption setOpen={setFeedbackOpen}/>
         <Divider/>

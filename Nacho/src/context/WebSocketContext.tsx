@@ -5,7 +5,10 @@ import InfoToast from "../components/ui/InfoToast";
 import { useQueueProvider } from "./QueueContext";
 
 interface SocketContextType {
-  socket: Socket | undefined
+  socket: Socket | undefined,
+  jumpQueue: (index: number) => void,
+  playPause: () => void,
+  skipVideo: () => void,
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -46,6 +49,23 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
 
+  const jumpQueue = (index: number) => {
+    if (socket) {
+      socket.emit("set_index", {queue_id: queueData.id, index: index});
+    } 
+  }
+
+  const playPause = () => {
+    if (socket) {
+      socket.emit("play_pause", {queue_id: queueData.id});
+    }
+  }
+
+  const skipVideo = () => {
+    if (socket) {
+      socket.emit('skip_video', {queue_id: queueData.id});
+    }
+  }
 
   useEffect(() => {
     if (!socket) return;
@@ -60,7 +80,14 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, [socket, onDataChange]);
 
   return (
-    <SocketContext.Provider value={{socket}}>
+    <SocketContext.Provider value={
+      {
+        socket, 
+        jumpQueue, 
+        playPause,
+        skipVideo
+      }
+    }>
       {children}
     </SocketContext.Provider>
   );

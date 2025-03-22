@@ -4,7 +4,7 @@ export interface YoutubeResponse {
   thumbnail_src: string;
   views?:        string;
   author?:        string;
-  duration:       string;
+  duration:       string|number;
   resultType?:    string;
   accountType?:   string;
 }

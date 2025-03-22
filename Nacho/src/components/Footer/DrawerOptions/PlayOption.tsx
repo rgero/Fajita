@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import toast from "react-hot-toast";
-import { useQueueProvider } from "../../../context/QueueContext";
 import { useSocketProvider } from "../../../context/WebSocketContext";
 
 const PlayOption = () => {
-  const {socket} = useSocketProvider();
-  const {getQueueID} = useQueueProvider();
+  const {socket, playPause} = useSocketProvider();
 
   const [isPlaying, setPlaying] = useState<boolean|null>(false);
   const [lastPress, setLastPress] = useState<Date|null>(new Date());
@@ -49,9 +47,7 @@ const PlayOption = () => {
       
     }
     setLastPress (() => new Date());
-    if (socket) {
-      socket.emit("play_pause", {queue_id: getQueueID()});
-    }
+    playPause();
   }
 
   return (

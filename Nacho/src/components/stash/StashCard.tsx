@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";
 import { copyToClipboard } from "../../utils/CopyToClipboard";
+import { getParsedDuration } from "../../utils/getParsedDuration";
 import toast from "react-hot-toast";
 import { useSettings } from "../../context/SettingsContext";
 import { useStashProvider } from "../../context/StashContext";
@@ -49,7 +50,6 @@ const StashCard: React.FC<Props> = ({ data }) => {
   const {deleteVideoFromStash} = useStashProvider();
    
   const {title, thumbnail, duration} = data.video;
-  const parsedDuration = `${Math.floor(duration/60)}:${String(duration%60).padStart(2, '0')}`
 
   const handleRemoveFromStash = async () => {
     try {
@@ -62,7 +62,7 @@ const StashCard: React.FC<Props> = ({ data }) => {
 
   return (
     <>
-      <AddToQueueModal open={isModalOpen} videoData={{id: data.video.video_id, title: title, duration: parsedDuration, thumbnail_src: thumbnail}} closeFn={() => setModalOpen(false)}>
+      <AddToQueueModal open={isModalOpen} videoData={{id: data.video.video_id, title: title, duration: duration, thumbnail_src: thumbnail}} closeFn={() => setModalOpen(false)}>
         {shareOptions.clipboard ? (
           <Grid item>
             <Button onClick={()=> copyToClipboard(data)} icon={(<Share/>)} title="Copy"/>
@@ -93,7 +93,7 @@ const StashCard: React.FC<Props> = ({ data }) => {
             title={title}
             alt={title}
           />
-          <Typography sx={styles.overlay} variant="caption">{parsedDuration}</Typography>
+          <Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>
           <CardContent>
             <Typography gutterBottom variant="subtitle1" component="div" sx={{wordBreak: "break-word"}}>
               {title}
