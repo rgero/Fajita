@@ -7,16 +7,11 @@ import { useQueueProvider } from "../../../context/QueueContext"
 import { useSocketProvider } from "../../../context/WebSocketContext"
 
 const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) => {
-  const {socket} = useSocketProvider();
+  const {toggleLock} = useSocketProvider();
   const {queueData} = useQueueProvider();
   
   const processLock = () => {
-    if (queueData.locked)
-    {
-      socket?.emit("unlock_queue", {queue_id: queueData?.id});
-    } else {
-      socket?.emit("lock_queue", {queue_id: queueData?.id});
-    }
+    toggleLock();
     closeFn();
   }
 

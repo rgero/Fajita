@@ -9,6 +9,7 @@ interface SocketContextType {
   jumpQueue: (index: number) => void,
   playPause: () => void,
   skipVideo: () => void,
+  toggleLock: () => void
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -67,6 +68,16 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  const toggleLock = () => {
+    if (!socket) return;
+    if (socket && queueData.locked)
+    {
+      socket.emit("unlock_queue", {queue_id: queueData?.id});
+    } else {
+      socket.emit("lock_queue", {queue_id: queueData?.id});
+    }
+  }
+
   useEffect(() => {
     if (!socket) return;
     socket.on("queue_updated", onDataChange);
@@ -85,7 +96,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         socket, 
         jumpQueue, 
         playPause,
-        skipVideo
+        skipVideo,
+        toggleLock
       }
     }>
       {children}
