@@ -25,6 +25,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
   const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueProvider();
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
   const [confirmationNeeded, setConfirmationNeeded] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const cleanUpAndClose = () => {
     setPriority(Priority.normal);
@@ -71,6 +72,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
 
   const handleSubmit = async (acceptedCondition : PlayNextCondition) => {
     // If at this point, we're submitting.
+    setIsSubmitting(true);
     let targetPriority: Priority = priority;
     if (acceptedCondition == PlayNextCondition.Accepted)
     {
@@ -100,6 +102,8 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
       } else {
         toast.error("Failed to add video");
       }
+    } finally {
+      setIsSubmitting(false);
     }
   }
   
@@ -108,6 +112,10 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
   }
 
   const displayObject = () => {
+    if (isSubmitting)
+    {
+      return null;
+    }
     if (playNextCondition != PlayNextCondition.None)
     {
       return <PlayNextWarning handleSubmit={handleSubmit}/>
