@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import CopyOption from '../../../../src/components/Footer/DrawerOptions/CopyOption';
+import CopyOption from '../../../../src/components/footer/DrawerOptions/CopyOption';
 import { copyToClipboard } from '../../../../src/utils/CopyToClipboard'
 import { useQueueProvider } from '../../../../src/context/QueueContext';
 

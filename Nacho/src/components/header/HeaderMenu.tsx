@@ -1,7 +1,7 @@
 import {Divider, Menu} from "@mui/material";
 
 import ActiveQueueDialog from "../active_queues/ActiveQueueDialog";
-import FeedbackDialog from "../Feedback/FeedbackDialog";
+import FeedbackDialog from "../feedback/FeedbackDialog";
 import FeedbackOption from "./HeaderOptions/FeedbackOption";
 import LockQueueModal from "../modals/LockQueueModal";
 import LockQueueOption from "./HeaderOptions/LockQueueOption";

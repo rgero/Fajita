@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-import PlayOption from '../../../../src/components/Footer/DrawerOptions/PlayOption';
+import PlayOption from '../../../../src/components/footer/DrawerOptions/PlayOption';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../../src/context/QueueContext';
 import { useSocketProvider } from '../../../../src/context/WebSocketContext';

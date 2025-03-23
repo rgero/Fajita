@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import QueueOption from '../../../../src/components/Footer/DrawerOptions/QueueOption';
+import QueueOption from '../../../../src/components/footer/DrawerOptions/QueueOption';
 
 describe('QueueOption', () => {
   const mockSetQueueOpen = vi.fn();

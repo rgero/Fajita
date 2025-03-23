@@ -7,7 +7,7 @@ import React from "react"
 import { render } from "@testing-library/react"
 
 // Mock the Footer component
-vi.mock("../../src/components/Footer/FooterContainer", () => ({
+vi.mock("../../src/components/footer/FooterContainer", () => ({
   __esModule: true,
   default: () => (<div>Mocked Footer</div>),
 }))
