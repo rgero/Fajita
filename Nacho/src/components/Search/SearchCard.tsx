@@ -1,6 +1,6 @@
 import { Card, IconButton } from "@mui/material";
 
-import AddToQueueModal from "./modals/AddToQueueModal";
+import AddToQueueModal from "../modals/AddToQueueModal";
 import { FavoriteBorder } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import VideoCard from "../ui/VideoCard";

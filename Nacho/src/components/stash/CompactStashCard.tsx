@@ -1,7 +1,7 @@
 import { Card, CardActionArea, CardContent, CardMedia, Grid, IconButton, Typography } from "@mui/material"
 import { Favorite, Share, YouTube } from "@mui/icons-material";
 
-import AddToQueueModal from "../Search/modals/AddToQueueModal";
+import AddToQueueModal from "../modals/AddToQueueModal";
 import { Artifact } from "../../interfaces/Artifact";
 import Button from "../ui/Button";
 import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";

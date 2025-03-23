@@ -1,15 +1,15 @@
-import AddToQueueOptions from '../ui/AddToQueueOptions';
+import AddToQueueOptions from './ui/AddToQueueOptions';
 import { Grid } from '@mui/material';
-import IsInQueueWarning from '../ui/IsInQueueWarning';
-import Modal from '../../ui/Modal';
-import { PlayNextCondition } from '../interfaces/PlayNextCondition';
-import PlayNextWarning from '../ui/PlayNextWarning';
-import { Priority } from '../../../interfaces/Priority';
-import VideoCard from '../../ui/VideoCard';
-import { Visibility } from '../../../interfaces/Visibility';
-import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
+import IsInQueueWarning from './ui/IsInQueueWarning';
+import Modal from './Modal';
+import { PlayNextCondition } from './interfaces/PlayNextCondition';
+import PlayNextWarning from './ui/PlayNextWarning';
+import { Priority } from '../../interfaces/Priority';
+import VideoCard from '../ui/VideoCard';
+import { Visibility } from '../../interfaces/Visibility';
+import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from 'react-hot-toast';
-import { useQueueProvider } from '../../../context/QueueContext';
+import { useQueueProvider } from '../../context/QueueContext';
 import { useState } from 'react';
 
 interface Props {

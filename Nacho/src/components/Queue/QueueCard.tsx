@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import GetSecretCover from "../../utils/GetSecretCover";
 import { Interaction } from "../../interfaces/Interaction";
-import QueueInfoModal from "./modals/QueueInfoModal";
+import QueueInfoModal from "../modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
 import { getParsedDuration } from "../../utils/getParsedDuration";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";

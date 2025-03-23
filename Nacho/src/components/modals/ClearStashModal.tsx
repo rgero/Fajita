@@ -1,7 +1,7 @@
 import { DoNotDisturb, ThumbUpAlt } from "@mui/icons-material"
 import { Grid, Typography } from "@mui/material"
 
-import Button from "./Button"
+import Button from "../ui/Button"
 import Modal from "./Modal"
 
 const ConfirmationModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()=>void, isOpen: boolean, closeFn: ()=> void}) => {

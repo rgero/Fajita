@@ -1,10 +1,10 @@
 import { DoNotDisturb, Lock, LockOpen } from "@mui/icons-material"
 import { Grid, Typography } from "@mui/material"
 
-import Button from "../../ui/Button"
-import Modal from "../../ui/Modal"
-import { useQueueProvider } from "../../../context/QueueContext"
-import { useSocketProvider } from "../../../context/WebSocketContext"
+import Button from "../ui/Button";
+import Modal from "./Modal";
+import { useQueueProvider } from "../../context/QueueContext";
+import { useSocketProvider } from "../../context/WebSocketContext";
 
 const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) => {
   const {toggleLock} = useSocketProvider();
@@ -17,7 +17,7 @@ const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) 
 
   return (
     <Modal open={open} closeFn={closeFn}>
-      <Grid container direction="column" alignContent={"center"} spacing={2}>
+      <Grid container direction="column" alignContent={"center"} spacing={2} sx={{paddingY: "25px"}}>
         <Grid item>
           <Typography variant="h5">Are you sure you want to {queueData.locked ? "unlock" : "lock"} the queue?</Typography>
         </Grid>

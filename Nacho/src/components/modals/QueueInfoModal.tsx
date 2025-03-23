@@ -1,14 +1,15 @@
 import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
-import { Interaction } from '../../../interfaces/Interaction';
-import Modal from '../../ui/Modal';
-import QueueButtonGroup from './QueueButtonGroup';
-import QueueDeleteConfirm from './QueueDeleteConfirm';
-import { QueueStatus } from '../../../interfaces/QueueStatus';
-import { getParsedDuration } from '../../../utils/getParsedDuration';
-import { useQueueProvider } from '../../../context/QueueContext';
-import { useSocketProvider } from '../../../context/WebSocketContext';
+import { Interaction } from '../../interfaces/Interaction';
+import Modal from './Modal';
+import QueueButtonGroup from './ui/QueueButtonGroup';
+import QueueDeleteConfirm from './ui/QueueDeleteConfirm';
+import { QueueStatus } from '../../interfaces/QueueStatus';
+import { getParsedDuration } from '../../utils/getParsedDuration';
+import toast from 'react-hot-toast';
+import { useQueueProvider } from '../../context/QueueContext';
+import { useSocketProvider } from '../../context/WebSocketContext';
 
 interface Props {
   open: boolean;
@@ -38,7 +39,7 @@ const fadeOutAnimation = (isFadingOut: boolean) => ({
 
 const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn }) => {
   const { deleteVideoFromQueue } = useQueueProvider();
-  const {jumpQueue} = useSocketProvider();
+  const { jumpQueue } = useSocketProvider();
   const { title, thumbnail, duration } = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
@@ -55,11 +56,14 @@ const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn })
     try {
       await deleteVideoFromQueue(interaction.id);
       setConfirmDelete(false);
+      toast.success("Video deleted from queue");
       closeFn();
-    } catch {
-      console.error("Error deleting video");
+    } catch (error) {
+      console.error("Error deleting video", error);
+      toast.error("Failed to delete video from queue");
     }
   };
+
   const jumpVideo = (index: number) => {
     jumpQueue(index);
     closeFn();
@@ -86,7 +90,7 @@ const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn })
           {checkDelete ? (
             <QueueDeleteConfirm onCancel={() => checkConfirm(false)} onDelete={handleDelete} />
           ) : (
-            <QueueButtonGroup interaction={interaction} checkConfirm={() => checkConfirm(true)} jumpQueue={jumpVideo}/>
+            <QueueButtonGroup interaction={interaction} checkConfirm={() => checkConfirm(true)} jumpQueue={jumpVideo} />
           )}
         </Grid>
       </Grid>
