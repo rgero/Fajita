@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { OpenYouTubeURL } from '../../../../src/utils/OpenYoutubeURL';
 import React from 'react';
-import YoutubeOption from '../../../../src/components/Footer/DrawerOptions/YoutubeOption';
+import YoutubeOption from '../../../../src/components/footer/DrawerOptions/YoutubeOption';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../../src/context/QueueContext';
 

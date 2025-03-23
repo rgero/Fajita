@@ -3,7 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import CurrentPlayingPresenter from './CurrentPlayingPresenter';
 import FooterDrawer from './FooterDrawer';
-import QueueDialog from '../Queue/QueueDialog';
+import QueueDialog from '../queue/QueueDialog';
 import { useDialogContext } from '../../context/DialogContext';
 
 export default function Footer() {

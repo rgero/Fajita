@@ -1,5 +1,5 @@
-import SearchHeader from "../components/Search/SearchHeader"
-import SearchResults from "../components/Search/SearchResults"
+import SearchHeader from "../components/search/SearchHeader"
+import SearchResults from "../components/search/SearchResults"
 
 const MainPage = () => {
   return (

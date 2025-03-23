@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
-import SkipOption from '../../../../src/components/Footer/DrawerOptions/SkipOption';
+import SkipOption from '../../../../src/components/footer/DrawerOptions/SkipOption';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../../../src/context/QueueContext';
 import { useSocketProvider } from '../../../../src/context/WebSocketContext';
