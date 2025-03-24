@@ -5,6 +5,7 @@ import Modal from './Modal';
 import { PlayNextCondition } from './interfaces/PlayNextCondition';
 import PlayNextWarning from './ui/PlayNextWarning';
 import { Priority } from '../../interfaces/Priority';
+import SubmittingSpinner from './ui/SubmittingSpinner';
 import VideoCard from '../ui/VideoCard';
 import { Visibility } from '../../interfaces/Visibility';
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
@@ -114,7 +115,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
   const displayObject = () => {
     if (isSubmitting)
     {
-      return null;
+      return <SubmittingSpinner/>;
     }
     if (playNextCondition != PlayNextCondition.None)
     {

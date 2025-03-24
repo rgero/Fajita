@@ -3,6 +3,7 @@ import { AddCircle, CheckBox, CheckBoxOutlineBlank, Favorite, FavoriteBorder } f
 import Button from '../../ui/Button';
 import FajitaButton from "../../ui/Button"
 import { Grid } from "@mui/material"
+import InfoSection from './InfoSection';
 import { Priority } from '../../../interfaces/Priority';
 import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup"
@@ -37,7 +38,7 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
   }
 
   return (
-    <Grid item>
+    <InfoSection>
       <Grid item>
         <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
       </Grid>
@@ -64,7 +65,7 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </InfoSection>
   )
 }
 

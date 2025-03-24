@@ -2,6 +2,7 @@ import { Grid, Typography } from "@mui/material"
 import { SelfImprovement, Speed, Star } from '@mui/icons-material';
 
 import FajitaButton from "../../ui/Button"
+import InfoSection from "./InfoSection";
 import { PlayNextCondition } from "../interfaces/PlayNextCondition";
 
 interface PlayNextWarningProps {
@@ -10,7 +11,7 @@ interface PlayNextWarningProps {
 
 const PlayNextWarning: React.FC<PlayNextWarningProps> = ({ handleSubmit }) => {
   return (
-    <Grid container direction="column" spacing={2} sx={{padding: 2}}>
+    <InfoSection>
       <Grid item alignSelf={"center"}>
         <Typography variant="h6">Warning: Someone else has used their play next.</Typography>
       </Grid>
@@ -21,7 +22,7 @@ const PlayNextWarning: React.FC<PlayNextWarningProps> = ({ handleSubmit }) => {
           <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Impatient)} icon={<Star color="success"/>} title="Me First!"/>
         </Grid>
       </Grid>
-    </Grid>
+    </InfoSection>
   )
 }
 

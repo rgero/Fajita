@@ -4,7 +4,7 @@ import { Grid, Typography } from "@mui/material"
 import Button from "../ui/Button"
 import Modal from "./Modal"
 
-const ConfirmationModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()=>void, isOpen: boolean, closeFn: ()=> void}) => {
+const ClearStashModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()=>void, isOpen: boolean, closeFn: ()=> void}) => {
   return (
     <Modal
       open={isOpen}
@@ -29,4 +29,4 @@ const ConfirmationModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()
   )
 }
 
-export default ConfirmationModal
+export default ClearStashModal
