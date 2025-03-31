@@ -31,6 +31,9 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
   
   const handleClose = () => {
     setOpen(false);
+    if (window.history.state?.dialogOpen) {
+      window.history.back();
+    }
   };
 
   // An attempt at handling the back button.
