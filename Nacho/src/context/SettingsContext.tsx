@@ -7,6 +7,8 @@ const defaultShareOptions = { clipboard: false, youtube: true, stash: true };
 const SettingsContext = createContext({
   isFooterCompact: false,
   isStashCompact: false,
+  enableExperimental: false,
+  toggleExperimental: () => {},
   toggleFooterCompact: () => {},
   toggleCompactStash: () => {},
   shareOptions: defaultShareOptions,
@@ -14,6 +16,11 @@ const SettingsContext = createContext({
 });
 
 const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
+
+  const [enableExperimental, setEnableExperimental] = useLocalStorageState(
+    false,
+    "enableExperimental",
+  );
 
   const [isFooterCompact, setIsFooterCompact] = useLocalStorageState(
     false,
@@ -46,6 +53,10 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     }
   }, []);
 
+  const toggleExperimental = () => {
+    setEnableExperimental((enable: boolean) => !enable);
+  }
+
   const toggleFooterCompact = () => {
     setIsFooterCompact((isCompact: boolean) => !isCompact);
   }
@@ -61,8 +72,10 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   return (
     <SettingsContext.Provider 
       value={{
+        enableExperimental,
         isFooterCompact,
         isStashCompact, 
+        toggleExperimental,
         toggleFooterCompact,
         toggleCompactStash,
         shareOptions: validateShareOptions(JSON.parse(shareOptions)),

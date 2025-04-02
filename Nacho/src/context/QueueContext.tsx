@@ -5,11 +5,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Interaction } from "../interfaces/Interaction";
 import { Priority } from "../interfaces/Priority";
 import { QueueData } from "../interfaces/QueueData";
+import { Visibility } from "../interfaces/Visibility";
 import { useAuth } from "./AuthenicationContext";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 interface QueueContextType {
   addVideoToQueue: ({id, priority, visibility}: {id: string, priority: number, visibility: number}) => void;
+  addRandomVideo: (id:string, priority: number) => void;
   checkForPlayNext: () => boolean,
   connectToQueue: (id: string) => void;
   deleteVideoFromQueue: (id: string) => void;
@@ -126,6 +128,11 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     }
   });
 
+  const addRandomVideo = async (id: string, priority: number) => {
+    if (!user) { throw new Error("User not found"); }
+    await addToQueue(getQueueID(), user.id, id, priority, Visibility.Hidden);
+  }
+
   const checkForPlayNext = () => {
     if (!queueData.next_interaction) return false;
     if (queueData.next_interaction.priority > 1)
@@ -157,6 +164,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     <QueueContext.Provider
       value={{
         addVideoToQueue,
+        addRandomVideo,
         checkForPlayNext,
         connectToQueue,
         deleteVideoFromQueue,

@@ -16,6 +16,7 @@ interface StashContextType {
   refetch: () => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  stashData: Artifact[];
 }
 
 const StashContext = createContext<StashContextType| undefined>(undefined);
@@ -90,7 +91,8 @@ const StashProvider = ({ children }: { children: React.ReactNode }) => {
       isLoading,
       refetch,
       searchTerm,
-      setSearchTerm
+      setSearchTerm,
+      stashData: stashData.artifacts,
     }}>
       {children}
     </StashContext.Provider>

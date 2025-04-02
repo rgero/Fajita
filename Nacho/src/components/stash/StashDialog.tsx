@@ -1,16 +1,24 @@
-import { Container, Fade, IconButton, useTheme } from "@mui/material";
-import { DeleteForever, Search } from "@mui/icons-material";
+import { Box, Container, Divider, Fade, IconButton, useTheme } from "@mui/material";
+import { Casino, DeleteForever, Search } from "@mui/icons-material";
 
+import AddRandomModal from "../modals/AddRandomModal";
 import ClearStashModal from "../modals/ClearStashModal";
 import Dialog from "../ui/Dialog";
+import { Priority } from "../../interfaces/Priority";
 import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
+import toast from "react-hot-toast";
+import { useQueueProvider } from "../../context/QueueContext";
+import { useSettings } from "../../context/SettingsContext";
 import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
 const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
-  const { searchTerm, setSearchTerm, deleteStash } = useStashProvider();
+  const { searchTerm, setSearchTerm, deleteStash, stashData } = useStashProvider();
+  const { addRandomVideo, isInQueue } = useQueueProvider();
+  const {enableExperimental} = useSettings();
   const [deleteModal, setDeleteModal] = useState(false);
+  const [randomModal, setRandomModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const theme = useTheme();
 
@@ -33,21 +41,55 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
     setDeleteModal(false);
   }
 
+  const addRandomFromStash = async (priority: Priority) => {
+    try{
+      let needsToPick = true;
+      let randomVideo = "";
+      let maxTries = 5;
+      while (needsToPick)
+      {
+        const randomIndex = Math.floor(Math.random() * stashData.length);
+        randomVideo = stashData[randomIndex].video.video_id;
+        needsToPick = isInQueue(randomVideo);
+        maxTries = maxTries - 1;
+        if (maxTries === 0) { throw new Error("Unable to select unique video"); }
+      }
+      
+      await addRandomVideo(randomVideo, priority);
+      toast.success("Added random video to queue");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "An unknown error occurred");
+      console.error(error);
+    } finally {
+      setRandomModal(false);
+    }
+
+  }
+
   const adornmentButtons = (
-    <>
+    <Box sx={{ display: "flex", alignItems: "center" }}>
       <IconButton onClick={() => setDeleteModal(true)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
         <DeleteForever />
       </IconButton>
+      <Divider orientation="vertical" variant="middle" flexItem />
+      {enableExperimental && (
+        <>
+          <IconButton onClick={() => setRandomModal(true)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
+            <Casino />
+          </IconButton>
+          <Divider orientation="vertical" variant="middle" flexItem />
+        </>
+      )}
       <IconButton onClick={() => processShowHideSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
         <Search />
       </IconButton>
-    </>
-
-  )
+    </Box>
+  );
 
   return (
-    <Dialog open={open} setOpen={processSetOpen} title={"Your Stash"} titleButtons={adornmentButtons}>
+    <Dialog open={open} setOpen={processSetOpen} title={"Stash"} titleButtons={adornmentButtons}>
       <ClearStashModal isOpen={deleteModal} closeFn={()=> setDeleteModal(false)} confirmAction={processConfirm} />
+      {enableExperimental && (<AddRandomModal isOpen={randomModal} closeFn={() => setRandomModal(false)} confirmAction={addRandomFromStash} />)}
       <Fade in={showSearch} timeout={300}>
         <Container
           disableGutters
