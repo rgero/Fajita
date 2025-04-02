@@ -68,19 +68,19 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
 
   const adornmentButtons = (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      <IconButton onClick={() => setDeleteModal(true)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
+      <IconButton onClick={() => setDeleteModal(true)} color={deleteModal ? "warning" : "default"}>
         <DeleteForever />
       </IconButton>
       <Divider orientation="vertical" variant="middle" flexItem />
       {enableExperimental && (
         <>
-          <IconButton onClick={() => setRandomModal(true)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
-            <Casino />
+          <IconButton onClick={() => setRandomModal(true)} color={randomModal ? "warning" : "default"}>
+            <Casino/>
           </IconButton>
           <Divider orientation="vertical" variant="middle" flexItem />
         </>
       )}
-      <IconButton onClick={() => processShowHideSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
+      <IconButton onClick={() => processShowHideSearch(!showSearch)} color={showSearch ? "warning" : "default"}>
         <Search />
       </IconButton>
     </Box>
