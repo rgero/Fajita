@@ -6,6 +6,9 @@ import Modal from "./Modal"
 import { Priority } from "../../interfaces/Priority"
 
 const AddRandomModal = ({confirmAction, isOpen, closeFn} : {confirmAction: (priority: Priority)=>void, isOpen: boolean, closeFn: ()=> void}) => {
+
+  const isFajita = Math.random() > 0.75;
+
   return (
     <Modal
       open={isOpen}
@@ -18,7 +21,7 @@ const AddRandomModal = ({confirmAction, isOpen, closeFn} : {confirmAction: (prio
         }}
       >
         <CardHeader
-          title="Add a random song?"
+          title={isFajita ? "Let Rudy Pick?" : "Let Daisy Pick?"}
           titleTypographyProps={{ align: "center", variant: "h5" }}
         />
         <CardMedia
@@ -27,7 +30,7 @@ const AddRandomModal = ({confirmAction, isOpen, closeFn} : {confirmAction: (prio
             height: {xs: 220, md: 300},
             objectFit: "scale-down",
           }}
-          image={ Math.random() > 0.75 ? "./fajita.png" : "./Daisy.png"}
+          image={ isFajita ? "./fajita.png" : "./Daisy.png"}
           alt="Random Song"
         />
         <CardContent sx={{ display: "flex", flexGrow: 1, flexDirection: "column", minWidth: 0 }}>
