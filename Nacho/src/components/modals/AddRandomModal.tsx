@@ -1,5 +1,5 @@
-import { DoNotDisturb, SkipNext, ThumbUpAlt } from "@mui/icons-material"
-import { Grid, Typography } from "@mui/material"
+import { AddCircle, SkipNext } from "@mui/icons-material"
+import { Card, CardContent, CardHeader, CardMedia, Grid } from "@mui/material"
 
 import Button from "../ui/Button"
 import Modal from "./Modal"
@@ -11,24 +11,36 @@ const AddRandomModal = ({confirmAction, isOpen, closeFn} : {confirmAction: (prio
       open={isOpen}
       closeFn={closeFn}
     >
-        <Grid container spacing={5} direction="column" justifyContent="center" alignItems="center" sx={{paddingY: "5px"}}>
-          <Grid item>
-            <Typography variant="h6" align="center" sx={{textAlign: "center"}}>Add a random song?</Typography>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={5} justifyContent="space-around">
-              <Grid item>
-                <Button onClick={closeFn} icon={<DoNotDisturb color="error"/>} title="Cancel"/>
-              </Grid>
-              <Grid item>
-                <Button onClick={()=> confirmAction(Priority.playNext)} icon={<SkipNext/>} title="Play Next"/>
-              </Grid>
-              <Grid item>
-                <Button onClick={()=> confirmAction(Priority.normal)} icon={<ThumbUpAlt color="success"/>} title="Add Random"/>
-              </Grid>
+      <Card 
+        sx={{ 
+          alignItems: "center", 
+          width: "100%", 
+        }}
+      >
+        <CardHeader
+          title="Add a random song?"
+          titleTypographyProps={{ align: "center", variant: "h5" }}
+        />
+        <CardMedia
+          component="img"
+          sx={{
+            height: {xs: 220, md: 300},
+            objectFit: "scale-down",
+          }}
+          image={ Math.random() > 0.75 ? "./fajita.png" : "./Daisy.png"}
+          alt="Random Song"
+        />
+        <CardContent sx={{ display: "flex", flexGrow: 1, flexDirection: "column", minWidth: 0 }}>
+          <Grid container spacing={5} justifyContent="space-around">
+            <Grid item>
+              <Button onClick={()=> confirmAction(Priority.playNext)} icon={<SkipNext/>} title="Play Next"/>
+            </Grid>
+            <Grid item>
+              <Button onClick={()=> confirmAction(Priority.normal)} icon={<AddCircle color="success"/>} title="Add"/>
             </Grid>
           </Grid>
-        </Grid>
+        </CardContent>
+      </Card>
     </Modal>
   )
 }
