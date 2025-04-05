@@ -1,6 +1,7 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
+import EmptyQueue from "./EmptyQueue";
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
@@ -48,9 +49,7 @@ const QueueList = () => {
   if (!interactions || interactions.length == 0)
   {
     return (
-      <Container>
-        <Typography>There are no videos currently in the queue</Typography>
-      </Container>
+      <EmptyQueue/>
     )
   }
 
