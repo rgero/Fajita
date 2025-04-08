@@ -18,7 +18,8 @@ const FooterCard: React.FC<CardProps> = ({title, imageURL, percentComplete, curr
       sx={{ 
         display: "flex", 
         alignItems: "center", 
-        width: "100%", 
+        width: "100%",
+        height: "100%", 
         paddingLeft: "10px" 
       }}
     >
