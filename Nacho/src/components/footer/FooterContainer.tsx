@@ -37,7 +37,7 @@ export default function Footer() {
   const style = {
     borderTop: `1px solid black`,
     zIndex: 30,
-    paddingBottom: isRunningStandalone() ? "8px" : 0,
+    paddingBottom: isRunningStandalone() ? "12px" : 0,
   }
 
   return (
