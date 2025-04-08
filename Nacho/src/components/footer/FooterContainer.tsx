@@ -6,6 +6,15 @@ import FooterDrawer from './FooterDrawer';
 import QueueDialog from '../queue/QueueDialog';
 import { useDialogContext } from '../../context/DialogContext';
 
+const isRunningStandalone = () => {
+  if (typeof window === 'undefined') return false;
+  return (
+    window.matchMedia?.('(display-mode: standalone)').matches ||
+    (window.navigator as any).standalone === true
+  );
+}
+
+
 export default function Footer() {
   const [isOpen, setOpen] = React.useState(false);
   const {queueOpen, setQueueOpen, areAnyOpen} = useDialogContext();
@@ -27,7 +36,8 @@ export default function Footer() {
 
   const style = {
     borderTop: `1px solid black`,
-    zIndex: 30
+    zIndex: 30,
+    paddingBottom: isRunningStandalone() ? 16 : 0,
   }
 
   return (
