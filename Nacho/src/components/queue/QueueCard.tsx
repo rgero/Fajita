@@ -5,6 +5,7 @@ import GetSecretCover from "../../utils/GetSecretCover";
 import { Interaction } from "../../interfaces/Interaction";
 import QueueInfoModal from "../modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
+import { Visibility } from "../../interfaces/Visibility";
 import { getParsedDuration } from "../../utils/getParsedDuration";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
 import { useQueueProvider } from "../../context/QueueContext";
@@ -60,7 +61,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   }
 
   useEffect(() => {
-    const shouldBeVisible: boolean = (data.visibility != 0) || data.index <= current;
+    const shouldBeVisible: boolean = (data.visibility === Visibility.Hidden || data.visibility === Visibility.Random) || data.index <= current;
     const response: QueueStatus = {isVisible: shouldBeVisible, message: null, cover: null}
     if (!shouldBeVisible)
     {
