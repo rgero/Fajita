@@ -130,7 +130,7 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addRandomVideo = async (id: string, priority: number) => {
     if (!user) { throw new Error("User not found"); }
-    await addToQueue(getQueueID(), user.id, id, priority, Visibility.Hidden);
+    await addToQueue(getQueueID(), user.id, id, priority, Visibility.Random);
   }
 
   const checkForPlayNext = () => {
