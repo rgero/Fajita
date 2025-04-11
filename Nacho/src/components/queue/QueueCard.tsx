@@ -61,7 +61,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   }
 
   useEffect(() => {
-    const shouldBeVisible: boolean = (data.visibility === Visibility.Hidden || data.visibility === Visibility.Random) || data.index <= current;
+    const shouldBeVisible: boolean = data.visibility != Visibility.Hidden && data.visibility != Visibility.Random || data.index <= current;
     const response: QueueStatus = {isVisible: shouldBeVisible, message: null, cover: null}
     if (!shouldBeVisible)
     {
