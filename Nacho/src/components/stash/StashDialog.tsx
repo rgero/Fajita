@@ -72,14 +72,10 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
         <DeleteForever />
       </IconButton>
       <Divider orientation="vertical" variant="middle" flexItem />
-      {enableExperimental && (
-        <>
-          <IconButton onClick={() => setRandomModal(true)} color={randomModal ? "warning" : "default"}>
-            <Casino/>
-          </IconButton>
-          <Divider orientation="vertical" variant="middle" flexItem />
-        </>
-      )}
+      <IconButton onClick={() => setRandomModal(true)} color={randomModal ? "warning" : "default"}>
+        <Casino/>
+      </IconButton>
+      <Divider orientation="vertical" variant="middle" flexItem />
       <IconButton onClick={() => processShowHideSearch(!showSearch)} color={showSearch ? "warning" : "default"}>
         <Search />
       </IconButton>
