@@ -9,14 +9,12 @@ import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
 import toast from "react-hot-toast";
 import { useQueueProvider } from "../../context/QueueContext";
-import { useSettings } from "../../context/SettingsContext";
 import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
 const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
   const { searchTerm, setSearchTerm, deleteStash, stashData } = useStashProvider();
   const { addRandomVideo, isInQueue } = useQueueProvider();
-  const {enableExperimental} = useSettings();
   const [deleteModal, setDeleteModal] = useState(false);
   const [randomModal, setRandomModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -85,7 +83,7 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
   return (
     <Dialog open={open} setOpen={processSetOpen} title={"Stash"} titleButtons={adornmentButtons}>
       <ClearStashModal isOpen={deleteModal} closeFn={()=> setDeleteModal(false)} confirmAction={processConfirm} />
-      {enableExperimental && (<AddRandomModal isOpen={randomModal} closeFn={() => setRandomModal(false)} confirmAction={addRandomFromStash} />)}
+      <AddRandomModal isOpen={randomModal} closeFn={() => setRandomModal(false)} confirmAction={addRandomFromStash} />
       <Fade in={showSearch} timeout={300}>
         <Container
           disableGutters
