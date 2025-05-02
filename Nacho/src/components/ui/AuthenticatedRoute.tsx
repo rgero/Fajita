@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import Loading from "./Loading";
 import { useAuth } from "../../context/AuthenicationContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ const AuthenticatedRoute = ({children} : Props) => {
   }, [isAuthenticated, isLoading, fetchStatus, navigate])
 
   if (isLoading) return (
-    <Typography>Loading</Typography>
+    <Loading/>
   );
 
   if (isAuthenticated) return children;

@@ -6,6 +6,8 @@ import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
 import { AuthenticationProvider } from "./context/AuthenicationContext";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { DialogProvider } from "./context/DialogContext";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "./components/ui/ErrorFallback";
 import LandingPage from "./pages/LandingPage";
 import MainPage from "./pages/MainPage";
 import { QueueProvider } from "./context/QueueContext";
@@ -45,17 +47,19 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <AuthenticationProvider>
           <BrowserRouter>
-            <Routes>
-              <Route element={
-                <AuthRouteWrapper>
-                  <AppLayout/>
-                </AuthRouteWrapper>
-              }>
-                <Route index element={<MainPage/>}/>
-              </Route>
-              <Route path="landing" element={<LandingPage/>} />
-              <Route path='*' element={<Navigate to='/' />} />
-            </Routes>
+            <ErrorBoundary FallbackComponent={ErrorFallback} onReset={()=> window.location.replace("/")}>
+              <Routes>
+                <Route element={
+                  <AuthRouteWrapper>
+                    <AppLayout/>
+                  </AuthRouteWrapper>
+                }>
+                  <Route index element={<MainPage/>}/>
+                </Route>
+                <Route path="landing" element={<LandingPage/>} />
+                <Route path='*' element={<Navigate to='/' />} />
+              </Routes>
+            </ErrorBoundary>
           </BrowserRouter>
         </AuthenticationProvider>
       </QueryClientProvider>
