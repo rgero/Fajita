@@ -24,7 +24,7 @@ const styles = {
     zIndex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 1)",
+      backgroundColor: "rgba(0, 0, 0, 0.8)",
     },
   },
 };
@@ -60,8 +60,9 @@ const SearchCard: React.FC<Props> = ({ data }) => {
           sx={styles.overlayButton}
           onClick={handleMenuOpen}
           aria-label="Options"
+          color={isMenuOpen ? "warning" : "default"}
         >
-          <MoreVert />
+          <MoreVert/>
         </IconButton>
         <SearchMenu
           data={data}
