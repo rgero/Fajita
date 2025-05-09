@@ -1,13 +1,12 @@
 import { Card, IconButton } from "@mui/material";
 
 import AddToQueueModal from "../modals/AddToQueueModal";
-import { FavoriteBorder } from "@mui/icons-material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import { MoreVert } from "@mui/icons-material";
+import SearchMenu from "./SearchMenu";
 import VideoCard from "../ui/VideoCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from "react-hot-toast";
 import { useQueueProvider } from "../../context/QueueContext";
-import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
 interface Props {
@@ -19,39 +18,31 @@ const styles = {
     position: "relative",
   },
   overlayButton: {
-    position: "absolute", // Absolute positioning for the button
-    top: "10px",          // Position from the top of the card
-    left: "10px",        // Position from the right of the card
-    zIndex: 1,            // Ensures the button appears on top
-    backgroundColor: "rgba(0, 0, 0, 0.8)", // Light background
+    position: "absolute",
+    top: "10px",
+    left: "10px",
+    zIndex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 1)", // Highlight on hover
+      backgroundColor: "rgba(255, 255, 255, 1)",
     },
   },
 };
 
 const SearchCard: React.FC<Props> = ({ data }) => {
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [isModalOpen, setModalOpen] = useState(false);
-  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
-  const {isConnected} = useQueueProvider();
+  const { isConnected } = useQueueProvider();
 
-  const handleAddToStash = async () => {
-    try {
-      await addVideoToStash(data.id);
-      toast.success("Video added to stash");
-    } catch (err: any) {
-      toast.error("Failed to add video to stash");
-    }
+  const isMenuOpen = Boolean(menuAnchorEl);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMenuAnchorEl(event.currentTarget);
   };
 
-  const handleRemoveFromStash = async () => {
-    try {
-      await deleteVideoFromStash(data.id);
-      toast.success("Video removed from stash");
-    } catch (err: any) {
-      toast.error("Failed to remove video from stash");
-    }
-  }
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
+  };
 
   const processOpenModal = () => {
     if (isConnected) {
@@ -59,7 +50,7 @@ const SearchCard: React.FC<Props> = ({ data }) => {
     } else {
       toast.error("You must be connected to a queue to add videos");
     }
-  }
+  };
 
   return (
     <>
@@ -67,11 +58,17 @@ const SearchCard: React.FC<Props> = ({ data }) => {
       <Card sx={styles.card}>
         <IconButton
           sx={styles.overlayButton}
-          onClick={isInStash(data.id) ? handleRemoveFromStash : handleAddToStash}
-          aria-label={isInStash(data.id) ? "Remove from Stash" : "Add to Stash"}
+          onClick={handleMenuOpen}
+          aria-label="Options"
         >
-          {isInStash(data.id) ? <FavoriteIcon color="error" /> : <FavoriteBorder/> }
+          <MoreVert />
         </IconButton>
+        <SearchMenu
+          data={data}
+          anchorEl={menuAnchorEl}
+          open={isMenuOpen}
+          onClose={handleMenuClose}
+        />
         <VideoCard data={data} clickFn={processOpenModal} />
       </Card>
     </>

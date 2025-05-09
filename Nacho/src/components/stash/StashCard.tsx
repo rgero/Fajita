@@ -70,7 +70,7 @@ const StashCard: React.FC<Props> = ({ data }) => {
         ) : null }
         {shareOptions.youtube ? (
           <Grid item>
-            <Button onClick={() => OpenYouTubeURL(data)} icon={(<YouTube color="error"/>)} title="YouTube"/>
+            <Button onClick={() => OpenYouTubeURL(data.video.video_id)} icon={(<YouTube color="error"/>)} title="YouTube"/>
           </Grid>   
         ) : null }
       </AddToQueueModal>

@@ -1,10 +1,8 @@
-import { Artifact } from "../interfaces/Artifact";
-import { Interaction } from "../interfaces/Interaction";
-
-export const OpenYouTubeURL = (interaction: Interaction|Artifact) => {
-  const url = `https://www.youtube.com/watch?v=${interaction.video.video_id}`;
-  const iosUrl = `youtube://${interaction.video.video_id}`;
-  const androidUrl = `intent://www.youtube.com/watch?v=${interaction.video.video_id}#Intent;package=com.google.android.youtube;scheme=https;end`;
+export const OpenYouTubeURL = (video_id: string) => {
+  console.log(video_id);
+  const url = `https://www.youtube.com/watch?v=${video_id}`;
+  const iosUrl = `youtube://${video_id}`;
+  const androidUrl = `intent://www.youtube.com/watch?v=${video_id}#Intent;package=com.google.android.youtube;scheme=https;end`;
 
   // Fallback to normal YouTube link if the app is not installed
   const fallbackUrl = url;
@@ -17,6 +15,4 @@ export const OpenYouTubeURL = (interaction: Interaction|Artifact) => {
   } else {
     window.location.href = fallbackUrl;
   }
-
-
 }

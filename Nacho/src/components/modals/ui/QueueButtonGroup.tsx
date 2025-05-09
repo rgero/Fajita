@@ -49,7 +49,7 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, checkConfirm, jumpQueu
       )}
       {shareOptions.youtube && (
         <Grid item>
-          <Button onClick={() => OpenYouTubeURL(interaction)} icon={<YouTubeIcon color="error" />} title="YouTube" />
+          <Button onClick={() => OpenYouTubeURL(interaction.video.video_id)} icon={<YouTubeIcon color="error" />} title="YouTube" />
         </Grid>
       )}
       <Grid item>

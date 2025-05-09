@@ -31,7 +31,7 @@ const YoutubeOption = () => {
       toast.error("Nothing currently playing to open");
       return;
     }
-    OpenYouTubeURL(currentlyPlaying);
+    OpenYouTubeURL(currentlyPlaying.video.video_id);
   };
 
   return (
