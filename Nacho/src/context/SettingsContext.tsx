@@ -6,11 +6,13 @@ const defaultShareOptions = { clipboard: false, youtube: true, stash: true };
 
 const SettingsContext = createContext({
   isFooterCompact: false,
+  isRightHanded: false,
   isStashCompact: false,
   enableExperimental: false,
   toggleExperimental: () => {},
   toggleFooterCompact: () => {},
   toggleCompactStash: () => {},
+  toggleHandedness: () => {},
   shareOptions: defaultShareOptions,
   updateShareOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) }
 });
@@ -25,6 +27,11 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   const [isFooterCompact, setIsFooterCompact] = useLocalStorageState(
     false,
     "isFooterCompact",
+  );
+
+  const [isRightHanded, setIsRightHanded] = useLocalStorageState(
+    false,
+    "isRightHanded",
   );
 
   const [isStashCompact, setIsStashCompact] = useLocalStorageState(
@@ -61,6 +68,10 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     setIsFooterCompact((isCompact: boolean) => !isCompact);
   }
 
+  const toggleHandedness = () => {
+    setIsRightHanded((isRightHanded: boolean) => !isRightHanded);
+  }
+
   const toggleCompactStash = () => {
     setIsStashCompact((isCompact: boolean) => !isCompact);
   }
@@ -74,9 +85,11 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
       value={{
         enableExperimental,
         isFooterCompact,
+        isRightHanded,
         isStashCompact, 
         toggleExperimental,
         toggleFooterCompact,
+        toggleHandedness,
         toggleCompactStash,
         shareOptions: validateShareOptions(JSON.parse(shareOptions)),
         updateShareOptions

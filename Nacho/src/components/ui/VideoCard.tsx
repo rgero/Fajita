@@ -3,6 +3,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 import { getParsedDuration } from "../../utils/getParsedDuration"
+import { useSettings } from "../../context/SettingsContext"
 
 interface Props {
   data: YoutubeResponse,
@@ -16,7 +17,6 @@ const styles = {
   overlay: {
     position: 'absolute',
     top: '10px',
-    right: '10px',
     color: 'white',
     backgroundColor: 'black',
     fontWeight: 'bold',
@@ -34,6 +34,12 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
   const views: string|undefined = data.views;
   const duration: string|number = data.duration;
 
+  const {isRightHanded} = useSettings();
+  const overlayStyle = {
+    ...styles.overlay,
+    ...(!isRightHanded ? {right: "10px"} : {left: "10px"})
+  }
+
   let cardContent = (
     <>
       <CardMedia
@@ -46,7 +52,7 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
         title={title}
         alt={title}
       />
-      <Typography sx={styles.overlay}>{getParsedDuration(duration)}</Typography>
+      <Typography sx={overlayStyle}>{getParsedDuration(duration)}</Typography>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div" sx={{wordBreak: "break-word"}}>
           {title}

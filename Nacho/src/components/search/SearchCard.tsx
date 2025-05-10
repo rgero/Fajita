@@ -7,34 +7,39 @@ import VideoCard from "../ui/VideoCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from "react-hot-toast";
 import { useQueueProvider } from "../../context/QueueContext";
+import { useSettings } from "../../context/SettingsContext";
 import { useState } from "react";
 
 interface Props {
   data: YoutubeResponse;
 }
 
-const styles = {
-  card: {
-    position: "relative",
-  },
-  overlayButton: {
-    position: "absolute",
-    top: "10px",
-    left: "10px",
-    zIndex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-    "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
-    },
-  },
-};
-
 const SearchCard: React.FC<Props> = ({ data }) => {
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
+  const {isRightHanded} = useSettings();
   const [isModalOpen, setModalOpen] = useState(false);
   const { isConnected } = useQueueProvider();
 
   const isMenuOpen = Boolean(menuAnchorEl);
+
+  const styles = {
+    card: {
+      position: "relative",
+    },
+    overlayButton: {
+      position: "absolute",
+      top: "10px",
+      left: isRightHanded ? null : "10px",
+      right: isRightHanded ? "10px" : null,
+      zIndex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.8)",
+      "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+      },
+    },
+  };
+
+
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMenuAnchorEl(event.currentTarget);

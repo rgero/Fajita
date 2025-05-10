@@ -3,6 +3,7 @@ import { Box, Divider, Typography } from "@mui/material"
 import DarkModeToggle from "./options/DarkModeToggle"
 import EnableExperimentalOption from "./options/EnableExperimentalOption"
 import FooterCardOptions from "./options/FooterCardOptions"
+import HandednessOption from "./options/HandednessToggle"
 import ShareOptions from "./options/ShareOptions"
 import StashOptions from "./options/StashOptions"
 
@@ -12,6 +13,7 @@ const UserSettingsContent = () => {
       <Box>
         <Typography variant="body1" sx={{fontWeight: "bold"}}>General Settings</Typography>
         <DarkModeToggle/>
+        <HandednessOption/>
         <EnableExperimentalOption/>
       </Box>
       <Divider/>
