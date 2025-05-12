@@ -2,6 +2,7 @@ import { Menu, MenuItem, Typography } from "@mui/material";
 
 import { Interaction } from "../../interfaces/Interaction";
 import { formatDistanceToNow } from "date-fns";
+import { toZonedTime } from 'date-fns-tz'
 
 interface QueueInfoMenuProps {
   data: Interaction;
@@ -10,11 +11,13 @@ interface QueueInfoMenuProps {
   onClose: () => void;
 }
 
-const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onClose}) => {
+const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onClose}) => {  
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const localDate = toZonedTime(data.created_at + "Z", timeZone)
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
       <MenuItem>
-        <Typography>{formatDistanceToNow(data.created_at, { addSuffix: true })}</Typography>
+        <Typography>{formatDistanceToNow(localDate, { addSuffix: true })}</Typography>
       </MenuItem>
     </Menu>
   );
