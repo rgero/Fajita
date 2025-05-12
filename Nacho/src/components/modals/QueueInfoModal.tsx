@@ -1,15 +1,18 @@
+import { Grid, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 
-import { Grid } from '@mui/material';
 import { Interaction } from '../../interfaces/Interaction';
 import Modal from './Modal';
+import { MoreVert } from '@mui/icons-material';
 import QueueButtonGroup from './ui/QueueButtonGroup';
 import QueueDeleteConfirm from './ui/QueueDeleteConfirm';
+import QueueInfoMenu from '../queue/QueueInfoMenu';
 import { QueueStatus } from '../../interfaces/QueueStatus';
 import VideoCard from '../ui/VideoCard';
 import { YoutubeResponse } from '../../interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../context/QueueContext';
+import { useSettings } from '../../context/SettingsContext';
 import { useSocketProvider } from '../../context/WebSocketContext';
 
 interface Props {
@@ -25,10 +28,27 @@ const fadeOutAnimation = (isFadingOut: boolean) => ({
 });
 
 const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn }) => {
+  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const { deleteVideoFromQueue } = useQueueProvider();
   const { jumpQueue } = useSocketProvider();
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
+  const {isRightHanded} = useSettings();
+  const isMenuOpen = Boolean(menuAnchorEl);
+
+  const styles = {
+    overlayButton: {
+      position: "absolute",
+      top: "22px",
+      left: isRightHanded ? null : "22px",
+      right: isRightHanded ? "22px" : null,
+      zIndex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.8)",
+      "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+      },
+    },
+  };
 
   const checkConfirm = (isDeleting: boolean) => {
     setIsFadingOut(true);
@@ -55,6 +75,14 @@ const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn })
     closeFn();
   };
 
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
+  };
+
   const videoData: YoutubeResponse = {
     id: interaction.video.video_id,
     title: status.isVisible ? interaction.video.title : status.message ? status.message : "No title",
@@ -73,6 +101,20 @@ const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn })
             <QueueButtonGroup interaction={interaction} checkConfirm={() => checkConfirm(true)} jumpQueue={jumpVideo} />
           )}
         </Grid>
+        <IconButton
+          sx={styles.overlayButton}
+          onClick={handleMenuOpen}
+          aria-label="Options"
+          color={isMenuOpen ? "warning" : "default"}
+        >
+          <MoreVert/>
+        </IconButton>
+        <QueueInfoMenu
+          data={interaction}
+          anchorEl={menuAnchorEl}
+          open={isMenuOpen}
+          onClose={handleMenuClose}
+        />
       </>
     </Modal>
   );
