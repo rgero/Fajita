@@ -6,6 +6,7 @@ import { Grid } from '@mui/material';
 import { Interaction } from '../../../interfaces/Interaction';
 import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import { QueueStatus } from '../../../interfaces/QueueStatus';
 import React from 'react';
 import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -15,11 +16,12 @@ import { useStashProvider } from '../../../context/StashContext';
 
 interface Props {
   interaction: Interaction;
+  status: QueueStatus;
   checkConfirm: () => void;
   jumpQueue: (index: number) => void;
 }
 
-const QueueButtonGroup: React.FC<Props> = ({ interaction, checkConfirm, jumpQueue }) => {
+const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, jumpQueue }) => {
   const { shareOptions } = useSettings();
   const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashProvider();
   const { video_id } = interaction.video;
@@ -37,20 +39,38 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, checkConfirm, jumpQueu
       <Grid item>
         <Button onClick={checkConfirm} icon={<DeleteForeverIcon color="error" />} title="Delete" />
       </Grid>
-      {shareOptions.clipboard && (
-        <Grid item>
-          <Button onClick={() => copyToClipboard(interaction)} icon={<ShareIcon />} title="Copy" />
-        </Grid>
-      )}
-      {shareOptions.stash && (
-        <Grid item>
-          <Button onClick={processStash} icon={isInStash(video_id) ? <Favorite color="error" /> : <FavoriteBorder />} title="Stash" />
-        </Grid>
-      )}
-      {shareOptions.youtube && (
-        <Grid item>
-          <Button onClick={() => OpenYouTubeURL(interaction.video.video_id)} icon={<YouTubeIcon color="error" />} title="YouTube" />
-        </Grid>
+      {status.isVisible && (
+        <>
+          {shareOptions.clipboard && (
+            <Grid item>
+              <Button
+                onClick={() => copyToClipboard(interaction)}
+                icon={<ShareIcon />}
+                title="Copy"
+              />
+            </Grid>
+          )}
+
+          {shareOptions.stash && (
+            <Grid item>
+              <Button
+                onClick={processStash}
+                icon={isInStash(video_id) ? <Favorite color="error" /> : <FavoriteBorder />}
+                title="Stash"
+              />
+            </Grid>
+          )}
+
+          {shareOptions.youtube && (
+            <Grid item>
+              <Button
+                onClick={() => OpenYouTubeURL(interaction.video.video_id)}
+                icon={<YouTubeIcon color="error" />}
+                title="YouTube"
+              />
+            </Grid>
+          )}
+        </>
       )}
       <Grid item>
         <Button onClick={()=> jumpQueue(interaction.index)} icon={<PlayCircleIcon color="success" />} title="Play" />

@@ -98,7 +98,7 @@ const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn })
           {checkDelete ? (
             <QueueDeleteConfirm onCancel={() => checkConfirm(false)} onDelete={handleDelete} />
           ) : (
-            <QueueButtonGroup interaction={interaction} checkConfirm={() => checkConfirm(true)} jumpQueue={jumpVideo} />
+            <QueueButtonGroup status={status} interaction={interaction} checkConfirm={() => checkConfirm(true)} jumpQueue={jumpVideo} />
           )}
         </Grid>
         <IconButton
