@@ -16,7 +16,7 @@ const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onCl
   const localDate = toZonedTime(data.created_at + "Z", timeZone)
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
-      <MenuItem>
+      <MenuItem style={{ pointerEvents: 'none' }}>
         <Typography>{formatDistanceToNow(localDate, { addSuffix: true })}</Typography>
       </MenuItem>
     </Menu>
