@@ -17,7 +17,7 @@ const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onCl
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
       <MenuItem style={{ pointerEvents: 'none' }}>
-        <Typography>{formatDistanceToNow(localDate, { addSuffix: true })}</Typography>
+        <Typography>Added {formatDistanceToNow(localDate, { addSuffix: true })}</Typography>
       </MenuItem>
     </Menu>
   );
