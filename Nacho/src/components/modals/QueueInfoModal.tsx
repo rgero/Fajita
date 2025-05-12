@@ -1,12 +1,13 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
+import { Grid } from '@mui/material';
 import { Interaction } from '../../interfaces/Interaction';
 import Modal from './Modal';
 import QueueButtonGroup from './ui/QueueButtonGroup';
 import QueueDeleteConfirm from './ui/QueueDeleteConfirm';
 import { QueueStatus } from '../../interfaces/QueueStatus';
-import { getParsedDuration } from '../../utils/getParsedDuration';
+import VideoCard from '../ui/VideoCard';
+import { YoutubeResponse } from '../../interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '../../context/QueueContext';
 import { useSocketProvider } from '../../context/WebSocketContext';
@@ -18,20 +19,6 @@ interface Props {
   closeFn: () => void;
 }
 
-const styles = {
-  overlay: {
-    position: 'absolute',
-    top: '22px',
-    right: '22px',
-    color: 'white',
-    backgroundColor: 'black',
-    fontWeight: 'bold',
-    paddingX: '10px',
-    paddingY: '3px',
-    borderRadius: 10,
-  },
-};
-
 const fadeOutAnimation = (isFadingOut: boolean) => ({
   transition: 'opacity 0.3s ease-in-out',
   opacity: isFadingOut ? 0 : 1,
@@ -40,7 +27,6 @@ const fadeOutAnimation = (isFadingOut: boolean) => ({
 const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn }) => {
   const { deleteVideoFromQueue } = useQueueProvider();
   const { jumpQueue } = useSocketProvider();
-  const { title, thumbnail, duration } = interaction.video;
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
 
@@ -69,23 +55,17 @@ const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn })
     closeFn();
   };
 
+  const videoData: YoutubeResponse = {
+    id: interaction.video.video_id,
+    title: status.isVisible ? interaction.video.title : status.message ? status.message : "No title",
+    thumbnail_src: status.isVisible ? interaction.video.thumbnail : status.cover ? status.cover : "BlackBox.png",
+    duration: interaction.video.duration,
+  }
+
   return (
     <Modal open={open} closeFn={closeFn}>
-      <Grid container direction="column">
-        <Card>
-          <CardMedia
-            component="img"
-            sx={{ height: { xs: 150, md: 400 } }}
-            image={status.isVisible ? thumbnail : status.cover || ''}
-            alt={title}
-          />
-          <CardContent>
-            <Typography variant="body1">{status.isVisible ? title : status.message}</Typography>
-            {status.isVisible && (
-              <Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>
-            )}
-          </CardContent>
-        </Card>
+      <>
+        <VideoCard data={videoData}/>
         <Grid container alignItems="center" justifyContent="space-evenly" sx={{ marginTop: '0.5rem', height: 55, width: '100%', ...fadeOutAnimation(isFadingOut) }}>
           {checkDelete ? (
             <QueueDeleteConfirm onCancel={() => checkConfirm(false)} onDelete={handleDelete} />
@@ -93,7 +73,7 @@ const QueueInfoModal: React.FC<Props> = ({ open, status, interaction, closeFn })
             <QueueButtonGroup interaction={interaction} checkConfirm={() => checkConfirm(true)} jumpQueue={jumpVideo} />
           )}
         </Grid>
-      </Grid>
+      </>
     </Modal>
   );
 };
