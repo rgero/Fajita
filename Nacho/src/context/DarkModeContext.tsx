@@ -1,9 +1,9 @@
 import { ThemeProvider, createTheme } from "@mui/material";
-import { coolLightPalette, warmLightPalette } from "../themes/lightThemes";
 import { createContext, useContext, useEffect, useMemo } from "react";
 
 import CustomToaster from "../components/ui/CustomToaster";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { warmLightPalette } from "../themes/lightThemes";
 
 const DarkModeContext = createContext({
   isDarkMode: false,
