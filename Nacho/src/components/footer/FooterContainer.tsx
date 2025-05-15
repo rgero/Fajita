@@ -35,7 +35,6 @@ export default function Footer() {
   };
 
   const style = {
-    borderTop: `1px solid black`,
     zIndex: 30,
     paddingBottom: isRunningStandalone() ? "12px" : 0,
   }
