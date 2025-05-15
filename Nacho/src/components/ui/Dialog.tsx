@@ -7,6 +7,7 @@ import MaterialDialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
+import { useDarkMode } from '../../context/DarkModeContext';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -19,6 +20,7 @@ const Transition = forwardRef(function Transition(
 
 const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean, setOpen: (open: boolean) => void, title: string, children: React.ReactNode, titleButtons?: React.ReactNode}) => {
   const theme = useTheme();
+  const {isDarkMode} = useDarkMode();
   
   const handleClose = () => {
     setOpen(false);
@@ -90,7 +92,17 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
         </Box>
       </DialogContent>
       <Box sx={{padding: 2}}>
-        <Button onClick={handleClose} variant="contained" fullWidth>
+        <Button 
+          onClick={handleClose} 
+          variant="contained" 
+          fullWidth 
+          sx={
+            {
+              backgroundColor: isDarkMode ? "#555555" : theme.palette.primary.main,
+              color: isDarkMode ? "#FFFFFF" : theme.palette.primary.contrastText,
+            }
+          }
+        >
           Close
         </Button>
       </Box>
