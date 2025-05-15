@@ -1,9 +1,10 @@
-import { ThemeProvider, createTheme } from "@mui/material";
+import { ThemeOptions, ThemeProvider, createTheme } from "@mui/material";
 import { createContext, useContext, useEffect, useMemo } from "react";
 
 import CustomToaster from "../components/ui/CustomToaster";
+import { darkTheme } from "../themes/darkTheme";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
-import { warmLightPalette } from "../themes/lightThemes";
+import { warmTheme } from "../themes/lightThemes";
 
 const DarkModeContext = createContext({
   isDarkMode: false,
@@ -18,16 +19,12 @@ const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
   );
 
   const mode = isDarkMode ? "dark" : "light";
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode,
-          ...(mode === "light" && warmLightPalette),
-        }
-      }),
-    [mode]
-  );
+  const theme = useMemo(() => {
+    const baseTheme: ThemeOptions =
+      mode === "light" ? warmTheme : darkTheme;
+
+    return createTheme(baseTheme);
+  }, [mode]);
 
   const toggleDarkMode = () => {
     setIsDarkMode((isDark: boolean) => !isDark);

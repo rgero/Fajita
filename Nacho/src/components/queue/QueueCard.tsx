@@ -28,7 +28,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const backgroundColor = () => {
     if (data.index == current)
     {
-      return theme.palette.info.dark
+      return theme.palette.info.main
     }   
     return "";
   }
