@@ -18,7 +18,7 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
   }
 
   const adornmentButtons = (
-    <IconButton onClick={() => processShowHideSearch(!showSearch)} sx={{backgroundColor: showSearch ? theme.palette.grey[700] : "transparent"}}>
+    <IconButton onClick={() => processShowHideSearch(!showSearch)} color={showSearch ? "warning" : "default"}>
       <Search />
     </IconButton>
   )
