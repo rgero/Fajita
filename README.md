@@ -21,3 +21,4 @@ Nacho has the following functionality:
 2024-12-21 - Enchilada Branch merged
 2025-01-06 - Incrementing the version to 0.6
 2025-01-17 - Added the Stash, which allows people to save things from/for the queue.
+2025-05-15 - Incremented the version to 0.7.
