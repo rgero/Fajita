@@ -7,7 +7,7 @@ const HandednessOption = () => {
   return (
     <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
       <Grid item>
-        <Typography variant="body1">Right Handed</Typography>
+        <Typography variant="body1">Use Right Handed</Typography>
       </Grid>
       <Grid item>
         <Grid container alignItems="center">
