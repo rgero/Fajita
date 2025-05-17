@@ -1,4 +1,4 @@
-import { Card, IconButton } from "@mui/material";
+import { Card, IconButton, useTheme } from "@mui/material";
 
 import AddToQueueModal from "../modals/AddToQueueModal";
 import { MoreVert } from "@mui/icons-material";
@@ -19,6 +19,7 @@ const SearchCard: React.FC<Props> = ({ data }) => {
   const {isRightHanded} = useSettings();
   const [isModalOpen, setModalOpen] = useState(false);
   const { isConnected } = useQueueProvider();
+  const theme = useTheme();
 
   const isMenuOpen = Boolean(menuAnchorEl);
 
@@ -32,10 +33,7 @@ const SearchCard: React.FC<Props> = ({ data }) => {
       left: isRightHanded ? null : "10px",
       right: isRightHanded ? "10px" : null,
       zIndex: 1,
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
-      "&:hover": {
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-      },
+      backgroundColor: theme.palette.background.paper,
     },
   };
 

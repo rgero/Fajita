@@ -7,6 +7,7 @@ import MaterialDialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
+import { grey } from '@mui/material/colors';
 import { useDarkMode } from '../../context/DarkModeContext';
 
 const Transition = forwardRef(function Transition(
@@ -56,6 +57,11 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
       scroll="paper"
       TransitionComponent={Transition}
       sx={{zIndex: 15}}
+      PaperProps={{
+        sx: {
+          backgroundColor: isDarkMode ? grey[900] : theme.palette.primary.main,
+        }
+      }}
     >
       <DialogTitle id="scroll-dialog-title">
         <Grid container alignItems="center" justifyContent="space-between">
@@ -95,10 +101,10 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
         <Button 
           onClick={handleClose} 
           variant="contained" 
-          fullWidth 
+          fullWidth
           sx={
             {
-              backgroundColor: isDarkMode ? "#555555" : theme.palette.primary.main,
+              backgroundColor: isDarkMode ? grey[600] : theme.palette.primary.light,
               color: isDarkMode ? "#FFFFFF" : theme.palette.primary.contrastText,
             }
           }

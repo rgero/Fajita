@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
+import { Card, CardActionArea, CardContent, CardMedia, Typography, useTheme } from "@mui/material"
 
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
@@ -17,8 +17,6 @@ const styles = {
   overlay: {
     position: 'absolute',
     top: '10px',
-    color: 'white',
-    backgroundColor: 'black',
     fontWeight: 'bold',
     paddingX: '10px',
     paddingY: "3px",
@@ -27,7 +25,7 @@ const styles = {
 }
 
 const VideoCard: React.FC<Props> = ({data, clickFn}) => {
-
+  const theme = useTheme();
   const title: string = decode(data.title)
   const channelTitle: string = decode(data.author)
   const imageURL: string = data.thumbnail_src
@@ -37,7 +35,8 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
   const {isRightHanded} = useSettings();
   const overlayStyle = {
     ...styles.overlay,
-    ...(!isRightHanded ? {right: "10px"} : {left: "10px"})
+    ...(!isRightHanded ? {right: "10px"} : {left: "10px"}),
+    backgroundColor: theme.palette.background.paper
   }
 
   let cardContent = (
