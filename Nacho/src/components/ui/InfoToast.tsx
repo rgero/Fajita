@@ -2,15 +2,17 @@ import { ToastBar, toast } from 'react-hot-toast';
 
 import InfoIcon from '@mui/icons-material/Info'; // Import Material UI Icon
 import React from 'react';
+import { useTheme } from '@mui/material';
 
 type InfoToastProps = {
   message: string;
 };
 
 const InfoToastObject: React.FC<InfoToastProps> = ({ message }) => {
+  const theme = useTheme();
   return (
     <>
-      <InfoIcon fontSize="medium" style={{ color: '#CDC1FF' }} />
+      <InfoIcon fontSize="medium" sx={{color: theme.palette.primary.main}}/>
       <span style={{paddingLeft: "10px"}}>{message}</span>
     </>
   );
