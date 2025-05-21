@@ -57,7 +57,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
         ) : null }
       </AddToQueueModal>
       <Card sx={styles.cardStyle}>
-        <InfoOverlayButton youtubeId={data.video.video_id} disableHanded={true}/>
+        <InfoOverlayButton youtubeId={data.video.video_id} disableHanded={true} smallButton={true}/>
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
             component="img"
