@@ -1,13 +1,10 @@
-import { Card, IconButton, useTheme } from "@mui/material";
-
 import AddToQueueModal from "../modals/AddToQueueModal";
-import { MoreVert } from "@mui/icons-material";
-import SearchMenu from "./SearchMenu";
+import { Card } from "@mui/material";
+import InfoOverlayButton from "../info_button/InfoOverlayButton";
 import VideoCard from "../ui/VideoCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from "react-hot-toast";
 import { useQueueProvider } from "../../context/QueueContext";
-import { useSettings } from "../../context/SettingsContext";
 import { useState } from "react";
 
 interface Props {
@@ -15,36 +12,13 @@ interface Props {
 }
 
 const SearchCard: React.FC<Props> = ({ data }) => {
-  const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
-  const {isRightHanded} = useSettings();
   const [isModalOpen, setModalOpen] = useState(false);
   const { isConnected } = useQueueProvider();
-  const theme = useTheme();
-
-  const isMenuOpen = Boolean(menuAnchorEl);
 
   const styles = {
     card: {
       position: "relative",
     },
-    overlayButton: {
-      position: "absolute",
-      top: "10px",
-      left: isRightHanded ? null : "10px",
-      right: isRightHanded ? "10px" : null,
-      zIndex: 1,
-      backgroundColor: theme.palette.background.paper,
-    },
-  };
-
-
-
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setMenuAnchorEl(null);
   };
 
   const processOpenModal = () => {
@@ -59,20 +33,7 @@ const SearchCard: React.FC<Props> = ({ data }) => {
     <>
       <AddToQueueModal open={isModalOpen} videoData={data} closeFn={() => setModalOpen(false)} />
       <Card sx={styles.card}>
-        <IconButton
-          sx={styles.overlayButton}
-          onClick={handleMenuOpen}
-          aria-label="Options"
-          color={isMenuOpen ? "warning" : "default"}
-        >
-          <MoreVert/>
-        </IconButton>
-        <SearchMenu
-          data={data}
-          anchorEl={menuAnchorEl}
-          open={isMenuOpen}
-          onClose={handleMenuClose}
-        />
+        <InfoOverlayButton youtubeId={data.id} />
         <VideoCard data={data} clickFn={processOpenModal} />
       </Card>
     </>

@@ -1,26 +1,23 @@
-// SearchMenu.tsx
-
 import { Favorite, FavoriteBorder, YouTube } from "@mui/icons-material";
 import { ListItemIcon, ListItemText, Menu, MenuItem } from "@mui/material";
 
 import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";
-import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from "react-hot-toast";
 import { useStashProvider } from "../../context/StashContext";
 
 interface SearchMenuProps {
-  data: YoutubeResponse;
+  youtubeId: string;
   anchorEl: HTMLElement | null;
   open: boolean;
   onClose: () => void;
 }
 
-const SearchMenu: React.FC<SearchMenuProps> = ({data, anchorEl, open, onClose}) => {
+const InfoMenu: React.FC<SearchMenuProps> = ({youtubeId, anchorEl, open, onClose}) => {
   const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashProvider();
 
   const handleAddToStash = async () => {
     try {
-      await addVideoToStash(data.id);
+      await addVideoToStash(youtubeId);
       toast.success("Video added to stash");
     } catch (err: any) {
       toast.error("Failed to add video to stash");
@@ -31,7 +28,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({data, anchorEl, open, onClose}) 
 
   const handleRemoveFromStash = async () => {
     try {
-      await deleteVideoFromStash(data.id);
+      await deleteVideoFromStash(youtubeId);
       toast.success("Video removed from stash");
     } catch (err: any) {
       toast.error("Failed to remove video from stash");
@@ -40,17 +37,22 @@ const SearchMenu: React.FC<SearchMenuProps> = ({data, anchorEl, open, onClose}) 
     }
   };
 
+  const handleOpenYouTube = () => {
+    OpenYouTubeURL(youtubeId);
+    onClose();
+  }
+
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
-      <MenuItem onClick={isInStash(data.id) ? handleRemoveFromStash : handleAddToStash}>
+      <MenuItem onClick={isInStash(youtubeId) ? handleRemoveFromStash : handleAddToStash}>
         <ListItemIcon>
-            {isInStash(data.id) ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
+            {isInStash(youtubeId) ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
         </ListItemIcon>
         <ListItemText>
-          {isInStash(data.id) ? "Remove from Stash" : "Add to Stash"}
+          {isInStash(youtubeId) ? "Remove from Stash" : "Add to Stash"}
         </ListItemText>
       </MenuItem>
-      <MenuItem onClick={() => OpenYouTubeURL(data.id)}>
+      <MenuItem onClick={handleOpenYouTube}>
         <ListItemIcon>
           <YouTube fontSize="small" />
         </ListItemIcon>
@@ -60,4 +62,4 @@ const SearchMenu: React.FC<SearchMenuProps> = ({data, anchorEl, open, onClose}) 
   );
 };
 
-export default SearchMenu;
+export default InfoMenu;
