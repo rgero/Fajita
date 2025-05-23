@@ -31,6 +31,15 @@ const InfoOverlayButton = ({youtubeId, disableHanded = false, smallButton = fals
     }),
     zIndex: 1,
     backgroundColor: theme.palette.background.paper,
+    '&:hover': {
+      backgroundColor: theme.palette.background.paper,
+    },
+    '&:focus': {
+      backgroundColor: theme.palette.background.paper,
+    },
+    '&:active': {
+      backgroundColor: theme.palette.background.paper,
+    },
   }), [disableHanded, isRightHanded, theme, smallButton]);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
