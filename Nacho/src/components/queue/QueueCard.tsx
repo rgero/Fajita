@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 
 import GetSecretCover from "../../utils/GetSecretCover";
 import { Interaction } from "../../interfaces/Interaction";
+import QueueInfoButton from "./QueueInfoButton";
 import QueueInfoModal from "../modals/QueueInfoModal";
 import { QueueStatus } from "../../interfaces/QueueStatus";
 import { Visibility } from "../../interfaces/Visibility";
 import { getParsedDuration } from "../../utils/getParsedDuration";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
 import { useQueueProvider } from "../../context/QueueContext";
+import { useSettings } from "../../context/SettingsContext";
 import { useTheme } from '@mui/material/styles';
 
 interface Props {
@@ -19,6 +21,7 @@ interface Props {
 const QueueCard: React.FC<Props> = ({data, current}) => {
   const theme = useTheme();
   const {searchTerm} = useQueueProvider();
+  const {enableExperimental} = useSettings();
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
 
@@ -41,7 +44,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
 
   const styles = {
     cardStyle: {
-      width:"100%", 
+      position: 'relative',
       backgroundColor: backgroundColor,
       color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
       filter: shouldFilter() ? 'brightness(25%)' : 'none',
@@ -79,6 +82,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     <>
       <QueueInfoModal open={isModalOpen} status={status} interaction={data} closeFn={handleClose}/>
       <Card sx={styles.cardStyle}>
+        {enableExperimental && <QueueInfoButton interaction={data} disableHanded={true} smallButton={true}/>}
         <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
           <CardMedia
             component="img"
