@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Fade, IconButton, useTheme } from "@mui/material";
+import { Box, Container, Divider, Fade, IconButton, MenuItem, Select, SelectChangeEvent, useTheme } from "@mui/material";
 import { Casino, DeleteForever, Search } from "@mui/icons-material";
 
 import AddRandomModal from "../modals/AddRandomModal";
@@ -13,7 +13,7 @@ import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
 const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
-  const { searchTerm, setSearchTerm, deleteStash, stashData } = useStashProvider();
+  const { searchTerm, sortOption, setSearchTerm, setSortOption, deleteStash, stashData } = useStashProvider();
   const { addRandomVideo, isInQueue } = useQueueProvider();
   const [deleteModal, setDeleteModal] = useState(false);
   const [randomModal, setRandomModal] = useState(false);
@@ -61,9 +61,12 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
     } finally {
       setRandomModal(false);
     }
-
   }
 
+  const processSortChange = (event: SelectChangeEvent<string>) => {
+    setSortOption(event.target.value as string);
+  }
+  
   const adornmentButtons = (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <IconButton onClick={() => setDeleteModal(true)} color={deleteModal ? "warning" : "default"}>
@@ -98,19 +101,32 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
             padding: '10px',
             borderRadius: '8px',
             boxShadow: theme.shadows[3],
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
           }}
         >
           <SearchBar 
             value={searchTerm} 
             setValue={setSearchTerm}
           />
+          <Select
+            fullWidth
+            value={sortOption}
+            onChange={processSortChange}
+          >
+            <MenuItem value="date_newest">Date: Newest First</MenuItem>
+            <MenuItem value="date_oldest">Date: Oldest First</MenuItem>
+            <MenuItem value="title_asc">Title: A-Z</MenuItem>
+            <MenuItem value="title_desc">Title: Z-A</MenuItem>
+          </Select>
         </Container>
       </Fade>
 
       <Container
         disableGutters
         sx={{
-          marginTop: showSearch ? '90px' : '0px',
+          marginTop: showSearch ? '150px' : '0px',
           transition: 'margin-top 0.3s ease',
         }}
       >
