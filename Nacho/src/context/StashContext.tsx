@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Artifact } from "../interfaces/Artifact";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 interface StashContextType {
   addVideoToStash: (id: string) => void;
@@ -26,7 +27,7 @@ const StashContext = createContext<StashContextType| undefined>(undefined);
 const StashProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [sortOption, setSortOption] = useState<string>("date_newest");
+  const [sortOption, setSortOption] = useLocalStorageState("date_newest", "stashSortOption");
 
   const { isLoading, data: stashData = {}, error, refetch } = useQuery({
     queryKey: ["stashData"],
