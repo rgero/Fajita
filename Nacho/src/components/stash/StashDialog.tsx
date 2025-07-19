@@ -1,5 +1,5 @@
 import { Box, Container, Divider, Fade, IconButton, MenuItem, Select, SelectChangeEvent, useTheme } from "@mui/material";
-import { Casino, DeleteForever, Search } from "@mui/icons-material";
+import { Casino, DeleteForever, FilterList } from "@mui/icons-material";
 
 import AddRandomModal from "../modals/AddRandomModal";
 import ClearStashModal from "../modals/ClearStashModal";
@@ -78,7 +78,7 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
       </IconButton>
       <Divider orientation="vertical" variant="middle" flexItem />
       <IconButton onClick={() => processShowHideSearch(!showSearch)} color={showSearch ? "warning" : "default"}>
-        <Search />
+        <FilterList />
       </IconButton>
     </Box>
   );
