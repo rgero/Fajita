@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Avatar, ButtonBase, Grid, Typography } from '@mui/material';
 
 import { EmojiPeople } from '@mui/icons-material';
 import toast from 'react-hot-toast';
@@ -19,16 +19,28 @@ const ActiveQueueListItem = ({id, owner, image, closeFn} : {id: string, owner: s
   };
   
   return (
-    <Grid item container direction="row" justifyContent="center" spacing={3} onClick={processConnect}>
-      <Grid item>
-        {image ? <Avatar src={image}/> : (<Avatar><EmojiPeople/></Avatar>)}
-      </Grid> 
-      <Grid item>
-        <Typography variant="h5">
-          {owner}
-        </Typography>
+    <ButtonBase
+      onClick={processConnect}
+      sx={{
+        width: '100%',
+        borderRadius: 1,
+        padding: 1,
+        '&:hover': {
+          backgroundColor: 'action.hover',
+        },
+      }}
+    >
+      <Grid item container direction="row" justifyContent="center" spacing={3}>
+        <Grid item>
+          {image ? <Avatar src={image}/> : (<Avatar><EmojiPeople/></Avatar>)}
+        </Grid> 
+        <Grid item>
+          <Typography variant="h5">
+            {owner}
+          </Typography>
+        </Grid>
       </Grid>
-    </Grid>
+    </ButtonBase>
   )
 }
 
