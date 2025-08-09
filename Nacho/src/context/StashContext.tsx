@@ -49,6 +49,9 @@ const StashProvider = ({ children }: { children: React.ReactNode }) => {
   const { isPending: isActionPending, mutateAsync: deleteVideoFromStash } = useMutation({
     mutationFn: async (id: string) => {
       const artifact = stashData.artifacts.find((artifact: Artifact) => artifact.video.video_id === id);
+      if (!artifact) {
+        throw new Error("Artifact not found in stash");
+      }
       await deleteFromStash(artifact.id)
     },
     onSuccess: () => {
