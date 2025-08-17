@@ -12,7 +12,7 @@ const StashOptions = () => {
       <Grid item>
         <Grid container alignItems="center">
           <Switch
-            checked={isStashCompact}
+            checked={Boolean(isStashCompact)}
             onChange={toggleCompactStash}
           />
         </Grid>

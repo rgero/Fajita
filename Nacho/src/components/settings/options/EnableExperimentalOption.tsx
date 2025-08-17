@@ -12,7 +12,7 @@ const EnableExperimentalOption = () => {
       <Grid item>
         <Grid container alignItems="center">
           <Switch
-            checked={enableExperimental}
+            checked={Boolean(enableExperimental)}
             onChange={toggleExperimental}
           />
         </Grid>

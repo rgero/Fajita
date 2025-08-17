@@ -14,7 +14,7 @@ const DarkModeToggle = () => {
       <Grid item>
         <Grid container alignItems="center">
           <Switch
-            checked={isDarkMode}
+            checked={Boolean(isDarkMode)}
             onChange={toggleDarkMode}
             icon={<Brightness7 style={{ color: theme.palette.primary.main, transform: 'translateY(-10%)' }} />}
             checkedIcon={<Brightness4 style={{ color: theme.palette.primary.main, transform: 'translateY(-10%)' }} />}

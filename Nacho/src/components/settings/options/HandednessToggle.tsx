@@ -12,7 +12,7 @@ const HandednessOption = () => {
       <Grid item>
         <Grid container alignItems="center">
           <Switch
-            checked={isRightHanded}
+            checked={Boolean(isRightHanded)}
             onChange={toggleHandedness}
           />
         </Grid>

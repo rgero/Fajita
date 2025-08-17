@@ -22,7 +22,7 @@ const ShareOptions  = () => {
           <Grid item>
             <Grid container alignItems="center">
               <Switch
-                checked={shareOptions.clipboard}
+                checked={Boolean(shareOptions.clipboard)}
                 onChange={() => toggleShareOption("clipboard")}
               />
             </Grid>
@@ -37,7 +37,7 @@ const ShareOptions  = () => {
           <Grid item>
             <Grid container alignItems="center">
               <Switch
-                checked={shareOptions.youtube}
+                checked={Boolean(shareOptions.youtube)}
                 onChange={() => toggleShareOption("youtube")}
               />
             </Grid>
@@ -52,7 +52,7 @@ const ShareOptions  = () => {
           <Grid item>
             <Grid container alignItems="center">
               <Switch
-                checked={shareOptions.stash}
+                checked={Boolean(shareOptions.stash)}
                 onChange={() => toggleShareOption("stash")}
               />
             </Grid>

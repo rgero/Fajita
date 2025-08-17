@@ -12,7 +12,7 @@ const FooterCardOptions = () => {
       <Grid item>
         <Grid container alignItems="center">
           <Switch
-            checked={isFooterCompact}
+            checked={Boolean(isFooterCompact)}
             onChange={toggleFooterCompact}
           />
         </Grid>
