@@ -1,10 +1,12 @@
 import { Container } from "@mui/material"
 import Dialog from "../ui/Dialog"
 import FeedbackForm from "./FeedbackForm"
+import { useDialogContext } from "../../context/DialogContext";
 
-const FeedbackDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
+const FeedbackDialog = () => {
+  const {feedbackOpen, toggleFeedbackOpen} = useDialogContext();
   return (
-    <Dialog open={open} setOpen={setOpen} title={"Feedback"}>
+    <Dialog open={feedbackOpen} setOpen={toggleFeedbackOpen} title={"Feedback"}>
       <Container sx={{marginTop: "20px"}}>
         <FeedbackForm/>
       </Container>

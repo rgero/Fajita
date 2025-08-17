@@ -1,9 +1,11 @@
 import { Feedback } from "@mui/icons-material";
 import HeaderMenuOption from "./HeaderMenuOption";
+import { useDialogContext } from "../../../context/DialogContext";
 
-const FeedbackOption = ({setOpen} : {setOpen : (open: boolean) => void}) => {
+const FeedbackOption = () => {
+  const {toggleFeedbackOpen} = useDialogContext();
   return (
-    <HeaderMenuOption icon={<Feedback />} text="Log Feedback" onClick={() => setOpen(true)} />
+    <HeaderMenuOption icon={<Feedback />} text="Log Feedback" onClick={toggleFeedbackOpen} />
   )
 }
 

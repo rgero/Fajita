@@ -1,9 +1,11 @@
 import Dialog from '../ui/Dialog';
 import UserSettingsContent from './UserSettingsContent';
+import { useDialogContext } from '../../context/DialogContext';
 
-const UserSettingsDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
+const UserSettingsDialog = () => {
+  const {settingsOpen, toggleSettingsOpen} = useDialogContext();
   return (
-    <Dialog open={open} setOpen={setOpen} title={"Settings"}>
+    <Dialog open={settingsOpen} setOpen={toggleSettingsOpen} title={"Settings"}>
       <UserSettingsContent/>
     </Dialog>
   );

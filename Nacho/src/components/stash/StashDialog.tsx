@@ -8,11 +8,13 @@ import { Priority } from "../../interfaces/Priority";
 import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
 import toast from "react-hot-toast";
+import { useDialogContext } from "../../context/DialogContext";
 import { useQueueProvider } from "../../context/QueueContext";
 import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";
 
-const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
+const StashDialog = () => {
+  const {stashOpen, toggleStashOpen} = useDialogContext();
   const { searchTerm, sortOption, setSearchTerm, setSortOption, deleteStash, stashData } = useStashProvider();
   const { addRandomVideo, isInQueue } = useQueueProvider();
   const [deleteModal, setDeleteModal] = useState(false);
@@ -31,7 +33,7 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
       setSearchTerm("");
       setShowSearch(false);
     }
-    setOpen(open);
+    toggleStashOpen()
   }
 
   const processConfirm = async () => {
@@ -84,7 +86,7 @@ const StashDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) 
   );
 
   return (
-    <Dialog open={open} setOpen={processSetOpen} title={"Stash"} titleButtons={adornmentButtons}>
+    <Dialog open={stashOpen} setOpen={processSetOpen} title={"Stash"} titleButtons={adornmentButtons}>
       <ClearStashModal isOpen={deleteModal} closeFn={()=> setDeleteModal(false)} confirmAction={processConfirm} />
       <AddRandomModal isOpen={randomModal} closeFn={() => setRandomModal(false)} confirmAction={addRandomFromStash} />
       <Fade in={showSearch} timeout={300}>

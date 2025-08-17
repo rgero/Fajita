@@ -1,9 +1,11 @@
 import HeaderMenuOption from "./HeaderMenuOption";
 import { Settings } from "@mui/icons-material";
+import { useDialogContext } from "../../../context/DialogContext";
 
-const UserSettingsOption = ({setOpen} : {setOpen : (open: boolean) => void}) => {
+const UserSettingsOption = () => {
+  const {toggleSettingsOpen} = useDialogContext();
   return (
-    <HeaderMenuOption icon={<Settings/>} text="Settings" onClick={() => setOpen(true)}/>
+    <HeaderMenuOption icon={<Settings/>} text="Settings" onClick={toggleSettingsOpen}/>
   )
 }
 

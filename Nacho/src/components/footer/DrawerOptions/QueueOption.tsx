@@ -5,14 +5,10 @@ import { useDialogContext } from "../../../context/DialogContext";
 
 const QueueOption = () => {
 
-  const { queueOpen, setQueueOpen } = useDialogContext();
-
-  const processClick = () => {
-    setQueueOpen(!queueOpen);
-  }
+  const { queueOpen, toggleQueueOpen } = useDialogContext();
 
   return (
-    <ListItem key="queue" disablePadding onClick={processClick}>
+    <ListItem key="queue" disablePadding onClick={toggleQueueOpen}>
       <ListItemButton>
         <ListItemIcon>
           <QueueIcon/>

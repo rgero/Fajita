@@ -1,15 +1,12 @@
 import ActiveQueueList from "./ActiveQueueList"
 import Dialog from "../ui/Dialog"
+import { useDialogContext } from "../../context/DialogContext";
 
-const ActiveQueueDialog = ({open, setOpen} : {open: boolean, setOpen: (open: boolean) => void}) => {
-
-  const closeDialog = () => {
-    setOpen(false);
-  }
-
+const ActiveQueueDialog = () => {
+  const {activeQueuesOpen, toggleActiveQueuesOpen} = useDialogContext();
   return (
-    <Dialog open={open} setOpen={setOpen} title={"Active Queues"}>
-      <ActiveQueueList closeFn={closeDialog}/>
+    <Dialog open={activeQueuesOpen} setOpen={toggleActiveQueuesOpen} title={"Active Queues"}>
+      <ActiveQueueList closeFn={toggleActiveQueuesOpen}/>
     </Dialog>
   )
 }

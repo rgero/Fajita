@@ -3,7 +3,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import CurrentPlayingPresenter from './CurrentPlayingPresenter';
 import FooterDrawer from './FooterDrawer';
-import QueueDialog from '../queue/QueueDialog';
 import { useDialogContext } from '../../context/DialogContext';
 
 const isRunningStandalone = () => {
@@ -17,7 +16,7 @@ const isRunningStandalone = () => {
 
 export default function Footer() {
   const [isOpen, setOpen] = React.useState(false);
-  const {queueOpen, setQueueOpen, areAnyOpen} = useDialogContext();
+  const {areAnyOpen} = useDialogContext();
 
   const openDrawer = () =>
   {
@@ -40,12 +39,9 @@ export default function Footer() {
   }
 
   return (
-    <>
-      <Box onClick={openDrawer} sx={style} id="containingBox">
-        <CurrentPlayingPresenter/>
-        <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen}/>
-      </Box>
-      <QueueDialog open={queueOpen} setQueueOpen={setQueueOpen}/>
-    </>
+    <Box onClick={openDrawer} sx={style} id="containingBox">
+      <CurrentPlayingPresenter/>
+      <FooterDrawer toggleDrawer={toggleDrawer} isOpen={isOpen}/>
+    </Box>
   );
 }

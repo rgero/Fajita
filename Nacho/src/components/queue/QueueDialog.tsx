@@ -4,10 +4,12 @@ import Dialog from '../ui/Dialog';
 import QueueList from './QueueList';
 import { Search } from '@mui/icons-material';
 import SearchBar from '../ui/SearchBar';
+import { useDialogContext } from '../../context/DialogContext';
 import { useQueueProvider } from '../../context/QueueContext';
 import { useState } from "react";
 
-const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open: boolean) => void}) => {
+const QueueDialog = () => {
+  const {queueOpen, toggleQueueOpen} = useDialogContext();
   const {searchTerm, setSearchTerm} = useQueueProvider();
   const [showSearch, setShowSearch] = useState(false);
   const theme = useTheme();
@@ -29,11 +31,11 @@ const QueueDialog = ({open, setQueueOpen} : {open: boolean, setQueueOpen: (open:
       setSearchTerm("");
       setShowSearch(false);
     }
-    setQueueOpen(open);
+    toggleQueueOpen()
   }
 
   return (
-    <Dialog open={open} setOpen={processSetOpen} title={"Queue"} titleButtons={adornmentButtons}>
+    <Dialog open={queueOpen} setOpen={processSetOpen} title={"Queue"} titleButtons={adornmentButtons}>
       <Fade in={showSearch} timeout={300}>
         <Container
           disableGutters

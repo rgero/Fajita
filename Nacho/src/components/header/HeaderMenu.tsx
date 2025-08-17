@@ -1,18 +1,12 @@
 import {Divider, Menu} from "@mui/material";
 
-import ActiveQueueDialog from "../active_queues/ActiveQueueDialog";
-import FeedbackDialog from "../feedback/FeedbackDialog";
 import FeedbackOption from "./HeaderOptions/FeedbackOption";
-import LockQueueModal from "../modals/LockQueueModal";
 import LockQueueOption from "./HeaderOptions/LockQueueOption";
 import LogoutOption from "./HeaderOptions/LogoutOption";
 import QueueManagement from "./HeaderOptions/QueueManagement";
 import React from "react";
-import StashDialog from "../stash/StashDialog";
 import StashDisplayOption from "./HeaderOptions/StashDisplayOption";
-import UserSettingsDialog from "../settings/UserSettingsDialog";
 import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
-import { useDialogContext } from "../../context/DialogContext";
 import { useQueueProvider } from "../../context/QueueContext";
 
 interface Props
@@ -22,27 +16,12 @@ interface Props
 }
 
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
-  const {
-    settingsOpen,
-    activeQueuesOpen,
-    feedbackOpen,
-    stashOpen,
-    setSettingsOpen,
-    setActiveQueuesOpen,
-    setFeedbackOpen,
-    setStashOpen
-  } = useDialogContext();
-  const [lockQueueOpen, setLockQueueOpen] = React.useState(false);
+
   const {queueData} = useQueueProvider();
   const isOpen = Boolean(anchorEl);
 
   return (
     <>
-      <UserSettingsDialog open={settingsOpen} setOpen={setSettingsOpen}/>
-      <ActiveQueueDialog open={activeQueuesOpen} setOpen={setActiveQueuesOpen}/>
-      <StashDialog open={stashOpen} setOpen={setStashOpen}/>
-      <FeedbackDialog open={feedbackOpen} setOpen={setFeedbackOpen}/>
-      <LockQueueModal open={lockQueueOpen} closeFn={() => setLockQueueOpen(false)}/>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"
@@ -52,17 +31,17 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <QueueManagement setOpen={setActiveQueuesOpen}/>
+        <QueueManagement/>
         <Divider/>
-        <StashDisplayOption setOpen={setStashOpen}/>
+        <StashDisplayOption/>
         {queueData.id ? [
           <Divider key="lock-divider" />,
-          <LockQueueOption key="lock-option" setShowLockModal={setLockQueueOpen} />
+          <LockQueueOption key="lock-option"/>
         ] : null}
         <Divider/>
-        <FeedbackOption setOpen={setFeedbackOpen}/>
+        <FeedbackOption/>
         <Divider/>
-        <UserSettingsOption setOpen={setSettingsOpen}/>
+        <UserSettingsOption/>
         <LogoutOption/>
       </Menu>
     </>
