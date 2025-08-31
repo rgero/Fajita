@@ -29,6 +29,7 @@ const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) 
             variant="outlined"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
+            placeholder={`Enter reason for ${queueData.locked ? "unlocking" : "locking"} the queue`}
             fullWidth
             multiline
             rows={4}
