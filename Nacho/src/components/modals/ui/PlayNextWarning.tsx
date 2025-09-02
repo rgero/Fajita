@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material"
 import { SelfImprovement, Speed, Star } from '@mui/icons-material';
 
-import FajitaButton from "../../ui/Button"
+import Button from "../../ui/Button"
 import InfoSection from "./InfoSection";
 import { PlayNextCondition } from "../interfaces/PlayNextCondition";
 
@@ -17,9 +17,9 @@ const PlayNextWarning: React.FC<PlayNextWarningProps> = ({ handleSubmit }) => {
       </Grid>
       <Grid item>
         <Grid container justifyContent={"space-around"}>
-          <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Rejected)} icon={<Speed/>} title="Nevermind"/>
-          <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Accepted)} icon={<SelfImprovement color="warning"/>} title="I'll wait"/>
-          <FajitaButton onClick={() => handleSubmit(PlayNextCondition.Impatient)} icon={<Star color="success"/>} title="Me First!"/>
+          <Button onClick={() => handleSubmit(PlayNextCondition.Rejected)} icon={<Speed/>} title="Nevermind"/>
+          <Button onClick={() => handleSubmit(PlayNextCondition.Accepted)} icon={<SelfImprovement color="warning"/>} title="I'll wait"/>
+          <Button onClick={() => handleSubmit(PlayNextCondition.Impatient)} icon={<Star color="success"/>} title="Me First!"/>
         </Grid>
       </Grid>
     </InfoSection>

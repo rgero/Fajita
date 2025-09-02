@@ -1,7 +1,6 @@
 import { AddCircle, CheckBox, CheckBoxOutlineBlank, Favorite, FavoriteBorder } from '@mui/icons-material';
 
 import Button from '../../ui/Button';
-import FajitaButton from "../../ui/Button"
 import { Grid } from "@mui/material"
 import InfoSection from './InfoSection';
 import { Priority } from '../../../interfaces/Priority';
@@ -51,16 +50,16 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
           </Grid>
         ) : (
           <Grid item>
-            <Button onClick={processStash} icon={isInStash(videoData.id) ? <Favorite color="error"/> : <FavoriteBorder/>} title="Stash"/>
+            <Button onClick={processStash} icon={isInStash(videoData.id) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color="error"/>
           </Grid>
         )}
         <Grid item>
           <Grid container direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
             <Grid item>
-              <FajitaButton onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox color="success"/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
+              <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"  color="success"/>
             </Grid>
             <Grid item>
-              <FajitaButton onClick={runChecksAndSubmit} icon={(<AddCircle color="success"/>)} title="Add"/>
+              <Button onClick={runChecksAndSubmit} icon={(<AddCircle/>)} title="Add" color="success"/>
             </Grid>
           </Grid>
         </Grid>

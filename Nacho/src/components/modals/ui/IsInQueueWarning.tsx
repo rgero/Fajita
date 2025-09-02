@@ -1,7 +1,7 @@
 import { AddCircle, DoNotDisturb } from '@mui/icons-material';
 import { Grid, Typography } from "@mui/material"
 
-import FajitaButton from "../../ui/Button"
+import Button from "../../ui/Button"
 import InfoSection from './InfoSection';
 
 interface IsInQueueWarningProps {
@@ -17,10 +17,10 @@ const IsInQueueWarning: React.FC<IsInQueueWarningProps> = ({ handleInQueue }) =>
       <Grid item>
         <Grid container justifyContent="space-around">
           <Grid item>
-            <FajitaButton onClick={() => handleInQueue(false)} icon={<DoNotDisturb />} title="Cancel"/>
+            <Button onClick={() => handleInQueue(false)} icon={<DoNotDisturb />} title="Cancel"/>
           </Grid>
           <Grid item>
-            <FajitaButton onClick={() => handleInQueue(true)} icon={<AddCircle color="success"/>} title="Add"/>
+            <Button onClick={() => handleInQueue(true)} icon={<AddCircle color="success"/>} title="Add"/>
           </Grid>
         </Grid>
       </Grid>
