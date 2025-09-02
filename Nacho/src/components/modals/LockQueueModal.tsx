@@ -1,5 +1,5 @@
-import { DoNotDisturb, Lock, LockOpen } from "@mui/icons-material"
-import { Grid, TextField, Typography } from "@mui/material"
+import { Clear, DoNotDisturb, Lock, LockOpen } from "@mui/icons-material"
+import { Fade, Grid, TextField, Typography } from "@mui/material"
 
 import Button from "../ui/Button";
 import Modal from "./Modal";
@@ -37,6 +37,15 @@ const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) 
         </Grid>
         <Grid item>
           <Grid container justifyContent={"flex-end"} spacing={2}>
+            {reason && (
+              <Grid item>
+                <Fade in={Boolean(reason)} timeout={500}>
+                  <span>
+                    <Button onClick={() => setReason("")} icon={<Clear />} title="Clear" color="warning"/>
+                  </span>
+                </Fade>
+              </Grid>
+            )}
             <Grid item>
               <Button onClick={closeFn}  icon={<DoNotDisturb />}  title="Cancel"/>
             </Grid>
