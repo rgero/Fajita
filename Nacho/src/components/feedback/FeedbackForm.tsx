@@ -80,10 +80,10 @@ const FeedbackForm = () => {
         </Grid>
         <Grid container justifyContent={"space-evenly"} sx={{paddingTop: 4}}>
           <Grid item>
-            <Button onClick={clearFeedback} icon={<DoNotDisturb color="error"/>} title="Clear"/>
+            <Button onClick={clearFeedback} icon={<DoNotDisturb/>} title="Clear" color="error"/>
           </Grid>
           <Grid item>
-            <Button onClick={handleSubmit} icon={<ThumbUpAlt color="success"/>} title="Submit"/>
+            <Button onClick={handleSubmit} icon={<ThumbUpAlt/>} title="Submit" color="success"/>
           </Grid>
         </Grid>
       </Grid>

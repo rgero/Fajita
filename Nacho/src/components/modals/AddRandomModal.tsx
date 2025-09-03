@@ -39,7 +39,7 @@ const AddRandomModal = ({confirmAction, isOpen, closeFn} : {confirmAction: (prio
               <Button onClick={()=> confirmAction(Priority.playNext)} icon={<SkipNext/>} title="Play Next"/>
             </Grid>
             <Grid item>
-              <Button onClick={()=> confirmAction(Priority.normal)} icon={<AddCircle color="success"/>} title="Add"/>
+              <Button onClick={()=> confirmAction(Priority.normal)} icon={<AddCircle/>} title="Add"  color="success"/>
             </Grid>
           </Grid>
         </CardContent>

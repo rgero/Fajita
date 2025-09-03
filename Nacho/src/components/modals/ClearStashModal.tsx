@@ -17,10 +17,10 @@ const ClearStashModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()=>
           <Grid item>
             <Grid container spacing={5} justifyContent="space-around">
               <Grid item>
-                <Button onClick={confirmAction} icon={<ThumbUpAlt color="success"/>} title="Delete"/>
+                <Button onClick={confirmAction} icon={<ThumbUpAlt/>} title="Delete" color="success"/>
               </Grid>
               <Grid item>
-                <Button onClick={closeFn} icon={<DoNotDisturb color="error"/>} title="Cancel"/>
+                <Button onClick={closeFn} icon={<DoNotDisturb/>} title="Cancel" color="error"/>
               </Grid>
             </Grid>
           </Grid>
