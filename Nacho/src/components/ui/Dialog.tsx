@@ -102,12 +102,6 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
           onClick={handleClose} 
           variant="contained" 
           fullWidth
-          sx={
-            {
-              backgroundColor: isDarkMode ? grey[600] : theme.palette.primary.light,
-              color: isDarkMode ? "#FFFFFF" : theme.palette.primary.contrastText,
-            }
-          }
         >
           Close
         </Button>

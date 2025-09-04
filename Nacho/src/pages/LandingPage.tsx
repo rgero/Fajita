@@ -25,7 +25,7 @@ const LandingPage = () => {
           <Typography variant="subtitle1">Hi, welcome to Fajita</Typography>
         </Grid>
         <Grid item sx={{paddingTop: 5}}>
-        <Button variant="contained" color="success" startIcon={<KeyTwoToneIcon />} onClick={sendToLogin}>
+        <Button variant="contained" startIcon={<KeyTwoToneIcon />} onClick={sendToLogin}>
           Login
         </Button>
         </Grid>
