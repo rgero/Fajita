@@ -50,13 +50,13 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
           </Grid>
         ) : (
           <Grid item>
-            <Button onClick={processStash} icon={isInStash(videoData.id) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color="error"/>
+            <Button onClick={processStash} icon={isInStash(videoData.id) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color={isInStash(videoData.id) ? "error" : "default"}/>
           </Grid>
         )}
         <Grid item>
           <Grid container direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
             <Grid item>
-              <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"  color="success"/>
+              <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
             </Grid>
             <Grid item>
               <Button onClick={runChecksAndSubmit} icon={(<AddCircle/>)} title="Add" color="success"/>
