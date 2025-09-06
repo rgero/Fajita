@@ -45,6 +45,7 @@ const FeedbackForm = () => {
           <TextField
             id="outlined-controlled suggestion"
             label="Suggestion"
+            placeholder="Enter your suggestion here"
             fullWidth
             value={title}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +59,7 @@ const FeedbackForm = () => {
           <TextField
             id="outlined-controlled details"
             label="Additional Details"
+            placeholder="Enter any additional details here (optional)"
             fullWidth
             multiline
             rows={5}
