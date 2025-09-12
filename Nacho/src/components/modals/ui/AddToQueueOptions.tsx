@@ -38,10 +38,10 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
 
   return (
     <InfoSection>
-      <Grid>
+      <Grid size={12}>
         <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
       </Grid>
-      <Grid container justifyContent={"space-between"} sx={{paddingTop: 2}}>
+      <Grid size={12} container justifyContent={"space-between"} sx={{paddingTop: 2}}>
         {children ? (
           <Grid>
             <Grid container direction="row" spacing={1} alignItems="center">
