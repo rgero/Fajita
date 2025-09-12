@@ -1,6 +1,5 @@
-import { Box, ButtonBase, Typography, useTheme } from "@mui/material"
+import { Box, ButtonBase, Palette, Typography, useTheme } from "@mui/material"
 
-import { Palette } from "@mui/material/styles/createPalette"
 import React from "react"
 
 interface ButtonProps {

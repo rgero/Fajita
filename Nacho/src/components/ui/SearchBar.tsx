@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 const SearchBar = ({value, setValue, additionalFnKeydown} : {value: string, setValue: ( result: string) => void, additionalFnKeydown?: () => void}) => {
   const theme = useTheme(); 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const processClear = () => {
     setValue( "" );
