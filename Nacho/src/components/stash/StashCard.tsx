@@ -45,12 +45,12 @@ const StashCard: React.FC<Props> = ({ data }) => {
     <>
       <AddToQueueModal open={isModalOpen} videoData={{id: data.video.video_id, title: title, duration: duration, thumbnail_src: thumbnail}} closeFn={() => setModalOpen(false)}>
         {shareOptions.clipboard ? (
-          <Grid item>
+          <Grid>
             <Button onClick={()=> copyToClipboard(data)} icon={(<Share/>)} title="Copy"/>
           </Grid>
         ) : null }
         {shareOptions.youtube ? (
-          <Grid item>
+          <Grid>
             <Button onClick={() => OpenYouTubeURL(data.video.video_id)} icon={(<YouTube color="error"/>)} title="YouTube"/>
           </Grid>   
         ) : null }

@@ -14,12 +14,12 @@ const ShareOptions  = () => {
 
   return (
     <Grid container direction="column">
-      <Grid item>
+      <Grid>
         <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
-          <Grid item>
+          <Grid>
             <Typography variant="body1">Copy to Clipboard</Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <Grid container alignItems="center">
               <Switch
                 checked={Boolean(shareOptions.clipboard)}
@@ -29,12 +29,12 @@ const ShareOptions  = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid>
         <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
-          <Grid item>
+          <Grid>
             <Typography variant="body1">Open in YouTube</Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <Grid container alignItems="center">
               <Switch
                 checked={Boolean(shareOptions.youtube)}
@@ -44,12 +44,12 @@ const ShareOptions  = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid>
         <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
-          <Grid item>
+          <Grid>
             <Typography variant="body1">Stash</Typography>
           </Grid>
-          <Grid item>
+          <Grid>
             <Grid container alignItems="center">
               <Switch
                 checked={Boolean(shareOptions.stash)}

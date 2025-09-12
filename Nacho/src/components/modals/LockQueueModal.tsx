@@ -20,10 +20,10 @@ const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) 
   return (
     <Modal open={open} closeFn={closeFn}>
       <Grid container direction="column" alignContent={"center"} spacing={2} sx={{paddingY: "25px"}}>
-        <Grid item>
+        <Grid>
           <Typography variant="h5">Are you sure you want to {queueData.locked ? "unlock" : "lock"} the queue?</Typography>
         </Grid>
-        <Grid item>
+        <Grid>
           <TextField
             label="Reason"
             variant="outlined"
@@ -35,10 +35,10 @@ const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) 
             rows={4}
           />
         </Grid>
-        <Grid item>
+        <Grid>
           <Grid container justifyContent={"flex-end"} spacing={2}>
             {reason && (
-              <Grid item>
+              <Grid>
                 <Fade in={Boolean(reason)} timeout={500}>
                   <span>
                     <Button onClick={() => setReason("")} icon={<Clear />} title="Clear" color="warning"/>
@@ -46,10 +46,10 @@ const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) 
                 </Fade>
               </Grid>
             )}
-            <Grid item>
+            <Grid>
               <Button onClick={closeFn}  icon={<DoNotDisturb />}  title="Cancel"/>
             </Grid>
-            <Grid item>
+            <Grid>
               <Button onClick={processLock} icon={queueData.locked ? <LockOpen color="success"/> : <Lock color="success"/>} title="Do it"/>
             </Grid>
           </Grid>

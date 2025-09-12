@@ -41,7 +41,7 @@ const FeedbackForm = () => {
     <Container>
       <SpinnerModal isOpen={isAdding}/>
       <Grid container direction="column" spacing={2}>
-        <Grid item>
+        <Grid>
           <TextField
             id="outlined-controlled suggestion"
             label="Suggestion"
@@ -55,7 +55,7 @@ const FeedbackForm = () => {
             disabled={isAdding}
           />
         </Grid>
-        <Grid item>
+        <Grid>
           <TextField
             id="outlined-controlled details"
             label="Additional Details"
@@ -73,7 +73,7 @@ const FeedbackForm = () => {
             disabled={isAdding}
           />
           <Grid container justifyContent="flex-end">
-            <Grid item>
+            <Grid>
               <Typography variant="caption">
                 {formatNumber(details.length)} / {formatNumber(maxLength)}
               </Typography>
@@ -81,10 +81,10 @@ const FeedbackForm = () => {
           </Grid>
         </Grid>
         <Grid container justifyContent={"space-evenly"} sx={{paddingTop: 4}}>
-          <Grid item>
+          <Grid>
             <Button onClick={clearFeedback} icon={<DoNotDisturb/>} title="Clear" color="error"/>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button onClick={handleSubmit} icon={<ThumbUpAlt/>} title="Submit" color="success"/>
           </Grid>
         </Grid>

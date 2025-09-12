@@ -65,9 +65,9 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
     >
       <DialogTitle id="scroll-dialog-title">
         <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
+          <Grid>
             <Grid container alignItems="center">
-              <Grid item>
+              <Grid>
                 <IconButton
                   edge="start"
                   color="inherit"
@@ -77,14 +77,14 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
                   <CloseIcon />
                 </IconButton>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant="h5">
                   {title}
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid>
             {titleButtons}
           </Grid>
         </Grid>

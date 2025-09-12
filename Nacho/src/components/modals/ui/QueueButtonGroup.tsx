@@ -36,13 +36,13 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
 
   return (
     <>
-      <Grid item>
+      <Grid>
         <Button onClick={checkConfirm} icon={<DeleteForeverIcon color="error" />} title="Delete" />
       </Grid>
       {status.isVisible && (
         <>
           {shareOptions.clipboard && (
-            <Grid item>
+            <Grid>
               <Button
                 onClick={() => copyToClipboard(interaction)}
                 icon={<ShareIcon />}
@@ -52,7 +52,7 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
           )}
 
           {shareOptions.stash && (
-            <Grid item>
+            <Grid>
               <Button
                 onClick={processStash}
                 icon={isInStash(video_id) ? <Favorite color="error" /> : <FavoriteBorder />}
@@ -62,7 +62,7 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
           )}
 
           {shareOptions.youtube && (
-            <Grid item>
+            <Grid>
               <Button
                 onClick={() => OpenYouTubeURL(interaction.video.video_id)}
                 icon={<YouTubeIcon color="error" />}
@@ -72,7 +72,7 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
           )}
         </>
       )}
-      <Grid item>
+      <Grid>
         <Button onClick={()=> jumpQueue(interaction.index)} icon={<PlayCircleIcon color="success" />} title="Play" />
       </Grid>
     </>

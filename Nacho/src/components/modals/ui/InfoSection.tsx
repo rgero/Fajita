@@ -6,6 +6,7 @@ const InfoSection = ({children}: {children: ReactNode}) => {
     minHeight: "125px",
     paddingX: 2,
     justifyContent: "center",
+    width:"100%",
   }
   
   return (

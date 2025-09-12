@@ -12,10 +12,10 @@ interface Props {
 const QueueDeleteConfirm: React.FC<Props> = ({ onCancel, onDelete }) => {
   return (
     <>
-      <Grid item>
+      <Grid>
         <Button onClick={onCancel} icon={<DoNotDisturbIcon />} title="Cancel" />
       </Grid>
-      <Grid item>
+      <Grid>
         <Button onClick={onDelete} icon={<DeleteForeverIcon color="error" />} title="Delete" />
       </Grid>
     </>
