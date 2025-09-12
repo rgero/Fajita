@@ -1,19 +1,24 @@
 import { ToastBar, toast } from 'react-hot-toast';
 
-import InfoIcon from '@mui/icons-material/Info'; // Import Material UI Icon
 import React from 'react';
-import { useTheme } from '@mui/material';
+import { Typography } from '@mui/material';
 
 type InfoToastProps = {
   message: string;
 };
 
 const InfoToastObject: React.FC<InfoToastProps> = ({ message }) => {
-  const theme = useTheme();
   return (
     <>
-      <InfoIcon fontSize="medium" sx={{color: theme.palette.primary.main}}/>
-      <span style={{paddingLeft: "10px"}}>{message}</span>
+      <img
+        src="/fajita.svg"
+        alt="Rudy"
+        style={{
+          width: 32,
+          height: 32,
+        }}
+      />
+      <Typography variant="body2" style={{paddingLeft: "10px", fontWeight: "bold"}}>{message}</Typography>
     </>
   );
 };
