@@ -6,10 +6,10 @@ const StashOptions = () => {
   const {isStashCompact, toggleCompactStash} = useSettings();
   return (
     <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
-      <Grid item>
+      <Grid>
         <Typography variant="body1">Compact Stash Card</Typography>
       </Grid>
-      <Grid item>
+      <Grid>
         <Grid container alignItems="center">
           <Switch
             checked={Boolean(isStashCompact)}

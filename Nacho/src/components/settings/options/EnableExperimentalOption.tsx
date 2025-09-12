@@ -6,10 +6,10 @@ const EnableExperimentalOption = () => {
   const {enableExperimental, toggleExperimental} = useSettings();
   return (
     <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
-      <Grid item>
+      <Grid>
         <Typography variant="body1">Enable Experiments</Typography>
       </Grid>
-      <Grid item>
+      <Grid>
         <Grid container alignItems="center">
           <Switch
             checked={Boolean(enableExperimental)}

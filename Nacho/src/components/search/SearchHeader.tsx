@@ -21,16 +21,18 @@ const SearchHeader = () => {
   return (
     <AppBar sx={{zIndex: 10}}>
       <StyledToolbar>
-        <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
-          <Grid item xs={9} sm={10} md={4}>
-            <SearchBar
-              value={searchTerm}
-              setValue={setTerm}
-              additionalFnKeydown={processSubmit}
-            />
-          </Grid>
-          <Grid item>
-            <UserAvatar/>
+        <Grid container justifyContent="center" alignItems="center" size="grow">
+          <Grid container spacing={2} alignItems="center" justifyContent="center" size={{ xs: 12, sm: 10, md: 4 }}>
+            <Grid size="grow">
+              <SearchBar
+                value={searchTerm}
+                setValue={setTerm}
+                additionalFnKeydown={processSubmit}
+              />
+            </Grid>
+            <Grid>
+              <UserAvatar />
+            </Grid>
           </Grid>
         </Grid>
       </StyledToolbar>

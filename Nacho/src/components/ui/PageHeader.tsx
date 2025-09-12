@@ -32,19 +32,19 @@ const PageHeader: React.FC<Props> = ({title}) => {
     <AppBar sx={{zIndex: 10}}>
       <StyledToolbar>
         <Grid container spacing={1} direction="row" alignItems="center" justifyContent="space-between">
-          <Grid item>
+          <Grid>
             <Grid container direction="row">
-              <Grid item>
-                <IconButton size={matchesXS ? "small" : "medium"}onClick={goBack}>
+              <Grid>
+                <IconButton size={matchesXS ? "small" : "medium"} onClick={goBack}>
                   <ArrowBackIcon/>
                 </IconButton>
               </Grid>
-              <Grid item>
+              <Grid>
                 <Typography variant={matchesXS ? "h5" : "h4"}>{title}</Typography>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid>
             <UserAvatar/>
           </Grid>
         </Grid>

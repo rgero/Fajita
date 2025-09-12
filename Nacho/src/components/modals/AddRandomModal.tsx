@@ -35,10 +35,10 @@ const AddRandomModal = ({confirmAction, isOpen, closeFn} : {confirmAction: (prio
         />
         <CardContent sx={{ display: "flex", flexGrow: 1, flexDirection: "column", minWidth: 0 }}>
           <Grid container spacing={5} justifyContent="space-around">
-            <Grid item>
+            <Grid>
               <Button onClick={()=> confirmAction(Priority.playNext)} icon={<SkipNext/>} title="Play Next"/>
             </Grid>
-            <Grid item>
+            <Grid>
               <Button onClick={()=> confirmAction(Priority.normal)} icon={<AddCircle/>} title="Add"  color="success"/>
             </Grid>
           </Grid>

@@ -11,15 +11,15 @@ interface IsInQueueWarningProps {
 const IsInQueueWarning: React.FC<IsInQueueWarningProps> = ({ handleInQueue }) => {
   return (
     <InfoSection>
-      <Grid item>
+      <Grid>
         <Typography variant="h6">Warning: This video is already in the queue.</Typography>
       </Grid>
-      <Grid item>
+      <Grid>
         <Grid container justifyContent="space-around">
-          <Grid item>
+          <Grid>
             <Button onClick={() => handleInQueue(false)} icon={<DoNotDisturb />} title="Cancel"/>
           </Grid>
-          <Grid item>
+          <Grid>
             <Button onClick={() => handleInQueue(true)} icon={<AddCircle color="success"/>} title="Add"/>
           </Grid>
         </Grid>

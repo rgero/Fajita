@@ -38,27 +38,27 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
 
   return (
     <InfoSection>
-      <Grid item>
+      <Grid>
         <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
       </Grid>
       <Grid container justifyContent={"space-between"} sx={{paddingTop: 2}}>
         {children ? (
-          <Grid item>
+          <Grid>
             <Grid container direction="row" spacing={1} alignItems="center">
               {children}
             </Grid>
           </Grid>
         ) : (
-          <Grid item>
+          <Grid>
             <Button onClick={processStash} icon={isInStash(videoData.id) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color={isInStash(videoData.id) ? "error" : "default"}/>
           </Grid>
         )}
-        <Grid item>
+        <Grid>
           <Grid container direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
-            <Grid item>
+            <Grid>
               <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
             </Grid>
-            <Grid item>
+            <Grid>
               <Button onClick={runChecksAndSubmit} icon={(<AddCircle/>)} title="Add" color="success"/>
             </Grid>
           </Grid>

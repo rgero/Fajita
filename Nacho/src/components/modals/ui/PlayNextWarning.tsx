@@ -12,10 +12,10 @@ interface PlayNextWarningProps {
 const PlayNextWarning: React.FC<PlayNextWarningProps> = ({ handleSubmit }) => {
   return (
     <InfoSection>
-      <Grid item alignSelf={"center"}>
+      <Grid alignSelf={"center"}>
         <Typography variant="h6">Warning: Someone else has used their play next.</Typography>
       </Grid>
-      <Grid item>
+      <Grid>
         <Grid container justifyContent={"space-around"}>
           <Button onClick={() => handleSubmit(PlayNextCondition.Rejected)} icon={<Speed/>} title="Nevermind"/>
           <Button onClick={() => handleSubmit(PlayNextCondition.Accepted)} icon={<SelfImprovement color="warning"/>} title="I'll wait"/>
