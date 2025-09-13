@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 
 import { Interaction } from "../../interfaces/Interaction";
 import { MoreVert } from "@mui/icons-material"
-import QueueInfoMenu from "./QueueInfoMenu"
+import QueueInfoMenu from "../info_menus/QueueInfoMenu"
 import { useSettings } from "../../context/SettingsContext";
 
 interface QueueInfoButtonProps {

@@ -1,6 +1,6 @@
 import AddToQueueModal from "../modals/AddToQueueModal";
 import { Card } from "@mui/material";
-import InfoOverlayButton from "../info_button/InfoOverlayButton";
+import InfoOverlayButton from "../info_menus/InfoOverlayButton";
 import VideoCard from "../ui/VideoCard";
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
 import toast from "react-hot-toast";
