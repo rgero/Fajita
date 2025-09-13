@@ -88,7 +88,9 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
             component="img"
             sx={{
               width: {xs: 120, md: 300},
-
+              height: {xs: 90, md: 180},
+              objectFit: "cover",
+              flexShrink: 0
             }}
             image={`${status.isVisible ? thumbnail : status.cover}`}
             alt={`${status.isVisible ? title : "Hidden"}`}
