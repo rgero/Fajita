@@ -25,7 +25,7 @@ const FooterCard: React.FC<CardProps> = ({title, imageURL, percentComplete, curr
     >
       <CardMedia
         component="img"
-        sx={{ width: 100, objectFit: "contain" }}
+        sx={{ width: 100, height: 80, objectFit: "cover" }}
         image={imageURL}
         alt={title}
       />
