@@ -1,3 +1,4 @@
+import CopyMenuOption from "./options/CopyMenuOption";
 import { Menu } from "@mui/material";
 import StashMenuOption from "./options/StashMenuOption";
 import YoutubeMenuOption from "./options/YoutubeMenuOption";
@@ -14,6 +15,7 @@ const InfoMenu: React.FC<SearchMenuProps> = ({youtubeId, anchorEl, open, onClose
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
       <StashMenuOption youtubeId={youtubeId} onClose={onClose} />
       <YoutubeMenuOption youtubeId={youtubeId} onClose={onClose} />
+      <CopyMenuOption youtubeId={youtubeId} onClose={onClose} />
     </Menu>
   );
 };

@@ -12,3 +12,8 @@ export const copyToClipboard = (interaction: Interaction|Artifact|null) => {
   copy(`https://www.youtube.com/watch?v=${interaction.video.video_id}`)
   toast.success("Copied to clipboard");
 }
+
+export const copyVideoIDToClipboard = (videoID: string) => {
+  copy(`https://www.youtube.com/watch?v=${videoID}`)
+  toast.success("Copied to clipboard");
+}

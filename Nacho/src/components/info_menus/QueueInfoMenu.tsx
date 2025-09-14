@@ -1,5 +1,6 @@
 import { Divider, Menu } from "@mui/material";
 
+import CopyMenuOption from "./options/CopyMenuOption";
 import { Interaction } from "../../interfaces/Interaction";
 import StashMenuOption from "./options/StashMenuOption";
 import TimeAddedMenuOption from "./options/TimeAddedMenuOption";
@@ -19,6 +20,7 @@ const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onCl
       <Divider/>
       <StashMenuOption youtubeId={data.youtube_id} onClose={onClose} />
       <YoutubeMenuOption youtubeId={data.youtube_id} onClose={onClose} />
+      <CopyMenuOption youtubeId={data.youtube_id} onClose={onClose} />
     </Menu>
   );
 };
