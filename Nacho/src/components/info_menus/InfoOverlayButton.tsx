@@ -13,7 +13,7 @@ interface InfoOverlayButtonProps {
 
 const InfoOverlayButton = ({youtubeId, disableHanded = false, smallButton = false}: InfoOverlayButtonProps) => {
   const theme = useTheme();
-  const { isRightHanded } = useSettings();
+  const { isRightHanded, infoOptions } = useSettings();
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(menuAnchorEl);
 
@@ -49,6 +49,10 @@ const InfoOverlayButton = ({youtubeId, disableHanded = false, smallButton = fals
   const handleMenuClose = () => {
     setMenuAnchorEl(null);
   };
+
+  if (!infoOptions.clipboard && !infoOptions.youtube && !infoOptions.stash) {
+    return null;
+  }
 
   return (
     <>

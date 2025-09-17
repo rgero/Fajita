@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect } from "react";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 const defaultShareOptions = { clipboard: false, youtube: true, stash: true };
+const defaultInfoOptions = { clipboard: false, youtube: false, stash: true };
 
 const SettingsContext = createContext({
   isFooterCompact: false,
@@ -14,7 +15,10 @@ const SettingsContext = createContext({
   toggleCompactStash: () => {},
   toggleHandedness: () => {},
   shareOptions: defaultShareOptions,
-  updateShareOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) }
+  infoOptions: defaultInfoOptions,
+  updateShareOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) },
+  updateInfoOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) }
+  
 });
 
 const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
@@ -44,6 +48,12 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     "shareOptions"
   );
 
+  const [infoOptions, setInfoOptions] = useLocalStorageState(
+    JSON.stringify(defaultInfoOptions),
+    "infoOptions"
+  );
+
+
   const validateShareOptions = (options: any) => {
     return {
       clipboard: options.clipboard ?? defaultShareOptions.clipboard,
@@ -52,11 +62,25 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     };
   };
 
+  const validateInfoOptions = (options: any) => {
+    return {
+      clipboard: options.clipboard ?? defaultInfoOptions.clipboard,
+      youtube: options.youtube ?? defaultInfoOptions.youtube,
+      stash: options.stash ?? defaultInfoOptions.stash,
+    };
+  }
+
   useEffect(() => {
     const parsedShareOptions = JSON.parse(shareOptions);
     const validatedShareOptions = validateShareOptions(parsedShareOptions);
     if (JSON.stringify(parsedShareOptions) !== JSON.stringify(validatedShareOptions)) {
       setShareOptions(JSON.stringify(validatedShareOptions));
+    }
+
+    const parsedInfoOptions = JSON.parse(infoOptions);
+    const validatedInfoOptions = validateInfoOptions(parsedInfoOptions);
+    if (JSON.stringify(parsedInfoOptions) !== JSON.stringify(validatedInfoOptions)) {
+      setInfoOptions(JSON.stringify(validatedInfoOptions));
     }
   }, []);
 
@@ -80,6 +104,10 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     setShareOptions(JSON.stringify(options));
   }
 
+  const updateInfoOptions = (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => {
+    setInfoOptions(JSON.stringify(options));
+  }
+
   return (
     <SettingsContext.Provider 
       value={{
@@ -92,7 +120,9 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
         toggleHandedness,
         toggleCompactStash,
         shareOptions: validateShareOptions(JSON.parse(shareOptions)),
-        updateShareOptions
+        updateShareOptions,
+        infoOptions: validateInfoOptions(JSON.parse(infoOptions)),
+        updateInfoOptions
       }}
     >
       {children}

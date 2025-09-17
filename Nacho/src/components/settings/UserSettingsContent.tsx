@@ -4,6 +4,7 @@ import DarkModeToggle from "./options/DarkModeToggle"
 import EnableExperimentalOption from "./options/EnableExperimentalOption"
 import FooterCardOptions from "./options/FooterCardOptions"
 import HandednessOption from "./options/HandednessToggle"
+import InfoOptions from "./options/InfoOptions"
 import ShareOptions from "./options/ShareOptions"
 import StashOptions from "./options/StashOptions"
 
@@ -25,6 +26,11 @@ const UserSettingsContent = () => {
       <Box>
         <Typography variant="body1" sx={{fontWeight: "bold"}}>Sharing Options</Typography>
         <ShareOptions/>
+      </Box>
+      <Divider/>
+      <Box>
+        <Typography variant="body1" sx={{fontWeight: "bold"}}>Info Menu Options</Typography>
+        <InfoOptions/>
       </Box>
       <Divider/>
       <Box>

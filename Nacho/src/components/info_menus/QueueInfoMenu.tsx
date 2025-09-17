@@ -5,6 +5,7 @@ import { Interaction } from "../../interfaces/Interaction";
 import StashMenuOption from "./options/StashMenuOption";
 import TimeAddedMenuOption from "./options/TimeAddedMenuOption";
 import YoutubeMenuOption from "./options/YoutubeMenuOption";
+import { useSettings } from "../../context/SettingsContext";
 
 interface QueueInfoMenuProps {
   data: Interaction;
@@ -13,14 +14,15 @@ interface QueueInfoMenuProps {
   onClose: () => void;
 }
 
-const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onClose}) => {  
+const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onClose}) => {
+  const { infoOptions } = useSettings();  
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
       <TimeAddedMenuOption data={data} />
       <Divider/>
-      <StashMenuOption youtubeId={data.youtube_id} onClose={onClose} />
-      <YoutubeMenuOption youtubeId={data.youtube_id} onClose={onClose} />
-      <CopyMenuOption youtubeId={data.youtube_id} onClose={onClose} />
+      {infoOptions.stash && ( <StashMenuOption youtubeId={data.youtube_id} onClose={onClose} />)}
+      {infoOptions.youtube && ( <YoutubeMenuOption youtubeId={data.youtube_id} onClose={onClose} />)}
+      {infoOptions.clipboard && ( <CopyMenuOption youtubeId={data.youtube_id} onClose={onClose} />)} 
     </Menu>
   );
 };
