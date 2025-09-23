@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import toast from "react-hot-toast";
-import { useSocketProvider } from "../../../context/WebSocketContext";
+import { useSocketProvider } from "../../../context/websocket/WebsocketContext";
 
 const PlayOption = () => {
   const {socket, playPause} = useSocketProvider();

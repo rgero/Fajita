@@ -7,7 +7,7 @@ import { Priority } from '../../../interfaces/Priority';
 import { Visibility } from '../../../interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup"
 import toast from 'react-hot-toast';
-import { useStashProvider } from "../../../context/StashContext";
+import { useStashProvider } from '../../../context/stash/StashContext';
 
 interface AddToQueueOptionsProps {
   children?: React.ReactNode;

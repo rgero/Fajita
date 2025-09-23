@@ -5,7 +5,7 @@ import FooterCard from "./FooterCard";
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
 import { useQueueProvider } from "../../context/queue/QueueContext";
-import { useSocketProvider } from "../../context/WebSocketContext";
+import { useSocketProvider } from "../../context/websocket/WebsocketContext";
 
 interface ProgressResponse {
   queue_id: string,

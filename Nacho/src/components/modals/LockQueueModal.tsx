@@ -4,7 +4,7 @@ import { Fade, Grid, TextField, Typography } from "@mui/material"
 import Button from "../ui/Button";
 import Modal from "./Modal";
 import { useQueueProvider } from "../../context/queue/QueueContext";
-import { useSocketProvider } from "../../context/WebSocketContext";
+import { useSocketProvider } from "../../context/websocket/WebsocketContext";
 import { useState } from "react";
 
 const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) => {

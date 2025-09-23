@@ -12,7 +12,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { copyToClipboard } from '../../../utils/CopyToClipboard';
 import { useSettings } from '../../../context/settings/SettingsContext';
-import { useStashProvider } from '../../../context/StashContext';
+import { useStashProvider } from '../../../context/stash/StashContext';
 
 interface Props {
   interaction: Interaction;

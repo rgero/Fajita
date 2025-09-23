@@ -1,30 +1,12 @@
-import { addToStash, deleteFromStash, deleteStash as deleteStashAPI, getStashData } from "../services/apiFajita";
-import { createContext, useContext, useState } from "react";
+import { addToStash, deleteFromStash, deleteStash as deleteStashAPI, getStashData } from "../../services/apiFajita";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Artifact } from "../interfaces/Artifact";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { Artifact } from "../../interfaces/Artifact";
+import { StashContext } from "./StashContext";
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { useState } from "react";
 
-interface StashContextType {
-  addVideoToStash: (id: string) => void;
-  deleteVideoFromStash: (id: string) => void;
-  deleteStash: () => void;
-  error: Error | null;
-  GetFilteredData: () => Artifact[];
-  isActionPending: boolean;
-  isInStash: (id: string) => boolean;
-  isLoading: boolean;
-  refetch: () => void;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  setSortOption: (option: string) => void;
-  sortOption: string;
-  stashData: Artifact[];
-}
-
-const StashContext = createContext<StashContextType| undefined>(undefined);
-
-const StashProvider = ({ children }: { children: React.ReactNode }) => {
+export const StashProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useLocalStorageState("date_newest", "stashSortOption");
@@ -129,13 +111,3 @@ const StashProvider = ({ children }: { children: React.ReactNode }) => {
     </StashContext.Provider>
   )
 }
-
-const useStashProvider = () => {
-  const context = useContext(StashContext);
-  if (!context) {
-    throw new Error("useStashProvider must be used within a StashProvider");
-  }
-  return context;
-};
-
-export { StashProvider, useStashProvider };

@@ -10,7 +10,7 @@ import StashList from "./StashList";
 import toast from "react-hot-toast";
 import { useDialogContext } from "../../context/dialog/DialogContext";
 import { useQueueProvider } from "../../context/queue/QueueContext";
-import { useStashProvider } from "../../context/StashContext";
+import { useStashProvider } from "../../context/stash/StashContext";
 import { useState } from "react";
 
 const StashDialog = () => {

@@ -1,20 +1,11 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import io, { Socket } from 'socket.io-client';
 
-import InfoToast from "../components/ui/InfoToast";
-import { useQueueProvider } from "./queue/QueueContext";
+import InfoToast from "../../components/ui/InfoToast";
+import { SocketContext } from "./WebsocketContext";
+import { useQueueProvider } from "../queue/QueueContext";
 
-interface SocketContextType {
-  socket: Socket | undefined,
-  jumpQueue: (index: number) => void,
-  playPause: () => void,
-  skipVideo: () => void,
-  toggleLock: (reason: string) => void
-}
-
-const SocketContext = createContext<SocketContextType | undefined>(undefined);
-
-const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
   const {queueData, refetch} = useQueueProvider();
 
@@ -104,13 +95,3 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     </SocketContext.Provider>
   );
 };
-
-const useSocketProvider = () => {
-  const context = useContext(SocketContext);
-  if (!context) {
-    throw new Error('useSocketProvider must be used within a SocketProvider');
-  }
-  return context;
-};
-
-export { SocketProvider, useSocketProvider };

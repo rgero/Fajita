@@ -12,8 +12,8 @@ import LandingPage from "./pages/LandingPage";
 import MainPage from "./pages/MainPage";
 import { QueueProvider } from "./context/queue/QueueProvider";
 import { SettingsProvider } from "./context/settings/SettingsProvider";
-import { SocketProvider } from "./context/WebSocketContext";
-import { StashProvider } from "./context/StashContext";
+import { SocketProvider } from "./context/websocket/WebsocketProvider";
+import { StashProvider } from "./context/stash/StashProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
