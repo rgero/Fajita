@@ -5,7 +5,7 @@ import { Interaction } from "../../interfaces/Interaction";
 import StashMenuOption from "./options/StashMenuOption";
 import TimeAddedMenuOption from "./options/TimeAddedMenuOption";
 import YoutubeMenuOption from "./options/YoutubeMenuOption";
-import { useSettings } from "../../context/SettingsContext";
+import { useSettings } from "../../context/settings/SettingsContext";
 
 interface QueueInfoMenuProps {
   data: Interaction;

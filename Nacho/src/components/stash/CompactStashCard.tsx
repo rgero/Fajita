@@ -8,7 +8,7 @@ import InfoOverlayButton from "../info_menus/InfoOverlayButton";
 import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";
 import { copyToClipboard } from "../../utils/CopyToClipboard";
 import { getParsedDuration } from "../../utils/getParsedDuration";
-import { useSettings } from "../../context/SettingsContext";
+import { useSettings } from "../../context/settings/SettingsContext";
 import { useState } from "react";
 
 interface Props {

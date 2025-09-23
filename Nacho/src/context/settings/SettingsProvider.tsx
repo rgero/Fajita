@@ -1,28 +1,9 @@
-import { createContext, useContext, useEffect } from "react";
+import { SettingsContext, defaultInfoOptions, defaultShareOptions } from "./SettingsContext";
 
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { useEffect } from "react";
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
 
-const defaultShareOptions = { clipboard: false, youtube: true, stash: true };
-const defaultInfoOptions = { clipboard: false, youtube: false, stash: true };
-
-const SettingsContext = createContext({
-  isFooterCompact: false,
-  isRightHanded: false,
-  isStashCompact: false,
-  enableExperimental: false,
-  toggleExperimental: () => {},
-  toggleFooterCompact: () => {},
-  toggleCompactStash: () => {},
-  toggleHandedness: () => {},
-  shareOptions: defaultShareOptions,
-  infoOptions: defaultInfoOptions,
-  updateShareOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) },
-  updateInfoOptions: (options: { clipboard: boolean; youtube: boolean; stash: boolean }) => { console.log(options) }
-  
-});
-
-const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
-
+export const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   const [enableExperimental, setEnableExperimental] = useLocalStorageState(
     false,
     "enableExperimental",
@@ -130,10 +111,3 @@ const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   );
 }
 
-const useSettings = () => {
-  const context = useContext(SettingsContext);
-  if (context === undefined) throw new Error("SettingsContext was used outside of SettingsProvider");
-  return context;
-}
-
-export { SettingsProvider, useSettings };

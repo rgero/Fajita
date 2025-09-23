@@ -1,6 +1,6 @@
 import { Grid, Switch, Typography } from "@mui/material"
 
-import { useSettings } from "../../../context/SettingsContext"
+import { useSettings } from "../../../context/settings/SettingsContext";
 
 const InfoOptions  = () => {
   const {infoOptions, updateInfoOptions} = useSettings();

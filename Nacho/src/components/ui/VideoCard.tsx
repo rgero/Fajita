@@ -3,7 +3,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography, useTheme } fr
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 import { getParsedDuration } from "../../utils/getParsedDuration"
-import { useSettings } from "../../context/SettingsContext"
+import { useSettings } from "../../context/settings/SettingsContext"
 
 interface Props {
   data: YoutubeResponse,

@@ -6,7 +6,7 @@ import Empty from "../ui/Empty";
 import Spinner from "../ui/Spinner";
 import StashCard from "./StashCard";
 import toast from "react-hot-toast";
-import { useSettings } from "../../context/SettingsContext";
+import { useSettings } from "../../context/settings/SettingsContext";
 import { useStashProvider } from "../../context/StashContext";
 
 const StashList = () => {

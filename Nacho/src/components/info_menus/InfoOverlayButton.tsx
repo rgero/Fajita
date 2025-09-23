@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 
 import InfoMenu from "./InfoMenu";
 import { MoreVert } from "@mui/icons-material";
-import { useSettings } from "../../context/SettingsContext";
+import { useSettings } from "../../context/settings/SettingsContext";
 
 interface InfoOverlayButtonProps {
   youtubeId: string;

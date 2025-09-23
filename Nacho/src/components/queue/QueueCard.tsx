@@ -10,7 +10,7 @@ import { Visibility } from "../../interfaces/Visibility";
 import { getParsedDuration } from "../../utils/getParsedDuration";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
 import { useQueueProvider } from "../../context/queue/QueueContext";
-import { useSettings } from "../../context/SettingsContext";
+import { useSettings } from "../../context/settings/SettingsContext";
 import { useTheme } from '@mui/material/styles';
 
 interface Props {

@@ -2,7 +2,7 @@ import CopyMenuOption from "./options/CopyMenuOption";
 import { Menu } from "@mui/material";
 import StashMenuOption from "./options/StashMenuOption";
 import YoutubeMenuOption from "./options/YoutubeMenuOption";
-import { useSettings } from "../../context/SettingsContext";
+import { useSettings } from "../../context/settings/SettingsContext";
 
 interface SearchMenuProps {
   youtubeId: string;
