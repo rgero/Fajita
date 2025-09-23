@@ -1,18 +1,13 @@
 import { ThemeOptions, ThemeProvider, createTheme } from "@mui/material";
-import { createContext, useContext, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
-import CustomToaster from "../components/ui/CustomToaster";
-import { darkTheme } from "../themes/darkTheme";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
-import { warmTheme } from "../themes/lightThemes";
+import CustomToaster from "../../components/ui/CustomToaster";
+import { DarkModeContext } from "./DarkModeContext";
+import { darkTheme } from "../../themes/darkTheme";
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { warmTheme } from "../../themes/lightThemes";
 
-const DarkModeContext = createContext({
-  isDarkMode: false,
-  toggleDarkMode: () => {}
-});
-
-const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
-
+export const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
   const [isDarkMode, setIsDarkMode] = useLocalStorageState(
     window.matchMedia("(prefers-color-scheme: dark)").matches.toString(),
     "isDarkMode"
@@ -44,11 +39,3 @@ const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
     </DarkModeContext.Provider>
   );
 }
-
-const useDarkMode = () => {
-  const context = useContext(DarkModeContext);
-  if (context === undefined) throw new Error("DarkModeContext was used outside of DarkModeProvider");
-  return context;
-}
-
-export { DarkModeProvider, useDarkMode };
