@@ -4,7 +4,7 @@ import BlankCard from "./BlankCard";
 import FooterCard from "./FooterCard";
 import { Interaction } from "../../interfaces/Interaction";
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from "../../context/QueueContext";
+import { useQueueProvider } from "../../context/queue/QueueContext";
 import { useSocketProvider } from "../../context/WebSocketContext";
 
 interface ProgressResponse {

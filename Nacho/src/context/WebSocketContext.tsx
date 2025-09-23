@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useState } fr
 import io, { Socket } from 'socket.io-client';
 
 import InfoToast from "../components/ui/InfoToast";
-import { useQueueProvider } from "./QueueContext";
+import { useQueueProvider } from "./queue/QueueContext";
 
 interface SocketContextType {
   socket: Socket | undefined,

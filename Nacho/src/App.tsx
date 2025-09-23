@@ -10,7 +10,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./components/ui/ErrorFallback";
 import LandingPage from "./pages/LandingPage";
 import MainPage from "./pages/MainPage";
-import { QueueProvider } from "./context/QueueContext";
+import { QueueProvider } from "./context/queue/QueueProvider";
 import { SettingsProvider } from "./context/SettingsContext";
 import { SocketProvider } from "./context/WebSocketContext";
 import { StashProvider } from "./context/StashContext";

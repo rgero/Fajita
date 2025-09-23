@@ -1,36 +1,15 @@
-import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from "../services/apiFajita";
-import { createContext, useContext, useEffect, useState } from "react";
+import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from "../../services/apiFajita";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Interaction } from "../interfaces/Interaction";
-import { Priority } from "../interfaces/Priority";
-import { QueueData } from "../interfaces/QueueData";
-import { Visibility } from "../interfaces/Visibility";
-import { useAuth } from "./authentication/AuthenticationContext";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
+import { Interaction } from "../../interfaces/Interaction";
+import { Priority } from "../../interfaces/Priority";
+import { QueueContext } from "./QueueContext";
+import { Visibility } from "../../interfaces/Visibility";
+import { useAuth } from "../authentication/AuthenticationContext";
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
 
-interface QueueContextType {
-  addVideoToQueue: ({id, priority, visibility}: {id: string, priority: number, visibility: number}) => void;
-  addRandomVideo: (id:string, priority: number) => void;
-  checkForPlayNext: () => boolean,
-  connectToQueue: (id: string) => void;
-  deleteVideoFromQueue: (id: string) => void;
-  isConnected: boolean;
-  error: Error | null;
-  getQueueID: () => string;
-  getQueueOwner: () => string;
-  isActionPending: boolean;
-  isInQueue: (id: string) => boolean;
-  isLoading: boolean;
-  queueData: QueueData;
-  refetch: () => void;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-}
-
-const QueueContext = createContext<QueueContextType | undefined>(undefined);
-
-const QueueProvider = ({ children }: { children: React.ReactNode }) => {
+export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");
   const {user, isAuthenticated } = useAuth();
   const [ searchTerm, setSearchTerm ] = useState<string>("");
@@ -186,12 +165,3 @@ const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const useQueueProvider = () => {
-  const context = useContext(QueueContext);
-  if (!context) {
-    throw new Error("useQueueProvider must be used within a QueueProvider");
-  }
-  return context;
-};
-
-export { QueueProvider, useQueueProvider };

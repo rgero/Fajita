@@ -5,7 +5,7 @@ import EmptyQueue from "./EmptyQueue";
 import { Interaction } from "../../interfaces/Interaction";
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from "../../context/QueueContext";
+import { useQueueProvider } from "../../context/queue/QueueContext";
 
 const QueueList = () => {
   const {isLoading, queueData, error} = useQueueProvider();

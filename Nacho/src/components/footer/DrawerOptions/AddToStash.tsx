@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Interaction } from "../../../interfaces/Interaction";
 import toast from "react-hot-toast";
-import { useQueueProvider } from "../../../context/QueueContext";
+import { useQueueProvider } from "../../../context/queue/QueueContext";
 import { useStashProvider } from "../../../context/StashContext";
 
 const AddToStashOption = () => {

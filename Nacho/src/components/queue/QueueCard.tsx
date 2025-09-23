@@ -9,7 +9,7 @@ import { QueueStatus } from "../../interfaces/QueueStatus";
 import { Visibility } from "../../interfaces/Visibility";
 import { getParsedDuration } from "../../utils/getParsedDuration";
 import { getSecretMessage } from "../../utils/SecretMessageGenerator";
-import { useQueueProvider } from "../../context/QueueContext";
+import { useQueueProvider } from "../../context/queue/QueueContext";
 import { useSettings } from "../../context/SettingsContext";
 import { useTheme } from '@mui/material/styles';
 

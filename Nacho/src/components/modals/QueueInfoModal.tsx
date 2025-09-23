@@ -10,7 +10,7 @@ import { QueueStatus } from '../../interfaces/QueueStatus';
 import VideoCard from '../ui/VideoCard';
 import { YoutubeResponse } from '../../interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
-import { useQueueProvider } from '../../context/QueueContext';
+import { useQueueProvider } from '../../context/queue/QueueContext';
 import { useSocketProvider } from '../../context/WebSocketContext';
 
 interface Props {
