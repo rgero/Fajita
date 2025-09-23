@@ -5,7 +5,7 @@ import AppLayout from "./components/ui/AppLayout";
 import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
 import { AuthenticationProvider } from "./context/authentication/AuthenticationProvider";
 import { DarkModeProvider } from "./context/darkmode/DarkModeProvider";
-import { DialogProvider } from "./context/DialogContext";
+import { DialogProvider } from "./context/dialog/DialogProvider";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./components/ui/ErrorFallback";
 import LandingPage from "./pages/LandingPage";

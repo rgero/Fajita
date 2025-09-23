@@ -3,7 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import CurrentPlayingPresenter from './CurrentPlayingPresenter';
 import FooterDrawer from './FooterDrawer';
-import { useDialogContext } from '../../context/DialogContext';
+import { useDialogContext } from '../../context/dialog/DialogContext';
 
 const isRunningStandalone = () => {
   if (typeof window === 'undefined') return false;

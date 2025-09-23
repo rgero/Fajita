@@ -1,7 +1,7 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 
 import QueueIcon from '@mui/icons-material/Queue';
-import { useDialogContext } from "../../../context/DialogContext";
+import { useDialogContext } from "../../../context/dialog/DialogContext";
 
 const QueueOption = () => {
 

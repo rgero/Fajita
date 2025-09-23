@@ -1,6 +1,6 @@
 import ActiveQueueList from "./ActiveQueueList"
 import Dialog from "../ui/Dialog"
-import { useDialogContext } from "../../context/DialogContext";
+import { useDialogContext } from "../../context/dialog/DialogContext";
 
 const ActiveQueueDialog = () => {
   const {activeQueuesOpen, toggleActiveQueuesOpen} = useDialogContext();

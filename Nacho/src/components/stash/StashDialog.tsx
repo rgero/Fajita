@@ -8,7 +8,7 @@ import { Priority } from "../../interfaces/Priority";
 import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
 import toast from "react-hot-toast";
-import { useDialogContext } from "../../context/DialogContext";
+import { useDialogContext } from "../../context/dialog/DialogContext";
 import { useQueueProvider } from "../../context/QueueContext";
 import { useStashProvider } from "../../context/StashContext";
 import { useState } from "react";

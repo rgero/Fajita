@@ -1,10 +1,9 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 
 import { Backpack } from "@mui/icons-material";
-import { useDialogContext } from "../../../context/DialogContext";
+import { useDialogContext } from "../../../context/dialog/DialogContext";
 
 const OpenStashOption = () => {
-
   const { toggleStashOpen } = useDialogContext();
 
   return (

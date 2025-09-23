@@ -1,7 +1,7 @@
 import { Cameraswitch, QueueMusic } from "@mui/icons-material";
 
 import HeaderMenuOption from "./HeaderMenuOption";
-import { useDialogContext } from "../../../context/DialogContext";
+import { useDialogContext } from "../../../context/dialog/DialogContext";
 import { useQueueProvider } from "../../../context/QueueContext";
 
 const QueueManagement = () => {
