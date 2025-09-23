@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import AppLayout from "./components/ui/AppLayout";
 import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
-import { AuthenticationProvider } from "./context/AuthenicationContext";
+import { AuthenticationProvider } from "./context/authentication/AuthenticationProvider";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import { DialogProvider } from "./context/DialogContext";
 import { ErrorBoundary } from "react-error-boundary";

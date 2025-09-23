@@ -1,5 +1,5 @@
 import Loading from "./Loading";
-import { useAuth } from "../../context/AuthenicationContext";
+import { useAuth } from "../../context/authentication/AuthenticationContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

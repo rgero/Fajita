@@ -4,7 +4,7 @@ import { DoNotDisturb, ThumbUpAlt } from "@mui/icons-material";
 import Button from "../ui/Button";
 import SpinnerModal from "../ui/SpinnerModal";
 import toast from "react-hot-toast";
-import { useAuth } from "../../context/AuthenicationContext";
+import { useAuth } from "../../context/authentication/AuthenticationContext";
 import { useCreateFeedback } from "./hooks/useCreateFeedback";
 import { useState } from "react"
 

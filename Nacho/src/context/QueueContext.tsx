@@ -6,7 +6,7 @@ import { Interaction } from "../interfaces/Interaction";
 import { Priority } from "../interfaces/Priority";
 import { QueueData } from "../interfaces/QueueData";
 import { Visibility } from "../interfaces/Visibility";
-import { useAuth } from "./AuthenicationContext";
+import { useAuth } from "./authentication/AuthenticationContext";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 interface QueueContextType {
