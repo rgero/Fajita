@@ -1,6 +1,6 @@
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
-import { OpenYouTubeURL } from "../../../utils/OpenYoutubeURL";
+import { OpenYouTubeURL } from '@utils/OpenYoutubeURL';
 import { YouTube } from "@mui/icons-material";
 
 interface YoutubeMenuOptionProps {

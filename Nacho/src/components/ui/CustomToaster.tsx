@@ -1,6 +1,6 @@
 import toast, { Toaster, useToasterStore } from "react-hot-toast";
 
-import { useDarkMode } from "../../context/darkmode/DarkModeContext";
+import { useDarkMode } from '@context/darkmode/DarkModeContext';
 import { useEffect } from "react";
 
 const CustomToaster = () => {

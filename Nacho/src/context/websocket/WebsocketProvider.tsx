@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import io, { Socket } from 'socket.io-client';
 
-import InfoToast from "../../components/ui/InfoToast";
+import InfoToast from '@components/ui/InfoToast';
 import { SocketContext } from "./WebsocketContext";
 import { useQueueProvider } from "../queue/QueueContext";
 

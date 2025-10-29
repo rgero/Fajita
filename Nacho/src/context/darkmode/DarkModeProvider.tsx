@@ -1,10 +1,10 @@
 import { ThemeOptions, ThemeProvider, createTheme } from "@mui/material";
 import { useEffect, useMemo } from "react";
 
-import CustomToaster from "../../components/ui/CustomToaster";
+import CustomToaster from '@components/ui/CustomToaster';
 import { DarkModeContext } from "./DarkModeContext";
 import { darkTheme } from "../../themes/darkTheme";
-import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { useLocalStorageState } from '@hooks/useLocalStorageState';
 import { warmTheme } from "../../themes/lightThemes";
 
 export const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {

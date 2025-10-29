@@ -2,10 +2,10 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
 import EmptyQueue from "./EmptyQueue";
-import { Interaction } from "../../interfaces/Interaction";
+import { Interaction } from '@interfaces/Interaction';
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from "../../context/queue/QueueContext";
+import { useQueueProvider } from '@context/queue/QueueContext';
 
 const QueueList = () => {
   const {isLoading, queueData, error} = useQueueProvider();

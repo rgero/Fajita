@@ -1,6 +1,6 @@
 import { MenuItem, Typography } from "@mui/material"
 
-import { Interaction } from "../../../interfaces/Interaction";
+import { Interaction } from '@interfaces/Interaction';
 import { formatDistanceToNow } from "date-fns"
 import { toZonedTime } from "date-fns-tz";
 

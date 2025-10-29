@@ -1,13 +1,13 @@
-import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from "../../services/apiFajita";
+import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from '@services/apiFajita';
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Interaction } from "../../interfaces/Interaction";
-import { Priority } from "../../interfaces/Priority";
+import { Interaction } from '@interfaces/Interaction';
+import { Priority } from '@interfaces/Priority';
 import { QueueContext } from "./QueueContext";
-import { Visibility } from "../../interfaces/Visibility";
+import { Visibility } from '@interfaces/Visibility';
 import { useAuth } from "../authentication/AuthenticationContext";
-import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { useLocalStorageState } from '@hooks/useLocalStorageState';
 
 export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [queue, setQueue] = useLocalStorageState("", "queue");

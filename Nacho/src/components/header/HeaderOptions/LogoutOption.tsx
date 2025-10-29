@@ -1,6 +1,6 @@
 import HeaderMenuOption from "./HeaderMenuOption";
 import { Logout } from "@mui/icons-material";
-import { deleteAllCookies } from "../../../services/apiAuthentication";
+import { deleteAllCookies } from '@services/apiAuthentication';
 
 const LogoutOption = () => {
   const handleLogout = () =>

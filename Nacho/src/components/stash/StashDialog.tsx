@@ -4,13 +4,13 @@ import { Casino, DeleteForever, FilterList } from "@mui/icons-material";
 import AddRandomModal from "../modals/AddRandomModal";
 import ClearStashModal from "../modals/ClearStashModal";
 import Dialog from "../ui/Dialog";
-import { Priority } from "../../interfaces/Priority";
+import { Priority } from '@interfaces/Priority';
 import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
 import toast from "react-hot-toast";
-import { useDialogContext } from "../../context/dialog/DialogContext";
-import { useQueueProvider } from "../../context/queue/QueueContext";
-import { useStashProvider } from "../../context/stash/StashContext";
+import { useDialogContext } from '@context/dialog/DialogContext';
+import { useQueueProvider } from '@context/queue/QueueContext';
+import { useStashProvider } from '@context/stash/StashContext';
 import { useState } from "react";
 
 const StashDialog = () => {

@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material";
 import HeaderMenu from "../header/HeaderMenu";
-import { useAuth } from "../../context/authentication/AuthenticationContext";
+import { useAuth } from "@context/authentication/AuthenticationContext";
 import { useState } from "react";
 
 const UserAvatar = () => {

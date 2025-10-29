@@ -1,6 +1,6 @@
 import Dialog from '../ui/Dialog';
 import UserSettingsContent from './UserSettingsContent';
-import { useDialogContext } from '../../context/dialog/DialogContext';
+import { useDialogContext } from '@context/dialog/DialogContext';
 
 const UserSettingsDialog = () => {
   const {settingsOpen, toggleSettingsOpen} = useDialogContext();

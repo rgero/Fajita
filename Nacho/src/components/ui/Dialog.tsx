@@ -8,7 +8,7 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
 import { grey } from '@mui/material/colors';
-import { useDarkMode } from '../../context/darkmode/DarkModeContext';
+import { useDarkMode } from '@context/darkmode/DarkModeContext';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {

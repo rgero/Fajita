@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 
 import { Grid } from '@mui/material';
-import { Interaction } from '../../interfaces/Interaction';
+import { Interaction } from '@interfaces/Interaction';
 import Modal from './Modal';
 import QueueButtonGroup from './ui/QueueButtonGroup';
 import QueueDeleteConfirm from './ui/QueueDeleteConfirm';
 import QueueInfoButton from '../queue/QueueInfoButton';
-import { QueueStatus } from '../../interfaces/QueueStatus';
+import { QueueStatus } from '@interfaces/QueueStatus';
 import VideoCard from '../ui/VideoCard';
-import { YoutubeResponse } from '../../interfaces/YoutubeResponse';
+import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
-import { useQueueProvider } from '../../context/queue/QueueContext';
-import { useSocketProvider } from '../../context/websocket/WebsocketContext';
+import { useQueueProvider } from '@context/queue/QueueContext';
+import { useSocketProvider } from '@context/websocket/WebsocketContext';
 
 interface Props {
   open: boolean;

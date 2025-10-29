@@ -7,7 +7,7 @@ import QueueManagement from "./HeaderOptions/QueueManagement";
 import React from "react";
 import StashDisplayOption from "./HeaderOptions/StashDisplayOption";
 import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
-import { useQueueProvider } from "../../context/queue/QueueContext";
+import { useQueueProvider } from '@context/queue/QueueContext';
 
 interface Props
 {

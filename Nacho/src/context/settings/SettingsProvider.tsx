@@ -1,7 +1,7 @@
 import { SettingsContext, defaultInfoOptions, defaultShareOptions } from "./SettingsContext";
 
 import { useEffect } from "react";
-import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { useLocalStorageState } from '@hooks/useLocalStorageState';
 
 export const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   const [enableExperimental, setEnableExperimental] = useLocalStorageState(

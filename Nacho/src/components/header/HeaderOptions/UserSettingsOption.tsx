@@ -1,6 +1,6 @@
 import HeaderMenuOption from "./HeaderMenuOption";
 import { Settings } from "@mui/icons-material";
-import { useDialogContext } from "../../../context/dialog/DialogContext";
+import { useDialogContext } from '@context/dialog/DialogContext';
 
 const UserSettingsOption = () => {
   const {toggleSettingsOpen} = useDialogContext();

@@ -1,9 +1,9 @@
-import { addToStash, deleteFromStash, deleteStash as deleteStashAPI, getStashData } from "../../services/apiFajita";
+import { addToStash, deleteFromStash, deleteStash as deleteStashAPI, getStashData } from '@services/apiFajita';
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Artifact } from "../../interfaces/Artifact";
+import { Artifact } from '@interfaces/Artifact';
 import { StashContext } from "./StashContext";
-import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import { useLocalStorageState } from '@hooks/useLocalStorageState';
 import { useState } from "react";
 
 export const StashProvider = ({ children }: { children: React.ReactNode }) => {

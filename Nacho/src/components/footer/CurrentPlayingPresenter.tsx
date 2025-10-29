@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 
 import BlankCard from "./BlankCard";
 import FooterCard from "./FooterCard";
-import { Interaction } from "../../interfaces/Interaction";
+import { Interaction } from '@interfaces/Interaction';
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from "../../context/queue/QueueContext";
-import { useSocketProvider } from "../../context/websocket/WebsocketContext";
+import { useQueueProvider } from '@context/queue/QueueContext';
+import { useSocketProvider } from '@context/websocket/WebsocketContext';
 
 interface ProgressResponse {
   queue_id: string,

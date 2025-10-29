@@ -1,6 +1,6 @@
 import { Favorite } from "@mui/icons-material"
 import HeaderMenuOption from "./HeaderMenuOption"
-import { useDialogContext } from "../../../context/dialog/DialogContext";
+import { useDialogContext } from '@context/dialog/DialogContext';
 
 const StashDisplayOption = () => {
   const {toggleStashOpen} = useDialogContext();

@@ -1,6 +1,6 @@
-import { Interaction } from "../interfaces/Interaction";
-import { Priority } from "../interfaces/Priority";
-import { YoutubeResponse } from "../interfaces/YoutubeResponse";
+import { Interaction } from '@interfaces/Interaction';
+import { Priority } from '@interfaces/Priority';
+import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import { fajitaAxios } from "./axios";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;

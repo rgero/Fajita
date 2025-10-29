@@ -2,13 +2,13 @@ import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "
 import { Share, YouTube } from "@mui/icons-material";
 
 import AddToQueueModal from "../modals/AddToQueueModal";
-import { Artifact } from "../../interfaces/Artifact";
+import { Artifact } from '@interfaces/Artifact';
 import Button from "../ui/Button";
 import InfoOverlayButton from "../info_menus/InfoOverlayButton";
-import { OpenYouTubeURL } from "../../utils/OpenYoutubeURL";
-import { copyToClipboard } from "../../utils/CopyToClipboard";
-import { getParsedDuration } from "../../utils/getParsedDuration";
-import { useSettings } from "../../context/settings/SettingsContext";
+import { OpenYouTubeURL } from '@utils/OpenYoutubeURL';
+import { copyToClipboard } from '@utils/CopyToClipboard';
+import { getParsedDuration } from '@utils/getParsedDuration';
+import { useSettings } from '@context/settings/SettingsContext';
 import { useState } from "react";
 
 interface Props {

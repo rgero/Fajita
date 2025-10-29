@@ -3,11 +3,11 @@ import { AddCircle, CheckBox, CheckBoxOutlineBlank, Favorite, FavoriteBorder } f
 import Button from '../../ui/Button';
 import { Grid } from "@mui/material"
 import InfoSection from './InfoSection';
-import { Priority } from '../../../interfaces/Priority';
-import { Visibility } from '../../../interfaces/Visibility';
+import { Priority } from '@interfaces/Priority';
+import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup"
 import toast from 'react-hot-toast';
-import { useStashProvider } from '../../../context/stash/StashContext';
+import { useStashProvider } from '@context/stash/StashContext';
 
 interface AddToQueueOptionsProps {
   children?: React.ReactNode;

@@ -1,6 +1,6 @@
 import { Box, ButtonGroup } from "@mui/material"
 
-import { Visibility } from "../../interfaces/Visibility";
+import { Visibility } from '@interfaces/Visibility';
 import VisibilityButton from "./VisibilityButton";
 
 interface Props {

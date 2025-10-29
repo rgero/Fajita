@@ -1,7 +1,7 @@
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
 import { Share } from "@mui/icons-material";
-import { copyVideoIDToClipboard } from "../../../utils/CopyToClipboard";
+import { copyVideoIDToClipboard } from '@utils/CopyToClipboard';
 
 interface CopyMenuOptionProps {
   youtubeId: string;

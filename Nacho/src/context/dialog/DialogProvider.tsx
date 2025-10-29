@@ -1,11 +1,11 @@
-import ActiveQueueDialog from '../../components/active_queues/ActiveQueueDialog';
+import ActiveQueueDialog from '@components/active_queues/ActiveQueueDialog';
 import { DialogContext } from './DialogContext';
-import FeedbackDialog from '../../components/feedback/FeedbackDialog';
-import LockQueueModal from '../../components/modals/LockQueueModal';
-import QueueDialog from '../../components/queue/QueueDialog';
+import FeedbackDialog from '@components/feedback/FeedbackDialog';
+import LockQueueModal from '@components/modals/LockQueueModal';
+import QueueDialog from '@components/queue/QueueDialog';
 import React from 'react';
-import StashDialog from '../../components/stash/StashDialog';
-import UserSettingsDialog from '../../components/settings/UserSettingsDialog';
+import StashDialog from '@components/stash/StashDialog';
+import UserSettingsDialog from '@components/settings/UserSettingsDialog';
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
   const [queueOpen, setQueueOpen] = React.useState(false);

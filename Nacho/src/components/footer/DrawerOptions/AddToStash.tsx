@@ -2,10 +2,10 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useEffect, useState } from "react";
 
-import { Interaction } from "../../../interfaces/Interaction";
+import { Interaction } from "@interfaces/Interaction";
 import toast from "react-hot-toast";
-import { useQueueProvider } from "../../../context/queue/QueueContext";
-import { useStashProvider } from "../../../context/stash/StashContext";
+import { useQueueProvider } from "@context/queue/QueueContext";
+import { useStashProvider } from "@context/stash/StashContext";
 
 const AddToStashOption = () => {
   const {queueData} = useQueueProvider();

@@ -1,16 +1,16 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 
-import GetSecretCover from "../../utils/GetSecretCover";
-import { Interaction } from "../../interfaces/Interaction";
+import GetSecretCover from '@utils/GetSecretCover';
+import { Interaction } from '@interfaces/Interaction';
 import QueueInfoButton from "./QueueInfoButton";
 import QueueInfoModal from "../modals/QueueInfoModal";
-import { QueueStatus } from "../../interfaces/QueueStatus";
-import { Visibility } from "../../interfaces/Visibility";
-import { getParsedDuration } from "../../utils/getParsedDuration";
-import { getSecretMessage } from "../../utils/SecretMessageGenerator";
-import { useQueueProvider } from "../../context/queue/QueueContext";
-import { useSettings } from "../../context/settings/SettingsContext";
+import { QueueStatus } from '@interfaces/QueueStatus';
+import { Visibility } from '@interfaces/Visibility';
+import { getParsedDuration } from '@utils/getParsedDuration';
+import { getSecretMessage } from '@utils/SecretMessageGenerator';
+import { useQueueProvider } from '@context/queue/QueueContext';
+import { useSettings } from '@context/settings/SettingsContext';
 import { useTheme } from '@mui/material/styles';
 
 interface Props {

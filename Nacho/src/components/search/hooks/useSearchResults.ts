@@ -1,5 +1,5 @@
-import { YoutubeResponse } from "../../../interfaces/YoutubeResponse";
-import { getSearchResults } from "../../../services/apiFajita";
+import { YoutubeResponse } from '@interfaces/YoutubeResponse';
+import { getSearchResults } from '@services/apiFajita';
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 

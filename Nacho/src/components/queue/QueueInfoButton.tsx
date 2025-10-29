@@ -1,10 +1,10 @@
 import { IconButton, useTheme } from "@mui/material"
 import { useMemo, useState } from "react";
 
-import { Interaction } from "../../interfaces/Interaction";
+import { Interaction } from '@interfaces/Interaction';
 import { MoreVert } from "@mui/icons-material"
 import QueueInfoMenu from "../info_menus/QueueInfoMenu"
-import { useSettings } from "../../context/settings/SettingsContext";
+import { useSettings } from '@context/settings/SettingsContext';
 
 interface QueueInfoButtonProps {
   interaction: Interaction;

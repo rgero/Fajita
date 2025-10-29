@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { Artifact } from "../../interfaces/Artifact";
+import { Artifact } from '@interfaces/Artifact';
 
 export interface StashContextType {
   addVideoToStash: (id: string) => void;

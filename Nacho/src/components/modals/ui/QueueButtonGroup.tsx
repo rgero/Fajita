@@ -3,16 +3,16 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Favorite from '@mui/icons-material/Favorite';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import { Grid } from '@mui/material';
-import { Interaction } from '../../../interfaces/Interaction';
-import { OpenYouTubeURL } from '../../../utils/OpenYoutubeURL';
+import { Interaction } from '@interfaces/Interaction';
+import { OpenYouTubeURL } from '@utils/OpenYoutubeURL';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { QueueStatus } from '../../../interfaces/QueueStatus';
+import { QueueStatus } from '@interfaces/QueueStatus';
 import React from 'react';
 import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { copyToClipboard } from '../../../utils/CopyToClipboard';
-import { useSettings } from '../../../context/settings/SettingsContext';
-import { useStashProvider } from '../../../context/stash/StashContext';
+import { copyToClipboard } from '@utils/CopyToClipboard';
+import { useSettings } from '@context/settings/SettingsContext';
+import { useStashProvider } from '@context/stash/StashContext';
 
 interface Props {
   interaction: Interaction;

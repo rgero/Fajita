@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, LinearProgress, Typography } from "@mui/material";
 
-import { useSettings } from "../../context/settings/SettingsContext";
+import { useSettings } from '@context/settings/SettingsContext';
 
 type CardProps = {
   title: string,

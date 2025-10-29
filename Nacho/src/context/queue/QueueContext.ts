@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { QueueData } from "../../interfaces/QueueData";
+import { QueueData } from '@interfaces/QueueData';
 
 export interface QueueContextType {
   addVideoToQueue: ({id, priority, visibility}: {id: string, priority: number, visibility: number}) => void;

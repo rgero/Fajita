@@ -4,8 +4,8 @@ import Dialog from '../ui/Dialog';
 import QueueList from './QueueList';
 import { Search } from '@mui/icons-material';
 import SearchBar from '../ui/SearchBar';
-import { useDialogContext } from '../../context/dialog/DialogContext';
-import { useQueueProvider } from '../../context/queue/QueueContext';
+import { useDialogContext } from '@context/dialog/DialogContext';
+import { useQueueProvider } from '@context/queue/QueueContext';
 import { useState } from "react";
 
 const QueueDialog = () => {

@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-import { User } from "../../interfaces/User";
+import { User } from '@interfaces/User';
 
 export interface AuthContextType {
   user: User | undefined;

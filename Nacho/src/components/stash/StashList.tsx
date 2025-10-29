@@ -1,13 +1,13 @@
 import { Box, Container } from "@mui/material";
 
-import { Artifact } from "../../interfaces/Artifact";
+import { Artifact } from '@interfaces/Artifact';
 import CompactStashCard from "./CompactStashCard";
 import Empty from "../ui/Empty";
 import Spinner from "../ui/Spinner";
 import StashCard from "./StashCard";
 import toast from "react-hot-toast";
-import { useSettings } from "../../context/settings/SettingsContext";
-import { useStashProvider } from "../../context/stash/StashContext";
+import { useSettings } from '@context/settings/SettingsContext';
+import { useStashProvider } from '@context/stash/StashContext';
 
 const StashList = () => {
   const {isLoading, GetFilteredData, error} = useStashProvider();

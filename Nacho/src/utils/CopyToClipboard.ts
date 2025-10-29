@@ -1,5 +1,5 @@
-import { Artifact } from "../interfaces/Artifact";
-import { Interaction } from "../interfaces/Interaction";
+import { Artifact } from '@interfaces/Artifact';
+import { Interaction } from '@interfaces/Interaction';
 import copy from "copy-to-clipboard";
 import toast from "react-hot-toast";
 

@@ -1,4 +1,4 @@
-import { QueueStatus } from "../interfaces/QueueStatus";
+import { QueueStatus } from '@interfaces/QueueStatus';
 
 export default (status: QueueStatus) => {
   if (status.isVisible) return "";

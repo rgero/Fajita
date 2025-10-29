@@ -1,6 +1,6 @@
 import { Grid, Switch, Typography } from "@mui/material";
 
-import { useSettings } from "../../../context/settings/SettingsContext";
+import { useSettings } from '@context/settings/SettingsContext';
 
 const HandednessOption = () => {
   const {isRightHanded, toggleHandedness} = useSettings();

@@ -1,19 +1,19 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import AppLayout from "./components/ui/AppLayout";
-import AuthenticatedRoute from "./components/ui/AuthenticatedRoute";
-import { AuthenticationProvider } from "./context/authentication/AuthenticationProvider";
-import { DarkModeProvider } from "./context/darkmode/DarkModeProvider";
-import { DialogProvider } from "./context/dialog/DialogProvider";
+import AppLayout from '@components/ui/AppLayout';
+import AuthenticatedRoute from '@components/ui/AuthenticatedRoute';
+import { AuthenticationProvider } from '@context/authentication/AuthenticationProvider';
+import { DarkModeProvider } from '@context/darkmode/DarkModeProvider';
+import { DialogProvider } from '@context/dialog/DialogProvider';
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallback from "./components/ui/ErrorFallback";
-import LandingPage from "./pages/LandingPage";
-import MainPage from "./pages/MainPage";
-import { QueueProvider } from "./context/queue/QueueProvider";
-import { SettingsProvider } from "./context/settings/SettingsProvider";
-import { SocketProvider } from "./context/websocket/WebsocketProvider";
-import { StashProvider } from "./context/stash/StashProvider";
+import ErrorFallback from '@components/ui/ErrorFallback';
+import LandingPage from '@pages/LandingPage';
+import MainPage from '@pages/MainPage';
+import { QueueProvider } from '@context/queue/QueueProvider';
+import { SettingsProvider } from '@context/settings/SettingsProvider';
+import { SocketProvider } from '@context/websocket/WebsocketProvider';
+import { StashProvider } from '@context/stash/StashProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {

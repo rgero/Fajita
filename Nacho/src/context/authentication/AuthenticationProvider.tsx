@@ -1,6 +1,6 @@
 import { AuthContext } from './AuthenticationContext';
 import React from 'react';
-import { getCurrentUser } from '../../services/apiAuthentication';
+import { getCurrentUser } from '@services/apiAuthentication';
 import { useQuery } from '@tanstack/react-query';
 
 export const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => {

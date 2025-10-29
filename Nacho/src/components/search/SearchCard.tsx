@@ -2,9 +2,9 @@ import AddToQueueModal from "../modals/AddToQueueModal";
 import { Card } from "@mui/material";
 import InfoOverlayButton from "../info_menus/InfoOverlayButton";
 import VideoCard from "../ui/VideoCard";
-import { YoutubeResponse } from "../../interfaces/YoutubeResponse";
+import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import toast from "react-hot-toast";
-import { useQueueProvider } from "../../context/queue/QueueContext";
+import { useQueueProvider } from '@context/queue/QueueContext';
 import { useState } from "react";
 
 interface Props {

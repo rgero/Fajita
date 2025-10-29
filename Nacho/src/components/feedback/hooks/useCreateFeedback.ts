@@ -1,4 +1,4 @@
-import { submitFeedback } from "../../../services/apiGithubLogger";
+import { submitFeedback } from "@services/apiGithubLogger";
 import toast from "react-hot-toast";
 import { useMutation, } from "@tanstack/react-query";
 

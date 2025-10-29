@@ -2,7 +2,7 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
 import toast from "react-hot-toast";
-import { useStashProvider } from "../../../context/stash/StashContext";
+import { useStashProvider } from '@context/stash/StashContext';
 
 interface StashMenuOptionProps {
   youtubeId: string;
