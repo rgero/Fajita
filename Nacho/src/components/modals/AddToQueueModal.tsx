@@ -11,6 +11,7 @@ import { Visibility } from '@interfaces/Visibility';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
 import { useQueueProvider } from '@context/queue/QueueContext';
+import { useSettings } from '@context/settings/SettingsContext';
 import { useState } from 'react';
 
 interface Props {
@@ -24,6 +25,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setVisibility] = useState<number>(Visibility.Normal);
   const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueProvider();
+  const {enableExperimental} = useSettings();
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
   const [confirmationNeeded, setConfirmationNeeded] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -40,8 +42,10 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
     const playNext: boolean = await checkPlayNext();
     const inQueue: boolean = await isInQueue(videoData.id);
 
-    if (playNext || inQueue)
+    if (playNext)
     {
+      setConfirmationNeeded(true);
+    } else if (inQueue && !enableExperimental) {
       setConfirmationNeeded(true);
     } else {
       handleSubmit(PlayNextCondition.None);
@@ -122,7 +126,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
       return <PlayNextWarning handleSubmit={handleSubmit}/>
     }
 
-    if (confirmationNeeded)
+    if (confirmationNeeded && !enableExperimental )
     {
       return <IsInQueueWarning handleInQueue={handleInQueue}/>
     }
