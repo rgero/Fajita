@@ -1,7 +1,7 @@
 import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import { Share, YouTube } from "@mui/icons-material";
 
-import AddToQueueModal from "../modals/AddToQueueModal";
+import AddToQueueModal from "../modals/add_modals/AddToQueueModal";
 import { Artifact } from '@interfaces/Artifact';
 import Button from "../ui/Button";
 import InfoOverlayButton from "../info_menus/InfoOverlayButton";

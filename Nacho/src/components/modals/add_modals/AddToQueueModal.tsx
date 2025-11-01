@@ -1,12 +1,12 @@
-import AddToQueueOptions from './ui/AddToQueueOptions';
+import AddToQueueOptions from './AddToQueueOptions';
 import { Grid } from '@mui/material';
-import IsInQueueWarning from './ui/IsInQueueWarning';
-import Modal from './Modal';
-import { PlayNextCondition } from './interfaces/PlayNextCondition';
-import PlayNextWarning from './ui/PlayNextWarning';
+import IsInQueueWarning from '../ui/IsInQueueWarning';
+import Modal from '../Modal';
+import { PlayNextCondition } from '../interfaces/PlayNextCondition';
+import PlayNextWarning from '../ui/PlayNextWarning';
 import { Priority } from '@interfaces/Priority';
-import SubmittingSpinner from './ui/SubmittingSpinner';
-import VideoCard from '../ui/VideoCard';
+import SubmittingSpinner from '../ui/SubmittingSpinner';
+import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '@interfaces/Visibility';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
@@ -148,7 +148,9 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
       closeFn={cleanUpAndClose}
     >
       <Grid container direction="column">
-        <VideoCard data={videoData}/>
+        <VideoCard data={videoData}>
+
+        </VideoCard>
         {displayObject()}
       </Grid>
     </Modal>

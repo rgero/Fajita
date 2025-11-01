@@ -1,9 +1,9 @@
 import { AddCircle, SkipNext } from "@mui/icons-material"
 import { Card, CardContent, CardHeader, CardMedia, Grid } from "@mui/material"
 
-import Button from "../ui/Button"
-import Modal from "./Modal"
-import { Priority } from "../../interfaces/Priority"
+import Button from "../../ui/Button"
+import Modal from "../Modal"
+import { Priority } from "@interfaces/Priority"
 
 const AddRandomModal = ({confirmAction, isOpen, closeFn} : {confirmAction: (priority: Priority)=>void, isOpen: boolean, closeFn: ()=> void}) => {
 

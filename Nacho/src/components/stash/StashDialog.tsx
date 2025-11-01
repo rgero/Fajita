@@ -1,7 +1,7 @@
 import { Box, Container, Divider, Fade, IconButton, MenuItem, Select, SelectChangeEvent, useTheme } from "@mui/material";
 import { Casino, DeleteForever, FilterList } from "@mui/icons-material";
 
-import AddRandomModal from "../modals/AddRandomModal";
+import AddRandomModal from "../modals/add_modals/AddRandomModal";
 import ClearStashModal from "../modals/ClearStashModal";
 import Dialog from "../ui/Dialog";
 import { Priority } from '@interfaces/Priority';

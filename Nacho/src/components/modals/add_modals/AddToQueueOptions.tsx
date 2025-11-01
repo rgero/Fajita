@@ -2,7 +2,7 @@ import { AddCircle, CheckBox, CheckBoxOutlineBlank, Favorite, FavoriteBorder } f
 import { Grid, Typography } from "@mui/material"
 
 import Button from '../../ui/Button';
-import InfoSection from './InfoSection';
+import InfoSection from '../ui/InfoSection';
 import { Priority } from '@interfaces/Priority';
 import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup"
@@ -50,10 +50,24 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
       <Grid size={12}>
         <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
       </Grid>
-      {inQueue && enableExperimental&& (
+      {inQueue && enableExperimental && (
         <Grid size={12}>
-          <Typography align='center'>Video already in queue.</Typography>
-          <Typography align='center'>It {getCurrentIndex()-getVideoIndexInQueue(videoData.id) > 0 ? "was" : "is"} {Math.abs(getCurrentIndex()-getVideoIndexInQueue(videoData.id))} videos {getCurrentIndex()-getVideoIndexInQueue(videoData.id) > 0 ? "ago" : "from now"}</Typography>
+          <Typography align="center">Video already in queue.</Typography>
+
+          {(() => {
+            const currentIndex = getCurrentIndex();
+            const queueIndex = getVideoIndexInQueue(videoData.id);
+            const diff = currentIndex - queueIndex;
+            const tense = diff > 0 ? "was" : "is";
+            const direction = diff > 0 ? "ago" : "from now";
+
+            return (
+              <Typography align="center">
+                It {tense} {Math.abs(diff)} video{Math.abs(diff) === 1 ? "" : "s"} {direction}.
+              </Typography>
+            );
+          })()}
+          
         </Grid>
       )}
       <Grid size={12} container justifyContent={"space-between"} sx={{paddingTop: 2}}>

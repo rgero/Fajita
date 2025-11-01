@@ -1,4 +1,4 @@
-import AddToQueueModal from "../modals/AddToQueueModal";
+import AddToQueueModal from "../modals/add_modals/AddToQueueModal";
 import { Card } from "@mui/material";
 import InfoOverlayButton from "../info_menus/InfoOverlayButton";
 import VideoCard from "../ui/VideoCard";
