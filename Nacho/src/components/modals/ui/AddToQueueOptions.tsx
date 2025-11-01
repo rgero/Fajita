@@ -1,12 +1,14 @@
 import { AddCircle, CheckBox, CheckBoxOutlineBlank, Favorite, FavoriteBorder } from '@mui/icons-material';
+import { Grid, Typography } from "@mui/material"
 
 import Button from '../../ui/Button';
-import { Grid } from "@mui/material"
 import InfoSection from './InfoSection';
 import { Priority } from '@interfaces/Priority';
 import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup"
 import toast from 'react-hot-toast';
+import { useQueueProvider } from '@context/queue/QueueContext';
+import { useSettings } from '@context/settings/SettingsContext';
 import { useStashProvider } from '@context/stash/StashContext';
 
 interface AddToQueueOptionsProps {
@@ -21,6 +23,9 @@ interface AddToQueueOptionsProps {
 
 const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, priority, selectedVisibility, setVisibility, videoData, runChecksAndSubmit, handleToggle}) => {
   const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
+  const {isInQueue, getCurrentIndex, getVideoIndexInQueue} = useQueueProvider();
+  const {enableExperimental} = useSettings();
+  const inQueue: boolean = isInQueue(videoData.id);
 
   const processStash = async () => {
     try {
@@ -36,11 +41,21 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
     }
   }
 
+  if (inQueue) {
+    
+  }
+
   return (
     <InfoSection>
       <Grid size={12}>
         <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
       </Grid>
+      {inQueue && enableExperimental&& (
+        <Grid size={12}>
+          <Typography align='center'>Video already in queue.</Typography>
+          <Typography align='center'>It {getCurrentIndex()-getVideoIndexInQueue(videoData.id) > 0 ? "was" : "is"} {Math.abs(getCurrentIndex()-getVideoIndexInQueue(videoData.id))} videos {getCurrentIndex()-getVideoIndexInQueue(videoData.id) > 0 ? "ago" : "from now"}</Typography>
+        </Grid>
+      )}
       <Grid size={12} container justifyContent={"space-between"} sx={{paddingTop: 2}}>
         {children ? (
           <Grid>
