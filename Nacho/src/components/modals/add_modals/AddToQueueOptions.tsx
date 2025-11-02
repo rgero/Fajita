@@ -47,11 +47,8 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
 
   return (
     <InfoSection>
-      <Grid size={12}>
-        <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
-      </Grid>
       {inQueue && enableExperimental && (
-        <Grid size={12}>
+        <Grid size={12} sx={{paddingTop: 1}}>
           <Typography align="center">Video already in queue.</Typography>
 
           {(() => {
@@ -70,7 +67,10 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, p
           
         </Grid>
       )}
-      <Grid size={12} container justifyContent={"space-between"} sx={{paddingTop: 2}}>
+      <Grid size={12}>
+        <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
+      </Grid>
+      <Grid size={12} container justifyContent={"space-between"} sx={{paddingTop: 1}}>
         {children ? (
           <Grid>
             <Grid container direction="row" spacing={1} alignItems="center">

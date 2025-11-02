@@ -21,7 +21,7 @@ const VisibilityGroup: React.FC<Props> = ({selected, setSelected}) => {
         flexDirection: 'column',
         justifyContent: "space-between",
         alignItems: 'center',
-        paddingTop: "1rem",
+        paddingTop: "0.5rem",
       }}
     >
       <ButtonGroup variant="text" size="medium" aria-label="Visibility Button Group" fullWidth>
