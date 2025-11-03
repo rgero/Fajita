@@ -4,6 +4,9 @@ export const submitFeedback = async ({user, title, description} : {user: string|
   const feedbackURL = import.meta.env.VITE_FEEDBACK_URL;
   const targetKey = import.meta.env.VITE_FEEDBACK_KEY;
 
+  console.log(feedbackURL);
+  console.log(targetKey);
+
   const config = {
     headers: {
       "Authorization": targetKey
