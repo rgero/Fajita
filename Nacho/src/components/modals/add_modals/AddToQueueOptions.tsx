@@ -4,6 +4,7 @@ import { Grid, Typography } from "@mui/material"
 import Button from '../../ui/Button';
 import InfoSection from '../ui/InfoSection';
 import { OpenYouTubeURL } from '@utils/OpenYoutubeURL';
+import { PlayNextCondition } from '../interfaces/PlayNextCondition';
 import { Priority } from '@interfaces/Priority';
 import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup"
@@ -18,20 +19,17 @@ interface AddToQueueOptionsProps {
   priority: Priority;
   selectedVisibility: Visibility;
   setVisibility: (visibility: Visibility) => void;
-  runChecksAndSubmit: () => void;
+  handleSubmit: (acceptedCondition?: PlayNextCondition) => void;
   handleToggle: () => void;
 }
 
-const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selectedVisibility, setVisibility, runChecksAndSubmit, handleToggle}) => {
+const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selectedVisibility, setVisibility, handleSubmit, handleToggle}) => {
   const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashContext();
   const {isInQueue, getCurrentIndex, getVideoIndexInQueue} = useQueueContext();
   const {selectedResult} = useSearchContext();
   const {shareOptions} = useSettings();
-  const {enableExperimental} = useSettings();
 
   if (!selectedResult) return;
-
-  const inQueue: boolean = isInQueue(selectedResult.id);
 
   const processStash = async () => {
     try {
@@ -47,13 +45,9 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
     }
   }
 
-  if (inQueue) {
-    
-  }
-
   return (
     <InfoSection>
-      {inQueue && enableExperimental && (
+      {isInQueue(selectedResult.id) && (
         <Grid size={12} sx={{paddingTop: 1}}>
           <Typography align="center">Video already in queue.</Typography>
 
@@ -100,7 +94,7 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
               <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
             </Grid>
             <Grid>
-              <Button onClick={runChecksAndSubmit} icon={(<AddCircle/>)} title="Add" color="success"/>
+              <Button onClick={()=> handleSubmit()} icon={(<AddCircle/>)} title="Add" color="success"/>
             </Grid>
           </Grid>
         </Grid>

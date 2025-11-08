@@ -1,6 +1,5 @@
 import AddToQueueOptions from './AddToQueueOptions';
 import { Grid } from '@mui/material';
-import IsInQueueWarning from '../ui/IsInQueueWarning';
 import Modal from '../Modal';
 import { PlayNextCondition } from '../interfaces/PlayNextCondition';
 import PlayNextWarning from '../ui/PlayNextWarning';
@@ -12,93 +11,66 @@ import toast from 'react-hot-toast';
 import { useModalContext } from '@context/modal/ModalContext';
 import { useQueueContext } from '@context/queue/QueueContext';
 import { useSearchContext } from '@context/search/SearchContext';
-import { useSettings } from '@context/settings/SettingsContext';
 import { useState } from 'react';
 
 const AddToQueueModal = () => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setVisibility] = useState<number>(Visibility.Normal);
-  const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueContext();
-  const {enableExperimental} = useSettings();
+  const { addVideoToQueue, checkForPlayNext } = useQueueContext();
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
-  const [confirmationNeeded, setConfirmationNeeded] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const {addToQueueModalOpen, toggleAddToQueueModalOpen} = useModalContext();
-  const {selectedResult, setSelectedResult} = useSearchContext();
+  const { addToQueueModalOpen, toggleAddToQueueModalOpen } = useModalContext();
+  const { selectedResult, setSelectedResult } = useSearchContext();
 
   const cleanUpAndClose = () => {
     setPriority(Priority.normal);
     setVisibility(Visibility.Normal);
     setPlayNextCondition(PlayNextCondition.None);
-    setConfirmationNeeded(false);
     setSelectedResult(null);
     toggleAddToQueueModalOpen();
-  }
+  };
 
-  const runChecksAndSubmit = async () => {
-    if (!selectedResult) { return; }
-    const playNext: boolean = await checkPlayNext();
-    const inQueue: boolean = await isInQueue(selectedResult.id);
-
-    if (playNext)
-    {
-      setConfirmationNeeded(true);
-    } else if (inQueue && !enableExperimental) {
-      setConfirmationNeeded(true);
-    } else {
-      handleSubmit(PlayNextCondition.None);
-    }
-  }
-
-  const checkPlayNext = async () => {
-    let needPermission = false;
-    if (priority != Priority.normal && playNextCondition == PlayNextCondition.None)
-    {
-      needPermission = await checkForPlayNext();
-      if (needPermission)
-      {
-        setPlayNextCondition(PlayNextCondition.Need);
-      }
-    }
-    return needPermission;
-  }
-
-  const handleInQueue = async (accepted: boolean) => {
-    if (accepted)
-    {
-      setConfirmationNeeded(false);
-      handleSubmit(PlayNextCondition.None);
-    } else {
-      cleanUpAndClose();
-    }
-  }
-
-  const handleSubmit = async (acceptedCondition : PlayNextCondition) => {
-    // If at this point, we're submitting.
+  const handleSubmit = async (acceptedCondition: PlayNextCondition = PlayNextCondition.None) => {
     if (!selectedResult) return;
 
-    setIsSubmitting(true);
-    let targetPriority: Priority = priority;
-    if (acceptedCondition == PlayNextCondition.Accepted)
-    {
-      targetPriority = Priority.playNext;
-    } else if (acceptedCondition == PlayNextCondition.Rejected)
-    {
-      targetPriority = Priority.normal;
-    } else if (acceptedCondition == PlayNextCondition.Impatient)
-    {
-      targetPriority = Priority.impatient;
-    } else if (acceptedCondition == PlayNextCondition.None) {
-      targetPriority = priority;
-    } else {
-      console.error("Something went wrong with the play next conditions.");
-      return;
+    // Step 1: Check if we need play-next permission first
+    if (priority !== Priority.normal && playNextCondition === PlayNextCondition.None && acceptedCondition === PlayNextCondition.None) {
+      const needPermission = await checkForPlayNext();
+      if (needPermission) {
+        setPlayNextCondition(PlayNextCondition.Need);
+        return;
+      }
     }
 
-    setPriority(Priority.normal);
-    setPlayNextCondition(PlayNextCondition.None);
+    // Step 2: Proceed with submission
+    setIsSubmitting(true);
+    let targetPriority = priority;
+
+    switch (acceptedCondition) {
+      case PlayNextCondition.Accepted:
+        targetPriority = Priority.playNext;
+        break;
+      case PlayNextCondition.Rejected:
+        targetPriority = Priority.normal;
+        break;
+      case PlayNextCondition.Impatient:
+        targetPriority = Priority.impatient;
+        break;
+      case PlayNextCondition.None:
+        targetPriority = priority;
+        break;
+      default:
+        console.error("Unexpected PlayNextCondition encountered.");
+        setIsSubmitting(false);
+        return;
+    }
+
     try {
-      await addVideoToQueue({id: selectedResult.id, priority: targetPriority, visibility: selectedVisibility});
+      await addVideoToQueue({
+        id: selectedResult.id,
+        priority: targetPriority,
+        visibility: selectedVisibility,
+      });
       toast.success("Video Added");
       cleanUpAndClose();
     } catch (err) {
@@ -109,48 +81,41 @@ const AddToQueueModal = () => {
       }
     } finally {
       setIsSubmitting(false);
+      setPriority(Priority.normal);
+      setPlayNextCondition(PlayNextCondition.None);
     }
-  }
-  
+  };
+
   const handleToggle = () => {
-    setPriority( (prevState) => { return prevState === Priority.playNext ? Priority.normal : Priority.playNext; });
-  }
+    setPriority((prev) =>
+      prev === Priority.playNext ? Priority.normal : Priority.playNext
+    );
+  };
 
   const displayObject = () => {
-    if (isSubmitting)
-    {
-      return <SubmittingSpinner/>;
-    }
-    if (playNextCondition != PlayNextCondition.None)
-    {
-      return <PlayNextWarning handleSubmit={handleSubmit}/>
-    }
+    if (isSubmitting) return <SubmittingSpinner />;
+    if (playNextCondition !== PlayNextCondition.None)
+      return <PlayNextWarning handleSubmit={handleSubmit} />;
 
-    if (confirmationNeeded && !enableExperimental )
-    {
-      return <IsInQueueWarning handleInQueue={handleInQueue}/>
-    }
-
-    return <AddToQueueOptions
-      priority={priority} 
-      selectedVisibility={selectedVisibility} 
-      setVisibility={setVisibility} 
-      runChecksAndSubmit={runChecksAndSubmit} 
-      handleToggle={handleToggle}
-    />
-  }
+    return (
+      <AddToQueueOptions
+        priority={priority}
+        selectedVisibility={selectedVisibility}
+        setVisibility={setVisibility}
+        handleSubmit={handleSubmit}
+        handleToggle={handleToggle}
+      />
+    );
+  };
 
   return (
-    <Modal
-      open={addToQueueModalOpen}
-      closeFn={cleanUpAndClose}
-    >
+    <Modal open={addToQueueModalOpen} closeFn={cleanUpAndClose}>
       <Grid container direction="column">
-        <VideoCard data={selectedResult}/>
+        <VideoCard data={selectedResult} />
         {displayObject()}
       </Grid>
     </Modal>
-  )
-}
+  );
+};
 
-export default AddToQueueModal
+export default AddToQueueModal;
