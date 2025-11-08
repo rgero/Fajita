@@ -1,15 +1,13 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-import toast from "react-hot-toast";
-import { useSocketProvider } from "@context/websocket/WebsocketContext";
+import { useModalContext } from "@context/modal/ModalContext";
 
 const SkipOption = () => {
-  const {skipVideo} = useSocketProvider();
+  const {toggleConfirmSkipModalOpen} = useModalContext();
 
   const processClick = () => {
-    toast.success("Skipped!");
-    skipVideo();
+    toggleConfirmSkipModalOpen();
   }
 
   return (
