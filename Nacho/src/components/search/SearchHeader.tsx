@@ -2,7 +2,7 @@ import { AppBar, Grid, Toolbar, styled } from "@mui/material";
 
 import React from "react";
 import SearchBar from "../ui/SearchBar";
-import UserAvatar from "../authentication/UserAvatar"
+import UserAvatar from "../ui/UserAvatar"
 import { useSearchParams } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
