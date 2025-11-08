@@ -23,4 +23,17 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, 'src/utils'),
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './tests/setupTests.tsx',
+    include: [
+      'src/**/*.{test,spec}.{js,ts,jsx,tsx}',
+      'tests/**/*.{test,spec}.{js,ts,jsx,tsx}'  // <- add this line
+    ],
+    exclude: ['node_modules', '.git', 'dist'],
+    coverage: {
+      reporter: ['text', 'html'],
+    },
+  }
 })

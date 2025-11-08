@@ -8,7 +8,10 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview --host --port 7000",
-    "test": "vitest"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "node --max-old-space-size=4096 node_modules/vitest/vitest.mjs --watch",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -30,13 +33,15 @@
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.87.4",
-    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
+    "@types/jest": "^30.0.0",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "@typescript-eslint/eslint-plugin": "^8.43.0",
     "@typescript-eslint/parser": "^8.43.0",
     "@vitejs/plugin-react": "^5.0.2",
+    "@vitest/coverage-v8": "^4.0.8",
     "eslint": "^9.35.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
@@ -45,6 +50,6 @@
     "typescript": "^5.9.2",
     "vite": ">=7.1.5",
     "vite-plugin-mkcert": "^1.17.8",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.8"
   }
 }
