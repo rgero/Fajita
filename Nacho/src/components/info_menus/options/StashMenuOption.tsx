@@ -2,7 +2,7 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
 import toast from "react-hot-toast";
-import { useStashProvider } from '@context/stash/StashContext';
+import { useStashContext } from '@context/stash/StashContext';
 
 interface StashMenuOptionProps {
   youtubeId: string;
@@ -10,7 +10,7 @@ interface StashMenuOptionProps {
 }
 
 const StashMenuOption = ({youtubeId, onClose}: StashMenuOptionProps) => {
-  const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashProvider();
+  const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashContext();
   const handleAddToStash = async () => {
     try {
       await addVideoToStash(youtubeId);

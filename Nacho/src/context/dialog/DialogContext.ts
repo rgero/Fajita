@@ -6,14 +6,12 @@ export interface DialogContextType {
   feedbackOpen: boolean;
   stashOpen: boolean;
   settingsOpen: boolean;
-  lockQueueOpen: boolean;
   areAnyOpen: boolean;
   toggleQueueOpen: () => void;
   toggleActiveQueuesOpen: () => void;
   toggleFeedbackOpen: () => void;
   toggleStashOpen: () => void;
   toggleSettingsOpen: () => void;
-  toggleLockQueueOpen: () => void;
 }
 
 export const DialogContext = createContext<DialogContextType | null>(null);

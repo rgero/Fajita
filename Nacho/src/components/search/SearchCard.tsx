@@ -4,7 +4,7 @@ import InfoOverlayButton from "../info_menus/InfoOverlayButton";
 import VideoCard from "../ui/VideoCard";
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import toast from "react-hot-toast";
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useState } from "react";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 const SearchCard: React.FC<Props> = ({ data }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const { isConnected } = useQueueProvider();
+  const { isConnected } = useQueueContext();
 
   const styles = {
     card: {

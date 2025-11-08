@@ -10,6 +10,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from '@components/ui/ErrorFallback';
 import LandingPage from '@pages/LandingPage';
 import MainPage from '@pages/MainPage';
+import { ModalProvider } from "@context/modal/ModalProvider";
 import { QueueProvider } from '@context/queue/QueueProvider';
 import { SettingsProvider } from '@context/settings/SettingsProvider';
 import { SocketProvider } from '@context/websocket/WebsocketProvider';
@@ -30,9 +31,11 @@ const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
         <StashProvider>
           <QueueProvider>
             <SocketProvider>
-              <DialogProvider>  
-                {children}
-              </DialogProvider>
+              <ModalProvider>
+                <DialogProvider>
+                    {children}
+                </DialogProvider>
+              </ModalProvider>
             </SocketProvider>
           </QueueProvider>
         </StashProvider>

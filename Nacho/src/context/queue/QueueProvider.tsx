@@ -14,6 +14,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const {user, isAuthenticated } = useAuth();
   const [ searchTerm, setSearchTerm ] = useState<string>("");
   const queryClient = useQueryClient();
+  const [currentlySelected, setCurrentlySelected] = useState<Interaction|null>(null);
 
   const getQueueID = () => {
     try {
@@ -156,6 +157,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         addRandomVideo,
         checkForPlayNext,
         connectToQueue,
+        currentlySelected,
         deleteVideoFromQueue,
         error,
         getCurrentIndex,
@@ -169,7 +171,8 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         queueData,
         refetch,
         searchTerm,
-        setSearchTerm
+        setSearchTerm,
+        setCurrentlySelected
       }}
     >
       {children}

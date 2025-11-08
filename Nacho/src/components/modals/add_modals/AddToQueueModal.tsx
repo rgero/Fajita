@@ -10,7 +10,7 @@ import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '@interfaces/Visibility';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useSettings } from '@context/settings/SettingsContext';
 import { useState } from 'react';
 
@@ -24,7 +24,7 @@ interface Props {
 const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setVisibility] = useState<number>(Visibility.Normal);
-  const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueProvider();
+  const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueContext();
   const {enableExperimental} = useSettings();
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
   const [confirmationNeeded, setConfirmationNeeded] = useState<boolean>(false);

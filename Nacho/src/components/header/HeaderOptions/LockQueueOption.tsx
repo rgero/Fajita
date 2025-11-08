@@ -2,10 +2,10 @@ import { Lock, LockOpen } from "@mui/icons-material";
 
 import HeaderMenuOption from "./HeaderMenuOption";
 import { useDialogContext } from '@context/dialog/DialogContext';
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 
 const LockQueueOption = () => {
-  const {queueData} = useQueueProvider();
+  const {queueData} = useQueueContext();
   const isQueueLocked = queueData?.locked;
 
   const {toggleLockQueueOpen} = useDialogContext();

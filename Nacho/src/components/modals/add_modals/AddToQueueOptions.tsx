@@ -7,9 +7,9 @@ import { Priority } from '@interfaces/Priority';
 import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup"
 import toast from 'react-hot-toast';
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useSettings } from '@context/settings/SettingsContext';
-import { useStashProvider } from '@context/stash/StashContext';
+import { useStashContext } from '@context/stash/StashContext';
 
 interface AddToQueueOptionsProps {
   children?: React.ReactNode;
@@ -22,8 +22,8 @@ interface AddToQueueOptionsProps {
 }
 
 const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({children = null, priority, selectedVisibility, setVisibility, videoData, runChecksAndSubmit, handleToggle}) => {
-  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
-  const {isInQueue, getCurrentIndex, getVideoIndexInQueue} = useQueueProvider();
+  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashContext();
+  const {isInQueue, getCurrentIndex, getVideoIndexInQueue} = useQueueContext();
   const {enableExperimental} = useSettings();
   const inQueue: boolean = isInQueue(videoData.id);
 

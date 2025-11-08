@@ -1,9 +1,9 @@
 import { Card, CardContent, CardMedia, Typography } from "@mui/material"
 
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 
 const BlankCard = () => {
-  const {queueData} = useQueueProvider();
+  const {queueData} = useQueueContext();
   return (
     <Card 
       sx={{ 

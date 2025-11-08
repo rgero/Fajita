@@ -21,10 +21,10 @@ export interface StashContextType {
 
 export const StashContext = createContext<StashContextType| null>(null);
 
-export const useStashProvider = () => {
+export const useStashContext = () => {
   const context = useContext(StashContext);
   if (!context) {
-    throw new Error("useStashProvider must be used within a StashProvider");
+    throw new Error("useStashContext must be used within a StashProvider");
   }
   return context;
 };

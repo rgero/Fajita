@@ -5,10 +5,10 @@ import EmptyQueue from "./EmptyQueue";
 import { Interaction } from '@interfaces/Interaction';
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 
 const QueueList = () => {
-  const {isLoading, queueData, error} = useQueueProvider();
+  const {isLoading, queueData, error} = useQueueContext();
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [targetIndex, setTargetIndex] = useState<number>(-1);

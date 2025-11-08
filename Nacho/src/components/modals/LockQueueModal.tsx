@@ -3,22 +3,24 @@ import { Fade, Grid, TextField, Typography } from "@mui/material"
 
 import Button from "../ui/Button";
 import Modal from "./Modal";
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useModalContext } from "@context/modal/ModalContext";
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useSocketProvider } from '@context/websocket/WebsocketContext';
 import { useState } from "react";
 
-const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) => {
+const LockQueueModal = () => {
+  const {lockQueueModalOpen, toggleLockQueueModalOpen} = useModalContext();
   const {toggleLock} = useSocketProvider();
   const [reason, setReason] = useState<string>("");
-  const {queueData} = useQueueProvider();
+  const {queueData} = useQueueContext();
   
   const processLock = () => {
     toggleLock(reason);
-    closeFn();
+    toggleLockQueueModalOpen();
   }
 
   return (
-    <Modal open={open} closeFn={closeFn}>
+    <Modal open={lockQueueModalOpen} closeFn={toggleLockQueueModalOpen}>
       <Grid container direction="column" alignContent={"center"} spacing={2} sx={{paddingY: "25px"}}>
         <Grid>
           <Typography variant="h5">Are you sure you want to {queueData.locked ? "unlock" : "lock"} the queue?</Typography>
@@ -47,7 +49,7 @@ const LockQueueModal = ({open, closeFn} : {open: boolean, closeFn: () => void}) 
               </Grid>
             )}
             <Grid>
-              <Button onClick={closeFn}  icon={<DoNotDisturb />}  title="Cancel"/>
+              <Button onClick={toggleLockQueueModalOpen}  icon={<DoNotDisturb />}  title="Cancel"/>
             </Grid>
             <Grid>
               <Button onClick={processLock} icon={queueData.locked ? <LockOpen color="success"/> : <Lock color="success"/>} title="Do it"/>

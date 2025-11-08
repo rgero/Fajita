@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 
 import { Interaction } from "@interfaces/Interaction";
 import toast from "react-hot-toast";
-import { useQueueProvider } from "@context/queue/QueueContext";
-import { useStashProvider } from "@context/stash/StashContext";
+import { useQueueContext } from "@context/queue/QueueContext";
+import { useStashContext } from "@context/stash/StashContext";
 
 const AddToStashOption = () => {
-  const {queueData} = useQueueProvider();
-  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashProvider();
+  const {queueData} = useQueueContext();
+  const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashContext();
   const [currentlyPlaying, setCurrentPlay] = useState<Interaction|null>(null);
 
   useEffect(() => {

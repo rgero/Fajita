@@ -3,12 +3,23 @@ import { Grid, Typography } from "@mui/material"
 
 import Button from "../ui/Button"
 import Modal from "./Modal"
+import { useModalContext } from "@context/modal/ModalContext"
+import { useStashContext } from "@context/stash/StashContext"
 
-const ClearStashModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()=>void, isOpen: boolean, closeFn: ()=> void}) => {
+const ClearStashModal = () => {
+  const {clearStashModalOpen, toggleClearStashModalOpen} = useModalContext();
+  const {deleteStash} = useStashContext();
+
+  const processConfirm = async () => {
+    await deleteStash();
+    toggleClearStashModalOpen();
+  }
+
+
   return (
     <Modal
-      open={isOpen}
-      closeFn={closeFn}
+      open={clearStashModalOpen}
+      closeFn={toggleClearStashModalOpen}
     >
         <Grid container spacing={5} direction="column" justifyContent="center" alignItems="center" sx={{paddingY: "5px"}}>
           <Grid>
@@ -17,10 +28,10 @@ const ClearStashModal = ({confirmAction, isOpen, closeFn} : {confirmAction: ()=>
           <Grid>
             <Grid container spacing={5} justifyContent="space-around">
               <Grid>
-                <Button onClick={confirmAction} icon={<ThumbUpAlt/>} title="Delete" color="success"/>
+                <Button onClick={processConfirm} icon={<ThumbUpAlt/>} title="Delete" color="success"/>
               </Grid>
               <Grid>
-                <Button onClick={closeFn} icon={<DoNotDisturb/>} title="Cancel" color="error"/>
+                <Button onClick={toggleClearStashModalOpen} icon={<DoNotDisturb/>} title="Cancel" color="error"/>
               </Grid>
             </Grid>
           </Grid>
