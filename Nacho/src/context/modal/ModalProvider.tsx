@@ -1,4 +1,5 @@
 import AddRandomModal from "@components/modals/add_modals/AddRandomModal";
+import AddToQueueModal from "@components/modals/add_modals/AddToQueueModal";
 import ClearStashModal from "@components/modals/ClearStashModal";
 import LockQueueModal from "@components/modals/LockQueueModal";
 import { ModalContext } from "./ModalContext";
@@ -34,6 +35,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
     }}>
       <AddRandomModal/>
+      <AddToQueueModal/>
       <ClearStashModal/>
       <LockQueueModal/>
       <QueueInfoModal/>

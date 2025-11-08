@@ -1,20 +1,20 @@
 import { Lock, LockOpen } from "@mui/icons-material";
 
 import HeaderMenuOption from "./HeaderMenuOption";
-import { useDialogContext } from '@context/dialog/DialogContext';
+import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from '@context/queue/QueueContext';
 
 const LockQueueOption = () => {
   const {queueData} = useQueueContext();
   const isQueueLocked = queueData?.locked;
 
-  const {toggleLockQueueOpen} = useDialogContext();
+  const {toggleLockQueueModalOpen} = useModalContext();
 
   return (
     <HeaderMenuOption 
       icon={isQueueLocked ? <LockOpen/> : <Lock/>} 
       text={isQueueLocked ? "Unlock Queue" : "Lock Queue"}
-      onClick={toggleLockQueueOpen}
+      onClick={toggleLockQueueModalOpen}
     />
   )
 }

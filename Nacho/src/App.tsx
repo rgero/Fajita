@@ -12,6 +12,7 @@ import LandingPage from '@pages/LandingPage';
 import MainPage from '@pages/MainPage';
 import { ModalProvider } from "@context/modal/ModalProvider";
 import { QueueProvider } from '@context/queue/QueueProvider';
+import { SearchProvider } from "@context/search/SearchProvider";
 import { SettingsProvider } from '@context/settings/SettingsProvider';
 import { SocketProvider } from '@context/websocket/WebsocketProvider';
 import { StashProvider } from '@context/stash/StashProvider';
@@ -27,19 +28,21 @@ const queryClient = new QueryClient({
 const AuthRouteWrapper = ({children} : {children: React.ReactNode}) => {
   return (    
     <AuthenticatedRoute>
-      <SettingsProvider>
-        <StashProvider>
-          <QueueProvider>
-            <SocketProvider>
-              <ModalProvider>
-                <DialogProvider>
-                    {children}
-                </DialogProvider>
-              </ModalProvider>
-            </SocketProvider>
-          </QueueProvider>
-        </StashProvider>
-      </SettingsProvider>
+      <SearchProvider>
+        <SettingsProvider>
+          <StashProvider>
+            <QueueProvider>
+              <SocketProvider>
+                <ModalProvider>
+                  <DialogProvider>
+                      {children}
+                  </DialogProvider>
+                </ModalProvider>
+              </SocketProvider>
+            </QueueProvider>
+          </StashProvider>
+        </SettingsProvider>
+      </SearchProvider>
     </AuthenticatedRoute>
   )
 }

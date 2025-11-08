@@ -1,12 +1,13 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography, useTheme } from "@mui/material"
 
+import { Artifact } from "@interfaces/Artifact"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 import { getParsedDuration } from "../../utils/getParsedDuration"
 import { useSettings } from "../../context/settings/SettingsContext"
 
 interface Props {
-  data: YoutubeResponse,
+  data: Artifact|YoutubeResponse|null,
   clickFn?: () => void | undefined
 }
 
@@ -25,6 +26,8 @@ const styles = {
 }
 
 const VideoCard: React.FC<Props> = ({data, clickFn}) => {
+  if (!data) return;
+  
   const theme = useTheme();
   const title: string = decode(data.title)
   const channelTitle: string = decode(data.author)

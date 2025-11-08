@@ -1,23 +1,20 @@
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from "@mui/material";
-import { Share, YouTube } from "@mui/icons-material";
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
 
-import AddToQueueModal from "../modals/add_modals/AddToQueueModal";
 import { Artifact } from '@interfaces/Artifact';
-import Button from "../ui/Button";
 import InfoOverlayButton from "../info_menus/InfoOverlayButton";
-import { OpenYouTubeURL } from '@utils/OpenYoutubeURL';
-import { copyToClipboard } from '@utils/CopyToClipboard';
 import { getParsedDuration } from '@utils/getParsedDuration';
+import { useModalContext } from "@context/modal/ModalContext";
+import { useSearchContext } from "@context/search/SearchContext";
 import { useSettings } from '@context/settings/SettingsContext';
-import { useState } from "react";
 
 interface Props {
   data: Artifact;
 }
 
 const StashCard: React.FC<Props> = ({ data }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const {shareOptions, isRightHanded} = useSettings();
+  const {isRightHanded} = useSettings();
+  const {toggleAddToQueueModalOpen} = useModalContext();
+  const {setSelectedResult} = useSearchContext();
    
   const {title, thumbnail, duration} = data.video;
 
@@ -40,43 +37,34 @@ const StashCard: React.FC<Props> = ({ data }) => {
     }
   };
 
+  const processSelect = () => {
+    setSelectedResult(data);
+    toggleAddToQueueModalOpen();
+  }
+
 
   return (
-    <>
-      <AddToQueueModal open={isModalOpen} videoData={{id: data.video.video_id, title: title, duration: duration, thumbnail_src: thumbnail}} closeFn={() => setModalOpen(false)}>
-        {shareOptions.clipboard ? (
-          <Grid>
-            <Button onClick={()=> copyToClipboard(data)} icon={(<Share/>)} title="Copy"/>
-          </Grid>
-        ) : null }
-        {shareOptions.youtube ? (
-          <Grid>
-            <Button onClick={() => OpenYouTubeURL(data.video.video_id)} icon={(<YouTube color="error"/>)} title="YouTube"/>
-          </Grid>   
-        ) : null }
-      </AddToQueueModal>
-      <Card sx={styles.card}>
-        <InfoOverlayButton youtubeId={data.video.video_id}/>
-        <CardActionArea onClick={() => setModalOpen( () => true )}>
-          <CardMedia
-            component="img"
-            sx={{
-              height: {xs: 220, md: 300},
-              objectFit: "cover",
-            }}
-            image={thumbnail}
-            title={title}
-            alt={title}
-          />
-          <Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>
-          <CardContent>
-            <Typography gutterBottom variant="subtitle1" component="div" sx={{wordBreak: "break-word"}}>
-              {title}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </>
+    <Card sx={styles.card}>
+      <InfoOverlayButton youtubeId={data.video.video_id}/>
+      <CardActionArea onClick={processSelect}>
+        <CardMedia
+          component="img"
+          sx={{
+            height: {xs: 220, md: 300},
+            objectFit: "cover",
+          }}
+          image={thumbnail}
+          title={title}
+          alt={title}
+        />
+        <Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>
+        <CardContent>
+          <Typography gutterBottom variant="subtitle1" component="div" sx={{wordBreak: "break-word"}}>
+            {title}
+          </Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   );
 };
 

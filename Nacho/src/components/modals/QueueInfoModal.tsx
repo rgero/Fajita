@@ -19,7 +19,7 @@ const fadeOutAnimation = (isFadingOut: boolean) => ({
 
 const QueueInfoModal = () => {
   const {queueInfoModalOpen, toggleQueueInfoModalOpen} = useModalContext();
-  const { currentlySelected, deleteVideoFromQueue } = useQueueContext();
+  const { currentlySelected, deleteVideoFromQueue, getCurrentIndex } = useQueueContext();
   const { jumpQueue } = useSocketProvider();
   const [checkDelete, setConfirmDelete] = useState<boolean>(false);
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
@@ -51,9 +51,9 @@ const QueueInfoModal = () => {
     toggleQueueInfoModalOpen();
   };
 
-  if (!currentlySelected) return null;
+  if (!currentlySelected) return;
 
-  const status = ProcessVideo(currentlySelected);
+  const status = ProcessVideo(currentlySelected, getCurrentIndex());
 
   const videoData: YoutubeResponse = {
     id: currentlySelected.video.video_id,

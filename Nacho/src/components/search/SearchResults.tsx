@@ -1,14 +1,13 @@
-import { SearchResponse, useSearchResults } from "./hooks/useSearchResults"
-
 import { Box } from "@mui/material"
 import Empty from "../ui/Empty"
 import SearchCard from "./SearchCard"
 import Spinner from "../ui/Spinner"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import toast from "react-hot-toast"
+import { useSearchContext } from "@context/search/SearchContext"
 
 const SearchResults = () => {
-  const {isLoading, searchResults, error}: SearchResponse = useSearchResults();
+  const {isLoading, searchResults, error} = useSearchContext();
 
   if (isLoading) return (<Spinner/>)
 
