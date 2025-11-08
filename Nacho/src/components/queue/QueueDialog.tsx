@@ -5,12 +5,12 @@ import QueueList from './QueueList';
 import { Search } from '@mui/icons-material';
 import SearchBar from '../ui/SearchBar';
 import { useDialogContext } from '@context/dialog/DialogContext';
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useState } from "react";
 
 const QueueDialog = () => {
   const {queueOpen, toggleQueueOpen} = useDialogContext();
-  const {searchTerm, setSearchTerm} = useQueueProvider();
+  const {searchTerm, setSearchTerm} = useQueueContext();
   const [showSearch, setShowSearch] = useState(false);
   const theme = useTheme();
 

@@ -1,12 +1,13 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography, useTheme } from "@mui/material"
 
+import { Artifact } from "@interfaces/Artifact"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import { decode } from "html-entities"
 import { getParsedDuration } from "../../utils/getParsedDuration"
 import { useSettings } from "../../context/settings/SettingsContext"
 
 interface Props {
-  data: YoutubeResponse,
+  data: Artifact|YoutubeResponse|null,
   clickFn?: () => void | undefined
 }
 
@@ -24,13 +25,19 @@ const styles = {
   }
 }
 
+const isArtifact = (obj: any): obj is Artifact => {
+  return obj && typeof obj === "object" && "video" in obj && "stash" in obj;
+}
+
 const VideoCard: React.FC<Props> = ({data, clickFn}) => {
+  if (!data) return;
+  
   const theme = useTheme();
-  const title: string = decode(data.title)
-  const channelTitle: string = decode(data.author)
-  const imageURL: string = data.thumbnail_src
-  const views: string|undefined = data.views;
-  const duration: string|number = data.duration;
+  const title: string = decode(isArtifact(data) ? data.video.title : data.title)
+  const channelTitle: string = decode(isArtifact(data) ? "" : data.author)
+  const imageURL: string = isArtifact(data) ? data.video.thumbnail : data.thumbnail_src
+  const views: string|undefined =  isArtifact(data) ? "" : data.views;
+  const duration: string|number = isArtifact(data) ? data.video.duration : data.duration;
 
   const {isRightHanded} = useSettings();
   const overlayStyle = {

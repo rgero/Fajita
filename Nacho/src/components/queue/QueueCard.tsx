@@ -4,13 +4,12 @@ import { useEffect, useState } from "react";
 import GetSecretCover from '@utils/GetSecretCover';
 import { Interaction } from '@interfaces/Interaction';
 import QueueInfoButton from "./QueueInfoButton";
-import QueueInfoModal from "../modals/QueueInfoModal";
 import { QueueStatus } from '@interfaces/QueueStatus';
 import { Visibility } from '@interfaces/Visibility';
 import { getParsedDuration } from '@utils/getParsedDuration';
 import { getSecretMessage } from '@utils/SecretMessageGenerator';
-import { useQueueProvider } from '@context/queue/QueueContext';
-import { useSettings } from '@context/settings/SettingsContext';
+import { useModalContext } from "@context/modal/ModalContext";
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useTheme } from '@mui/material/styles';
 
 interface Props {
@@ -20,9 +19,8 @@ interface Props {
 
 const QueueCard: React.FC<Props> = ({data, current}) => {
   const theme = useTheme();
-  const {searchTerm} = useQueueProvider();
-  const {enableExperimental} = useSettings();
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const {setCurrentlySelected, searchTerm} = useQueueContext();
+  const {toggleQueueInfoModalOpen} = useModalContext();
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
 
   const {first_name} = data.user;
@@ -63,6 +61,11 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     }
   }
 
+  const setActiveAndToggle = () => {
+    setCurrentlySelected(data)
+    toggleQueueInfoModalOpen();
+  }
+
   useEffect(() => {
     const shouldBeVisible: boolean = data.visibility != Visibility.Hidden && data.visibility != Visibility.Random || data.index <= current;
     const response: QueueStatus = {isVisible: shouldBeVisible, message: null, cover: null}
@@ -74,36 +77,28 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
     setIsVisible(response);
   }, [data, current])
 
-  const handleClose = () => {
-    setModalOpen(false);
-  }
-
   return (
-    <>
-      <QueueInfoModal open={isModalOpen} status={status} interaction={data} closeFn={handleClose}/>
-      <Card sx={styles.cardStyle}>
-        {enableExperimental && <QueueInfoButton interaction={data} disableHanded={true} smallButton={true}/>}
-        <CardActionArea sx={{display: 'flex'}} onClick={() => setModalOpen( () => true )}>
-          <CardMedia
-            component="img"
-            sx={{
-              width: {xs: 120, md: 300},
-              height: {xs: 90, md: 180},
-              objectFit: "cover",
-              flexShrink: 0
-            }}
-            image={`${status.isVisible ? thumbnail : status.cover}`}
-            alt={`${status.isVisible ? title : "Hidden"}`}
-          />
-          {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>)}
-          <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}}}>
-            <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
-            <Typography variant="subtitle2">Added by {first_name}</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </>
-
+    <Card sx={styles.cardStyle}>
+      <QueueInfoButton interaction={data} disableHanded={true} smallButton={true}/>
+      <CardActionArea sx={{display: 'flex'}} onClick={setActiveAndToggle}>
+        <CardMedia
+          component="img"
+          sx={{
+            width: {xs: 120, md: 300},
+            height: {xs: 90, md: 180},
+            objectFit: "cover",
+            flexShrink: 0
+          }}
+          image={`${status.isVisible ? thumbnail : status.cover}`}
+          alt={`${status.isVisible ? title : "Hidden"}`}
+        />
+        {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>)}
+        <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}}}>
+          <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
+          <Typography variant="subtitle2">Added by {first_name}</Typography>
+        </CardContent>
+      </CardActionArea>
+    </Card>
   )
 }
 

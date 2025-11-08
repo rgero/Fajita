@@ -8,39 +8,37 @@ import { Priority } from '@interfaces/Priority';
 import SubmittingSpinner from '../ui/SubmittingSpinner';
 import VideoCard from '../../ui/VideoCard';
 import { Visibility } from '@interfaces/Visibility';
-import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import toast from 'react-hot-toast';
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useModalContext } from '@context/modal/ModalContext';
+import { useQueueContext } from '@context/queue/QueueContext';
+import { useSearchContext } from '@context/search/SearchContext';
 import { useSettings } from '@context/settings/SettingsContext';
 import { useState } from 'react';
 
-interface Props {
-  open: boolean,
-  videoData: YoutubeResponse,
-  closeFn: () => void,
-  children? : React.ReactNode
-}
-
-const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) => {
+const AddToQueueModal = () => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setVisibility] = useState<number>(Visibility.Normal);
-  const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueProvider();
+  const {addVideoToQueue, checkForPlayNext, isInQueue} = useQueueContext();
   const {enableExperimental} = useSettings();
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
   const [confirmationNeeded, setConfirmationNeeded] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const {addToQueueModalOpen, toggleAddToQueueModalOpen} = useModalContext();
+  const {selectedResult, setSelectedResult} = useSearchContext();
 
   const cleanUpAndClose = () => {
     setPriority(Priority.normal);
     setVisibility(Visibility.Normal);
     setPlayNextCondition(PlayNextCondition.None);
     setConfirmationNeeded(false);
-    closeFn();
+    setSelectedResult(null);
+    toggleAddToQueueModalOpen();
   }
 
   const runChecksAndSubmit = async () => {
+    if (!selectedResult) { return; }
     const playNext: boolean = await checkPlayNext();
-    const inQueue: boolean = await isInQueue(videoData.id);
+    const inQueue: boolean = await isInQueue(selectedResult.id);
 
     if (playNext)
     {
@@ -77,6 +75,8 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
 
   const handleSubmit = async (acceptedCondition : PlayNextCondition) => {
     // If at this point, we're submitting.
+    if (!selectedResult) return;
+
     setIsSubmitting(true);
     let targetPriority: Priority = priority;
     if (acceptedCondition == PlayNextCondition.Accepted)
@@ -98,7 +98,7 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
     setPriority(Priority.normal);
     setPlayNextCondition(PlayNextCondition.None);
     try {
-      await addVideoToQueue({id: videoData.id, priority: targetPriority, visibility: selectedVisibility});
+      await addVideoToQueue({id: selectedResult.id, priority: targetPriority, visibility: selectedVisibility});
       toast.success("Video Added");
       cleanUpAndClose();
     } catch (err) {
@@ -132,11 +132,9 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
     }
 
     return <AddToQueueOptions
-      children={children}
       priority={priority} 
       selectedVisibility={selectedVisibility} 
       setVisibility={setVisibility} 
-      videoData={videoData} 
       runChecksAndSubmit={runChecksAndSubmit} 
       handleToggle={handleToggle}
     />
@@ -144,13 +142,11 @@ const AddToQueueModal: React.FC<Props> = ({open, videoData, closeFn, children}) 
 
   return (
     <Modal
-      open={open}
+      open={addToQueueModalOpen}
       closeFn={cleanUpAndClose}
     >
       <Grid container direction="column">
-        <VideoCard data={videoData}>
-
-        </VideoCard>
+        <VideoCard data={selectedResult}/>
         {displayObject()}
       </Grid>
     </Modal>

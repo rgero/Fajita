@@ -4,7 +4,7 @@ import BlankCard from "./BlankCard";
 import FooterCard from "./FooterCard";
 import { Interaction } from '@interfaces/Interaction';
 import Spinner from "../ui/Spinner";
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useSocketProvider } from '@context/websocket/WebsocketContext';
 
 interface ProgressResponse {
@@ -14,7 +14,7 @@ interface ProgressResponse {
 
 const CurrentPlayingPresenter = () => {
   const {socket} = useSocketProvider();
-  const {isLoading, queueData} = useQueueProvider();
+  const {isLoading, queueData} = useQueueContext();
   const [currentProgress, setProgress] = useState<number>(0);
 
   const processProgress = useCallback( (progressResponse: ProgressResponse) => {

@@ -3,11 +3,11 @@ import io, { Socket } from 'socket.io-client';
 
 import InfoToast from '@components/ui/InfoToast';
 import { SocketContext } from "./WebsocketContext";
-import { useQueueProvider } from "../queue/QueueContext";
+import { useQueueContext } from "../queue/QueueContext";
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
-  const {queueData, refetch} = useQueueProvider();
+  const {queueData, refetch} = useQueueContext();
 
   const initializeSocket = useCallback((params: Record<string, string>) => {
     const newSocket = io(`${import.meta.env.VITE_WEBSOCKET_URL}/player`, {

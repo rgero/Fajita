@@ -12,7 +12,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { copyToClipboard } from '@utils/CopyToClipboard';
 import { useSettings } from '@context/settings/SettingsContext';
-import { useStashProvider } from '@context/stash/StashContext';
+import { useStashContext } from '@context/stash/StashContext';
 
 interface Props {
   interaction: Interaction;
@@ -23,7 +23,7 @@ interface Props {
 
 const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, jumpQueue }) => {
   const { shareOptions } = useSettings();
-  const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashProvider();
+  const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashContext();
   const { video_id } = interaction.video;
 
   const processStash = async () => {

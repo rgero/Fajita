@@ -7,7 +7,7 @@ import QueueManagement from "./HeaderOptions/QueueManagement";
 import React from "react";
 import StashDisplayOption from "./HeaderOptions/StashDisplayOption";
 import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
-import { useQueueProvider } from '@context/queue/QueueContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 
 interface Props
 {
@@ -17,7 +17,7 @@ interface Props
 
 const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
 
-  const {queueData} = useQueueProvider();
+  const {queueData} = useQueueContext();
   const isOpen = Boolean(anchorEl);
 
   return (

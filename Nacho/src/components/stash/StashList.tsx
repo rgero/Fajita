@@ -7,10 +7,10 @@ import Spinner from "../ui/Spinner";
 import StashCard from "./StashCard";
 import toast from "react-hot-toast";
 import { useSettings } from '@context/settings/SettingsContext';
-import { useStashProvider } from '@context/stash/StashContext';
+import { useStashContext } from '@context/stash/StashContext';
 
 const StashList = () => {
-  const {isLoading, GetFilteredData, error} = useStashProvider();
+  const {isLoading, GetFilteredData, error} = useStashContext();
   const {isStashCompact} = useSettings();
   
   const stashData = GetFilteredData();
