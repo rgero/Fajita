@@ -2,3 +2,4 @@ Nacho/.env
 Nacho/src/dummyData/
 .env
 Nacho/src/services/dummyData.ts
+Nacho/coverage/

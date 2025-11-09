@@ -7,7 +7,7 @@ import { vi } from 'vitest';
 vi.mock('@mui/icons-material', () => {
   // TypeScript-friendly proxy handler
   const handler: ProxyHandler<Record<string, any>> = {
-    get: (target, prop) => {
+    get: (_, prop) => {
       // Return a dummy React component for any icon import
       const DummyIcon: React.FC<any> = (props) => <span data-testid={`icon-${String(prop)}`} {...props} />;
       return DummyIcon;

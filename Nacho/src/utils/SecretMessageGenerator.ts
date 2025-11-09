@@ -13,3 +13,5 @@ export const potentialMessages: string[] = [
 export const getSecretMessage = (): string => {
   return potentialMessages[Math.floor(Math.random()*potentialMessages.length)]
 }
+
+export default getSecretMessage;
