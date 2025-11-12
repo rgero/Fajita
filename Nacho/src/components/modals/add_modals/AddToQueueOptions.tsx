@@ -49,7 +49,7 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
     <InfoSection>
       {isInQueue(selectedResult.id) && (
         <Grid size={12} sx={{paddingTop: 1}}>
-          <Typography align="center">Video already in queue.</Typography>
+          <Typography align="center" color="warning" fontWeight="bold">Video already in queue.</Typography>
 
           {(() => {
             const currentIndex = getCurrentIndex();
