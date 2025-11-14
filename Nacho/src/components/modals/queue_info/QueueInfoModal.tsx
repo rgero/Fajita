@@ -13,8 +13,7 @@ import { useSocketProvider } from '@context/websocket/WebsocketContext';
 
 const QueueInfoModal = () => {
   const { queueInfoModalOpen, toggleQueueInfoModalOpen } = useModalContext();
-  const { currentlySelected, deleteVideoFromQueue, queueData } =
-    useQueueContext();
+  const { currentlySelected, deleteVideoFromQueue, queueData } = useQueueContext();
   const { jumpQueue } = useSocketProvider();
 
   const [checkDelete, setConfirmDelete] = useState(false);
@@ -35,7 +34,7 @@ const QueueInfoModal = () => {
       setConfirmDelete(false);
       toast.success("Video deleted from queue");
       toggleQueueInfoModalOpen();
-    } catch (error) {
+    } catch {
       toast.error("Failed to delete video");
     }
   }, [currentlySelected, deleteVideoFromQueue, toggleQueueInfoModalOpen]);
@@ -48,27 +47,25 @@ const QueueInfoModal = () => {
     [jumpQueue, toggleQueueInfoModalOpen]
   );
 
-  if (!currentlySelected) return null;
+  const status = useMemo(() => {
+    if (!currentlySelected) return null;
+    return ProcessVideo(currentlySelected, queueData.current_index);
+  }, [currentlySelected, queueData.current_index]);
 
-  const status = useMemo(
-    () => ProcessVideo(currentlySelected, queueData.current_index),
-    [currentlySelected, queueData.current_index]
-  );
+  const videoData: YoutubeResponse | null = useMemo(() => {
+    if (!currentlySelected || !status) return null;
 
-  const videoData: YoutubeResponse = useMemo(
-    () => ({id: currentlySelected.video.video_id,
+    return {
+      id: currentlySelected.video.video_id,
       title: status.isVisible ? currentlySelected.video.title : status.message ?? "No title",
       thumbnail_src: status.isVisible ? currentlySelected.video.thumbnail : status.cover ?? "BlackBox.png",
       duration: currentlySelected.video.duration,
-    }),
-    [
-      currentlySelected.video.video_id,
-      currentlySelected.video.title,
-      currentlySelected.video.thumbnail,
-      currentlySelected.video.duration,
-      status
-    ]
-  );
+    };
+  }, [currentlySelected,status]);
+
+  if (!currentlySelected || !status || !videoData) {
+    return null;
+  }
 
   return (
     <Modal open={queueInfoModalOpen} closeFn={toggleQueueInfoModalOpen}>
