@@ -15,7 +15,6 @@ export interface QueueContextType {
   getQueueID: () => string;
   getQueueOwner: () => string;
   getVideoIndexInQueue: (id: string) => number;
-  getCurrentIndex: () => number;
   isActionPending: boolean;
   isInQueue: (id: string) => boolean;
   isLoading: boolean;
