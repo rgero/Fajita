@@ -12,6 +12,7 @@ export interface QueueContextType {
   deleteVideoFromQueue: (id: string) => void;
   isConnected: boolean;
   error: Error | null;
+  getCurrentVideoIndex: () => number;
   getQueueID: () => string;
   getQueueOwner: () => string;
   getVideoIndexInQueue: (id: string) => number;

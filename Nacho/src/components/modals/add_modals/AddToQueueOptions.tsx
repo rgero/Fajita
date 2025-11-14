@@ -25,7 +25,7 @@ interface AddToQueueOptionsProps {
 
 const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selectedVisibility, setVisibility, handleSubmit, handleToggle}) => {
   const {isInStash, addVideoToStash, deleteVideoFromStash} = useStashContext();
-  const {isInQueue, queueData, getVideoIndexInQueue} = useQueueContext();
+  const {isInQueue, getCurrentVideoIndex, getVideoIndexInQueue} = useQueueContext();
   const {selectedResult} = useSearchContext();
   const {shareOptions} = useSettings();
 
@@ -54,7 +54,7 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
           <Typography align="center" color="warning" fontWeight="bold">Video already in queue.</Typography>
 
           {(() => {
-            const currentIndex = queueData.current_index;
+            const currentIndex = getCurrentVideoIndex();
             const queueIndex = getVideoIndexInQueue(targetID);
             const diff = currentIndex - queueIndex;
             const tense = diff > 0 ? "was" : "is";
