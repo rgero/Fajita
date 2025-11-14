@@ -4,7 +4,7 @@ import ClearStashModal from "@components/modals/ClearStashModal";
 import ConfirmSkipModal from "@components/modals/ConfirmSkipModal";
 import LockQueueModal from "@components/modals/LockQueueModal";
 import { ModalContext } from "./ModalContext";
-import QueueInfoModal from "@components/modals/QueueInfoModal";
+import QueueInfoModal from "@components/modals/queue_info/QueueInfoModal";
 import { useState } from "react";
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
