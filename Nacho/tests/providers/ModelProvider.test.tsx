@@ -18,7 +18,7 @@ vi.mock('@components/modals/ClearStashModal', () => ({
 vi.mock('@components/modals/LockQueueModal', () => ({
   default: () => <div data-testid="LockQueueModal" />,
 }));
-vi.mock('@components/modals/QueueInfoModal', () => ({
+vi.mock('@components/modals/queue_info/QueueInfoModal', () => ({
   default: () => <div data-testid="QueueInfoModal" />,
 }));
 vi.mock('@components/modals/ConfirmSkipModal', () => ({
