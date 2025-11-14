@@ -66,8 +66,9 @@ const AddToQueueModal = () => {
     }
 
     try {
+      const targetID = "video" in selectedResult ? selectedResult.video.video_id : selectedResult.id;
       await addVideoToQueue({
-        id: selectedResult.id,
+        id: targetID,
         priority: targetPriority,
         visibility: selectedVisibility,
       });
