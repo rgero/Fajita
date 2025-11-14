@@ -133,11 +133,6 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     return queueData.interactions.findIndex((interaction: Interaction) => interaction.youtube_id === id);
   }
 
-  const getCurrentIndex = () => {
-    if (!queueData.interactions || !queueData.current_interaction) return -1;
-    return queueData.interactions.findIndex((interaction: Interaction) => interaction.youtube_id === queueData.current_interaction.youtube_id);
-  }
-
   const { isPending: isActionPending, mutateAsync: deleteVideoFromQueue } = useMutation({
     mutationFn: (id: string) => deleteFromQueue(id),
     onSuccess: () => {
@@ -160,7 +155,6 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         currentlySelected,
         deleteVideoFromQueue,
         error,
-        getCurrentIndex,
         getQueueID,
         getQueueOwner,
         getVideoIndexInQueue,

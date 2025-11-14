@@ -4,7 +4,9 @@ import CopyMenuOption from "./options/CopyMenuOption";
 import { Interaction } from '@interfaces/Interaction';
 import StashMenuOption from "./options/StashMenuOption";
 import TimeAddedMenuOption from "./options/TimeAddedMenuOption";
+import { Visibility } from "@interfaces/Visibility";
 import YoutubeMenuOption from "./options/YoutubeMenuOption";
+import { useQueueContext } from "@context/queue/QueueContext";
 import { useSettings } from '@context/settings/SettingsContext';
 
 interface QueueInfoMenuProps {
@@ -15,14 +17,40 @@ interface QueueInfoMenuProps {
 }
 
 const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onClose}) => {
-  const { infoOptions } = useSettings();  
+  const { infoOptions } = useSettings();
+  const {queueData} = useQueueContext();
+  
+  const shouldBeHidden = (queueData.current_index < data.index && data.visibility == Visibility.Hidden)
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
       <TimeAddedMenuOption data={data} />
-      <Divider/>
-      {infoOptions.stash && ( <StashMenuOption youtubeId={data.youtube_id} onClose={onClose} />)}
-      {infoOptions.youtube && ( <YoutubeMenuOption youtubeId={data.youtube_id} onClose={onClose} />)}
-      {infoOptions.clipboard && ( <CopyMenuOption youtubeId={data.youtube_id} onClose={onClose} />)} 
+      {!shouldBeHidden && [
+        <Divider key="divider" />,
+
+        infoOptions.stash && (
+          <StashMenuOption
+            key="stash"
+            youtubeId={data.youtube_id}
+            onClose={onClose}
+          />
+        ),
+
+        infoOptions.youtube && (
+          <YoutubeMenuOption
+            key="youtube"
+            youtubeId={data.youtube_id}
+            onClose={onClose}
+          />
+        ),
+
+        infoOptions.clipboard && (
+          <CopyMenuOption
+            key="clipboard"
+            youtubeId={data.youtube_id}
+            onClose={onClose}
+          />
+        )
+      ]}
     </Menu>
   );
 };

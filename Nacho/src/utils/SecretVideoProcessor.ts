@@ -5,7 +5,10 @@ import { Visibility } from "@interfaces/Visibility";
 import { getSecretMessage } from "./SecretMessageGenerator";
 
 export const ProcessVideo = (interaction: Interaction, currentIndex: number) => {
-  const shouldBeVisible: boolean = interaction.visibility != Visibility.Hidden && interaction.visibility != Visibility.Random || interaction.index <= currentIndex;
+  const shouldBeVisible: boolean = (interaction.visibility != Visibility.Hidden && interaction.visibility != Visibility.Random) || interaction.index <= currentIndex;
+
+  console.log( interaction.index <= currentIndex );
+
   const response: QueueStatus = {isVisible: shouldBeVisible, message: null, cover: null}
   if (!shouldBeVisible)
   {
