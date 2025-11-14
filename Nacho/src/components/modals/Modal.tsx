@@ -20,7 +20,7 @@ const Modal: React.FC<CustomModalProps> = ({open, closeFn, children, sx}) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: { xs: '80%', md: "30%" },
+          width: { xs: '95%', sm: "80%", md: "30%" },
           bgcolor: 'background.paper',
           borderRadius: 2,
           boxShadow: 24,
