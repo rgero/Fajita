@@ -31,13 +31,15 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
 
   if (!selectedResult) return;
 
+  const targetID = "video" in selectedResult ? selectedResult.video.video_id : selectedResult.id;
+
   const processStash = async () => {
     try {
-      if (isInStash(selectedResult.id)) {
-        await deleteVideoFromStash(selectedResult.id);
+      if (isInStash(targetID)) {
+        await deleteVideoFromStash(targetID);
         toast.success("Video Removed from Stash");
       } else {
-        await addVideoToStash(selectedResult.id);
+        await addVideoToStash(targetID);
         toast.success("Video Added to Stash");
       }
     } catch {
@@ -47,13 +49,13 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
 
   return (
     <InfoSection>
-      {isInQueue(selectedResult.id) && (
+      {isInQueue(targetID) && (
         <Grid size={12} sx={{paddingTop: 1}}>
           <Typography align="center" color="warning" fontWeight="bold">Video already in queue.</Typography>
 
           {(() => {
             const currentIndex = getCurrentIndex();
-            const queueIndex = getVideoIndexInQueue(selectedResult.id);
+            const queueIndex = getVideoIndexInQueue(targetID);
             const diff = currentIndex - queueIndex;
             const tense = diff > 0 ? "was" : "is";
             const direction = diff > 0 ? "ago" : "from now";
@@ -75,16 +77,16 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
           <Grid container direction="row" spacing={1} alignItems="center">
             {shareOptions.clipboard ? (
               <Grid>
-                <Button onClick={()=> copyVideoIDToClipboard(selectedResult.id)} icon={(<Share/>)} title="Copy"/>
+                <Button onClick={()=> copyVideoIDToClipboard(targetID)} icon={(<Share/>)} title="Copy"/>
               </Grid>
             ) : null }
             {shareOptions.youtube ? (
               <Grid>
-                <Button onClick={() => OpenYouTubeURL(selectedResult.id)} icon={(<YouTube color="error"/>)} title="YouTube"/>
+                <Button onClick={() => OpenYouTubeURL(targetID)} icon={(<YouTube color="error"/>)} title="YouTube"/>
               </Grid>   
             ) : null }
             <Grid>
-              <Button onClick={processStash} icon={isInStash(selectedResult.id) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color={isInStash(selectedResult.id) ? "error" : "default"}/>
+              <Button onClick={processStash} icon={isInStash(targetID) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color={isInStash(targetID) ? "error" : "default"}/>
             </Grid>
           </Grid>
         </Grid>
