@@ -47,26 +47,30 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
     }
   }
 
+  const renderPositionMessage = () => {
+    const currentIndex = getCurrentVideoIndex();
+    const queueIndex = getVideoIndexInQueue(targetID);
+    const diff = currentIndex - queueIndex;
+
+    if (diff === 0) {
+      return "It's currently playing.";
+    }
+
+    const tense = diff > 0 ? "was" : "is";
+    const direction = diff > 0 ? "ago" : "from now";
+    const count = Math.abs(diff);
+
+    return `It ${tense} ${count} video${count === 1 ? "" : "s"} ${direction}.`;
+  };
+
   return (
     <InfoSection>
       {isInQueue(targetID) && (
         <Grid size={12} sx={{paddingTop: 1}}>
           <Typography align="center" color="warning" fontWeight="bold">Video already in queue.</Typography>
-
-          {(() => {
-            const currentIndex = getCurrentVideoIndex();
-            const queueIndex = getVideoIndexInQueue(targetID);
-            const diff = currentIndex - queueIndex;
-            const tense = diff > 0 ? "was" : "is";
-            const direction = diff > 0 ? "ago" : "from now";
-
-            return (
-              <Typography align="center">
-                It {tense} {Math.abs(diff)} video{Math.abs(diff) === 1 ? "" : "s"} {direction}.
-              </Typography>
-            );
-          })()}
-          
+          <Typography align="center">
+            {renderPositionMessage()}
+          </Typography>
         </Grid>
       )}
       <Grid size={12}>
