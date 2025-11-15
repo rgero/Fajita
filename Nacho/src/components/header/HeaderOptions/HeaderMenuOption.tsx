@@ -5,7 +5,7 @@ import { ReactElement } from "react";
 interface GenericMenuItemProps {
   icon: ReactElement<SvgIconProps>;
   text: string;
-  color: string;
+  color?: string;
   onClick?: () => void;
 }
 
