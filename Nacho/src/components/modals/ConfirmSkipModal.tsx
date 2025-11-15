@@ -1,5 +1,5 @@
+import { Box, Grid, Typography } from "@mui/material"
 import { DoNotDisturb, SkipNext } from "@mui/icons-material"
-import { Grid, Typography } from "@mui/material"
 
 import Button from "../ui/Button";
 import Modal from "./Modal";
@@ -19,10 +19,24 @@ const ConfirmSkipModal = () => {
   }
 
   return (
-    <Modal open={confirmSkipModalOpen} closeFn={toggleConfirmSkipModalOpen} yPosOverride="75%" sx={{backgroundColor: grey[900]}}>
+    <Modal open={confirmSkipModalOpen} closeFn={toggleConfirmSkipModalOpen} sx={{backgroundColor: grey[900]}}>
       <Grid container direction="column" alignContent={"center"} spacing={2} sx={{paddingY: "25px"}}>
         <Grid>
-          <Typography variant="h5">Are you sure you want to skip this song?</Typography>
+          <Typography variant="h5" align="center">Are you sure you want to skip this song?</Typography>
+        </Grid>
+        <Grid>
+          <Box
+            component="img"
+            src="/fajita.svg"
+            alt="Rudy"
+            sx={{
+              width: "25%",
+              height: "auto",
+              borderRadius: 2,
+              display: "block",
+              mx: "auto",
+            }}
+          />
         </Grid>
         <Grid>
           <Grid container justifyContent={"flex-end"} spacing={2}>
