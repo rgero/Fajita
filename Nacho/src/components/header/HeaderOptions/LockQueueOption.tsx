@@ -12,8 +12,9 @@ const LockQueueOption = () => {
 
   return (
     <HeaderMenuOption 
-      icon={isQueueLocked ? <LockOpen/> : <Lock/>} 
+      icon={isQueueLocked ? <LockOpen color="error"/> : <Lock/>} 
       text={isQueueLocked ? "Unlock Queue" : "Lock Queue"}
+      color={isQueueLocked ? "error": ""}
       onClick={toggleLockQueueModalOpen}
     />
   )

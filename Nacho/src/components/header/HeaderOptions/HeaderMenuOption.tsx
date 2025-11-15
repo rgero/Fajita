@@ -5,14 +5,15 @@ import { ReactElement } from "react";
 interface GenericMenuItemProps {
   icon: ReactElement<SvgIconProps>;
   text: string;
+  color: string;
   onClick?: () => void;
 }
 
-const HeaderMenuOption = ({ icon, text, onClick }: GenericMenuItemProps) => {
+const HeaderMenuOption = ({ icon, text, color = "", onClick }: GenericMenuItemProps) => {
   return (
     <MenuItem onClick={onClick ? onClick : () => {}}>
       {icon}
-      <Typography sx={{ marginLeft: "5px" }}>{text}</Typography>
+      <Typography sx={{ marginLeft: "5px" }} color={color}>{text}</Typography>
     </MenuItem>
   );
 };
