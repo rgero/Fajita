@@ -1,10 +1,10 @@
 const potentialNames: Record<string, string[]> = {
   Vince: ["Mellow Corn"],
-  Anna: ["Millie's Mom", "Dr Greenwood"],
   Grant: ["Boatboy"],
   Jake: ["ABBA #1 Fan"],
   Sunny: ["The Fairy Goth"],
-  Roy: ["Hockey Monkey"]
+  Roy: ["Huckleberry Sizzlah"],
+  Tina: ["Pickles", "Resident Lawyer"]
 };
 
 const targetNumber: number = 0.022;
