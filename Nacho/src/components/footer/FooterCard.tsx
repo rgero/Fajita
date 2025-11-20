@@ -1,5 +1,6 @@
 import { Card, CardContent, CardMedia, LinearProgress, Typography } from "@mui/material";
 
+import SecretNameDiplay from "@utils/SecretNameDiplay";
 import { useSettings } from '@context/settings/SettingsContext';
 
 type CardProps = {
@@ -34,7 +35,7 @@ const FooterCard: React.FC<CardProps> = ({title, imageURL, percentComplete, curr
         <Typography variant="subtitle2" component="div" noWrap sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {title}
         </Typography>
-        <Typography variant="subtitle2">Added by {user}</Typography>
+        <Typography variant="subtitle2">Added by {SecretNameDiplay(user)}</Typography>
         <LinearProgress variant="determinate" value={Math.round(percentComplete * 100)} />
       </CardContent>
     </Card>

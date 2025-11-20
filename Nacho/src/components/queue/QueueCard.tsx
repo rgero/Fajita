@@ -5,6 +5,7 @@ import GetSecretCover from '@utils/GetSecretCover';
 import { Interaction } from '@interfaces/Interaction';
 import QueueInfoButton from "./QueueInfoButton";
 import { QueueStatus } from '@interfaces/QueueStatus';
+import SecretNameDiplay from "@utils/SecretNameDiplay";
 import { Visibility } from '@interfaces/Visibility';
 import { getParsedDuration } from '@utils/getParsedDuration';
 import { getSecretMessage } from '@utils/SecretMessageGenerator';
@@ -95,7 +96,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
         {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>)}
         <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}}}>
           <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
-          <Typography variant="subtitle2">Added by {first_name}</Typography>
+          <Typography variant="subtitle2">Added by {SecretNameDiplay(first_name)}</Typography>
         </CardContent>
       </CardActionArea>
     </Card>
