@@ -1,5 +1,6 @@
 const potentialNames: Record<string, string[]> = {
   Vince: ["Mellow Corn"],
+  Anna: ["Millie's Mom", "Dr. Sleepy"],
   Grant: ["Boatboy"],
   Jake: ["ABBA #1 Fan"],
   Sunny: ["The Fairy Goth"],
