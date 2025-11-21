@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, LinearProgress, Typography } from "@mui/material";
 
-import SecretNameDiplay from "@utils/SecretNameDiplay";
+import SecretNameDiplay from "@utils/SecretNameDisplay";
 import { useSettings } from '@context/settings/SettingsContext';
 
 type CardProps = {

@@ -5,7 +5,7 @@ import GetSecretCover from '@utils/GetSecretCover';
 import { Interaction } from '@interfaces/Interaction';
 import QueueInfoButton from "./QueueInfoButton";
 import { QueueStatus } from '@interfaces/QueueStatus';
-import SecretNameDiplay from "@utils/SecretNameDiplay";
+import SecretNameDiplay from "@utils/SecretNameDisplay";
 import { Visibility } from '@interfaces/Visibility';
 import { getParsedDuration } from '@utils/getParsedDuration';
 import { getSecretMessage } from '@utils/SecretMessageGenerator';
