@@ -1,5 +1,4 @@
 export const OpenYouTubeURL = (video_id: string) => {
-  console.log(video_id);
   const url = `https://www.youtube.com/watch?v=${video_id}`;
   const iosUrl = `youtube://${video_id}`;
   const androidUrl = `intent://www.youtube.com/watch?v=${video_id}#Intent;package=com.google.android.youtube;scheme=https;end`;
