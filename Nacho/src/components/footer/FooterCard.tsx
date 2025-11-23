@@ -1,18 +1,18 @@
-import { Card, CardContent, CardMedia, LinearProgress, Typography } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 
+import FooterProgressBar from "./FooterProgressBar";
 import SecretNameDiplay from "@utils/SecretNameDisplay";
 import { useSettings } from '@context/settings/SettingsContext';
 
 type CardProps = {
   title: string,
   imageURL: string,
-  percentComplete: number,
   currentIndex: number,
   total: number,
   user: string
 }
 
-const FooterCard: React.FC<CardProps> = ({title, imageURL, percentComplete, currentIndex, total, user}) => {
+const FooterCard: React.FC<CardProps> = ({title, imageURL, currentIndex, total, user}) => {
   const {isFooterCompact} = useSettings();
   return (
     <Card 
@@ -36,7 +36,7 @@ const FooterCard: React.FC<CardProps> = ({title, imageURL, percentComplete, curr
           {title}
         </Typography>
         <Typography variant="subtitle2">Added by {SecretNameDiplay(user)}</Typography>
-        <LinearProgress variant="determinate" value={Math.round(percentComplete * 100)} />
+        <FooterProgressBar/>
       </CardContent>
     </Card>
   );
