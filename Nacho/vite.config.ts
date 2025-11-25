@@ -29,7 +29,7 @@ export default defineConfig({
     setupFiles: './tests/setupTests.tsx',
     include: [
       'src/**/*.{test,spec}.{js,ts,jsx,tsx}',
-      'tests/**/*.{test,spec}.{js,ts,jsx,tsx}'  // <- add this line
+      'tests/**/*.{test,spec}.{js,ts,jsx,tsx}'
     ],
     exclude: ['node_modules', '.git', 'dist'],
     coverage: {
