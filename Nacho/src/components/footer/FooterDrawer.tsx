@@ -21,6 +21,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
     >
       <Box
         role="presentation"
+        data-testid="footer-drawer-content"
         onClick={toggleDrawer(false)}
         onKeyDown={toggleDrawer(false)}
       >
