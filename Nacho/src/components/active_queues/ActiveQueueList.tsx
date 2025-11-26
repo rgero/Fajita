@@ -13,7 +13,8 @@ const ActiveQueueList = ({closeFn} : {closeFn: () => void}) => {
     return <Spinner/>
   }
 
-  if (!queues) return <Empty resource={"Active Queues"}/>
+  if (!queues || queues?.length == 0) return <Empty resource={"Active Queues"}/>
+
   return (
     <Grid container direction="column" spacing={2} paddingTop={3}>
       {queues.map( (queue) => {
