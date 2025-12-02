@@ -1,7 +1,7 @@
 {
   "name": "nacho",
   "private": true,
-  "version": "0.8.0",
+  "version": "0.8.5",
   "type": "module",
   "scripts": {
     "dev": "vite --host --port 7000",
