@@ -7,7 +7,8 @@ export const potentialMessages: string[] = [
   "Daisy stole it",
   "Hidden in one of Cohoe's pockets",
   "Anna's sleeping on it",
-  "It's in the fridge"
+  "It's in the fridge",
+  "AI Overview - Sorry I don't know that"
 ]
 
 export const getSecretMessage = (): string => {
