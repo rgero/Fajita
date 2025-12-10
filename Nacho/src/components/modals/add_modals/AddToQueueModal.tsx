@@ -1,6 +1,7 @@
 import AddToQueueOptions from './AddToQueueOptions';
 import { Grid } from '@mui/material';
 import Modal from '../Modal';
+import NoQueueAddOptions from './NoQueueAddOptions';
 import { PlayNextCondition } from '../interfaces/PlayNextCondition';
 import PlayNextWarning from '../ui/PlayNextWarning';
 import { Priority } from '@interfaces/Priority';
@@ -16,7 +17,7 @@ import { useState } from 'react';
 const AddToQueueModal = () => {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [selectedVisibility, setVisibility] = useState<number>(Visibility.Normal);
-  const { addVideoToQueue, checkForPlayNext } = useQueueContext();
+  const { isConnected, addVideoToQueue, checkForPlayNext } = useQueueContext();
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { addToQueueModalOpen, toggleAddToQueueModalOpen } = useModalContext();
@@ -113,7 +114,7 @@ const AddToQueueModal = () => {
     <Modal open={addToQueueModalOpen} closeFn={cleanUpAndClose}>
       <Grid container direction="column">
         <VideoCard data={selectedResult} />
-        {displayObject()}
+        {isConnected ? displayObject() : <NoQueueAddOptions/>}
       </Grid>
     </Modal>
   );
