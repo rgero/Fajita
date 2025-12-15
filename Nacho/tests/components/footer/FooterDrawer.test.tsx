@@ -24,6 +24,10 @@ vi.mock("@components/footer/DrawerOptions/SkipOption", () => ({
   default: () => <div>SkipOption</div>,
 }));
 
+vi.mock("@components/footer/DrawerOptions/ShareOption", () => ({
+  default: () => <div>ShareOption</div>,
+}));
+
 describe("FooterDrawer", () => {
   const handlerFalse = vi.fn();
   const handlerTrue = vi.fn();
@@ -38,6 +42,7 @@ describe("FooterDrawer", () => {
 
     expect(screen.getByText("PlayOption")).toBeInTheDocument();
     expect(screen.getByText("SkipOption")).toBeInTheDocument();
+    expect(screen.getByText("ShareOption")).toBeInTheDocument();
     expect(screen.getByText("AddToStashOption")).toBeInTheDocument();
     expect(screen.getByText("OpenStashOption")).toBeInTheDocument();
     expect(screen.getByText("QueueOption")).toBeInTheDocument();

@@ -25,6 +25,10 @@ vi.mock('@components/modals/ConfirmSkipModal', () => ({
   default: () => <div data-testid="ConfirmSkipModal" />,
 }));
 
+vi.mock('@components/modals/ShareModal', () => ({
+  default: () => <div data-testid="ShareModal" />,
+}));
+
 const ChildComponent = () => <div>Child Content</div>;
 
 describe('ModalProvider', () => {
@@ -41,6 +45,7 @@ describe('ModalProvider', () => {
     // Modals should render (mocked)
     expect(screen.getByTestId('AddRandomModal')).toBeInTheDocument();
     expect(screen.getByTestId('AddToQueueModal')).toBeInTheDocument();
+    expect(screen.getByTestId('ShareModal')).toBeInTheDocument();
     expect(screen.getByTestId('ClearStashModal')).toBeInTheDocument();
     expect(screen.getByTestId('LockQueueModal')).toBeInTheDocument();
     expect(screen.getByTestId('QueueInfoModal')).toBeInTheDocument();
@@ -68,6 +73,7 @@ describe('ModalProvider', () => {
     expect(contextValues.addRandomModalOpen).toBe(false);
     expect(contextValues.addToQueueModalOpen).toBe(false);
     expect(contextValues.confirmSkipModalOpen).toBe(false);
+    expect(contextValues.shareModalOpen).toBe(false);
     expect(typeof contextValues.toggleClearStashModalOpen).toBe('function');
   });
 

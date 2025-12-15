@@ -3,7 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import Button from '../../ui/Button';
 import { Close } from "@mui/icons-material";
 import InfoSection from "../ui/InfoSection";
-import ShareButtons from "./ui/ShareButtons";
+import ShareButtons from "../../ui/ShareButtons";
 import StashButton from "./ui/StashButton";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useSearchContext } from "@context/search/SearchContext";

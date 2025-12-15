@@ -6,7 +6,7 @@ import InfoSection from '../ui/InfoSection';
 import { PlayNextCondition } from '../interfaces/PlayNextCondition';
 import { Priority } from '@interfaces/Priority';
 import QueuePositionMessage from './ui/QueuePositionMessage';
-import ShareButtons from './ui/ShareButtons';
+import ShareButtons from '../../ui/ShareButtons';
 import StashButton from './ui/StashButton';
 import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup";

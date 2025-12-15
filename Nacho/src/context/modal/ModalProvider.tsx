@@ -5,6 +5,7 @@ import ConfirmSkipModal from "@components/modals/ConfirmSkipModal";
 import LockQueueModal from "@components/modals/LockQueueModal";
 import { ModalContext } from "./ModalContext";
 import QueueInfoModal from "@components/modals/queue_info/QueueInfoModal";
+import ShareModal from "@components/modals/ShareModal";
 import { useState } from "react";
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
@@ -14,6 +15,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [addRandomModalOpen, setAddRandomModalOpen] = useState(false);
   const [addToQueueModalOpen, setAddToQueueModalOpen] = useState(false);
   const [confirmSkipModalOpen, setConfirmSkipModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const toggleClearStashModalOpen = () => setClearStashModalOpen(prev => !prev);
   const toggleLockQueueModalOpen = () => setLockQueueModalOpen(prev => !prev);
@@ -21,22 +23,25 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleAddRandomModalOpen = () => setAddRandomModalOpen(prev => !prev);
   const toggleAddToQueueModalOpen = () => setAddToQueueModalOpen(prev => !prev);
   const toggleConfirmSkipModalOpen = () => setConfirmSkipModalOpen(prev => !prev);
+  const toggleShareModalOpen = () => setShareModalOpen(prev => !prev);
 
   return (
     <ModalContext.Provider value={{ 
-      anyModalsOpen: clearStashModalOpen || lockQueueModalOpen || queueInfoModalOpen || addRandomModalOpen || addToQueueModalOpen || confirmSkipModalOpen,
+      anyModalsOpen: clearStashModalOpen || lockQueueModalOpen || queueInfoModalOpen || addRandomModalOpen || addToQueueModalOpen || confirmSkipModalOpen || shareModalOpen,
       clearStashModalOpen,
       lockQueueModalOpen,
       queueInfoModalOpen,
       addRandomModalOpen,
       addToQueueModalOpen,
       confirmSkipModalOpen,
+      shareModalOpen,
       toggleClearStashModalOpen,
       toggleLockQueueModalOpen,
       toggleQueueInfoModalOpen,
       toggleAddRandomModalOpen,
       toggleAddToQueueModalOpen,
-      toggleConfirmSkipModalOpen
+      toggleConfirmSkipModalOpen,
+      toggleShareModalOpen
 
     }}>
       <AddRandomModal/>
@@ -45,6 +50,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       <LockQueueModal/>
       <QueueInfoModal/>
       <ConfirmSkipModal/>
+      <ShareModal/>
       {children}
     </ModalContext.Provider>
   );
