@@ -3,6 +3,7 @@ import Modal from './Modal';
 import ShareButtons from '@components/ui/ShareButtons';
 import VideoCard from '@components/ui/VideoCard';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
+import { getVideoData } from '@utils/YouTubeResponseGenerator';
 import { useMemo } from 'react';
 import { useModalContext } from '@context/modal/ModalContext';
 import { useQueueContext } from '@context/queue/QueueContext';
@@ -11,17 +12,10 @@ const ShareModal: React.FC = () => {
   const { shareModalOpen, toggleShareModalOpen } = useModalContext();
   const {queueData} = useQueueContext();
 
-  const videoData: YoutubeResponse | null = useMemo(() => {
-    const currentlySelected = queueData.current_interaction;
-    if (!currentlySelected) return null;
-
-    return {
-      id: currentlySelected.video.video_id,
-      title: currentlySelected.video.title,
-      thumbnail_src: currentlySelected.video.thumbnail,
-      duration: currentlySelected.video.duration,
-    };
-  }, [queueData]);
+  const videoData: YoutubeResponse | null = useMemo(
+    () => getVideoData(queueData),
+    [queueData]
+  );
 
   if (!videoData) {
     toggleShareModalOpen();

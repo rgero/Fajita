@@ -6,6 +6,7 @@ import QueueInfoButton from '@components/queue/QueueInfoButton';
 import QueueInfoButtons from './QueueInfoButtons';
 import VideoCard from '@components/ui/VideoCard';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
+import { getVideoData } from '@utils/YouTubeResponseGenerator';
 import toast from 'react-hot-toast';
 import { useModalContext } from '@context/modal/ModalContext';
 import { useQueueContext } from '@context/queue/QueueContext';
@@ -52,16 +53,10 @@ const QueueInfoModal = () => {
     return ProcessVideo(currentlySelected, queueData.current_index);
   }, [currentlySelected, queueData.current_index]);
 
-  const videoData: YoutubeResponse | null = useMemo(() => {
-    if (!currentlySelected || !status) return null;
-
-    return {
-      id: currentlySelected.video.video_id,
-      title: status.isVisible ? currentlySelected.video.title : status.message ?? "No title",
-      thumbnail_src: status.isVisible ? currentlySelected.video.thumbnail : status.cover ?? "BlackBox.png",
-      duration: currentlySelected.video.duration,
-    };
-  }, [currentlySelected,status]);
+  const videoData: YoutubeResponse | null = useMemo(
+    () => getVideoData(queueData),
+    [queueData]
+  );
 
   if (!currentlySelected || !status || !videoData) {
     return null;
