@@ -14,9 +14,9 @@ const ShareOption = () => {
   const {queueData} = useQueueContext();
 
   const videoData: YoutubeResponse | null = useMemo(
-  () => getVideoData(queueData),
-  [queueData]
-);
+    () => getVideoData(queueData),
+    [queueData]
+  );
 
   const isAvailable = (shareOptions.clipboard || shareOptions.youtube) && videoData
   if (!isAvailable) return;

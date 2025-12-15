@@ -18,7 +18,10 @@ const ShareModal: React.FC = () => {
   );
 
   if (!videoData) {
-    toggleShareModalOpen();
+    if (shareModalOpen)
+    {
+      toggleShareModalOpen();
+    }
     return;
   }
 
