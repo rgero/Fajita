@@ -6,7 +6,6 @@ import PlayOption from "./DrawerOptions/PlayOption"
 import QueueOption from "./DrawerOptions/QueueOption"
 import ShareOption from "./DrawerOptions/ShareOption"
 import SkipOption from "./DrawerOptions/SkipOption"
-import { useSettings } from "@context/settings/SettingsContext"
 
 interface Props {
   isOpen: boolean,
@@ -14,10 +13,6 @@ interface Props {
 }
 
 const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
-  const {shareOptions} = useSettings();
-
-  const isAvailable = shareOptions.clipboard || shareOptions.youtube
-
   return (
     <SwipeableDrawer
       anchor={"bottom"}
@@ -34,7 +29,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
         <List>
           <PlayOption/>
           <SkipOption/>
-          {isAvailable && <ShareOption/>}
+          <ShareOption/>
           <Divider/>
           <AddToStashOption/>
           <OpenStashOption/>

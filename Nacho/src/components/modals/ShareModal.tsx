@@ -23,7 +23,10 @@ const ShareModal: React.FC = () => {
     };
   }, [queueData]);
 
-  if (!videoData) return;
+  if (!videoData) {
+    toggleShareModalOpen();
+    return;
+  }
 
   return (
     <Modal open={shareModalOpen} closeFn={toggleShareModalOpen}>
