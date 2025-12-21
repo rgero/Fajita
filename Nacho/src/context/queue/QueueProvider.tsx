@@ -1,5 +1,5 @@
 import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from '@services/apiFajita';
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Interaction } from '@interfaces/Interaction';
@@ -10,20 +10,51 @@ import { useAuth } from "../authentication/AuthenticationContext";
 import { useLocalStorageState } from '@hooks/useLocalStorageState';
 
 export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
-  const [queue, setQueue] = useLocalStorageState("", "queue");
-  const {user, isAuthenticated } = useAuth();
-  const [ searchTerm, setSearchTerm ] = useState<string>("");
+  const { user, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
-  const [currentlySelected, setCurrentlySelected] = useState<Interaction|null>(null);
 
-  const getQueueID = () => {
+  // State
+  const [queue, setQueue] = useLocalStorageState("", "queue");
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [currentlySelected, setCurrentlySelected] = useState<Interaction | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  // Helper: Safely get the ID from the stored JSON string
+  const getQueueID = useCallback(() => {
     try {
       const queueObject = JSON.parse(queue);
-      return queueObject.id || "";
+      return queueObject?.id || "";
     } catch {
       return "";
     }
-  };
+  }, [queue]);
+
+  useEffect(() => {
+    const syncQueueState = async () => {
+      try {
+        const activeQueues = await getActiveQueues();
+        const currentId = getQueueID();
+
+        const currentIsStillActive = activeQueues.find((q: any) => q.id === currentId);
+
+        if (currentIsStillActive) {
+          return;
+        } else if (activeQueues.length === 1) {
+          setQueue(JSON.stringify(activeQueues[0]));
+        } else {
+          setQueue("");
+        }
+      } catch (err) {
+        console.error("Queue Sync Error:", err);
+      } finally {
+        setIsInitializing(false);
+      }
+    };
+
+    if (isAuthenticated) {
+      syncQueueState();
+    }
+  }, [isAuthenticated]);
 
   const { isLoading, data: queueData = {}, error, refetch } = useQuery({
     queryKey: ["queueList", getQueueID()],
@@ -37,56 +68,23 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         throw err;
       }
     },
-    enabled: getQueueID() !== "", // Avoid unnecessary queries
+    enabled: isAuthenticated && !isInitializing && getQueueID() !== "",
   });
 
-  // Auto-connection logic for queues
-  useEffect(() => {
-    const checkActiveQueue = async (targetID: number) => {
-      const queues = await getActiveQueues();
-      const isActive: boolean = queues.some((obj: { id: number }) => obj.id === targetID);
-      if (!isActive) {
-        setQueue("");
-      }
-    };
-
-    const tryToConnect = async () => {
-      const queues = await getActiveQueues();
-      if (queues.length === 1) {
-        connectToQueue(queues[0].id);
-      } else {
-        throw new Error("Cannot auto-connect");
-      }
-    };
-
-    try {
-      const queueObject = JSON.parse(queue);
-      if (queueObject.id) {
-        checkActiveQueue(queueObject.id);
-      } else {
-        tryToConnect();
-      }
-    } catch {
-      tryToConnect();
-    }
-  }, [queue]);
-
-  // Functions to manage the queue
   const connectToQueue = async (id: string) => {
     const queues = await getActiveQueues();
-    const targetQueue = queues.find((obj: { id: string; }) => obj.id === id);
+    const targetQueue = queues.find((obj: { id: string }) => obj.id === id);
 
     if (!targetQueue) {
       throw new Error("Error connecting to queue");
     }
-
     setQueue(JSON.stringify(targetQueue));
   };
 
   const getQueueOwner = () => {
     try {
       const queueObject = JSON.parse(queue);
-      return queueObject.owner.first_name || "";
+      return queueObject?.owner?.first_name || "";
     } catch {
       return "";
     }
@@ -94,57 +92,44 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
 
   const { mutateAsync: addVideoToQueue } = useMutation({
     mutationFn: async ({ id, priority, visibility }: { id: string; priority: Priority; visibility: number }) => {
-      if (!user) { throw new Error("User not found"); }
+      if (!user) throw new Error("User not found");
       await addToQueue(getQueueID(), user.id, id, priority, visibility);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
     },
     onError: (err: any) => {
-      if (err.response && err.response.status === 403) {
-        throw new Error("The Queue is locked");
-      }
+      if (err.response?.status === 403) throw new Error("The Queue is locked");
       throw err;
     }
   });
 
   const addRandomVideo = async (id: string, priority: number) => {
-    if (!user) { throw new Error("User not found"); }
+    if (!user) throw new Error("User not found");
     await addToQueue(getQueueID(), user.id, id, priority, Visibility.Random);
-  }
+  };
 
   const checkForPlayNext = () => {
-    if (!queueData.next_interaction) return false;
-    if (queueData.next_interaction.priority > 1)
-    {
-      return true;
-    } else {
-      return false;
-    }
-  }
+    return (queueData?.next_interaction?.priority || 0) > 1;
+  };
 
   const isInQueue = (id: string) => {
-    if (!queueData.interactions) return false;
-    return queueData.interactions.some((interaction: Interaction) => interaction.youtube_id === id);
-  }
+    return queueData?.interactions?.some((i: Interaction) => i.youtube_id === id) || false;
+  };
 
   const getCurrentVideoIndex = () => {
-    if (!queueData.interactions || !queueData.current_interaction) return -1;
-    return queueData.interactions.findIndex((interaction: Interaction) => interaction.youtube_id === queueData.current_interaction.youtube_id);
-  }
+    if (!queueData?.interactions || !queueData?.current_interaction) return -1;
+    return queueData.interactions.findIndex((i: Interaction) => i.youtube_id === queueData.current_interaction.youtube_id);
+  };
 
   const getVideoIndexInQueue = (id: string) => {
-    if (!queueData.interactions) return -1;
-    return queueData.interactions.findIndex((interaction: Interaction) => interaction.youtube_id === id);
-  }
+    return queueData?.interactions?.findIndex((i: Interaction) => i.youtube_id === id) ?? -1;
+  };
 
   const { isPending: isActionPending, mutateAsync: deleteVideoFromQueue } = useMutation({
     mutationFn: (id: string) => deleteFromQueue(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
-    },
-    onError: (err: any) => {
-      throw err;
     },
   });
 
@@ -159,7 +144,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         connectToQueue,
         currentlySelected,
         deleteVideoFromQueue,
-        error,
+        error: error as Error | null,
         getCurrentVideoIndex,
         getQueueID,
         getQueueOwner,
@@ -167,7 +152,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         isActionPending,
         isConnected: !!queue,
         isInQueue,
-        isLoading,
+        isLoading: isLoading || isInitializing, // Loading while syncing OR fetching
         queueData,
         refetch,
         searchTerm,
@@ -179,4 +164,3 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     </QueueContext.Provider>
   );
 };
-
