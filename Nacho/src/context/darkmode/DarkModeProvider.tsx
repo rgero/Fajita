@@ -9,7 +9,7 @@ import { warmTheme } from "../../themes/lightThemes";
 
 export const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
   const [isDarkMode, setIsDarkMode] = useLocalStorageState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches.toString(),
+    window.matchMedia("(prefers-color-scheme: dark)").matches,
     "isDarkMode"
   );
 
