@@ -13,7 +13,7 @@ const ShareModal: React.FC = () => {
   const {queueData} = useQueueContext();
 
   const videoData: YoutubeResponse | null = useMemo(
-    () => getVideoData(queueData),
+    () => getVideoData(queueData.current_interaction),
     [queueData]
   );
 
