@@ -12,7 +12,7 @@ describe('getVideoData', () => {
       current_interaction: {
         video: {
           id: 10,
-          video_id: 'abc123',
+          video_id: 'abasdasdfc123',
           title: 'Test Video',
           thumbnail: 'https://example.com/thumb.jpg',
           duration: 120,
@@ -30,7 +30,42 @@ describe('getVideoData', () => {
       owner: {} as User,
       contributors: [],
       length: 0,
-      interactions: [],
+      interactions: [{
+        video: {
+          id: 10,
+          video_id: 'omomomomom',
+          title: 'Test Video',
+          thumbnail: 'https://example.com/thumb.jpg',
+          duration: 120,
+        },
+        user: {} as User,
+        youtube_id: '',
+        id: '',
+        index: 0,
+        priority: 0,
+        created_at: new Date(),
+        modified_at: new Date(),
+        visibility: 0,
+        played: false
+      },
+      {
+        video: {
+          id: 10,
+          video_id: 'abc123',
+          title: 'Test Video',
+          thumbnail: 'https://example.com/thumb.jpg',
+          duration: 120,
+        },
+        user: {} as User,
+        youtube_id: '',
+        id: '',
+        index: 0,
+        priority: 0,
+        created_at: new Date()  ,
+        modified_at: new Date(),
+        visibility: 0,
+        played: false
+      }],
       next_interaction: {} as Interaction,
       id: '',
       active: false,
@@ -50,7 +85,7 @@ describe('getVideoData', () => {
       duration: 120,
     };
 
-    const result = getVideoData(queueData);
+    const result = getVideoData(queueData.interactions[1]);
     expect(result).toEqual(expected);
   });
 });

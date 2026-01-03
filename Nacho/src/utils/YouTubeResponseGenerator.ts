@@ -1,9 +1,9 @@
-import { QueueData } from '@interfaces/QueueData';
+import { Interaction } from '@interfaces/Interaction';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 
-export const getVideoData = (queueData: QueueData): YoutubeResponse | null => {
-  const currentlySelected = queueData.current_interaction;
-  if (!currentlySelected) return null;
+export const getVideoData = (targetInteraction: Interaction|null): YoutubeResponse | null => {
+  const currentlySelected = targetInteraction;
+  if (!currentlySelected || !currentlySelected.video) return null;
 
   return {
     id: currentlySelected.video.video_id,

@@ -54,8 +54,8 @@ const QueueInfoModal = () => {
   }, [currentlySelected, queueData.current_index]);
 
   const videoData: YoutubeResponse | null = useMemo(
-    () => getVideoData(queueData),
-    [queueData]
+    () => getVideoData(currentlySelected),
+    [currentlySelected]
   );
 
   if (!currentlySelected || !status || !videoData) {
