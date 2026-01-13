@@ -26,6 +26,7 @@ describe('useModalContext', () => {
       addToQueueModalOpen: false,
       confirmSkipModalOpen: false,
       shareModalOpen: false,
+      userModalOpen: false,
       toggleClearStashModalOpen: vi.fn(),
       toggleLockQueueModalOpen: vi.fn(),
       toggleQueueInfoModalOpen: vi.fn(),
@@ -33,6 +34,7 @@ describe('useModalContext', () => {
       toggleAddToQueueModalOpen: vi.fn(),
       toggleConfirmSkipModalOpen: vi.fn(),
       toggleShareModalOpen: vi.fn(),
+      toggleUserModalOpen: vi.fn(),
     };
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (

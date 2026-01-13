@@ -29,6 +29,10 @@ vi.mock('@components/modals/ShareModal', () => ({
   default: () => <div data-testid="ShareModal" />,
 }));
 
+vi.mock('@components/modals/UserModal', () => ({
+  default: () => <div data-testid="UserModal" />,
+}));
+
 const ChildComponent = () => <div>Child Content</div>;
 
 describe('ModalProvider', () => {
@@ -50,6 +54,7 @@ describe('ModalProvider', () => {
     expect(screen.getByTestId('LockQueueModal')).toBeInTheDocument();
     expect(screen.getByTestId('QueueInfoModal')).toBeInTheDocument();
     expect(screen.getByTestId('ConfirmSkipModal')).toBeInTheDocument();
+    expect(screen.getByTestId('UserModal')).toBeInTheDocument();
   });
 
   test('provides correct initial context values', () => {

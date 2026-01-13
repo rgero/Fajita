@@ -6,6 +6,7 @@ import LogoutOption from "./HeaderOptions/LogoutOption";
 import QueueManagement from "./HeaderOptions/QueueManagement";
 import React from "react";
 import StashDisplayOption from "./HeaderOptions/StashDisplayOption";
+import UserOption from "./HeaderOptions/UserMenuOption";
 import UserSettingsOption from "./HeaderOptions/UserSettingsOption";
 import { useQueueContext } from '@context/queue/QueueContext';
 
@@ -41,6 +42,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
         <Divider/>
         <FeedbackOption/>
         <Divider/>
+        <UserOption/>
         <UserSettingsOption/>
         <LogoutOption/>
       </Menu>

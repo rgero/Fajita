@@ -9,6 +9,7 @@ export interface ModalContextType {
   addToQueueModalOpen: boolean;
   confirmSkipModalOpen: boolean;
   shareModalOpen: boolean;
+  userModalOpen: boolean;
 
   toggleClearStashModalOpen: () => void;
   toggleLockQueueModalOpen: () => void;
@@ -17,6 +18,7 @@ export interface ModalContextType {
   toggleAddToQueueModalOpen: () => void;
   toggleConfirmSkipModalOpen: () => void;
   toggleShareModalOpen: () => void;
+  toggleUserModalOpen: () => void;
 }
 
 export const ModalContext = createContext<ModalContextType | null>(null);
