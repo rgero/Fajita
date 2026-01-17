@@ -66,7 +66,7 @@ const QueueInfoModal = () => {
   return (
     <Modal open={queueInfoModalOpen} closeFn={toggleQueueInfoModalOpen}>
       <>
-        {status ? (<HiddenVideoCard status={status}/>) : (<VideoCard data={videoData} />)}
+        {!status.isVisible ? (<HiddenVideoCard status={status}/>) : (<VideoCard data={videoData} />)}
 
         <QueueInfoButtons
           checkDelete={checkDelete}
