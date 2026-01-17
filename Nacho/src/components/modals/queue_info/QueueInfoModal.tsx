@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import HiddenVideoCard from '@components/ui/HiddenVideoCard';
 import Modal from '../Modal';
 import { ProcessVideo } from '@utils/SecretVideoProcessor';
 import QueueInfoButton from '@components/queue/QueueInfoButton';
@@ -65,7 +66,7 @@ const QueueInfoModal = () => {
   return (
     <Modal open={queueInfoModalOpen} closeFn={toggleQueueInfoModalOpen}>
       <>
-        <VideoCard data={videoData} />
+        {status ? (<HiddenVideoCard status={status}/>) : (<VideoCard data={videoData} />)}
 
         <QueueInfoButtons
           checkDelete={checkDelete}
