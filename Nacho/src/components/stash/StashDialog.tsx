@@ -5,14 +5,14 @@ import Dialog from "../ui/Dialog";
 import SearchBar from "../ui/SearchBar";
 import StashList from "./StashList";
 import { useDialogContext } from '@context/dialog/DialogContext';
+import { useModalContext } from "@context/modal/ModalContext";
 import { useStashContext } from '@context/stash/StashContext';
 import { useState } from "react";
 
 const StashDialog = () => {
   const {stashOpen, toggleStashOpen} = useDialogContext();
+  const {addRandomModalOpen, clearStashModalOpen, toggleAddRandomModalOpen, toggleClearStashModalOpen} = useModalContext();
   const { searchTerm, sortOption, setSearchTerm, setSortOption } = useStashContext();
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [randomModal, setRandomModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const theme = useTheme();
 
@@ -36,11 +36,11 @@ const StashDialog = () => {
   
   const adornmentButtons = (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      <IconButton onClick={() => setDeleteModal(true)} color={deleteModal ? "warning" : "default"}>
+      <IconButton onClick={toggleClearStashModalOpen} color={clearStashModalOpen ? "warning" : "default"}>
         <DeleteForever />
       </IconButton>
       <Divider orientation="vertical" variant="middle" flexItem />
-      <IconButton onClick={() => setRandomModal(true)} color={randomModal ? "warning" : "default"}>
+      <IconButton onClick={toggleAddRandomModalOpen} color={addRandomModalOpen ? "warning" : "default"}>
         <Casino/>
       </IconButton>
       <Divider orientation="vertical" variant="middle" flexItem />
