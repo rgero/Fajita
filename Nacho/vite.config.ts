@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import mkcert from 'vite-plugin-mkcert'
 import path from 'path'
 import react from '@vitejs/plugin-react'
@@ -15,43 +15,21 @@ const aliases = {
   '@utils': path.resolve(__dirname, 'src/utils'),
 };
 
-export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    mode === 'development' && mkcert(),
-  ].filter(Boolean),
-
+export default defineConfig({
+  plugins: [react(), mkcert()],
   server: {
     port: 7000,
     https: {},
   },
-
   resolve: {
     alias: aliases,
   },
-
-  build: {
-    chunkSizeWarningLimit: 300,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
-              return 'react-vendor';
-            }
-            // Everything else goes to a general vendor chunk
-            return 'vendor';
-          }
-        },
-      },
-    },
-  },
-
   test: {
     environment: 'jsdom',
     globals: true,
     setupFiles: './tests/setupTests.tsx',
-    alias: aliases,
+    // Ensure Vitest uses the same aliases
+    alias: aliases, 
     include: [
       'src/**/*.{test,spec}.{js,ts,jsx,tsx}',
       'tests/**/*.{test,spec}.{js,ts,jsx,tsx}'
@@ -61,4 +39,4 @@ export default defineConfig(({ mode }) => ({
       reporter: ['text', 'html'],
     },
   }
-}));
+})
