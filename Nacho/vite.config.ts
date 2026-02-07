@@ -15,21 +15,40 @@ const aliases = {
   '@utils': path.resolve(__dirname, 'src/utils'),
 };
 
-export default defineConfig({
-  plugins: [react(), mkcert()],
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+    mode === 'development' && mkcert(),
+  ].filter(Boolean),
+
   server: {
     port: 7000,
     https: {},
   },
+
   resolve: {
     alias: aliases,
   },
+
+  build: {
+    chunkSizeWarningLimit: 300,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) return 'react';
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
+
   test: {
     environment: 'jsdom',
     globals: true,
     setupFiles: './tests/setupTests.tsx',
-    // Ensure Vitest uses the same aliases
-    alias: aliases, 
+    alias: aliases,
     include: [
       'src/**/*.{test,spec}.{js,ts,jsx,tsx}',
       'tests/**/*.{test,spec}.{js,ts,jsx,tsx}'
@@ -39,4 +58,4 @@ export default defineConfig({
       reporter: ['text', 'html'],
     },
   }
-})
+}));
