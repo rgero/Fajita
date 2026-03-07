@@ -33,7 +33,18 @@ const FooterProgressBar = () => {
   const percentComplete = currentProgress / duration;
 
   return (
-    <LinearProgress variant="determinate" value={Math.round(percentComplete * 100)} sx={{marginTop: "5px"}} />
+    <LinearProgress 
+      variant="determinate" 
+      value={Math.round(percentComplete * 100)} 
+      sx={{
+        marginTop: "5px",
+        backgroundColor: "#e0e0e0",
+        "& .MuiLinearProgress-bar": {
+          backgroundColor: "#424242",
+          borderRadius: 5,
+        }
+       }} 
+      />
   )
 }
 
