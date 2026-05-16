@@ -30,16 +30,16 @@ const isArtifact = (obj: any): obj is Artifact => {
 }
 
 const VideoCard: React.FC<Props> = ({data, clickFn}) => {
-  if (!data) return;
-  
   const theme = useTheme();
+  const {isRightHanded} = useSettings();
+
+  if (!data) return null;
+
   const title: string = decode(isArtifact(data) ? data.video.title : data.title)
   const channelTitle: string = decode(isArtifact(data) ? "" : data.author)
   const imageURL: string = isArtifact(data) ? data.video.thumbnail : data.thumbnail_src
   const views: string|undefined =  isArtifact(data) ? "" : data.views;
   const duration: string|number = isArtifact(data) ? data.video.duration : data.duration;
-
-  const {isRightHanded} = useSettings();
   const overlayStyle = {
     ...styles.overlay,
     ...(!isRightHanded ? {right: "10px"} : {left: "10px"}),

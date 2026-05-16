@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import io, { Socket } from 'socket.io-client';
 
 import InfoToast from '@components/ui/InfoToast';
@@ -8,6 +8,7 @@ import { useQueueContext } from "../queue/QueueContext";
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | undefined>(undefined);
   const {queueData, refetch} = useQueueContext();
+  const queueId = queueData?.id;
 
   const initializeSocket = useCallback((params: Record<string, string>) => {
     const newSocket = io(`${import.meta.env.VITE_WEBSOCKET_URL}/player`, {
@@ -18,56 +19,56 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if (!queueData || !queueData.id) return;
-    if (socket) {
-      socket.disconnect();
-    }
-    
-    initializeSocket({queue_id: queueData.id});
-  }, [queueData, initializeSocket]);
+    if (!queueId) return;
 
+    initializeSocket({ queue_id: queueId });
 
-  // Websocket events that correspond to the Queue.
-  const onDataChange = useCallback( async () => {
+    return () => {
+      setSocket((current) => {
+        current?.disconnect();
+        return undefined;
+      });
+    };
+  }, [queueId, initializeSocket]);
+
+  const onDataChange = useCallback(async () => {
     refetch();
   }, [refetch]);
 
-  const queueLocked = () => {
+  const queueLocked = useCallback(() => {
     InfoToast("Queue is locked");
-  }
+  }, []);
 
-  const queueUnlocked = () => {
+  const queueUnlocked = useCallback(() => {
     InfoToast("Queue is unlocked");
-  }
+  }, []);
 
-
-  const jumpQueue = (index: number) => {
-    if (socket) {
-      socket.emit("set_index", {queue_id: queueData.id, index: index});
-    } 
-  }
-
-  const playPause = () => {
-    if (socket) {
-      socket.emit("play_pause", {queue_id: queueData.id});
+  const jumpQueue = useCallback((index: number) => {
+    if (socket && queueId) {
+      socket.emit("set_index", { queue_id: queueId, index });
     }
-  }
+  }, [socket, queueId]);
 
-  const skipVideo = () => {
-    if (socket) {
-      socket.emit('skip_video', {queue_id: queueData.id});
+  const playPause = useCallback(() => {
+    if (socket && queueId) {
+      socket.emit("play_pause", { queue_id: queueId });
     }
-  }
+  }, [socket, queueId]);
 
-  const toggleLock = (reason: string) => {
-    if (!socket) return;
-    if (socket && queueData.locked)
-    {
-      socket.emit("unlock_queue", {queue_id: queueData?.id, reason: reason});
+  const skipVideo = useCallback(() => {
+    if (socket && queueId) {
+      socket.emit('skip_video', { queue_id: queueId });
+    }
+  }, [socket, queueId]);
+
+  const toggleLock = useCallback((reason: string) => {
+    if (!socket || !queueId) return;
+    if (queueData.locked) {
+      socket.emit("unlock_queue", { queue_id: queueId, reason });
     } else {
-      socket.emit("lock_queue", {queue_id: queueData?.id, reason: reason});
+      socket.emit("lock_queue", { queue_id: queueId, reason });
     }
-  }
+  }, [socket, queueId, queueData.locked]);
 
   useEffect(() => {
     if (!socket) return;
@@ -79,18 +80,15 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       socket.off("queue_locked", queueLocked);
       socket.off("queue_unlocked", queueUnlocked);
     };
-  }, [socket, onDataChange]);
+  }, [socket, onDataChange, queueLocked, queueUnlocked]);
+
+  const contextValue = useMemo(
+    () => ({ socket, jumpQueue, playPause, skipVideo, toggleLock }),
+    [socket, jumpQueue, playPause, skipVideo, toggleLock]
+  );
 
   return (
-    <SocketContext.Provider value={
-      {
-        socket, 
-        jumpQueue, 
-        playPause,
-        skipVideo,
-        toggleLock
-      }
-    }>
+    <SocketContext.Provider value={contextValue}>
       {children}
     </SocketContext.Provider>
   );

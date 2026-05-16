@@ -8,7 +8,7 @@ export const useCreateFeedback = () => {
       onSuccess: () => {
           toast.success("Feedback Submitted");
       },
-      onError: (err) => toast.error(err.message)
+      onError: (err) => toast.error(err instanceof Error ? err.message : "Failed to submit feedback")
   })
 
   return {isAdding, addFeedback}

@@ -44,7 +44,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const styles = {
     cardStyle: {
       position: 'relative',
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor(),
       color: `${data.index == current ? `${theme.palette.primary.contrastText}` : ""}`,
       filter: shouldFilter() ? 'brightness(25%)' : 'none',
       transition: "background-color 0.3s ease, filter 0.3s ease"

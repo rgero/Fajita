@@ -4,16 +4,19 @@ import SearchCard from "./SearchCard"
 import Spinner from "../ui/Spinner"
 import { YoutubeResponse } from "../../interfaces/YoutubeResponse"
 import toast from "react-hot-toast"
+import { useEffect } from "react"
 import { useSearchContext } from "@context/search/SearchContext"
 
 const SearchResults = () => {
   const {isLoading, searchResults, error} = useSearchContext();
 
-  if (isLoading) return (<Spinner/>)
+  useEffect(() => {
+    if (error) {
+      toast.error("Error fetching search results");
+    }
+  }, [error]);
 
-  if (error) {
-    toast.error("Error fetching search results");
-  }
+  if (isLoading) return (<Spinner/>)
   
   if (searchResults.length == 0)
   {
@@ -23,8 +26,8 @@ const SearchResults = () => {
   return (
     <>
       {
-        searchResults.map( (entry: YoutubeResponse, index: number) => (
-          <Box sx={{paddingBottom: {xs: 2}}} key={index}>
+        searchResults.map( (entry: YoutubeResponse) => (
+          <Box sx={{paddingBottom: {xs: 2}}} key={entry.id}>
             <SearchCard data={entry}/>
           </Box>
         ))

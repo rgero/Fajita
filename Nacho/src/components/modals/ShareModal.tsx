@@ -4,7 +4,7 @@ import ShareButtons from '@components/ui/ShareButtons';
 import VideoCard from '@components/ui/VideoCard';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import { getVideoData } from '@utils/YouTubeResponseGenerator';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useModalContext } from '@context/modal/ModalContext';
 import { useQueueContext } from '@context/queue/QueueContext';
 
@@ -17,12 +17,14 @@ const ShareModal: React.FC = () => {
     [queueData]
   );
 
-  if (!videoData) {
-    if (shareModalOpen)
-    {
+  useEffect(() => {
+    if (shareModalOpen && !videoData) {
       toggleShareModalOpen();
     }
-    return;
+  }, [shareModalOpen, videoData, toggleShareModalOpen]);
+
+  if (!videoData) {
+    return null;
   }
 
   return (

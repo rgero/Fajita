@@ -1,7 +1,19 @@
 import { SettingsContext, defaultInfoOptions, defaultShareOptions } from "./SettingsContext";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocalStorageState } from '@hooks/useLocalStorageState';
+
+const parseOptions = <T extends object>(
+  raw: string,
+  validate: (options: Partial<T>) => T,
+  fallback: T,
+): T => {
+  try {
+    return validate(JSON.parse(raw));
+  } catch {
+    return fallback;
+  }
+};
 
 export const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
   const [enableExperimental, setEnableExperimental] = useLocalStorageState(
@@ -51,19 +63,26 @@ export const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
     };
   }
 
-  useEffect(() => {
-    const parsedShareOptions = JSON.parse(shareOptions);
-    const validatedShareOptions = validateShareOptions(parsedShareOptions);
-    if (JSON.stringify(parsedShareOptions) !== JSON.stringify(validatedShareOptions)) {
-      setShareOptions(JSON.stringify(validatedShareOptions));
-    }
+  const parsedShareOptions = useMemo(
+    () => parseOptions(shareOptions, validateShareOptions, defaultShareOptions),
+    [shareOptions],
+  );
 
-    const parsedInfoOptions = JSON.parse(infoOptions);
-    const validatedInfoOptions = validateInfoOptions(parsedInfoOptions);
-    if (JSON.stringify(parsedInfoOptions) !== JSON.stringify(validatedInfoOptions)) {
-      setInfoOptions(JSON.stringify(validatedInfoOptions));
+  const parsedInfoOptions = useMemo(
+    () => parseOptions(infoOptions, validateInfoOptions, defaultInfoOptions),
+    [infoOptions],
+  );
+
+  useEffect(() => {
+    const normalizedShare = JSON.stringify(parsedShareOptions);
+    if (shareOptions !== normalizedShare) {
+      setShareOptions(normalizedShare);
     }
-  }, []);
+    const normalizedInfo = JSON.stringify(parsedInfoOptions);
+    if (infoOptions !== normalizedInfo) {
+      setInfoOptions(normalizedInfo);
+    }
+  }, [parsedShareOptions, parsedInfoOptions, shareOptions, infoOptions, setShareOptions, setInfoOptions]);
 
   const toggleExperimental = () => {
     setEnableExperimental((enable: boolean) => !enable);
@@ -100,9 +119,9 @@ export const SettingsProvider = ({ children }: {children: React.ReactNode}) => {
         toggleFooterCompact,
         toggleHandedness,
         toggleCompactStash,
-        shareOptions: validateShareOptions(JSON.parse(shareOptions)),
+        shareOptions: parsedShareOptions,
         updateShareOptions,
-        infoOptions: validateInfoOptions(JSON.parse(infoOptions)),
+        infoOptions: parsedInfoOptions,
         updateInfoOptions
       }}
     >

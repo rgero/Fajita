@@ -8,7 +8,7 @@ const backendURL = import.meta.env.VITE_BACKEND_URL;
 export const getSearchResults = async (searchTerm: string) => {
   if (!searchTerm) { return; }
   
-  const queryURL = backendURL + `/api/search?query=${searchTerm}`;
+  const queryURL = backendURL + `/api/search?query=${encodeURIComponent(searchTerm)}`;
   const response = await fajitaAxios.get(queryURL);
 
   if(response.status != 200)
@@ -59,7 +59,7 @@ export const addToQueue = async (queueID: string, userID: string, videoID: strin
   }
 
   await fajitaAxios.post(queueURL, bodyOfReq).catch ( (err) => {
-    if (err.response.status == 403)
+    if (err.response?.status === 403)
     {
       throw new Error("The Queue is locked");
     }

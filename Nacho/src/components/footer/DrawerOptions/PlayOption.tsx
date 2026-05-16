@@ -1,5 +1,5 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -11,17 +11,21 @@ const PlayOption = () => {
 
   const [isPlaying, setPlaying] = useState<boolean|null>(false);
   const [lastPress, setLastPress] = useState<Date|null>(new Date());
+  const isPlayingRef = useRef(isPlaying);
+
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
 
   useEffect(() => {
     if (!socket) return;
     
     const processPlayStatus = async (data: any) => {
-      setPlaying( () => data.player_state_int == 1)
+      setPlaying(data.player_state_int === 1);
     };
 
     const processIsPlaying = () => {
-      if(!isPlaying)
-      {
+      if (!isPlayingRef.current) {
         setPlaying(true);
         socket.off("player_progress", processIsPlaying);
       }

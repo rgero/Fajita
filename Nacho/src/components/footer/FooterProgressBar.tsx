@@ -15,7 +15,7 @@ const FooterProgressBar = () => {
   const [currentProgress, setProgress] = useState<number>(0);
   
   const processProgress = useCallback( (progressResponse: ProgressResponse) => {
-    if (progressResponse.queue_id == queueData.id)
+    if (progressResponse.queue_id === queueData.id)
     {
       setProgress(progressResponse.progress);
     }
@@ -29,8 +29,8 @@ const FooterProgressBar = () => {
     };
   }, [socket, processProgress]);
 
-  const duration: number = queueData.current_interaction.video.duration;
-  const percentComplete = currentProgress / duration;
+  const duration: number = queueData.current_interaction?.video?.duration ?? 0;
+  const percentComplete = duration > 0 ? currentProgress / duration : 0;
 
   return (
     <LinearProgress 

@@ -70,11 +70,11 @@ const QueueList = () => {
             sx={{
               paddingBottom: {xs: 1},
             }} 
-            key={index} 
+            key={entry.id} 
             id={`${entry.index}`}
             ref={ entry.index === targetIndex ? scrollToRef : null } 
           >
-            <QueueCard current={currentIndex} data={entry} key={index}/>
+            <QueueCard current={currentIndex} data={entry}/>
             <Divider/>
           </Box>
         ))

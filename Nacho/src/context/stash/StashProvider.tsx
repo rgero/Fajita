@@ -23,9 +23,6 @@ export const StashProvider = ({ children }: { children: React.ReactNode }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stashData"] });
     },
-    onError: (err: any) => {
-      throw err;
-    }
   });
 
   const { isPending: isActionPending, mutateAsync: deleteVideoFromStash } = useMutation({
@@ -38,9 +35,6 @@ export const StashProvider = ({ children }: { children: React.ReactNode }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stashData"] });
-    },
-    onError: (err: any) => {
-      throw err;
     },
   });
 

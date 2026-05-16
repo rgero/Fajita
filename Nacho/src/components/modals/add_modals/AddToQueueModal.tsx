@@ -34,7 +34,7 @@ const AddToQueueModal: React.FC = () => {
   return (
     <Modal open={addToQueueModalOpen} closeFn={cleanUpAndClose}>
       <Grid container direction="column">
-        <VideoCard data={selectedResult} />
+        {selectedResult && <VideoCard data={selectedResult} />}
         {isConnected ? displayObject() : <NoQueueAddOptions/>}
       </Grid>
     </Modal>

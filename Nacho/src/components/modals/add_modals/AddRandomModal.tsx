@@ -5,6 +5,7 @@ import Button from "../../ui/Button"
 import Modal from "../Modal"
 import { Priority } from "@interfaces/Priority"
 import toast from "react-hot-toast"
+import { useMemo } from "react"
 import { useModalContext } from "@context/modal/ModalContext"
 import { useQueueContext } from "@context/queue/QueueContext"
 import { useStashContext } from "@context/stash/StashContext"
@@ -14,9 +15,18 @@ const AddRandomModal = () => {
   const { addRandomVideo, isInQueue } = useQueueContext();
   const {stashData} = useStashContext();
 
-  const isFajita = Math.random() > 0.75;
+  const isFajita = useMemo(
+    () => Math.random() > 0.75,
+    [addRandomModalOpen]
+  );
 
   const addRandomFromStash = async (priority: Priority) => {
+    if (!stashData?.length) {
+      toast.error("Your stash is empty");
+      toggleAddRandomModalOpen();
+      return;
+    }
+
     try{
       let needsToPick = true;
       let randomVideo = "";

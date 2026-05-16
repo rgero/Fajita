@@ -54,7 +54,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     if (isAuthenticated) {
       syncQueueState();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, getQueueID, setQueue]);
 
   const { isLoading, data: queueData = {}, error, refetch } = useQuery({
     queryKey: ["queueList", getQueueID()],
@@ -98,15 +98,12 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
     },
-    onError: (err: any) => {
-      if (err.response?.status === 403) throw new Error("The Queue is locked");
-      throw err;
-    }
   });
 
   const addRandomVideo = async (id: string, priority: number) => {
     if (!user) throw new Error("User not found");
     await addToQueue(getQueueID(), user.id, id, priority, Visibility.Random);
+    await queryClient.invalidateQueries({ queryKey: ["queueList"] });
   };
 
   const checkForPlayNext = () => {
