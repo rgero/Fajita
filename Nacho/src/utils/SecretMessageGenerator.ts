@@ -9,7 +9,7 @@ export const potentialMessages: string[] = [
   "Anna's sleeping on it",
   "It's in the fridge",
   "AI Overview - Sorry I don't know that",
-  "1-877-Kars-4-Kids"
+  "New Achievement: SECRET VIDEO!",
 ]
 
 export const getSecretMessage = (): string => {
