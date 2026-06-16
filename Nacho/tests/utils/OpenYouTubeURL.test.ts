@@ -23,8 +23,8 @@ describe("OpenYouTubeURL", () => {
       writable: true,
     });
 
-    OpenYouTubeURL("abc123");
-    expect(window.location.href).toBe("youtube://abc123");
+    OpenYouTubeURL("abc123def45");
+    expect(window.location.href).toBe("youtube://abc123def45");
   });
 
   it("opens Android YouTube intent URL when on Android", () => {
@@ -33,9 +33,9 @@ describe("OpenYouTubeURL", () => {
       writable: true,
     });
 
-    OpenYouTubeURL("abc123");
+    OpenYouTubeURL("abc123def45");
     expect(window.location.href).toBe(
-      "intent://www.youtube.com/watch?v=abc123#Intent;package=com.google.android.youtube;scheme=https;end"
+      "intent://www.youtube.com/watch?v=abc123def45#Intent;package=com.google.android.youtube;scheme=https;end"
     );
   });
 
@@ -45,7 +45,7 @@ describe("OpenYouTubeURL", () => {
       writable: true,
     });
 
-    OpenYouTubeURL("abc123");
-    expect(window.location.href).toBe("https://www.youtube.com/watch?v=abc123");
+    OpenYouTubeURL("abc123def45");
+    expect(window.location.href).toBe("https://www.youtube.com/watch?v=abc123def45");
   });
 });
