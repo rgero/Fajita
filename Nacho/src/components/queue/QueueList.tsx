@@ -65,7 +65,7 @@ const QueueList = () => {
   return (
     <Box> 
       {
-        interactions.map( (entry: Interaction, index: number) => (
+        interactions.map( (entry: Interaction) => (
           <Box 
             sx={{
               paddingBottom: {xs: 1},

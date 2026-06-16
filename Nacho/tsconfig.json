@@ -19,9 +19,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": [],
+    "types": ["vite/client", "vitest/globals"],
 
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
 
     "paths": {
       "@components/*": ["src/components/*"],
