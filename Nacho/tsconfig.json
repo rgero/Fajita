@@ -22,8 +22,6 @@
     "types": ["vite/client", "vitest/globals"],
 
     "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
-
     "paths": {
       "@components/*": ["src/components/*"],
       "@context/*": ["src/context/*"],
