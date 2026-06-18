@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 
 import Modal from './Modal';
 import { useAuth } from '@context/authentication/AuthenticationContext';
