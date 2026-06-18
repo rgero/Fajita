@@ -11,7 +11,7 @@ const UserModal: React.FC = () => {
     <Modal open={userModalOpen} closeFn={toggleUserModalOpen}>
       <>
         <Typography variant="h6" gutterBottom>Profile for {user?.first_name}</Typography>
-        <Stack spacing={3}>
+        <Stack spacing={3} sx={{alignItems: 'center'}}>
           <Box 
             component="img" 
             src={user?.picture}
@@ -25,10 +25,10 @@ const UserModal: React.FC = () => {
               mx: 'auto'
             }}
           />
-          <Grid container sx={{ justifyContent: "space-around" }}>
-            <Typography sx={{ fontWeight: "bold" }}>Display Name</Typography>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+            <Typography sx={{ fontWeight: "bold" }}>Display Name:</Typography>
             <Typography>{user?.first_name}</Typography>
-          </Grid>
+          </Box>
           <Box sx={{ alignSelf: 'flex-end' }}>
             <Button variant="contained" onClick={toggleUserModalOpen}>
               Close
