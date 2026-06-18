@@ -21,8 +21,8 @@ const SearchHeader = () => {
   return (
     <AppBar sx={{zIndex: 10}}>
       <StyledToolbar>
-        <Grid container justifyContent="center" alignItems="center" size="grow">
-          <Grid container spacing={2} alignItems="center" justifyContent="center" size={{ xs: 12, sm: 10, md: 4 }}>
+        <Grid container size="grow" sx={{ justifyContent: "center", alignItems: "center" }}>
+          <Grid container spacing={2} size={{ xs: 12, sm: 10, md: 4 }} sx={{ alignItems: "center", justifyContent: "center" }}>
             <Grid size="grow">
               <SearchBar
                 value={searchTerm}

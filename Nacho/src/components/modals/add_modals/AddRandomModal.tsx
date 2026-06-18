@@ -64,7 +64,7 @@ const AddRandomModal = () => {
       >
         <CardHeader
           title={isFajita ? "Let Rudy Pick?" : "Let Daisy Pick?"}
-          titleTypographyProps={{ align: "center", variant: "h5" }}
+          slotProps={{ title: { align: "center", variant: "h5" } }}
         />
         <CardMedia
           component="img"
@@ -76,7 +76,7 @@ const AddRandomModal = () => {
           alt="Random Song"
         />
         <CardContent sx={{ display: "flex", flexGrow: 1, flexDirection: "column", minWidth: 0 }}>
-          <Grid container spacing={5} justifyContent="space-around">
+          <Grid container spacing={5} sx={{ justifyContent: "space-around" }}>
             <Grid>
               <Button onClick={()=> addRandomFromStash(Priority.playNext)} icon={<SkipNext/>} title="Play Next"/>
             </Grid>

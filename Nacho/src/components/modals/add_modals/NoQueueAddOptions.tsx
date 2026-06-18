@@ -18,11 +18,11 @@ const NoQueueAddOptions = () => {
 
   return (
     <InfoSection>
-      <Grid size={12} container justifyContent={"center"}>
+      <Grid size={12} container sx={{ justifyContent: "center" }}>
           <Grid>
             <Typography>No Queue Connected</Typography>
           </Grid>
-          <Grid container size={12} justifyContent="space-evenly" direction="row" spacing={1} alignItems="center">
+          <Grid container size={12} spacing={1} sx={{ justifyContent: "space-evenly", alignItems: "center" }}>
               <ShareButtons targetID={targetID} />
               <StashButton targetID={targetID} />
               <Button onClick={toggleAddToQueueModalOpen} icon={<Close/>} title="Close"/>

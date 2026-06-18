@@ -5,12 +5,12 @@ import { useSettings } from '@context/settings/SettingsContext';
 const FooterCardOptions = () => {
   const {isFooterCompact, toggleFooterCompact} = useSettings();
   return (
-    <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
+    <Grid container spacing={2} sx={{ alignItems: "center", justifyContent: "flex-end" }}>
       <Grid>
         <Typography variant="body1">Compact Card</Typography>
       </Grid>
       <Grid>
-        <Grid container alignItems="center">
+        <Grid container sx={{ alignItems: "center" }}>
           <Switch
             checked={Boolean(isFooterCompact)}
             onChange={toggleFooterCompact}

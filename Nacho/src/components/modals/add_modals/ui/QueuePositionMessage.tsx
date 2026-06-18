@@ -14,7 +14,7 @@ const QueuePositionMessage: React.FC<{ targetID: string }> = ({ targetID }) => {
   if (diff === 0) {
     return (
       <Grid size={12} sx={{paddingTop: 1}}>
-        <Typography align="center" color="warning" fontWeight="bold">Video already in queue.</Typography>
+        <Typography align="center" color="warning" sx={{ fontWeight: "bold" }}>Video already in queue.</Typography>
         <Typography align="center">It's currently playing.</Typography>
       </Grid>
     );
@@ -26,7 +26,7 @@ const QueuePositionMessage: React.FC<{ targetID: string }> = ({ targetID }) => {
 
   return (
     <Grid size={12} sx={{paddingTop: 1}}>
-      <Typography align="center" color="warning" fontWeight="bold">Video already in queue.</Typography>
+      <Typography align="center" color="warning" sx={{ fontWeight: "bold" }}>Video already in queue.</Typography>
       <Typography align="center">
         {`It ${tense} ${count} video${count === 1 ? "" : "s"} ${direction}.`}
       </Typography>

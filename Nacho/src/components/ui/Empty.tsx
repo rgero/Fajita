@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 
 interface Props {
   resource: string
@@ -6,12 +6,10 @@ interface Props {
 
 const Empty: React.FC<Props> = ({resource}) => {
   return (
-    <Grid container direction="column" alignItems="center" sx={{paddingTop: 4}}>
-      <Grid>
-        <img width={200} src="fajita.svg"/>
-      </Grid>
-      <Grid><Typography variant="h5">No {resource} found.</Typography></Grid>
-    </Grid>
+    <Stack sx={{ alignItems: "center", paddingTop: 4 }}>
+      <img width={200} src="fajita.svg"/>
+      <Typography variant="h5">No {resource} found.</Typography>
+    </Stack>
   )
 }
 

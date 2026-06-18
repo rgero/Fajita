@@ -5,7 +5,7 @@ const Loading = () => {
     <>
       <CssBaseline/>
       <Container disableGutters>
-        <Grid justifyContent="center" alignItems="center" container style={{height: "100vh"}}>
+        <Grid container sx={{ justifyContent: "center", alignItems: "center", height: "100vh" }}>
           <CircularProgress />
         </Grid>
       </Container>

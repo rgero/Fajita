@@ -1,5 +1,5 @@
 import AddToQueueOptions from './AddToQueueOptions';
-import { Grid } from '@mui/material';
+import { Stack } from '@mui/material';
 import Modal from '../Modal';
 import NoQueueAddOptions from './NoQueueAddOptions';
 import PlayNextWarning from '../ui/PlayNextWarning';
@@ -33,10 +33,10 @@ const AddToQueueModal: React.FC = () => {
 
   return (
     <Modal open={addToQueueModalOpen} closeFn={cleanUpAndClose}>
-      <Grid container direction="column">
+      <Stack>
         {selectedResult && <VideoCard data={selectedResult} />}
         {isConnected ? displayObject() : <NoQueueAddOptions/>}
-      </Grid>
+      </Stack>
     </Modal>
   );
 };

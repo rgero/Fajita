@@ -1,7 +1,7 @@
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material"
 import { useEffect, useRef, useState } from "react";
 
-import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
+import PauseCircleOutlinedIcon from '@mui/icons-material/PauseCircleOutlined';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import toast from "react-hot-toast";
 import { useSocketProvider } from "@context/websocket/WebsocketContext";
@@ -58,7 +58,7 @@ const PlayOption = () => {
     <ListItem key="playing" disablePadding onClick={processClick}>
       <ListItemButton>
         <ListItemIcon>
-          {isPlaying ? <PauseCircleOutlineIcon/> : <PlayArrowIcon/> }
+          {isPlaying ? <PauseCircleOutlinedIcon/> : <PlayArrowIcon/> }
         </ListItemIcon>
         <ListItemText primary={isPlaying ? "Pause Video" : "Play Video"}/>
       </ListItemButton>

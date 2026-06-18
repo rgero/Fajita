@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material"
+import { Box, Grid, Stack, Typography } from "@mui/material"
 import { DoNotDisturb, SkipNext } from "@mui/icons-material"
 
 import Button from "../ui/Button";
@@ -20,35 +20,29 @@ const ConfirmSkipModal = () => {
 
   return (
     <Modal open={confirmSkipModalOpen} closeFn={toggleConfirmSkipModalOpen} sx={{backgroundColor: grey[900]}}>
-      <Grid container direction="column" alignContent={"center"} spacing={2} sx={{paddingY: "25px"}}>
-        <Grid>
-          <Typography variant="h5" align="center">Are you sure you want to skip this song?</Typography>
-        </Grid>
-        <Grid>
-          <Box
-            component="img"
-            src="/fajita.svg"
-            alt="Rudy"
-            sx={{
-              width: "25%",
-              height: "auto",
-              borderRadius: 2,
-              display: "block",
-              mx: "auto",
-            }}
-          />
-        </Grid>
-        <Grid>
-          <Grid container justifyContent={"flex-end"} spacing={2}>
-            <Grid>
-              <Button onClick={toggleConfirmSkipModalOpen}  icon={<DoNotDisturb />}  title="Cancel"/>
-            </Grid>
-            <Grid>
-              <Button onClick={processSkip} icon={<SkipNext color="success"/>} title="Do it"/>
-            </Grid>
+      <Stack spacing={2} sx={{ paddingY: "25px", alignContent: "center" }}>
+        <Typography variant="h5" align="center">Are you sure you want to skip this song?</Typography>
+        <Box
+          component="img"
+          src="/fajita.svg"
+          alt="Rudy"
+          sx={{
+            width: "25%",
+            height: "auto",
+            borderRadius: 2,
+            display: "block",
+            mx: "auto",
+          }}
+        />
+        <Grid container spacing={2} sx={{ justifyContent: "flex-end" }}>
+          <Grid>
+            <Button onClick={toggleConfirmSkipModalOpen}  icon={<DoNotDisturb />}  title="Cancel"/>
+          </Grid>
+          <Grid>
+            <Button onClick={processSkip} icon={<SkipNext color="success"/>} title="Do it"/>
           </Grid>
         </Grid>
-      </Grid>
+      </Stack>
     </Modal>
   )
 }

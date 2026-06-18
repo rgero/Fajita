@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material"
+import { Box, Grid, Typography } from "@mui/material"
 import { SelfImprovement, Speed, Star } from '@mui/icons-material';
 
 import Button from "../../ui/Button"
@@ -12,16 +12,14 @@ interface PlayNextWarningProps {
 const PlayNextWarning: React.FC<PlayNextWarningProps> = ({ handleSubmit }) => {
   return (
     <InfoSection>
-      <Grid alignSelf={"center"}>
+      <Box sx={{ alignSelf: "center" }}>
         <Typography variant="h6">Warning: Someone else has used their play next.</Typography>
-      </Grid>
-      <Grid>
-        <Grid container justifyContent={"space-around"}>
+      </Box>
+      <Grid container sx={{ justifyContent: "space-around" }}>
           <Button onClick={() => handleSubmit(PlayNextCondition.Rejected)} icon={<Speed/>} title="Nevermind"/>
           <Button onClick={() => handleSubmit(PlayNextCondition.Accepted)} icon={<SelfImprovement color="warning"/>} title="I'll wait"/>
           <Button onClick={() => handleSubmit(PlayNextCondition.Impatient)} icon={<Star color="success"/>} title="Me First!"/>
         </Grid>
-      </Grid>
     </InfoSection>
   )
 }

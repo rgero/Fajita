@@ -30,9 +30,9 @@ const QueueInfoButtons = ({
   return (
     <Grid
       container
-      alignItems="center"
-      justifyContent="space-evenly"
       sx={{
+        alignItems: "center",
+        justifyContent: "space-evenly",
         marginTop: '0.5rem',
         height: 55,
         width: '100%',

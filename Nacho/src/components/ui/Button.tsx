@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({ icon, onClick, title, color }) => {
       }}
       onClick={onClick}
     >
-      <Box display="flex" flexDirection="column" alignItems="center">
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
         {icon}
         <Typography variant="caption" sx={{ color: resolvedColor }}>
           {title}

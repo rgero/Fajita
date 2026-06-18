@@ -29,11 +29,9 @@ describe("Empty component", () => {
     ).toHaveTextContent("No Items found.");
   });
 
-  it("renders the grid container", () => {
+  it("renders the stack layout", () => {
     const { container } = render(<Empty resource="Stuff" />);
 
-    // One Grid container + two child Grid items
-    const grids = container.querySelectorAll(".MuiGrid-root");
-    expect(grids.length).toBeGreaterThanOrEqual(3);
+    expect(container.querySelector(".MuiStack-root")).toBeInTheDocument();
   });
 });

@@ -7,12 +7,12 @@ const DarkModeToggle = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const theme = useTheme();
   return (
-    <Grid container direction="row" alignItems="center" spacing={2} justifyContent="flex-end">
+    <Grid container spacing={2} sx={{ alignItems: "center", justifyContent: "flex-end" }}>
       <Grid>
         <Typography variant="body1">Dark Mode</Typography>
       </Grid>
       <Grid>
-        <Grid container alignItems="center">
+        <Grid container sx={{ alignItems: "center" }}>
           <Switch
             checked={Boolean(isDarkMode)}
             onChange={toggleDarkMode}

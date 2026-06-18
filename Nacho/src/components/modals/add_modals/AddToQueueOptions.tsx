@@ -33,16 +33,16 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
       <Grid size={12}>
         <VisibilityGroup selected={selectedVisibility} setSelected={setVisibility}/>
       </Grid>
-      <Grid size={12} container justifyContent={"space-between"} sx={{paddingTop: 1}}>
+      <Grid size={12} container sx={{ justifyContent: "space-between", paddingTop: 1 }}>
         <Grid>
-          <Grid container direction="row" spacing={1} alignItems="center">
+          <Grid container spacing={1} sx={{ alignItems: "center" }}>
             <ShareButtons targetID={targetID} />
             <StashButton targetID={targetID} />
           </Grid>
         </Grid>
 
         <Grid>
-          <Grid container direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
+          <Grid container spacing={1} sx={{ justifyContent: "flex-end", alignItems: "center" }}>
             <Grid>
               <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
             </Grid>

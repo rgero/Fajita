@@ -30,7 +30,7 @@ const ActiveQueueListItem = ({id, owner, image, closeFn} : {id: string, owner: s
         },
       }}
     >
-      <Grid container direction="row" justifyContent="center" spacing={3}>
+      <Grid container spacing={3} sx={{ justifyContent: "center" }}>
         <Grid>
           {image ? <Avatar src={image}/> : (<Avatar><EmojiPeople/></Avatar>)}
         </Grid> 

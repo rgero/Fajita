@@ -1,4 +1,4 @@
-import { Button, Container, Grid, IconButton, Theme, Typography, useTheme } from "@mui/material"
+import { Button, Container, IconButton, Stack, Theme, Typography, useTheme } from "@mui/material"
 
 import KeyTwoToneIcon from '@mui/icons-material/KeyTwoTone';
 
@@ -12,24 +12,18 @@ const LandingPage = () => {
   
   return (
     <Container disableGutters sx={{minWidth: "100%", backgroundColor: `${theme.palette.background.paper}`, color: `${theme.palette.primary.light}`}}>
-      <Grid container sx={{height: "100vh", paddingTop: "2rem"}} direction="column" alignItems="center">
-        <Grid>
-          <IconButton
-            href={`${import.meta.env.VITE_BACKEND_URL}/login?next=nacho`}
-            size="large"
-          >
-            <img width={200} src="fajita.svg"/>
-          </IconButton>
-        </Grid>
-        <Grid>
-          <Typography variant="subtitle1">Hi, welcome to Fajita</Typography>
-        </Grid>
-        <Grid sx={{paddingTop: 5}}>
-        <Button variant="contained" startIcon={<KeyTwoToneIcon />} onClick={sendToLogin}>
+      <Stack sx={{ height: "100vh", paddingTop: "2rem", alignItems: "center" }}>
+        <IconButton
+          href={`${import.meta.env.VITE_BACKEND_URL}/login?next=nacho`}
+          size="large"
+        >
+          <img width={200} src="fajita.svg"/>
+        </IconButton>
+        <Typography variant="subtitle1">Hi, welcome to Fajita</Typography>
+        <Button variant="contained" startIcon={<KeyTwoToneIcon />} onClick={sendToLogin} sx={{ marginTop: 5 }}>
           Login
         </Button>
-        </Grid>
-      </Grid>
+      </Stack>
 
     </Container>
   )

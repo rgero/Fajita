@@ -55,18 +55,20 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
       open={open}
       onClose={handleClose}
       scroll="paper"
-      TransitionComponent={Transition}
+      slots={{ transition: Transition }}
       sx={{zIndex: 15}}
-      PaperProps={{
-        sx: {
-          backgroundColor: isDarkMode ? grey[900] : theme.palette.primary.main,
-        }
+      slotProps={{
+        paper: {
+          sx: {
+            backgroundColor: isDarkMode ? grey[900] : theme.palette.primary.main,
+          },
+        },
       }}
     >
       <DialogTitle id="scroll-dialog-title">
-        <Grid container alignItems="center" justifyContent="space-between">
+        <Grid container sx={{ alignItems: "center", justifyContent: "space-between" }}>
           <Grid>
-            <Grid container alignItems="center">
+            <Grid container sx={{ alignItems: "center" }}>
               <Grid>
                 <IconButton
                   edge="start"

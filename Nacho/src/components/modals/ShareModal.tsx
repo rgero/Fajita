@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import Modal from './Modal';
 import ShareButtons from '@components/ui/ShareButtons';
 import VideoCard from '@components/ui/VideoCard';
@@ -29,12 +29,12 @@ const ShareModal: React.FC = () => {
 
   return (
     <Modal open={shareModalOpen} closeFn={toggleShareModalOpen}>
-      <Grid container direction="column" spacing={2}>
+      <Stack spacing={2}>
         <VideoCard data={videoData} />
-        <Grid container direction="row" spacing={1} justifyContent="space-around">
+        <Grid container spacing={1} sx={{ justifyContent: "space-around" }}>
           <ShareButtons targetID={videoData.id}/>
         </Grid>
-      </Grid>
+      </Stack>
     </Modal>
   );
 };

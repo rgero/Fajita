@@ -48,23 +48,25 @@ const SearchBar = ({value, setValue, additionalFnKeydown} : {value: string, setV
       variant="filled"
       label="Search"
       fullWidth
-      inputRef={inputRef}
       value={value}
       onChange={(e) => setValue( e.target.value) }
-      inputProps={{
-        enterKeyHint: "search",
-        spellCheck: false
-      }}
-      InputProps={{
-        endAdornment: endAdornment
-      }}
       onKeyDown={processOnKeyDown}
-      InputLabelProps={{
-        sx: {
-          [`&.${inputLabelClasses.shrink}`]: {
-            color: `${theme.palette.primary.contrastText}`
+      slotProps={{
+        htmlInput: {
+          enterKeyHint: "search",
+          spellCheck: false,
+          ref: inputRef,
+        },
+        input: {
+          endAdornment: endAdornment,
+        },
+        inputLabel: {
+          sx: {
+            [`&.${inputLabelClasses.shrink}`]: {
+              color: `${theme.palette.primary.contrastText}`
+            }
           }
-        }
+        },
       }}
     />
   )

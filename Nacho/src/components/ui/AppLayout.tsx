@@ -22,8 +22,8 @@ const AppLayout = () => {
   return (
     <>
       <CssBaseline />
-      <Box display="flex" flexDirection="column" height="calc(var(--vh, 1vh) * 100)">
-        <Box flexGrow={1} overflow="auto" display="flex" justifyContent="center" sx={{ mt: "6rem" }}>
+      <Box sx={{ display: "flex", flexDirection: "column", height: "calc(var(--vh, 1vh) * 100)" }}>
+        <Box sx={{ flexGrow: 1, overflow: "auto", display: "flex", justifyContent: "center", mt: "6rem" }}>
           <Container disableGutters sx={{ width: { xs: "95%", md: "40%" } }}>
             <Outlet />
           </Container>

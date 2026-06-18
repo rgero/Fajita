@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography, useTheme } from "@mui/material";
+import { Button, Container, Stack, Typography, useTheme } from "@mui/material";
 
 import { FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
@@ -21,12 +21,13 @@ const ErrorFallback: React.FC<FallbackProps> = ({resetErrorBoundary}) => {
         color: theme.palette.text.primary,
       }}
     >
-      <Grid
-        container
-        sx={{ height: "100vh", paddingTop: "2rem" }}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
+      <Stack
+        sx={{
+          height: "100vh",
+          paddingTop: "2rem",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <Typography variant="h6" align="center">
           An error has occurred. Probably because you did something weird. Be proud and tell us how you got here.
@@ -39,7 +40,7 @@ const ErrorFallback: React.FC<FallbackProps> = ({resetErrorBoundary}) => {
         >
           Go Home
         </Button>
-      </Grid>
+      </Stack>
     </Container>
   );
 };

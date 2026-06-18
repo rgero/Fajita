@@ -28,8 +28,12 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './tests/setupTests.tsx',
-    // Ensure Vitest uses the same aliases
-    alias: aliases, 
+    alias: aliases,
+    server: {
+      deps: {
+        inline: [/@mui\//, /react-transition-group/],
+      },
+    }, 
     include: [
       'src/**/*.{test,spec}.{js,ts,jsx,tsx}',
       'tests/**/*.{test,spec}.{js,ts,jsx,tsx}'

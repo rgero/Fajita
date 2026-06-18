@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material"
+import { Stack } from "@mui/material"
 import { ReactNode } from "react";
 
 const InfoSection = ({children}: {children: ReactNode}) => {
@@ -10,9 +10,9 @@ const InfoSection = ({children}: {children: ReactNode}) => {
   }
   
   return (
-    <Grid container direction="column" alignContent="center" spacing={2} sx={style}>
+    <Stack spacing={2} sx={style}>
       {children}
-    </Grid>
+    </Stack>
   )
 }
 

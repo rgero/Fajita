@@ -1,5 +1,5 @@
 import { DoNotDisturb, ThumbUpAlt } from "@mui/icons-material"
-import { Grid, Typography } from "@mui/material"
+import { Grid, Stack, Typography } from "@mui/material"
 
 import Button from "../ui/Button"
 import Modal from "./Modal"
@@ -21,21 +21,17 @@ const ClearStashModal = () => {
       open={clearStashModalOpen}
       closeFn={toggleClearStashModalOpen}
     >
-        <Grid container spacing={5} direction="column" justifyContent="center" alignItems="center" sx={{paddingY: "5px"}}>
-          <Grid>
-            <Typography variant="h6" align="center" sx={{textAlign: "center"}}>Are you sure you want to clear your stash?</Typography>
-          </Grid>
-          <Grid>
-            <Grid container spacing={5} justifyContent="space-around">
-              <Grid>
-                <Button onClick={processConfirm} icon={<ThumbUpAlt/>} title="Delete" color="success"/>
-              </Grid>
-              <Grid>
-                <Button onClick={toggleClearStashModalOpen} icon={<DoNotDisturb/>} title="Cancel" color="error"/>
-              </Grid>
+        <Stack spacing={5} sx={{ paddingY: "5px", alignItems: "center", justifyContent: "center" }}>
+          <Typography variant="h6" align="center" sx={{textAlign: "center"}}>Are you sure you want to clear your stash?</Typography>
+          <Grid container spacing={5} sx={{ justifyContent: "space-around" }}>
+            <Grid>
+              <Button onClick={processConfirm} icon={<ThumbUpAlt/>} title="Delete" color="success"/>
+            </Grid>
+            <Grid>
+              <Button onClick={toggleClearStashModalOpen} icon={<DoNotDisturb/>} title="Cancel" color="error"/>
             </Grid>
           </Grid>
-        </Grid>
+        </Stack>
     </Modal>
   )
 }

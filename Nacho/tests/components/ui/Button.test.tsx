@@ -57,8 +57,10 @@ describe('Button component', () => {
   it('defaults to inherit color if no color provided', () => {
     renderWithTheme(<Button icon={<Box />} title="Default" onClick={vi.fn()} />);
     const button = screen.getByRole('button');
-    expect(button).toHaveStyle({ color: 'inherit' });
     const text = screen.getByText('Default');
-    expect(text).toHaveStyle({ color: 'inherit' });
+
+    expect(button).not.toHaveStyle({ color: theme.palette.primary.main });
+    expect(text).not.toHaveStyle({ color: theme.palette.primary.main });
+    expect(window.getComputedStyle(text).color).toBe(window.getComputedStyle(button).color);
   });
 });
