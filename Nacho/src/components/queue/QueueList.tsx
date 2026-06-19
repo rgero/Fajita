@@ -20,7 +20,11 @@ interface SortableQueueItemProps {
 }
 
 const SortableQueueItem: React.FC<SortableQueueItemProps> = ({ entry, current, isScrollTarget, scrollRef }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: entry.id });
+  const isCurrentItem = entry.index === current;
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: entry.id,
+    disabled: isCurrentItem,
+  });
 
   return (
     <Box
@@ -126,6 +130,11 @@ const QueueList = () => {
     const newIndex = orderedInteractions.findIndex((item: Interaction) => item.id === over.id);
 
     if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) {
+      return;
+    }
+
+    const activeInteraction = orderedInteractions[oldIndex];
+    if (activeInteraction.index === currentIndex) {
       return;
     }
 
