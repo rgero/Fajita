@@ -17,6 +17,46 @@ const aliases = {
 
 export default defineConfig({
   plugins: [react(), mkcert()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+
+          if (id.includes('@mui/') || id.includes('@emotion/')) {
+            return 'vendor-mui';
+          }
+
+          if (
+            id.includes('react-router-dom') ||
+            id.includes('react-dom') ||
+            id.includes('react/jsx-runtime') ||
+            id.includes('/react/')
+          ) {
+            return 'vendor-react';
+          }
+
+          if (id.includes('@tanstack/react-query')) {
+            return 'vendor-query';
+          }
+
+          if (id.includes('@dnd-kit/')) {
+            return 'vendor-dnd';
+          }
+
+          if (id.includes('socket.io-client')) {
+            return 'vendor-socket';
+          }
+
+          if (id.includes('date-fns') || id.includes('date-fns-tz')) {
+            return 'vendor-date';
+          }
+
+          return 'vendor-misc';
+        },
+      },
+    },
+  },
   server: {
     port: 7000,
     https: {},

@@ -1,19 +1,68 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
+import { DndContext, PointerSensor, closestCenter, useSensor, useSensors, type DragEndEvent} from "@dnd-kit/core";
+import {SortableContext, arrayMove, useSortable, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 import EmptyQueue from "./EmptyQueue";
 import { Interaction } from '@interfaces/Interaction';
 import QueueCard from "./QueueCard";
 import Spinner from "../ui/Spinner";
 import { useQueueContext } from '@context/queue/QueueContext';
+import { useSocketProvider } from "@context/websocket/WebsocketContext";
+
+interface SortableQueueItemProps {
+  entry: Interaction;
+  current: number;
+  isScrollTarget: boolean;
+  scrollRef: React.RefObject<HTMLElement | null>;
+}
+
+const SortableQueueItem: React.FC<SortableQueueItemProps> = ({ entry, current, isScrollTarget, scrollRef }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: entry.id });
+
+  return (
+    <Box
+      ref={setNodeRef}
+      sx={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.7 : 1,
+      }}
+      {...attributes}
+      {...listeners}
+    >
+      <Box
+        sx={{
+          paddingBottom: { xs: 1 },
+        }}
+        id={`${entry.index}`}
+        ref={isScrollTarget ? scrollRef : null}
+      >
+        <QueueCard current={current} data={entry} />
+        <Divider />
+      </Box>
+    </Box>
+  );
+};
 
 const QueueList = () => {
   const {isLoading, queueData, error} = useQueueContext();
+  const { reorderQueue } = useSocketProvider();
   const {current_index, interactions} = queueData;
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [targetIndex, setTargetIndex] = useState<number>(-1);
+  const [orderedInteractions, setOrderedInteractions] = useState<Interaction[]>([]);
 
   const scrollToRef = useRef<HTMLElement>(null);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
 
   // This is for setting the current Index and scrolling
   useEffect(()=> { 
@@ -36,6 +85,10 @@ const QueueList = () => {
     setCurrentIndex( () => current_index);
     calculateTargetIndex();
   }, [queueData, current_index]);
+
+  useEffect(() => {
+    setOrderedInteractions(interactions || []);
+  }, [interactions]);
 
 
   // This is for the scrolling.
@@ -62,24 +115,52 @@ const QueueList = () => {
     )
   }
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    const oldIndex = orderedInteractions.findIndex((item: Interaction) => item.id === active.id);
+    const newIndex = orderedInteractions.findIndex((item: Interaction) => item.id === over.id);
+
+    if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) {
+      return;
+    }
+
+    const reorderedInteractions = arrayMove(orderedInteractions, oldIndex, newIndex);
+    const movedInteraction = reorderedInteractions[newIndex];
+    const previousInteraction = newIndex > 0 ? reorderedInteractions[newIndex - 1] : null;
+    const nextInteraction = newIndex < reorderedInteractions.length - 1 ? reorderedInteractions[newIndex + 1] : null;
+
+    try {
+      setOrderedInteractions(reorderedInteractions);
+      reorderQueue(movedInteraction.id, previousInteraction?.id || null, nextInteraction?.id || null);
+    } catch {
+      toast.error("Failed to reorder queue item");
+      setOrderedInteractions(interactions || []);
+    }
+  };
+
   return (
-    <Box> 
-      {
-        interactions.map( (entry: Interaction) => (
-          <Box 
-            sx={{
-              paddingBottom: {xs: 1},
-            }} 
-            key={entry.id} 
-            id={`${entry.index}`}
-            ref={ entry.index === targetIndex ? scrollToRef : null } 
-          >
-            <QueueCard current={currentIndex} data={entry}/>
-            <Divider/>
-          </Box>
-        ))
-      }
-    </Box>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <SortableContext items={orderedInteractions.map((entry: Interaction) => entry.id)} strategy={verticalListSortingStrategy}>
+        <Box>
+          {
+            orderedInteractions.map((entry: Interaction) => (
+              <SortableQueueItem
+                key={entry.id}
+                entry={entry}
+                current={currentIndex}
+                isScrollTarget={entry.index === targetIndex}
+                scrollRef={scrollToRef}
+              />
+            ))
+          }
+        </Box>
+      </SortableContext>
+    </DndContext>
   )
 }
 

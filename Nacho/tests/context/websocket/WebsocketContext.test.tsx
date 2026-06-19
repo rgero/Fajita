@@ -20,6 +20,7 @@ describe('useSocketProvider Hook', () => {
       socket: mockSocket,
       jumpQueue: vi.fn(),
       playPause: vi.fn(),
+      reorderQueue: vi.fn(),
       skipVideo: vi.fn(),
       toggleLock: vi.fn(),
     };

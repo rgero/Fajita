@@ -55,6 +55,17 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [socket, queueId]);
 
+  const reorderQueue = useCallback((interactionId: string, prevInteractionId: string | null, nextInteractionId: string | null) => {
+    if (socket && queueId) {
+      socket.emit("reorder_queue", {
+        queue_id: queueId,
+        interaction_id: interactionId,
+        prev_interaction_id: prevInteractionId,
+        next_interaction_id: nextInteractionId,
+      });
+    }
+  }, [socket, queueId]);
+
   const skipVideo = useCallback(() => {
     if (socket && queueId) {
       socket.emit('skip_video', { queue_id: queueId });
@@ -83,8 +94,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, [socket, onDataChange, queueLocked, queueUnlocked]);
 
   const contextValue = useMemo(
-    () => ({ socket, jumpQueue, playPause, skipVideo, toggleLock }),
-    [socket, jumpQueue, playPause, skipVideo, toggleLock]
+    () => ({ socket, jumpQueue, playPause, reorderQueue, skipVideo, toggleLock }),
+    [socket, jumpQueue, playPause, reorderQueue, skipVideo, toggleLock]
   );
 
   return (
