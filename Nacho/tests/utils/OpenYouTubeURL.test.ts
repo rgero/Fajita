@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 
 import { OpenYouTubeURL } from "@utils/OpenYoutubeURL";
 
@@ -27,16 +27,57 @@ describe("OpenYouTubeURL", () => {
     expect(window.location.href).toBe("youtube://abc123def45");
   });
 
-  it("opens Android YouTube intent URL when on Android", () => {
-    Object.defineProperty(navigator, "userAgent", {
-      value: "android",
-      writable: true,
+  describe("Android", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      Object.defineProperty(navigator, "userAgent", {
+        value: "Android",
+        writable: true,
+      });
     });
 
-    OpenYouTubeURL("abc123def45");
-    expect(window.location.href).toBe(
-      "intent://www.youtube.com/watch?v=abc123def45#Intent;package=com.google.android.youtube;scheme=https;end"
-    );
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("sets the Android intent URL immediately", () => {
+      OpenYouTubeURL("abc123def45");
+      expect(window.location.href).toBe(
+        "intent://www.youtube.com/watch?v=abc123def45#Intent;package=com.google.android.youtube;scheme=https;end"
+      );
+    });
+
+    it("falls back to the HTTPS URL after 500ms if the app does not open", () => {
+      OpenYouTubeURL("abc123def45");
+      vi.advanceTimersByTime(500);
+      expect(window.location.href).toBe("https://www.youtube.com/watch?v=abc123def45");
+    });
+
+    it("cancels the fallback timer when the YouTube app opens (page becomes hidden)", () => {
+      OpenYouTubeURL("abc123def45");
+
+      Object.defineProperty(document, "hidden", { value: true, configurable: true });
+      document.dispatchEvent(new Event("visibilitychange"));
+
+      vi.advanceTimersByTime(500);
+
+      expect(window.location.href).toBe(
+        "intent://www.youtube.com/watch?v=abc123def45#Intent;package=com.google.android.youtube;scheme=https;end"
+      );
+
+      Object.defineProperty(document, "hidden", { value: false, configurable: true });
+    });
+
+    it("does not cancel the fallback timer when a visibility event fires but page is still visible", () => {
+      OpenYouTubeURL("abc123def45");
+
+      Object.defineProperty(document, "hidden", { value: false, configurable: true });
+      document.dispatchEvent(new Event("visibilitychange"));
+
+      vi.advanceTimersByTime(500);
+
+      expect(window.location.href).toBe("https://www.youtube.com/watch?v=abc123def45");
+    });
   });
 
   it("opens fallback URL for non-mobile platforms", () => {

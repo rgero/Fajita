@@ -15,6 +15,16 @@ export const OpenYouTubeURL = (video_id: string) => {
   if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
     window.location.href = iosUrl;
   } else if (/android/i.test(navigator.userAgent)) {
+    const fallbackTimer = setTimeout(() => {
+      window.location.href = url;
+    }, 500);
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        clearTimeout(fallbackTimer);
+      }
+    }, { once: true });
+
     window.location.href = androidUrl;
   } else {
     window.location.href = url;
