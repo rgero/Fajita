@@ -10,7 +10,8 @@ export const potentialMessages: string[] = [
   "It's in the fridge",
   "AI Overview - Sorry I don't know that",
   "New Achievement: SECRET VIDEO!",
-  "Happy Pride Bitches!"
+  "Happy Pride Bitches!",
+  "Check between the cushions"
 ]
 
 export const getSecretMessage = (): string => {
