@@ -30,7 +30,6 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
     }
   };
 
-  // An attempt at handling the back button.
   useEffect(() => {
     const handlePopState = () => {
       if (open) {
