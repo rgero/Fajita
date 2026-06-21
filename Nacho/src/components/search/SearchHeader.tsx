@@ -3,6 +3,7 @@ import { AppBar, Grid, Toolbar, styled } from "@mui/material";
 import React from "react";
 import SearchBar from "../ui/SearchBar";
 import UserAvatar from "../ui/UserAvatar"
+import { useQueueContext } from "@context/queue/QueueContext";
 import { useSearchParams } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -11,12 +12,15 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 const SearchHeader = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const {queueData} = useQueueContext();
   const [searchTerm, setTerm] = React.useState<string>(searchParams.get("search") ? searchParams.get("search") as string: "");
 
   const processSubmit = () => {
     searchParams.set("search", searchTerm as string);
     setSearchParams(searchParams);
   }
+
+  const isQueueLocked = queueData ? queueData.locked : false;
 
   return (
     <AppBar sx={{zIndex: 10}}>
@@ -28,7 +32,9 @@ const SearchHeader = () => {
                 value={searchTerm}
                 setValue={setTerm}
                 additionalFnKeydown={processSubmit}
+                isLocked={isQueueLocked}
               />
+
             </Grid>
             <Grid>
               <UserAvatar />

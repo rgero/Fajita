@@ -1,4 +1,4 @@
-import { AddCircle, CheckBox, CheckBoxOutlineBlank } from '@mui/icons-material';
+import { AddCircle, CheckBox, CheckBoxOutlineBlank, Lock } from '@mui/icons-material';
 
 import Button from '../../ui/Button';
 import { Grid } from "@mui/material";
@@ -10,6 +10,7 @@ import ShareButtons from '../../ui/ShareButtons';
 import StashButton from './ui/StashButton';
 import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup";
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useSearchContext } from '@context/search/SearchContext';
 
 interface AddToQueueOptionsProps {
@@ -21,9 +22,12 @@ interface AddToQueueOptionsProps {
 }
 
 const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selectedVisibility, setVisibility, handleSubmit, handleToggle}) => {
+  const {queueData} = useQueueContext()
   const { selectedResult } = useSearchContext();
 
   if (!selectedResult) return null;
+
+  const isQueueLocked = queueData ? queueData.locked : false;
 
   const targetID = "video" in selectedResult ? selectedResult.video.video_id : selectedResult.id;
 
@@ -47,7 +51,7 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
               <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
             </Grid>
             <Grid>
-              <Button onClick={()=> handleSubmit()} icon={(<AddCircle/>)} title="Add" color="success"/>
+              {!isQueueLocked ? <Button onClick={()=> handleSubmit()} icon={(<AddCircle/>)} title="Add" color="success"/> : <Button onClick={()=> handleSubmit()} icon={(<Lock/>)} title="Locked" color="grey"/>}
             </Grid>
           </Grid>
         </Grid>

@@ -1,9 +1,9 @@
+import { Clear, Lock } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField, inputLabelClasses, useTheme } from "@mui/material";
 
-import { Clear } from "@mui/icons-material";
 import { useRef } from "react";
 
-const SearchBar = ({value, setValue, additionalFnKeydown} : {value: string, setValue: ( result: string) => void, additionalFnKeydown?: () => void}) => {
+const SearchBar = ({value, setValue, additionalFnKeydown, isLocked} : {value: string, setValue: ( result: string) => void, additionalFnKeydown?: () => void, isLocked?: boolean}) => {
   const theme = useTheme(); 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -43,10 +43,19 @@ const SearchBar = ({value, setValue, additionalFnKeydown} : {value: string, setV
     </InputAdornment>
   )
 
+  const startAdornment = isLocked ? (
+    <InputAdornment position="start">
+      <Lock color="action"/>
+    </InputAdornment>
+  ) : (
+    null
+  )
+
   return (
     <TextField
       variant="filled"
-      label="Search"
+      label={ !isLocked ? "Search" : undefined }
+      hiddenLabel={isLocked}
       fullWidth
       value={value}
       onChange={(e) => setValue( e.target.value) }
@@ -58,6 +67,7 @@ const SearchBar = ({value, setValue, additionalFnKeydown} : {value: string, setV
           ref: inputRef,
         },
         input: {
+          startAdornment: startAdornment,
           endAdornment: endAdornment,
         },
         inputLabel: {
