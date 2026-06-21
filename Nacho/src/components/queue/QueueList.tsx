@@ -1,5 +1,5 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
-import { DndContext, PointerSensor, closestCenter, useSensor, useSensors, type DragEndEvent} from "@dnd-kit/core";
+import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors, type DragEndEvent} from "@dnd-kit/core";
 import {SortableContext, arrayMove, useSortable, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useRef, useState } from "react";
@@ -61,9 +61,15 @@ const QueueList = () => {
 
   const scrollToRef = useRef<HTMLElement>(null);
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
         distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
       },
     })
   );
