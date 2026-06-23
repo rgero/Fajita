@@ -20,7 +20,7 @@ const ConfirmSkipModal = () => {
 
   return (
     <Modal open={confirmSkipModalOpen} closeFn={toggleConfirmSkipModalOpen} sx={{backgroundColor: grey[900]}}>
-      <Stack spacing={2} sx={{ paddingY: "25px", alignContent: "center" }}>
+      <Stack spacing={2} sx={{ paddingY: "25px", alignItems: "center" }}>
         <Typography variant="h5" align="center">Are you sure you want to skip this song?</Typography>
         <Box
           component="img"
@@ -30,11 +30,9 @@ const ConfirmSkipModal = () => {
             width: "25%",
             height: "auto",
             borderRadius: 2,
-            display: "block",
-            mx: "auto",
           }}
         />
-        <Grid container spacing={2} sx={{ justifyContent: "flex-end" }}>
+        <Grid container spacing={2} sx={{ justifyContent: "flex-end", width: "100%" }}>
           <Grid>
             <Button onClick={toggleConfirmSkipModalOpen}  icon={<DoNotDisturb />}  title="Cancel"/>
           </Grid>
