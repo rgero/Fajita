@@ -47,11 +47,13 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({priority, selected
 
         <Grid>
           <Grid container spacing={1} sx={{ justifyContent: "flex-end", alignItems: "center" }}>
+            {!isQueueLocked && (
+              <Grid>
+                <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
+              </Grid>
+            )}
             <Grid>
-              <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next"/>
-            </Grid>
-            <Grid>
-              {!isQueueLocked ? <Button onClick={()=> handleSubmit()} icon={(<AddCircle/>)} title="Add" color="success"/> : <Button onClick={()=> handleSubmit()} icon={(<Lock/>)} title="Locked" color="grey"/>}
+              {!isQueueLocked ? <Button onClick={()=> handleSubmit()} icon={(<AddCircle/>)} title="Add" color="success"/> : <Button onClick={()=> null} icon={(<Lock/>)} title="Locked" color="grey"/>}
             </Grid>
           </Grid>
         </Grid>

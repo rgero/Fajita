@@ -45,7 +45,7 @@ const SearchBar = ({value, setValue, additionalFnKeydown, isLocked} : {value: st
 
   const startAdornment = isLocked ? (
     <InputAdornment position="start">
-      <Lock color="action"/>
+      <Lock color="warning"/>
     </InputAdornment>
   ) : (
     null
