@@ -11,12 +11,31 @@ vi.mock('@components/stash/StashDialog', () => ({ default: () => <div data-testi
 vi.mock('@components/settings/UserSettingsDialog', () => ({ default: () => <div data-testid="settings-dialog" /> }));
 
 const TestConsumer = () => {
-  const { queueOpen, areAnyOpen, toggleQueueOpen, toggleSettingsOpen } = useDialogContext();
+  const {
+    queueOpen,
+    activeQueuesOpen,
+    feedbackOpen,
+    stashOpen,
+    settingsOpen,
+    areAnyOpen,
+    toggleQueueOpen,
+    toggleActiveQueuesOpen,
+    toggleFeedbackOpen,
+    toggleStashOpen,
+    toggleSettingsOpen,
+  } = useDialogContext();
   return (
     <div>
       <span data-testid="queue-status">{queueOpen ? 'open' : 'closed'}</span>
+      <span data-testid="active-queues-status">{activeQueuesOpen ? 'open' : 'closed'}</span>
+      <span data-testid="feedback-status">{feedbackOpen ? 'open' : 'closed'}</span>
+      <span data-testid="stash-status">{stashOpen ? 'open' : 'closed'}</span>
+      <span data-testid="settings-status">{settingsOpen ? 'open' : 'closed'}</span>
       <span data-testid="any-open">{areAnyOpen ? 'yes' : 'no'}</span>
       <button data-testid="toggle-queue" onClick={toggleQueueOpen}>Toggle Queue</button>
+      <button data-testid="toggle-active-queues" onClick={toggleActiveQueuesOpen}>Toggle Active Queues</button>
+      <button data-testid="toggle-feedback" onClick={toggleFeedbackOpen}>Toggle Feedback</button>
+      <button data-testid="toggle-stash" onClick={toggleStashOpen}>Toggle Stash</button>
       <button data-testid="toggle-settings" onClick={toggleSettingsOpen}>Toggle Settings</button>
     </div>
   );
@@ -84,5 +103,22 @@ describe('DialogProvider', () => {
     expect(screen.getByTestId('active-queue-dialog')).toBeTruthy();
     expect(screen.getByTestId('stash-dialog')).toBeTruthy();
     expect(screen.getByTestId('feedback-dialog')).toBeTruthy();
+  });
+
+  it('toggles active queues, feedback, and stash dialogs', () => {
+    render(
+      <DialogProvider>
+        <TestConsumer />
+      </DialogProvider>
+    );
+
+    fireEvent.click(screen.getByTestId('toggle-active-queues'));
+    fireEvent.click(screen.getByTestId('toggle-feedback'));
+    fireEvent.click(screen.getByTestId('toggle-stash'));
+
+    expect(screen.getByTestId('active-queues-status').textContent).toBe('open');
+    expect(screen.getByTestId('feedback-status').textContent).toBe('open');
+    expect(screen.getByTestId('stash-status').textContent).toBe('open');
+    expect(screen.getByTestId('any-open').textContent).toBe('yes');
   });
 });

@@ -43,4 +43,15 @@ describe('useSettings', () => {
     result.current.toggleHandedness();
     expect(mockValue.toggleHandedness).toHaveBeenCalled();
   });
+
+  it('invokes default update callbacks from context when no provider is used', () => {
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const { result } = renderHook(() => useSettings());
+
+    result.current.updateShareOptions({ clipboard: true, youtube: false, stash: true });
+    result.current.updateInfoOptions({ clipboard: false, youtube: true, stash: false });
+
+    expect(consoleSpy).toHaveBeenCalledTimes(2);
+    consoleSpy.mockRestore();
+  });
 });

@@ -108,5 +108,30 @@ describe('ModalProvider', () => {
     act(() => contextValues.toggleAddRandomModalOpen());
     expect(contextValues.addRandomModalOpen).toBe(true);
     expect(contextValues.anyModalsOpen).toBe(true);
+
+    act(() => contextValues.toggleLockQueueModalOpen());
+    act(() => contextValues.toggleQueueInfoModalOpen());
+    act(() => contextValues.toggleAddToQueueModalOpen());
+    act(() => contextValues.toggleConfirmSkipModalOpen());
+    act(() => contextValues.toggleShareModalOpen());
+    act(() => contextValues.toggleUserModalOpen());
+
+    expect(contextValues.lockQueueModalOpen).toBe(true);
+    expect(contextValues.queueInfoModalOpen).toBe(true);
+    expect(contextValues.addToQueueModalOpen).toBe(true);
+    expect(contextValues.confirmSkipModalOpen).toBe(true);
+    expect(contextValues.shareModalOpen).toBe(true);
+    expect(contextValues.userModalOpen).toBe(true);
+
+    // Close everything and verify aggregate flag returns to false
+    act(() => contextValues.toggleAddRandomModalOpen());
+    act(() => contextValues.toggleLockQueueModalOpen());
+    act(() => contextValues.toggleQueueInfoModalOpen());
+    act(() => contextValues.toggleAddToQueueModalOpen());
+    act(() => contextValues.toggleConfirmSkipModalOpen());
+    act(() => contextValues.toggleShareModalOpen());
+    act(() => contextValues.toggleUserModalOpen());
+
+    expect(contextValues.anyModalsOpen).toBe(false);
   });
 });

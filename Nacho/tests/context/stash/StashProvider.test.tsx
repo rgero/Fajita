@@ -27,11 +27,15 @@ const createMockArtifact = (id: string, title: string, date: string): Artifact =
 } as unknown as Artifact);
 
 // 3. Test Component to interact with the Context
+let capturedStashContext: ReturnType<typeof useStashContext> | null = null;
+
 const TestComponent = () => {
-  const { 
+  const context = useStashContext();
+  capturedStashContext = context;
+  const {
     stashData, isLoading, error, GetFilteredData, sortOption, searchTerm,
-    setSearchTerm, setSortOption, addVideoToStash, deleteVideoFromStash, deleteStash 
-  } = useStashContext();
+    setSearchTerm, setSortOption, addVideoToStash, deleteVideoFromStash, deleteStash, isInStash
+  } = context;
 
   if (isLoading) return <div data-testid="loading">Loading...</div>;
   if (error) return <div data-testid="error">{error.message}</div>;
@@ -50,9 +54,16 @@ const TestComponent = () => {
 
       <button onClick={() => setSearchTerm('React')}>Search React</button>
       <button onClick={() => setSortOption('title_asc')}>Sort Asc</button>
+      <button onClick={() => setSortOption('date_oldest')}>Sort Oldest</button>
+      <button onClick={() => setSortOption('title_desc')}>Sort Desc</button>
+      <button onClick={() => setSortOption('unknown_sort' as any)}>Sort Unknown</button>
       <button onClick={() => addVideoToStash('new-123')}>Add Video</button>
       <button onClick={() => deleteVideoFromStash('v1')}>Delete V1</button>
       <button onClick={() => deleteStash()}>Clear Stash</button>
+
+      <div data-testid="is-in-stash-v1">{String(isInStash('v1'))}</div>
+      <div data-testid="is-in-stash-missing">{String(isInStash('missing'))}</div>
+      <div data-testid="is-in-stash-undefined">{String(isInStash(undefined))}</div>
     </div>
   );
 };
@@ -79,6 +90,7 @@ describe('StashProvider Integration', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
+    capturedStashContext = null;
     // Default success mock for data fetching
     vi.mocked(api.getStashData).mockResolvedValue({ artifacts: mockArtifacts });
   });
@@ -104,6 +116,42 @@ describe('StashProvider Integration', () => {
     });
     const listItems = screen.getAllByRole('listitem');
     expect(listItems[0].textContent).toBe('Alpha React');
+  });
+
+  it('uses default sorting when sort option is unknown', async () => {
+    render(<TestComponent />, { wrapper: createWrapper() });
+    await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('2'));
+
+    act(() => {
+      screen.getByText('Sort Unknown').click();
+    });
+
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems[0].textContent).toBe('Alpha React');
+  });
+
+  it('sorts by oldest date when date_oldest is selected', async () => {
+    render(<TestComponent />, { wrapper: createWrapper() });
+    await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('2'));
+
+    act(() => {
+      screen.getByText('Sort Oldest').click();
+    });
+
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems[0].textContent).toBe('Zebra Training');
+  });
+
+  it('sorts titles descending when title_desc is selected', async () => {
+    render(<TestComponent />, { wrapper: createWrapper() });
+    await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('2'));
+
+    act(() => {
+      screen.getByText('Sort Desc').click();
+    });
+
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems[0].textContent).toBe('Zebra Training');
   });
 
   it('handles addVideoToStash successfully', async () => {
@@ -134,6 +182,15 @@ describe('StashProvider Integration', () => {
     expect(api.deleteFromStash).toHaveBeenCalledWith('db-v1');
   });
 
+  it('throws when deleting a video not found in stash data', async () => {
+    render(<TestComponent />, { wrapper: createWrapper() });
+    await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('2'));
+
+    await expect(capturedStashContext!.deleteVideoFromStash('missing-video')).rejects.toThrow(
+      'Artifact not found in stash'
+    );
+  });
+
   it('handles deleteStash (entire stash) successfully', async () => {
     vi.mocked(api.deleteStash).mockResolvedValue(undefined);
     
@@ -158,5 +215,23 @@ describe('StashProvider Integration', () => {
     await waitFor(() => {
       expect(screen.getByTestId('error').textContent).toBe('Failed to fetch');
     });
+  });
+
+  it('evaluates isInStash helper for hit, miss and undefined input', async () => {
+    render(<TestComponent />, { wrapper: createWrapper() });
+    await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('2'));
+
+    expect(screen.getByTestId('is-in-stash-v1').textContent).toBe('true');
+    expect(screen.getByTestId('is-in-stash-missing').textContent).toBe('false');
+    expect(screen.getByTestId('is-in-stash-undefined').textContent).toBe('false');
+  });
+
+  it('returns false from isInStash when artifacts are missing', async () => {
+    vi.mocked(api.getStashData).mockResolvedValue({});
+
+    render(<TestComponent />, { wrapper: createWrapper() });
+    await waitFor(() => expect(screen.getByTestId('count').textContent).toBe('0'));
+
+    expect(screen.getByTestId('is-in-stash-v1').textContent).toBe('false');
   });
 });
