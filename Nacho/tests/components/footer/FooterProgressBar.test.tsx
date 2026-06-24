@@ -7,17 +7,18 @@ import FooterProgressBar from "@components/footer/FooterProgressBar";
 
 const mockSocketOn = vi.fn();
 const mockSocketOff = vi.fn();
+let mockSocket: { on: typeof mockSocketOn; off: typeof mockSocketOff } | undefined = {
+  on: mockSocketOn,
+  off: mockSocketOff,
+};
 
 vi.mock("@context/websocket/WebsocketContext", () => ({
   useSocketProvider: () => ({
-    socket: {
-      on: mockSocketOn,
-      off: mockSocketOff,
-    },
+    socket: mockSocket,
   }),
 }));
 
-const mockQueueData = {
+let mockQueueData = {
   id: "queue-123",
   current_interaction: {
     video: {
@@ -38,6 +39,18 @@ describe("FooterProgressBar", () => {
   beforeEach(() => {
     mockSocketOn.mockClear();
     mockSocketOff.mockClear();
+    mockSocket = {
+      on: mockSocketOn,
+      off: mockSocketOff,
+    };
+    mockQueueData = {
+      id: "queue-123",
+      current_interaction: {
+        video: {
+          duration: 100,
+        },
+      },
+    };
     listener = undefined;
   });
 
@@ -106,5 +119,34 @@ describe("FooterProgressBar", () => {
 
     const progress = screen.getByRole("progressbar");
     expect(progress).toHaveAttribute("aria-valuenow", "25");
+  });
+
+  it("keeps progress at 0 when duration is missing", async () => {
+    mockQueueData = {
+      id: "queue-123",
+      current_interaction: undefined,
+    } as any;
+
+    mockSocketOn.mockImplementation((_event, cb) => {
+      listener = cb;
+    });
+
+    render(<FooterProgressBar />);
+
+    await act(async () => {
+      listener!({ queue_id: "queue-123", progress: 75 });
+    });
+
+    const progress = screen.getByRole("progressbar");
+    expect(progress).toHaveAttribute("aria-valuenow", "0");
+  });
+
+  it("does not subscribe when socket is unavailable", () => {
+    mockSocket = undefined;
+
+    render(<FooterProgressBar />);
+
+    expect(mockSocketOn).not.toHaveBeenCalled();
+    expect(mockSocketOff).not.toHaveBeenCalled();
   });
 });

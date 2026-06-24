@@ -9,8 +9,11 @@ vi.mock('@context/authentication/AuthenticationContext', () => ({
 }));
 
 vi.mock('@components/header/HeaderMenu', () => ({
-  default: ({ anchorEl }: { anchorEl: HTMLElement | null }) => (
-    <div data-testid="header-menu">{anchorEl ? 'Menu Open' : 'Menu Closed'}</div>
+  default: ({ anchorEl, closeFn }: { anchorEl: HTMLElement | null; closeFn: () => void }) => (
+    <div>
+      <div data-testid="header-menu">{anchorEl ? 'Menu Open' : 'Menu Closed'}</div>
+      <button onClick={closeFn}>Close Menu</button>
+    </div>
   ),
 }));
 
@@ -38,6 +41,14 @@ describe('UserAvatar', () => {
     expect(avatar).toHaveAttribute('src', 'default-user.jpg');
   });
 
+  it('renders avatar with default picture when user is null', () => {
+    (useAuth as any).mockReturnValue({ user: null });
+    render(<UserAvatar />);
+
+    const avatar = screen.getByRole('img');
+    expect(avatar).toHaveAttribute('src', 'default-user.jpg');
+  });
+
   it('opens HeaderMenu when avatar is clicked', () => {
     (useAuth as any).mockReturnValue({ user: mockUser });
     render(<UserAvatar />);
@@ -55,12 +66,9 @@ describe('UserAvatar', () => {
 
     const avatar = screen.getByRole('img');
     fireEvent.click(avatar);
-
-    // The HeaderMenu closeFn is called internally in UserAvatar
-    // We'll simulate it by clicking avatar again (or directly calling the function if exposed)
-    fireEvent.click(avatar); // This toggles anchorEl for simplicity
+    fireEvent.click(screen.getByRole('button', { name: /close menu/i }));
 
     const menu = screen.getByTestId('header-menu');
-    expect(menu).toHaveTextContent('Menu Open'); // Still open because we didn’t expose handleClose
+    expect(menu).toHaveTextContent('Menu Closed');
   });
 });
