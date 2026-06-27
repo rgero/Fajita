@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Priority } from '@interfaces/Priority';
 
 const getMock = vi.fn();
 const postMock = vi.fn();
@@ -129,7 +130,7 @@ describe('apiFajita service', () => {
     it('throws when queue id is empty', async () => {
       const { addToQueue } = await loadApi();
 
-      await expect(addToQueue('', 'user', 'video', 'single', 1)).rejects.toThrow('Not connected to queue');
+      await expect(addToQueue('', 'user', 'video', Priority.normal, 1)).rejects.toThrow('Not connected to queue');
       expect(postMock).not.toHaveBeenCalled();
     });
 
@@ -137,13 +138,13 @@ describe('apiFajita service', () => {
       const { addToQueue } = await loadApi();
       postMock.mockResolvedValue({ status: 201 });
 
-      await addToQueue('queue-1', 'user-1', 'video-1', 'single', 2);
+      await addToQueue('queue-1', 'user-1', 'video-1', Priority.normal, 2);
 
       expect(postMock).toHaveBeenCalledWith('http://api.test/api/interaction', {
         queue_id: 'queue-1',
         user_id: 'user-1',
         video_id: 'video-1',
-        priority: 'single',
+        priority: Priority.normal,
         visibility: 2,
       });
     });
@@ -152,14 +153,14 @@ describe('apiFajita service', () => {
       const { addToQueue } = await loadApi();
       postMock.mockRejectedValue({ response: { status: 403 } });
 
-      await expect(addToQueue('queue-1', 'user-1', 'video-1', 'single', 1)).rejects.toThrow('The Queue is locked');
+      await expect(addToQueue('queue-1', 'user-1', 'video-1', Priority.normal, 1)).rejects.toThrow('The Queue is locked');
     });
 
     it('throws generic message for other add failures', async () => {
       const { addToQueue } = await loadApi();
       postMock.mockRejectedValue(new Error('network'));
 
-      await expect(addToQueue('queue-1', 'user-1', 'video-1', 'single', 1)).rejects.toThrow('Failed to add video');
+      await expect(addToQueue('queue-1', 'user-1', 'video-1', Priority.normal, 1)).rejects.toThrow('Failed to add video');
     });
   });
 

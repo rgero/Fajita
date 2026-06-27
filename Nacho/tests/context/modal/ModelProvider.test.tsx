@@ -25,6 +25,10 @@ vi.mock('@components/modals/ConfirmSkipModal', () => ({
   default: () => <div data-testid="ConfirmSkipModal" />,
 }));
 
+vi.mock('@components/modals/ConfirmRestartModal', () => ({
+  default: () => <div data-testid="ConfirmRestartModal" />,
+}));
+
 vi.mock('@components/modals/ShareModal', () => ({
   default: () => <div data-testid="ShareModal" />,
 }));
@@ -54,6 +58,7 @@ describe('ModalProvider', () => {
     expect(screen.getByTestId('LockQueueModal')).toBeInTheDocument();
     expect(screen.getByTestId('QueueInfoModal')).toBeInTheDocument();
     expect(screen.getByTestId('ConfirmSkipModal')).toBeInTheDocument();
+    expect(screen.getByTestId('ConfirmRestartModal')).toBeInTheDocument();
     expect(screen.getByTestId('UserModal')).toBeInTheDocument();
   });
 

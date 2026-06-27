@@ -7,6 +7,7 @@ export interface SocketContextType {
   jumpQueue: (index: number) => void,
   playPause: () => void,
   reorderQueue: (interactionId: string, prevInteractionId: string | null, nextInteractionId: string | null) => void,
+  resetProgress: () => void,
   skipVideo: () => void,
   toggleLock: (reason: string) => void
 }

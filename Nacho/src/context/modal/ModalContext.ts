@@ -8,6 +8,7 @@ export interface ModalContextType {
   addRandomModalOpen: boolean;
   addToQueueModalOpen: boolean;
   confirmSkipModalOpen: boolean;
+  confirmRestartModalOpen: boolean;
   shareModalOpen: boolean;
   userModalOpen: boolean;
 
@@ -17,6 +18,7 @@ export interface ModalContextType {
   toggleAddRandomModalOpen: () => void;
   toggleAddToQueueModalOpen: () => void;
   toggleConfirmSkipModalOpen: () => void;
+  toggleConfirmRestartModalOpen: () => void;
   toggleShareModalOpen: () => void;
   toggleUserModalOpen: () => void;
 }

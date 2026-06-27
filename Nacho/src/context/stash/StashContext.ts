@@ -9,7 +9,7 @@ export interface StashContextType {
   error: Error | null;
   GetFilteredData: () => Artifact[];
   isActionPending: boolean;
-  isInStash: (id: string) => boolean;
+  isInStash: (id: string | undefined) => boolean;
   isLoading: boolean;
   refetch: () => void;
   searchTerm: string;

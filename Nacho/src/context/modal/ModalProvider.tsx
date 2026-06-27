@@ -1,6 +1,7 @@
 import AddRandomModal from "@components/modals/add_modals/AddRandomModal";
 import AddToQueueModal from "@components/modals/add_modals/AddToQueueModal";
 import ClearStashModal from "@components/modals/ClearStashModal";
+import ConfirmRestartModal from "@components/modals/ConfirmRestartModal";
 import ConfirmSkipModal from "@components/modals/ConfirmSkipModal";
 import LockQueueModal from "@components/modals/LockQueueModal";
 import { ModalContext } from "./ModalContext";
@@ -16,6 +17,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [addRandomModalOpen, setAddRandomModalOpen] = useState(false);
   const [addToQueueModalOpen, setAddToQueueModalOpen] = useState(false);
   const [confirmSkipModalOpen, setConfirmSkipModalOpen] = useState(false);
+  const [confirmRestartModalOpen, setConfirmRestartModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
 
@@ -25,18 +27,20 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleAddRandomModalOpen = () => setAddRandomModalOpen(prev => !prev);
   const toggleAddToQueueModalOpen = () => setAddToQueueModalOpen(prev => !prev);
   const toggleConfirmSkipModalOpen = () => setConfirmSkipModalOpen(prev => !prev);
+  const toggleConfirmRestartModalOpen = () => setConfirmRestartModalOpen(prev => !prev);
   const toggleShareModalOpen = () => setShareModalOpen(prev => !prev);
   const toggleUserModalOpen = () => setUserModalOpen(prev => !prev);
 
   return (
     <ModalContext.Provider value={{ 
-      anyModalsOpen: clearStashModalOpen || lockQueueModalOpen || queueInfoModalOpen || addRandomModalOpen || addToQueueModalOpen || confirmSkipModalOpen || shareModalOpen || userModalOpen,
+      anyModalsOpen: clearStashModalOpen || lockQueueModalOpen || queueInfoModalOpen || addRandomModalOpen || addToQueueModalOpen || confirmSkipModalOpen || confirmRestartModalOpen || shareModalOpen || userModalOpen,
       clearStashModalOpen,
       lockQueueModalOpen,
       queueInfoModalOpen,
       addRandomModalOpen,
       addToQueueModalOpen,
       confirmSkipModalOpen,
+      confirmRestartModalOpen,
       shareModalOpen,
       userModalOpen,
       toggleClearStashModalOpen,
@@ -44,6 +48,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       toggleQueueInfoModalOpen,
       toggleAddRandomModalOpen,
       toggleAddToQueueModalOpen,
+      toggleConfirmRestartModalOpen,
       toggleConfirmSkipModalOpen,
       toggleShareModalOpen,
       toggleUserModalOpen
@@ -55,6 +60,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       <LockQueueModal/>
       <QueueInfoModal/>
       <ConfirmSkipModal/>
+      <ConfirmRestartModal/>
       <ShareModal/>
       <UserModal/>
       {children}

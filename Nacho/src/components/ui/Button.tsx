@@ -7,9 +7,10 @@ interface ButtonProps {
   onClick: () => void
   title: string | null
   color?: keyof Palette | string
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ icon, onClick, title, color }) => {
+const Button: React.FC<ButtonProps> = ({ icon, onClick, title, color, disabled = false }) => {
   const theme = useTheme()
 
   let resolvedColor: string = "inherit"
@@ -28,6 +29,7 @@ const Button: React.FC<ButtonProps> = ({ icon, onClick, title, color }) => {
         paddingInline: "5px",
         color: resolvedColor,
       }}
+      disabled={disabled}
       onClick={onClick}
     >
       <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>

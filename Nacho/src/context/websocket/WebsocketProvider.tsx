@@ -55,6 +55,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [socket, queueId]);
 
+  const resetProgress = useCallback(() => {
+    if (socket && queueId) {
+      socket.emit("set_progress", { queue_id: queueId, progress: 0 });
+    }
+  }, [socket, queueId]);
+
   const reorderQueue = useCallback((interactionId: string, prevInteractionId: string | null, nextInteractionId: string | null) => {
     if (socket && queueId) {
       socket.emit("reorder_queue", {
@@ -94,8 +100,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, [socket, onDataChange, queueLocked, queueUnlocked]);
 
   const contextValue = useMemo(
-    () => ({ socket, jumpQueue, playPause, reorderQueue, skipVideo, toggleLock }),
-    [socket, jumpQueue, playPause, reorderQueue, skipVideo, toggleLock]
+    () => ({ socket, jumpQueue, playPause, reorderQueue, resetProgress, skipVideo, toggleLock }),
+    [socket, jumpQueue, playPause, reorderQueue, resetProgress, skipVideo, toggleLock]
   );
 
   return (

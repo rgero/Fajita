@@ -20,6 +20,10 @@ vi.mock("@components/footer/DrawerOptions/QueueOption", () => ({
   default: () => <div>QueueOption</div>,
 }));
 
+vi.mock("@components/footer/DrawerOptions/RestartOption", () => ({
+  default: () => <div>RestartOption</div>,
+}));
+
 vi.mock("@components/footer/DrawerOptions/SkipOption", () => ({
   default: () => <div>SkipOption</div>,
 }));
@@ -41,6 +45,7 @@ describe("FooterDrawer", () => {
     render(<FooterDrawer isOpen={true} toggleDrawer={toggleDrawerMock} />);
 
     expect(screen.getByText("PlayOption")).toBeInTheDocument();
+    expect(screen.getByText("RestartOption")).toBeInTheDocument();
     expect(screen.getByText("SkipOption")).toBeInTheDocument();
     expect(screen.getByText("ShareOption")).toBeInTheDocument();
     expect(screen.getByText("AddToStashOption")).toBeInTheDocument();

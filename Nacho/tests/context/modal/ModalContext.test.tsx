@@ -25,6 +25,7 @@ describe('useModalContext', () => {
       addRandomModalOpen: false,
       addToQueueModalOpen: false,
       confirmSkipModalOpen: false,
+      confirmRestartModalOpen: false,
       shareModalOpen: false,
       userModalOpen: false,
       toggleClearStashModalOpen: vi.fn(),
@@ -33,6 +34,7 @@ describe('useModalContext', () => {
       toggleAddRandomModalOpen: vi.fn(),
       toggleAddToQueueModalOpen: vi.fn(),
       toggleConfirmSkipModalOpen: vi.fn(),
+      toggleConfirmRestartModalOpen: vi.fn(),
       toggleShareModalOpen: vi.fn(),
       toggleUserModalOpen: vi.fn(),
     };

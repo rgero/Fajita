@@ -21,6 +21,7 @@ describe('useSocketProvider Hook', () => {
       jumpQueue: vi.fn(),
       playPause: vi.fn(),
       reorderQueue: vi.fn(),
+      resetProgress: vi.fn(),
       skipVideo: vi.fn(),
       toggleLock: vi.fn(),
     };

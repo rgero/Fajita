@@ -4,6 +4,7 @@ import AddToStashOption from "./DrawerOptions/AddToStash"
 import OpenStashOption from "./DrawerOptions/OpenStashOption"
 import PlayOption from "./DrawerOptions/PlayOption"
 import QueueOption from "./DrawerOptions/QueueOption"
+import RestartOption from "./DrawerOptions/RestartOption"
 import ShareOption from "./DrawerOptions/ShareOption"
 import SkipOption from "./DrawerOptions/SkipOption"
 
@@ -28,6 +29,7 @@ const FooterDrawer: React.FC<Props> = ({isOpen, toggleDrawer}) => {
       >
         <List>
           <PlayOption/>
+          <RestartOption/>
           <SkipOption/>
           <ShareOption/>
           <Divider/>

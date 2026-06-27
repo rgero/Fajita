@@ -11,6 +11,7 @@ import React from 'react';
 import ShareIcon from '@mui/icons-material/Share';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { copyToClipboard } from '@utils/CopyToClipboard';
+import { useQueueContext } from '@context/queue/QueueContext';
 import { useSettings } from '@context/settings/SettingsContext';
 import { useStashContext } from '@context/stash/StashContext';
 
@@ -24,7 +25,10 @@ interface Props {
 const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, jumpQueue }) => {
   const { shareOptions } = useSettings();
   const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashContext();
+  const { queueData } = useQueueContext();
   const { video_id } = interaction.video;
+
+  const isCurrentlyPlaying = queueData.current_index === interaction.index;
 
   const processStash = async () => {
     if (isInStash(video_id)) {
@@ -72,9 +76,15 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
           )}
         </>
       )}
-      <Grid>
-        <Button onClick={()=> jumpQueue(interaction.index)} icon={<PlayCircleIcon color="success" />} title="Play" />
-      </Grid>
+      {!isCurrentlyPlaying ? (
+        <Grid>
+          <Button onClick={() => jumpQueue(interaction.index)} icon={<PlayCircleIcon color="success" />} title="Play" />
+        </Grid>
+      ) : (        
+        <Grid>
+          <Button onClick={() => jumpQueue(interaction.index)} icon={<PlayCircleIcon color="success" />} title="Playing" disabled={true} />
+        </Grid>
+      )}
     </>
   );
 };
