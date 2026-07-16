@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 
 import Button from '../../ui/Button';
 import { Close } from "@mui/icons-material";
@@ -18,16 +18,14 @@ const NoQueueAddOptions = () => {
 
   return (
     <InfoSection>
-      <Grid size={12} container sx={{ justifyContent: "center" }}>
-          <Grid>
-            <Typography>No Queue Connected</Typography>
-          </Grid>
+      <Stack spacing={2} sx={{ alignItems: "center", width: "100%" }}>
+          <Typography>No Queue Connected</Typography>
           <Grid container size={12} spacing={1} sx={{ justifyContent: "space-evenly", alignItems: "center" }}>
               <ShareButtons targetID={targetID} />
               <StashButton targetID={targetID} />
               <Button onClick={toggleAddToQueueModalOpen} icon={<Close/>} title="Close"/>
           </Grid>
-      </Grid>
+      </Stack>
     </InfoSection>
   )
 }
