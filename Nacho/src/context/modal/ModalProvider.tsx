@@ -1,3 +1,4 @@
+import AddDirectVideoModal from "@components/modals/add_modals/AddDirectVideoModal";
 import AddRandomModal from "@components/modals/add_modals/AddRandomModal";
 import AddToQueueModal from "@components/modals/add_modals/AddToQueueModal";
 import ClearStashModal from "@components/modals/ClearStashModal";
@@ -15,6 +16,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [lockQueueModalOpen, setLockQueueModalOpen] = useState(false);
   const [queueInfoModalOpen, setQueueInfoModalOpen] = useState(false);
   const [addRandomModalOpen, setAddRandomModalOpen] = useState(false);
+  const [addDirectModalOpen, setAddDirectModalOpen] = useState(false);
   const [addToQueueModalOpen, setAddToQueueModalOpen] = useState(false);
   const [confirmSkipModalOpen, setConfirmSkipModalOpen] = useState(false);
   const [confirmRestartModalOpen, setConfirmRestartModalOpen] = useState(false);
@@ -26,6 +28,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleQueueInfoModalOpen = () => setQueueInfoModalOpen(prev => !prev);
   const toggleAddRandomModalOpen = () => setAddRandomModalOpen(prev => !prev);
   const toggleAddToQueueModalOpen = () => setAddToQueueModalOpen(prev => !prev);
+  const toggleAddDirectModalOpen = () => setAddDirectModalOpen(prev => !prev);
   const toggleConfirmSkipModalOpen = () => setConfirmSkipModalOpen(prev => !prev);
   const toggleConfirmRestartModalOpen = () => setConfirmRestartModalOpen(prev => !prev);
   const toggleShareModalOpen = () => setShareModalOpen(prev => !prev);
@@ -33,12 +36,13 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ModalContext.Provider value={{ 
-      anyModalsOpen: clearStashModalOpen || lockQueueModalOpen || queueInfoModalOpen || addRandomModalOpen || addToQueueModalOpen || confirmSkipModalOpen || confirmRestartModalOpen || shareModalOpen || userModalOpen,
+      anyModalsOpen: clearStashModalOpen || lockQueueModalOpen || queueInfoModalOpen || addRandomModalOpen || addToQueueModalOpen || confirmSkipModalOpen || confirmRestartModalOpen || shareModalOpen || userModalOpen || addDirectModalOpen,
       clearStashModalOpen,
       lockQueueModalOpen,
       queueInfoModalOpen,
       addRandomModalOpen,
       addToQueueModalOpen,
+      addDirectModalOpen,
       confirmSkipModalOpen,
       confirmRestartModalOpen,
       shareModalOpen,
@@ -48,12 +52,14 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       toggleQueueInfoModalOpen,
       toggleAddRandomModalOpen,
       toggleAddToQueueModalOpen,
+      toggleAddDirectModalOpen,
       toggleConfirmRestartModalOpen,
       toggleConfirmSkipModalOpen,
       toggleShareModalOpen,
       toggleUserModalOpen
 
     }}>
+      <AddDirectVideoModal/>
       <AddRandomModal/>
       <AddToQueueModal/>
       <ClearStashModal/>

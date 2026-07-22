@@ -1,5 +1,6 @@
 import {Divider, Menu} from "@mui/material";
 
+import AddDirectVideoOption from "./HeaderOptions/AddDirectVideoOption";
 import FeedbackOption from "./HeaderOptions/FeedbackOption";
 import LockQueueOption from "./HeaderOptions/LockQueueOption";
 import LogoutOption from "./HeaderOptions/LogoutOption";
@@ -34,6 +35,7 @@ const HeaderMenu: React.FC<Props> = ({anchorEl, closeFn}) => {
       >
         <QueueManagement/>
         <Divider/>
+        <AddDirectVideoOption/>
         <StashDisplayOption/>
         {queueData.id ? [
           <Divider key="lock-divider" />,

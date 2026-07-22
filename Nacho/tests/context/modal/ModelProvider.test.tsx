@@ -9,6 +9,11 @@ import { vi } from 'vitest';
 vi.mock('@components/modals/add_modals/AddRandomModal', () => ({
   default: () => <div data-testid="AddRandomModal" />,
 }));
+
+vi.mock('@components/modals/add_modals/AddDirectVideoModal', () => ({
+  default: () => <div data-testid="AddDirectVideoModal" />,
+}));
+
 vi.mock('@components/modals/add_modals/AddToQueueModal', () => ({
   default: () => <div data-testid="AddToQueueModal" />,
 }));
