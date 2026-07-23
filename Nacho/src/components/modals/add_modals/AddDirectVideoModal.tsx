@@ -4,7 +4,9 @@ import AddToQueueOptions from "./AddToQueueOptions";
 import Modal from "../Modal";
 import PlayNextWarning from "../ui/PlayNextWarning";
 import SubmittingSpinner from "../ui/SubmittingSpinner";
-import { useCallback } from "react";
+import VideoCard from "../../ui/VideoCard";
+import { YoutubeResponse } from "@interfaces/YoutubeResponse";
+import { useCallback, useMemo } from "react";
 import useAddToQueue from "./hooks/useAddToQueue";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from "@context/queue/QueueContext";
@@ -17,6 +19,13 @@ const extractYouTubeId = (url: string): string | null => {
   return match && match[2].length === 11 ? match[2] : null;
 };
 
+const PLACEHOLDER_VIDEO: YoutubeResponse = {
+  id: "",
+  title: "Enter a YouTube URL above",
+  thumbnail_src: "",
+  duration: "",
+};
+
 const AddDirectVideoModal = () => {
   const { addDirectModalOpen, toggleAddDirectModalOpen } = useModalContext();
   const { queueData } = useQueueContext();
@@ -26,6 +35,16 @@ const AddDirectVideoModal = () => {
 
   const videoId = extractYouTubeId(urlInput);
   const isQueueLocked = queueData?.locked ?? false;
+
+  const videoData = useMemo<YoutubeResponse>(() => {
+    if (!videoId) return PLACEHOLDER_VIDEO;
+    return {
+      id: videoId,
+      title: videoId,
+      thumbnail_src: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      duration: "",
+    };
+  }, [videoId]);
 
   const handleClose = useCallback(() => {
     setUrlInput("");
@@ -66,6 +85,7 @@ const AddDirectVideoModal = () => {
   return (
     <Modal open={addDirectModalOpen} closeFn={cleanUpAndClose}>
       <Stack spacing={2}>
+        <VideoCard data={videoData} />
         <TextField
           id="direct-video-url"
           label="Direct Video URL"
