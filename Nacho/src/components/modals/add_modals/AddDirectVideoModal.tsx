@@ -19,7 +19,7 @@ const extractYouTubeId = (url: string): string | null => {
 
 const AddDirectVideoModal = () => {
   const { addDirectModalOpen, toggleAddDirectModalOpen } = useModalContext();
-  const { queueData, isConnected } = useQueueContext();
+  const { queueData } = useQueueContext();
 
   const [urlInput, setUrlInput] = useState("");
   const [urlError, setUrlError] = useState(false);
@@ -80,7 +80,7 @@ const AddDirectVideoModal = () => {
           error={urlError}
           helperText={urlError ? "Please enter a valid YouTube video link." : ""}
         />
-        {isConnected ? displayObject() : null}
+        {displayObject()}
       </Stack>
     </Modal>
   );

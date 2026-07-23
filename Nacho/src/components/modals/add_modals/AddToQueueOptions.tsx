@@ -33,8 +33,8 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({targetID, isQueueL
       <Grid size={12} container sx={{ justifyContent: "space-between", paddingTop: 1 }}>
         <Grid>
           <Grid container spacing={1} sx={{ alignItems: "center" }}>
-            {targetID && <ShareButtons targetID={targetID} />}
-            {targetID && <StashButton targetID={targetID} />}
+            <ShareButtons targetID={targetID ?? ""} disabled={disabled || !targetID} />
+            <StashButton targetID={targetID ?? ""} disabled={disabled || !targetID} />
           </Grid>
         </Grid>
 

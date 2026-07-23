@@ -5,7 +5,7 @@ import { Grid } from "@mui/material";
 import toast from "react-hot-toast";
 import { useStashContext } from "@context/stash/StashContext";
 
-const StashButton: React.FC<{ targetID: string }> = ({ targetID }) => {
+const StashButton: React.FC<{ targetID: string; disabled?: boolean }> = ({ targetID, disabled = false }) => {
   const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashContext();
 
   const processStash = async () => {
@@ -24,7 +24,7 @@ const StashButton: React.FC<{ targetID: string }> = ({ targetID }) => {
 
   return (
     <Grid>
-      <Button onClick={processStash} icon={isInStash(targetID) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color={isInStash(targetID) ? "error" : "default"}/>
+      <Button onClick={processStash} icon={isInStash(targetID) ? <Favorite/> : <FavoriteBorder/>} title="Stash" color={isInStash(targetID) ? "error" : "default"} disabled={disabled}/>
     </Grid>
   );
 };

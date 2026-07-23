@@ -6,21 +6,11 @@ import { Priority } from "@interfaces/Priority";
 import { Visibility } from "@interfaces/Visibility";
 import toast from "react-hot-toast";
 import useAddToQueue from "@components/modals/add_modals/hooks/useAddToQueue";
-import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from "@context/queue/QueueContext";
-import { useSearchContext } from "@context/search/SearchContext";
 
 // --- MOCK CONTEXTS ---
 vi.mock("@context/queue/QueueContext", () => ({
   useQueueContext: vi.fn()
-}));
-
-vi.mock("@context/modal/ModalContext", () => ({
-  useModalContext: vi.fn()
-}));
-
-vi.mock("@context/search/SearchContext", () => ({
-  useSearchContext: vi.fn()
 }));
 
 // --- MOCK TOAST ---
@@ -35,17 +25,7 @@ vi.mock("react-hot-toast", () => ({
 
 const mockAddVideoToQueue = vi.fn();
 const mockCheckForPlayNext = vi.fn();
-const mockToggleModal = vi.fn();
-const mockSetSelectedResult = vi.fn();
-
-const baseSelectedResult = {
-  id: "video123"
-};
-
-// mock context implementations
-
-
-
+const mockOnClose = vi.fn();
 
 describe("useAddToQueue", () => {
   beforeEach(() => {
@@ -55,35 +35,25 @@ describe("useAddToQueue", () => {
       addVideoToQueue: mockAddVideoToQueue,
       checkForPlayNext: mockCheckForPlayNext,
     });
-
-    (useModalContext as any).mockReturnValue({
-      toggleAddToQueueModalOpen: mockToggleModal,
-    });
-
-    (useSearchContext as any).mockReturnValue({
-      selectedResult: baseSelectedResult,
-      setSelectedResult: mockSetSelectedResult,
-    });
   });
 
   // -------------------------------
   //          BASIC STATE
   // -------------------------------
   it("initializes with default values", () => {
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
     expect(result.current.priority).toBe(Priority.normal);
     expect(result.current.visibility).toBe(Visibility.Normal);
     expect(result.current.playNextCondition).toBe(PlayNextCondition.None);
     expect(result.current.isSubmitting).toBe(false);
-    expect(result.current.targetID).toBe("video123");
   });
 
   // -------------------------------
   //          TOGGLE PRIORITY
   // -------------------------------
   it("toggles playNext priority", () => {
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
     act(() => result.current.togglePlayNext());
     expect(result.current.priority).toBe(Priority.playNext);
@@ -98,7 +68,7 @@ describe("useAddToQueue", () => {
   it("submits normally when priority is normal", async () => {
     mockCheckForPlayNext.mockResolvedValue(false);
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
     await act(async () => {
       await result.current.submit();
@@ -111,35 +81,21 @@ describe("useAddToQueue", () => {
     });
   });
 
-  it("does nothing when there is no selected result", async () => {
-    (useSearchContext as any).mockReturnValue({
-      selectedResult: null,
-      setSelectedResult: mockSetSelectedResult,
-    });
-
-    const { result } = renderHook(() => useAddToQueue());
+  it("does nothing when videoId is null", async () => {
+    const { result } = renderHook(() => useAddToQueue(null, mockOnClose));
 
     await act(async () => {
       await result.current.submit();
     });
 
-    expect(result.current.targetID).toBeNull();
     expect(mockAddVideoToQueue).not.toHaveBeenCalled();
     expect(mockCheckForPlayNext).not.toHaveBeenCalled();
   });
 
-  it("uses nested selectedResult.video.video_id when present", async () => {
-    (useSearchContext as any).mockReturnValue({
-      selectedResult: {
-        video: {
-          video_id: "nested-video-id",
-        },
-      },
-      setSelectedResult: mockSetSelectedResult,
-    });
+  it("submits with the provided videoId", async () => {
     mockCheckForPlayNext.mockResolvedValue(false);
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("nested-video-id", mockOnClose));
 
     await act(async () => {
       await result.current.submit();
@@ -158,20 +114,16 @@ describe("useAddToQueue", () => {
   it("requests play-next permission when needed", async () => {
     mockCheckForPlayNext.mockResolvedValue(true);
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
-    // First toggle to set priority from normal → playNext
     act(() => result.current.togglePlayNext());
     expect(result.current.priority).toBe(Priority.playNext);
 
     await act(async () => {
-      await result.current.submit(); // no accepted condition yet
+      await result.current.submit();
     });
 
-    // It should have STOPPED here and NOT called addVideoToQueue
     expect(mockAddVideoToQueue).not.toHaveBeenCalled();
-
-    // Should now require user confirmation
     expect(result.current.playNextCondition).toBe(PlayNextCondition.Need);
   });
 
@@ -179,7 +131,7 @@ describe("useAddToQueue", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     mockCheckForPlayNext.mockRejectedValue(new Error("permission-fail"));
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
     act(() => result.current.togglePlayNext());
 
     await act(async () => {
@@ -197,9 +149,8 @@ describe("useAddToQueue", () => {
   it("submits with priority.playNext after confirming permission", async () => {
     mockCheckForPlayNext.mockResolvedValue(false);
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
-    // user toggles to playNext priority
     act(() => result.current.togglePlayNext());
 
     await act(async () => {
@@ -216,7 +167,7 @@ describe("useAddToQueue", () => {
   it("submits with Priority.normal when play-next is rejected", async () => {
     mockCheckForPlayNext.mockResolvedValue(false);
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
     act(() => result.current.togglePlayNext());
 
     await act(async () => {
@@ -233,7 +184,7 @@ describe("useAddToQueue", () => {
   it("submits with Priority.impatient when impatient condition is chosen", async () => {
     mockCheckForPlayNext.mockResolvedValue(false);
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
     act(() => result.current.togglePlayNext());
 
     await act(async () => {
@@ -256,7 +207,7 @@ describe("useAddToQueue", () => {
     mockCheckForPlayNext.mockResolvedValue(false);
     mockAddVideoToQueue.mockRejectedValue(new Error("Queue Error"));
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
     await act(async () => {
       await result.current.submit();
@@ -273,7 +224,7 @@ describe("useAddToQueue", () => {
     mockCheckForPlayNext.mockResolvedValue(false);
     mockAddVideoToQueue.mockRejectedValue("boom");
 
-    const { result } = renderHook(() => useAddToQueue());
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
     await act(async () => {
       await result.current.submit();
@@ -283,14 +234,12 @@ describe("useAddToQueue", () => {
     consoleSpy.mockRestore();
   });
 
-
   // -------------------------------
   //     CLEANUP LOGIC
   // -------------------------------
-  it("cleans up state and closes modal", () => {
-    const { result } = renderHook(() => useAddToQueue());
+  it("cleans up state and calls onClose", () => {
+    const { result } = renderHook(() => useAddToQueue("video123", mockOnClose));
 
-    // Change state from default so cleanup resets it
     act(() => result.current.togglePlayNext());
     act(() => result.current.setVisibility(Visibility.Hidden));
     act(() => result.current.setPriority(Priority.impatient));
@@ -302,19 +251,6 @@ describe("useAddToQueue", () => {
     expect(result.current.playNextCondition).toBe(PlayNextCondition.None);
     expect(result.current.isSubmitting).toBe(false);
 
-    expect(mockToggleModal).toHaveBeenCalled();
-    expect(mockSetSelectedResult).toHaveBeenCalledWith(null);
-  });
-
-  it("cleans up safely when modal toggle function is missing", () => {
-    (useModalContext as any).mockReturnValue({
-      toggleAddToQueueModalOpen: undefined,
-    });
-
-    const { result } = renderHook(() => useAddToQueue());
-
-    act(() => result.current.cleanUpAndClose());
-
-    expect(mockSetSelectedResult).toHaveBeenCalledWith(null);
+    expect(mockOnClose).toHaveBeenCalled();
   });
 });
