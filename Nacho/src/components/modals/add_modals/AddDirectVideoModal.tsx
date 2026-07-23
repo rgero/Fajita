@@ -3,6 +3,7 @@ import { Button, Stack, TextField } from "@mui/material";
 import Modal from "../Modal";
 import { Priority } from "@interfaces/Priority";
 import { Visibility } from "@interfaces/Visibility";
+import VisibilityGroup from "@components/ui/VisibilityGroup";
 import toast from "react-hot-toast";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from "@context/queue/QueueContext";
@@ -20,6 +21,7 @@ const AddDirectVideoModal = () => {
   const {addVideoToQueue} = useQueueContext();
 
   const [urlInput, setUrlInput] = useState("");
+  const [visibility, setVisibility] = useState(Visibility.Normal);
   const [error, setError] = useState(false);
 
   const handleClose = () => {
@@ -42,7 +44,7 @@ const AddDirectVideoModal = () => {
       await addVideoToQueue({
         id: videoId,
         priority: Priority.normal,
-        visibility: Visibility.Normal,
+        visibility: visibility,
       });
       toast.success("Video Added");
       
@@ -72,6 +74,7 @@ const AddDirectVideoModal = () => {
             error ? "Please enter a valid YouTube video link." : ""
           }
         />
+        <VisibilityGroup selected={visibility} setSelected={setVisibility}/>
         <Button variant="contained" onClick={handleAddVideo}>
           Add Video
         </Button>
