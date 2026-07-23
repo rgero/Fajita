@@ -1,10 +1,11 @@
-import { Button, Stack, TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 
+import AddToQueueOptions from "./AddToQueueOptions";
 import Modal from "../Modal";
-import { Priority } from "@interfaces/Priority";
-import { Visibility } from "@interfaces/Visibility";
-import VisibilityGroup from "@components/ui/VisibilityGroup";
-import toast from "react-hot-toast";
+import PlayNextWarning from "../ui/PlayNextWarning";
+import SubmittingSpinner from "../ui/SubmittingSpinner";
+import { useCallback } from "react";
+import useAddToQueue from "./hooks/useAddToQueue";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from "@context/queue/QueueContext";
 import { useState } from "react";
@@ -18,45 +19,52 @@ const extractYouTubeId = (url: string): string | null => {
 
 const AddDirectVideoModal = () => {
   const { addDirectModalOpen, toggleAddDirectModalOpen } = useModalContext();
-  const {addVideoToQueue} = useQueueContext();
+  const { queueData, isConnected } = useQueueContext();
 
   const [urlInput, setUrlInput] = useState("");
-  const [visibility, setVisibility] = useState(Visibility.Normal);
-  const [error, setError] = useState(false);
+  const [urlError, setUrlError] = useState(false);
 
-  const handleClose = () => {
+  const videoId = extractYouTubeId(urlInput);
+  const isQueueLocked = queueData?.locked ?? false;
+
+  const handleClose = useCallback(() => {
     setUrlInput("");
-    setError(false);
+    setUrlError(false);
     toggleAddDirectModalOpen();
-  };
+  }, [toggleAddDirectModalOpen]);
 
-  const handleAddVideo = async () => {
-    const videoId = extractYouTubeId(urlInput);
+  const { isSubmitting, playNextCondition, submit, cleanUpAndClose, priority, visibility, setVisibility, togglePlayNext } = useAddToQueue(videoId, handleClose);
 
+  const handleSubmit = () => {
     if (!videoId) {
-      setError(true);
+      setUrlError(true);
       return;
     }
+    submit();
+  };
 
-    setError(false);
-
-    try {
-      await addVideoToQueue({
-        id: videoId,
-        priority: Priority.normal,
-        visibility: visibility,
-      });
-      toast.success("Video Added");
-      
-      // Close and reset
-      handleClose();
-    } catch (err) {
-      toast.error("Failed to add video");
+  const displayObject = () => {
+    if (isSubmitting) return <SubmittingSpinner />;
+    if (playNextCondition !== undefined && playNextCondition !== null && playNextCondition !== 0) {
+      return <PlayNextWarning handleSubmit={submit} />;
     }
+
+    return (
+      <AddToQueueOptions
+        targetID={videoId}
+        isQueueLocked={isQueueLocked}
+        priority={priority}
+        selectedVisibility={visibility}
+        setVisibility={setVisibility}
+        handleSubmit={handleSubmit}
+        handleToggle={togglePlayNext}
+        disabled={!videoId}
+      />
+    );
   };
 
   return (
-    <Modal open={addDirectModalOpen} closeFn={handleClose}>
+    <Modal open={addDirectModalOpen} closeFn={cleanUpAndClose}>
       <Stack spacing={2}>
         <TextField
           id="direct-video-url"
@@ -67,17 +75,12 @@ const AddDirectVideoModal = () => {
           value={urlInput}
           onChange={(e) => {
             setUrlInput(e.target.value);
-            if (error) setError(false); // Clear error while user edits
+            if (urlError) setUrlError(false);
           }}
-          error={error}
-          helperText={
-            error ? "Please enter a valid YouTube video link." : ""
-          }
+          error={urlError}
+          helperText={urlError ? "Please enter a valid YouTube video link." : ""}
         />
-        <VisibilityGroup selected={visibility} setSelected={setVisibility}/>
-        <Button variant="contained" onClick={handleAddVideo}>
-          Add Video
-        </Button>
+        {isConnected ? displayObject() : null}
       </Stack>
     </Modal>
   );

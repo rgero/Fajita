@@ -4,17 +4,13 @@ import { PlayNextCondition } from "@components/modals/interfaces/PlayNextConditi
 import { Priority } from "@interfaces/Priority";
 import { Visibility } from "@interfaces/Visibility";
 import toast from "react-hot-toast";
-import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from "@context/queue/QueueContext";
-import { useSearchContext } from "@context/search/SearchContext";
 
 type UseAddToQueueReturn = {
   priority: Priority;
   visibility: Visibility;
   playNextCondition: PlayNextCondition;
   isSubmitting: boolean;
-  targetID?: string | null;
-  selectedResult: any | null;
   setVisibility: (v: Visibility) => void;
   togglePlayNext: () => void;
   submit: (acceptedCondition?: PlayNextCondition) => Promise<void>;
@@ -22,29 +18,21 @@ type UseAddToQueueReturn = {
   setPriority: (p: Priority) => void;
 };
 
-export function useAddToQueue(): UseAddToQueueReturn {
+export function useAddToQueue(videoId: string | null, onClose: () => void): UseAddToQueueReturn {
   const [priority, setPriority] = useState<Priority>(Priority.normal);
   const [visibility, setVisibility] = useState<Visibility>(Visibility.Normal);
   const [playNextCondition, setPlayNextCondition] = useState<PlayNextCondition>(PlayNextCondition.None);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { addVideoToQueue, checkForPlayNext } = useQueueContext();
-  const { toggleAddToQueueModalOpen } = useModalContext();
-  const { selectedResult, setSelectedResult } = useSearchContext();
-
-  const getTargetID = useCallback((): string | null => {
-    if (!selectedResult) return null;
-    return "video" in selectedResult ? selectedResult.video.video_id : selectedResult.id;
-  }, [selectedResult]);
 
   const cleanUpAndClose = useCallback(() => {
     setPriority(Priority.normal);
     setVisibility(Visibility.Normal);
     setPlayNextCondition(PlayNextCondition.None);
     setIsSubmitting(false);
-    setSelectedResult(null);
-    if (toggleAddToQueueModalOpen) toggleAddToQueueModalOpen();
-  }, [setSelectedResult, toggleAddToQueueModalOpen]);
+    onClose();
+  }, [onClose]);
 
   const togglePlayNext = useCallback(() => {
     setPriority((prev) => (prev === Priority.playNext ? Priority.normal : Priority.playNext));
@@ -52,7 +40,7 @@ export function useAddToQueue(): UseAddToQueueReturn {
 
   const submit = useCallback(
     async (acceptedCondition: PlayNextCondition = PlayNextCondition.None) => {
-      const targetID = getTargetID();
+      const targetID = videoId;
       if (!targetID) return;
 
       // Step 1: Check permission if user toggled a non-normal priority
@@ -110,7 +98,7 @@ export function useAddToQueue(): UseAddToQueueReturn {
         setPlayNextCondition(PlayNextCondition.None);
       }
     },
-    [getTargetID, priority, playNextCondition, checkForPlayNext, addVideoToQueue, visibility, cleanUpAndClose]
+    [videoId, priority, playNextCondition, checkForPlayNext, addVideoToQueue, visibility, cleanUpAndClose]
   );
 
   return {
@@ -118,8 +106,6 @@ export function useAddToQueue(): UseAddToQueueReturn {
     visibility,
     playNextCondition,
     isSubmitting,
-    targetID: getTargetID(),
-    selectedResult,
     setVisibility,
     togglePlayNext,
     submit,
