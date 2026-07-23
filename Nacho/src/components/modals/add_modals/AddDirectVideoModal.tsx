@@ -1,4 +1,5 @@
 import { Stack, TextField } from "@mui/material";
+import { useCallback, useMemo } from "react";
 
 import AddToQueueOptions from "./AddToQueueOptions";
 import Modal from "../Modal";
@@ -6,7 +7,6 @@ import PlayNextWarning from "../ui/PlayNextWarning";
 import SubmittingSpinner from "../ui/SubmittingSpinner";
 import VideoCard from "../../ui/VideoCard";
 import { YoutubeResponse } from "@interfaces/YoutubeResponse";
-import { useCallback, useMemo } from "react";
 import useAddToQueue from "./hooks/useAddToQueue";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from "@context/queue/QueueContext";
@@ -21,7 +21,7 @@ const extractYouTubeId = (url: string): string | null => {
 
 const PLACEHOLDER_VIDEO: YoutubeResponse = {
   id: "",
-  title: "Enter a YouTube URL above",
+  title: "Enter a YouTube URL below",
   thumbnail_src: "",
   duration: "",
 };
@@ -40,7 +40,7 @@ const AddDirectVideoModal = () => {
     if (!videoId) return PLACEHOLDER_VIDEO;
     return {
       id: videoId,
-      title: videoId,
+      title: "Check the thumbnail",
       thumbnail_src: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
       duration: "",
     };

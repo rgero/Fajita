@@ -56,7 +56,6 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
         }}
         image={imageURL}
         title={title}
-        alt={title}
       />
       <Typography sx={overlayStyle}>{getParsedDuration(duration)}</Typography>
       <CardContent>
