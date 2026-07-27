@@ -1,7 +1,7 @@
 import { DoNotDisturb, ThumbUpAlt } from "@mui/icons-material"
 import { Grid, Stack, Typography } from "@mui/material"
 
-import Button from "../ui/Button"
+import Button from "../ui/Buttons/Button"
 import Modal from "./Modal"
 import { useModalContext } from "@context/modal/ModalContext"
 import { useStashContext } from "@context/stash/StashContext"

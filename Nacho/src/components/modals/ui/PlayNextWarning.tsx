@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material"
 import { SelfImprovement, Speed, Star } from '@mui/icons-material';
 
-import Button from "../../ui/Button"
+import Button from "../../ui/Buttons/Button"
 import InfoSection from "./InfoSection";
 import { PlayNextCondition } from "../interfaces/PlayNextCondition";
 

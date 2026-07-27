@@ -1,6 +1,6 @@
 import { Share, YouTube } from "@mui/icons-material";
 
-import Button from "@components/ui/Button";
+import Button from "@components/ui/Buttons/Button";
 import { Grid } from "@mui/material";
 import { OpenYouTubeURL } from "@utils/OpenYoutubeURL";
 import { copyVideoIDToClipboard } from "@utils/CopyToClipboard";
@@ -13,16 +13,29 @@ const ShareButtons: React.FC<{ targetID: string; disabled?: boolean }> = ({ targ
     <>
       {shareOptions.clipboard ? (
         <Grid>
-          <Button onClick={()=> {
-            copyVideoIDToClipboard(targetID);
-          }} icon={(<Share/>)} title="Copy" disabled={disabled}/>
+          <Button 
+            onClick={() => {
+              if (!disabled) copyVideoIDToClipboard(targetID);
+            }} 
+            icon={<Share color={disabled ? "disabled" : "inherit"} />} 
+            title="Copy" 
+            disabled={disabled}
+          />
         </Grid>
-      ) : null }
+      ) : null}
+
       {shareOptions.youtube ? (
         <Grid>
-          <Button onClick={() => OpenYouTubeURL(targetID)} icon={(<YouTube color="error"/>)} title="YouTube" disabled={disabled}/>
+          <Button 
+            onClick={() => {
+              if (!disabled) OpenYouTubeURL(targetID);
+            }} 
+            icon={<YouTube color={disabled ? "disabled" : "error"} />} 
+            title="YouTube" 
+            disabled={disabled}
+          />
         </Grid>
-      ) : null }
+      ) : null}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { Container, Grid, Stack, TextField, Typography } from "@mui/material"
 import { DoNotDisturb, ThumbUpAlt } from "@mui/icons-material";
 
-import Button from "../ui/Button";
+import Button from "../ui/Buttons/Button";
 import SpinnerModal from "../ui/SpinnerModal";
 import toast from "react-hot-toast";
 import { useAuth } from "@context/authentication/AuthenticationContext";

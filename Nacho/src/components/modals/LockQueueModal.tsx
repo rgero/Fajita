@@ -1,7 +1,7 @@
 import { Clear, DoNotDisturb, Lock, LockOpen } from "@mui/icons-material"
 import { Fade, Grid, Stack, TextField, Typography } from "@mui/material"
 
-import Button from "../ui/Button";
+import Button from "../ui/Buttons/Button";
 import Modal from "./Modal";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from '@context/queue/QueueContext';

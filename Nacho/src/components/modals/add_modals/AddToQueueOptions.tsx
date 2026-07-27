@@ -1,13 +1,13 @@
 import { AddCircle, CheckBox, CheckBoxOutlineBlank, Lock } from '@mui/icons-material';
 
-import Button from '../../ui/Button';
+import Button from '../../ui/Buttons/Button';
 import { Grid } from "@mui/material";
 import InfoSection from '../ui/InfoSection';
 import { PlayNextCondition } from '../interfaces/PlayNextCondition';
 import { Priority } from '@interfaces/Priority';
 import QueuePositionMessage from './ui/QueuePositionMessage';
-import ShareButtons from '../../ui/ShareButtons';
-import StashButton from './ui/StashButton';
+import ShareButtons from '../../ui/Buttons/ShareButtons';
+import StashButton from '../../ui/Buttons/StashButton';
 import { Visibility } from '@interfaces/Visibility';
 import VisibilityGroup from "../../ui/VisibilityGroup";
 
@@ -22,7 +22,17 @@ interface AddToQueueOptionsProps {
   disabled?: boolean;
 }
 
-const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({targetID, isQueueLocked, priority, selectedVisibility, setVisibility, handleSubmit, handleToggle, disabled = false}) => {
+const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({
+  targetID, 
+  isQueueLocked, 
+  priority, 
+  selectedVisibility, 
+  setVisibility, 
+  handleSubmit, 
+  handleToggle, 
+  disabled = false
+}) => {
+  const isPlayNext = priority === Priority.playNext;
 
   return (
     <InfoSection>
@@ -40,14 +50,47 @@ const AddToQueueOptions: React.FC<AddToQueueOptionsProps> = ({targetID, isQueueL
 
         <Grid>
           <Grid container spacing={1} sx={{ justifyContent: "flex-end", alignItems: "center" }}>
-            {!isQueueLocked && (
+            {!isQueueLocked ? (
+              <>
+                <Grid>
+                  <Button 
+                    onClick={() => {
+                      if (!disabled) handleToggle();
+                    }} 
+                    icon={
+                      isPlayNext ? (
+                        <CheckBox color={disabled ? "disabled" : "inherit"} />
+                      ) : (
+                        <CheckBoxOutlineBlank color={disabled ? "disabled" : "inherit"} />
+                      )
+                    } 
+                    title="Play Next" 
+                    disabled={disabled}
+                  />
+                </Grid>
+                <Grid>
+                  <Button 
+                    onClick={() => {
+                      if (!disabled) handleSubmit();
+                    }} 
+                    icon={<AddCircle color={disabled ? "disabled" : "success"} />} 
+                    title="Add" 
+                    color={disabled ? "default" : "success"} 
+                    disabled={disabled}
+                  />
+                </Grid>
+              </>
+            ) : (
               <Grid>
-                <Button onClick={handleToggle} icon={priority === Priority.playNext ? <CheckBox/> : <CheckBoxOutlineBlank/>} title="Play Next" disabled={disabled}/>
+                  <Button 
+                    onClick={() => null} 
+                    icon={<Lock color="disabled" />} 
+                    title="Locked" 
+                    color="grey"
+                    disabled={true}
+                  />
               </Grid>
             )}
-            <Grid>
-              {!isQueueLocked ? <Button onClick={()=> handleSubmit()} icon={(<AddCircle/>)} title="Add" color="success" disabled={disabled}/> : <Button onClick={()=> null} icon={(<Lock/>)} title="Locked" color="grey"/>}
-            </Grid>
           </Grid>
         </Grid>
       </Grid>

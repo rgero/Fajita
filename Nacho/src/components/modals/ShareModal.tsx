@@ -1,10 +1,11 @@
 import { Grid, Stack } from '@mui/material';
+import { useEffect, useMemo } from 'react';
+
 import Modal from './Modal';
-import ShareButtons from '@components/ui/ShareButtons';
+import ShareButtons from '@components/ui/Buttons/ShareButtons';
 import VideoCard from '@components/ui/VideoCard';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import { getVideoData } from '@utils/YouTubeResponseGenerator';
-import { useEffect, useMemo } from 'react';
 import { useModalContext } from '@context/modal/ModalContext';
 import { useQueueContext } from '@context/queue/QueueContext';
 

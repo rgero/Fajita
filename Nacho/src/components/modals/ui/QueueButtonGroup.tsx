@@ -1,4 +1,4 @@
-import Button from '../../ui/Button';
+import Button from '../../ui/Buttons/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Favorite from '@mui/icons-material/Favorite';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';

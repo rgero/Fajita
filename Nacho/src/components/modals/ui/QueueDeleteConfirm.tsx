@@ -1,4 +1,4 @@
-import Button from '../../ui/Button';
+import Button from '../../ui/Buttons/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { Grid } from '@mui/material';

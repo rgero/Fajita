@@ -1,7 +1,7 @@
 import { AddCircle, SkipNext } from "@mui/icons-material"
 import { Card, CardContent, CardHeader, CardMedia, Grid } from "@mui/material"
 
-import Button from "../../ui/Button"
+import Button from "../../ui/Buttons/Button"
 import Modal from "../Modal"
 import { Priority } from "@interfaces/Priority"
 import toast from "react-hot-toast"

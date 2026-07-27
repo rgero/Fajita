@@ -1,7 +1,7 @@
 import { Box, Grid, Stack, Typography } from "@mui/material"
 import { DoNotDisturb, SkipNext } from "@mui/icons-material"
 
-import Button from "../ui/Button";
+import Button from "../ui/Buttons/Button";
 import Modal from "./Modal";
 import { grey } from "@mui/material/colors";
 import toast from "react-hot-toast";
