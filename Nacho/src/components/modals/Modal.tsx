@@ -21,7 +21,7 @@ const Modal: React.FC<CustomModalProps> = ({open, closeFn, children, yPosOverrid
           top: yPosOverride,
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: { xs: '95%', sm: "80%", md: "30%" },
+          width: { xs: '95%', sm: "80%", md: "45%", lg: "30%" },
           bgcolor: 'background.paper',
           borderRadius: 2,
           boxShadow: 24,
