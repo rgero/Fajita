@@ -45,7 +45,6 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({ entry, current, i
         ref={isScrollTarget ? scrollRef : null}
       >
         <QueueCard current={current} data={entry} />
-        <Divider />
       </Box>
     </Box>
   );

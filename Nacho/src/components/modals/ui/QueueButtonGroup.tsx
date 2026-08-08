@@ -4,6 +4,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import { Grid } from '@mui/material';
 import { Interaction } from '@interfaces/Interaction';
+import { Lock } from '@mui/icons-material';
 import { OpenYouTubeURL } from '@utils/OpenYoutubeURL';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { QueueStatus } from '@interfaces/QueueStatus';
@@ -28,6 +29,8 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
   const { queueData } = useQueueContext();
   const { video_id } = interaction.video;
 
+  const locked = queueData.locked;
+
   const isCurrentlyPlaying = queueData.current_index === interaction.index;
 
   const processStash = async () => {
@@ -36,6 +39,29 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
     } else {
       await addVideoToStash(video_id);
     }
+  };
+
+  const processQueue = () => {
+    let icon = <PlayCircleIcon color="success" />;
+    let title = "Play";
+    let disabled = false;
+    let onClick = () => jumpQueue(interaction.index);
+
+    if (isCurrentlyPlaying) {
+      title = "Playing";
+      disabled = true;
+    } else if (locked) {
+      icon = <Lock color="disabled" />;
+      title = "Locked";
+      disabled = true;
+      onClick = () => {};
+    }
+
+    return (
+      <Grid>
+        <Button onClick={onClick} icon={icon} title={title} disabled={disabled} />
+      </Grid>
+    );
   };
 
   return (
@@ -76,15 +102,7 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
           )}
         </>
       )}
-      {!isCurrentlyPlaying ? (
-        <Grid>
-          <Button onClick={() => jumpQueue(interaction.index)} icon={<PlayCircleIcon color="success" />} title="Play" />
-        </Grid>
-      ) : (        
-        <Grid>
-          <Button onClick={() => jumpQueue(interaction.index)} icon={<PlayCircleIcon color="success" />} title="Playing" disabled={true} />
-        </Grid>
-      )}
+      {processQueue()}
     </>
   );
 };
