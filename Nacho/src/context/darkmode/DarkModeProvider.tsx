@@ -26,8 +26,17 @@ export const DarkModeProvider = ({ children }: {children: React.ReactNode}) => {
   }
 
   useEffect(() => {
-    document.body.style.backgroundColor = theme.palette.background.default;
-    document.body.style.color = theme.palette.text.primary;
+    const bg = theme.palette.background?.default ?? "";
+    const color = theme.palette.text?.primary ?? "";
+
+    document.body.style.backgroundColor = bg;
+    document.body.style.color = color;
+
+    const root = document.getElementById("root");
+    if (root) {
+      (root as HTMLElement).style.backgroundColor = bg;
+      (root as HTMLElement).style.color = color;
+    }
   }, [theme]);
 
   return (
