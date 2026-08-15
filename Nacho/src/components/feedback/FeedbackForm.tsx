@@ -38,7 +38,7 @@ const FeedbackForm = () => {
   }
 
   return (
-    <Container>
+    <Container sx={{paddingTop: 2}}>
       <SpinnerModal isOpen={isAdding}/>
       <Stack spacing={2}>
         <TextField

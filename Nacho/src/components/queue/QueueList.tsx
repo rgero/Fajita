@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { DndContext, MouseSensor, TouchSensor, closestCenter, useSensor, useSensors, type DragEndEvent} from "@dnd-kit/core";
 import {SortableContext, arrayMove, useSortable, verticalListSortingStrategy} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
