@@ -42,7 +42,8 @@ const FeedbackForm = () => {
       <SpinnerModal isOpen={isAdding}/>
       <Stack spacing={2}>
         <TextField
-          id="outlined-controlled suggestion"
+          id="suggestion"
+          variant="filled"
           label="Suggestion"
           placeholder="Enter your suggestion here"
           fullWidth
@@ -55,7 +56,8 @@ const FeedbackForm = () => {
         />
         <div>
           <TextField
-            id="outlined-controlled details"
+            id="details"
+            variant="filled"
             label="Additional Details"
             placeholder="Enter any additional details here (optional)"
             fullWidth
