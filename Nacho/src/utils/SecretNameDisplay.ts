@@ -2,7 +2,7 @@ const potentialNames: Record<string, string[]> = {
   Vince: ["Mellow Corn", "Vincenzo", "Tom Hardy", "Rufio", "halfblake", "arcadia"],
   Anna: ["Millie's Mom", "Dr. Sleepy", "Geminni"],
   Grant: ["Boatboi", "Cloud Plumber"],
-  Jake: ["ABBA #1 Fan", "Jacob", "Cubbie", "bestjake", "American Folk Hero", "artimus"],
+  Jake: ["ABBA #1 Fan", "Guardian of the Sheet", "Cubbie", "bestjake", "American Folk Hero", "artimus"],
   Sunny: ["The Fairy Goth Mother", "LOTR Loremaster", "Admiral Snackbar"],
   Roy: ["Huckleberry Sizzlah", ".-. --- -.--"],
   Tina: ["Pickles", "Single Female Lawyer"],
