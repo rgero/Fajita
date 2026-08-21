@@ -11,7 +11,8 @@ export const potentialMessages: string[] = [
   "AI Overview - Sorry I don't know that",
   "New Achievement: SECRET VIDEO!",
   "Happy Pride Bitches!",
-  "Check between the cushions"
+  "Check between the cushions",
+  "It can be revealed for $3.50"
 ]
 
 export const getSecretMessage = (): string => {
