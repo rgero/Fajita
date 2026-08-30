@@ -73,8 +73,8 @@ describe("ActiveQueueList", () => {
     vi.mocked(useActiveQueues).mockReturnValue({
       isLoading: false,
       queues: [
-        { id: "1", owner: { first_name: "Roy", picture: "p1" } } as any,
-        { id: "2", owner: { first_name: "Anna", picture: "p2" } } as any ,
+        { id: "1", owner: { first_name: "Roy", picture: "p1" }, locked: false } as any,
+        { id: "2", owner: { first_name: "Anna", picture: "p2" }, locked: false } as any,
       ],
       fetchStatus: ""
     });
@@ -84,7 +84,30 @@ describe("ActiveQueueList", () => {
     const items = screen.getAllByTestId("queue-item");
 
     expect(items.length).toBe(2);
-    expect(items[0]).toHaveTextContent("Roy-1");
-    expect(items[1]).toHaveTextContent("Anna-2");
+    expect(items[0]).toHaveTextContent("Anna-2");
+    expect(items[1]).toHaveTextContent("Roy-1");
+  });
+
+  it("sorts open queues before locked queues and alphabetizes within each group", () => {
+    vi.mocked(useActiveQueues).mockReturnValue({
+      isLoading: false,
+      queues: [
+        { id: "locked-b", owner: { first_name: "Beta", picture: "b" }, locked: true } as any,
+        { id: "open-c", owner: { first_name: "Charlie", picture: "c" }, locked: false } as any,
+        { id: "open-a", owner: { first_name: "Alpha", picture: "a" }, locked: false } as any,
+        { id: "locked-a", owner: { first_name: "Alpha", picture: "aa" }, locked: true } as any,
+      ],
+      fetchStatus: ""
+    });
+
+    render(<ActiveQueueList closeFn={closeFn} />);
+
+    const items = screen.getAllByTestId("queue-item");
+    expect(items.map((item) => item.textContent)).toEqual([
+      "Alpha-open-a",
+      "Charlie-open-c",
+      "Alpha-locked-a",
+      "Beta-locked-b",
+    ]);
   });
 });

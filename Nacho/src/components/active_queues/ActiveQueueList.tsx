@@ -40,9 +40,17 @@ const ActiveQueueList = ({closeFn} : {closeFn: () => void}) => {
     </Box>
   );
 
+  const sortedQueues = [...queues].sort((a, b) => {
+    if (a.locked !== b.locked) {
+      return a.locked ? 1 : -1;
+    }
+
+    return (a.owner?.first_name ?? "").localeCompare(b.owner?.first_name ?? "", undefined, { sensitivity: "base" });
+  });
+
   return (
     <Stack spacing={2} sx={{ paddingTop: 3 }}>
-      {queues.map( (queue) => {
+      {sortedQueues.map( (queue) => {
         return (
           <ActiveQueueListItem
             key={queue.id}
