@@ -42,6 +42,7 @@ describe('useQueueContext', () => {
       isActionPending: false,
       isInQueue: vi.fn(() => false),
       isLoading: false,
+      needsQueueSelection: false,
       queueData: mockQueueData,
       refetch: vi.fn(),
       searchTerm: '',

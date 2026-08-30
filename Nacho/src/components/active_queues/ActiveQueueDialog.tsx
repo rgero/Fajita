@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
 import ActiveQueueList from "./ActiveQueueList";
 import Modal from "@components/modals/Modal";
@@ -11,14 +11,16 @@ const ActiveQueueDialog = () => {
       open={activeQueuesOpen}
       closeFn={toggleActiveQueuesOpen}
       sx={{
-        width: { xs: "80%", md: "40%" },
-        height: { xs: "60%", md: "40%" },
+        width: { xs: "80%", md: "30%" },
+        height: { xs: "60%", md: "30%" },
         display: "flex",
         flexDirection: "column",
+        bgcolor: (theme) => theme.palette.mode === "dark" ? "#2f2f2f" : "#f6ead9",
       }}
     >
       <>
         <Typography variant="h5" gutterBottom>Active Queues</Typography>
+        <Divider/>
         <Box sx={{ overflowY: "auto", flex: 1, minHeight: 0 }}>
           <ActiveQueueList closeFn={toggleActiveQueuesOpen}/>
         </Box>

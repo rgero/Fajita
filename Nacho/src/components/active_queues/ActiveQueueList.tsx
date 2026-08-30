@@ -1,7 +1,7 @@
 import ActiveQueueListItem from "./ActiveQueueListItem";
 import Empty from "../ui/Empty";
-import { Stack } from "@mui/material";
 import Spinner from "../ui/Spinner";
+import { Stack } from "@mui/material";
 import { useActiveQueues } from "./hooks/useActiveQueues"
 
 const ActiveQueueList = ({closeFn} : {closeFn: () => void}) => {
@@ -19,7 +19,14 @@ const ActiveQueueList = ({closeFn} : {closeFn: () => void}) => {
     <Stack spacing={2} sx={{ paddingTop: 3 }}>
       {queues.map( (queue) => {
         return (
-          <ActiveQueueListItem key={queue.id} owner={queue.owner.first_name} id={queue.id} image={queue.owner.picture} closeFn={closeFn}/>
+          <ActiveQueueListItem
+            key={queue.id}
+            owner={queue.owner.first_name}
+            id={queue.id}
+            image={queue.owner.picture}
+            isLocked={queue.locked}
+            closeFn={closeFn}
+          />
         )
       })}
     </Stack>

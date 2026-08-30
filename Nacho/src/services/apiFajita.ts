@@ -1,6 +1,5 @@
 import { Interaction } from '@interfaces/Interaction';
 import { Priority } from '@interfaces/Priority';
-import { QueueData } from '@interfaces/QueueData';
 import { YoutubeResponse } from '@interfaces/YoutubeResponse';
 import { fajitaAxios } from "./axios";
 
@@ -91,8 +90,9 @@ export const getActiveQueues = async () => {
     {
       throw new Error("Failed to get active queues");
     }
-    // Only queues that are alive and unlocked are eligible to connect/join.
-    return response.data.filter((queue: QueueData) => queue.active === true && queue.locked === false);
+
+    const queues = Array.isArray(response.data) ? response.data : [];
+    return queues.filter((queue) => queue.active && !queue.locked);
   } catch {
     throw new Error("Failed to get active queues");
   }

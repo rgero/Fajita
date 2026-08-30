@@ -1,14 +1,14 @@
 import * as api from '@services/apiFajita';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
 
 import { QueueProvider } from '@context/queue/QueueProvider';
+import { Visibility } from '@interfaces/Visibility';
 import { useAuth } from '@context/authentication/AuthenticationContext';
 import { useLocalStorageState } from '@hooks/useLocalStorageState';
 import { useQueueContext } from '@context/queue/QueueContext';
-import { Visibility } from '@interfaces/Visibility';
 
 vi.mock('@context/authentication/AuthenticationContext', () => ({
   useAuth: vi.fn(),
@@ -199,7 +199,9 @@ describe('QueueProvider', () => {
       expect(capturedContext).not.toBeNull();
     });
 
-    await capturedContext!.connectToQueue('q-2');
+    await act(async () => {
+      await capturedContext!.connectToQueue('q-2');
+    });
 
     expect(mockSetQueue).toHaveBeenCalledWith(JSON.stringify({ id: 'q-2', owner: { first_name: 'B' } }));
     await waitFor(() => {
@@ -317,9 +319,11 @@ describe('QueueProvider', () => {
       expect(capturedContext).not.toBeNull();
     });
 
-    await expect(
-      capturedContext!.addVideoToQueue({ id: 'video-id', priority: 'single', visibility: 1 } as any)
-    ).rejects.toThrow('User not found');
+    await act(async () => {
+      await expect(
+        capturedContext!.addVideoToQueue({ id: 'video-id', priority: 'single', visibility: 1 } as any)
+      ).rejects.toThrow('User not found');
+    });
   });
 
   it('addRandomVideo sends Visibility.Random and invalidates queue query', async () => {
@@ -341,7 +345,9 @@ describe('QueueProvider', () => {
       expect(capturedContext).not.toBeNull();
     });
 
-    await capturedContext!.addRandomVideo('video-random', 2);
+    await act(async () => {
+      await capturedContext!.addRandomVideo('video-random', 2);
+    });
 
     expect(api.addToQueue).toHaveBeenCalledWith('q-1', 'user-1', 'video-random', 2, Visibility.Random);
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['queueList'] });
@@ -365,7 +371,9 @@ describe('QueueProvider', () => {
       expect(capturedContext).not.toBeNull();
     });
 
-    await expect(capturedContext!.addRandomVideo('video-id', 1)).rejects.toThrow('User not found');
+    await act(async () => {
+      await expect(capturedContext!.addRandomVideo('video-id', 1)).rejects.toThrow('User not found');
+    });
   });
 
   it('deleteVideoFromQueue invalidates queue query on success', async () => {
@@ -385,7 +393,9 @@ describe('QueueProvider', () => {
       expect(capturedContext).not.toBeNull();
     });
 
-    await capturedContext!.deleteVideoFromQueue('interaction-1');
+    await act(async () => {
+      await capturedContext!.deleteVideoFromQueue('interaction-1');
+    });
 
     expect(api.deleteFromQueue).toHaveBeenCalledWith('interaction-1');
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['queueList'] });
@@ -472,7 +482,9 @@ describe('QueueProvider', () => {
       expect(capturedContext).not.toBeNull();
     });
 
-    await capturedContext!.addVideoToQueue({ id: 'video-abc', priority: 'single', visibility: 1 } as any);
+    await act(async () => {
+      await capturedContext!.addVideoToQueue({ id: 'video-abc', priority: 'single', visibility: 1 } as any);
+    });
 
     expect(api.addToQueue).toHaveBeenCalledWith('q-1', 'user-1', 'video-abc', 'single', 1);
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['queueList'] });
