@@ -184,12 +184,42 @@ describe('apiFajita service', () => {
   describe('getActiveQueues', () => {
     it('returns queue list when response is 200', async () => {
       const { getActiveQueues } = await loadApi();
-      getMock.mockResolvedValue({ status: 200, data: [{ id: 'q1' }] });
+      getMock.mockResolvedValue({ status: 200, data: [{ id: 'q1', active: true, locked: false }] });
 
       const result = await getActiveQueues();
 
       expect(getMock).toHaveBeenCalledWith('http://api.test/api/queues/active');
-      expect(result).toEqual([{ id: 'q1' }]);
+      expect(result).toEqual([{ id: 'q1', active: true, locked: false }]);
+    });
+
+    it('filters out queues that are not active', async () => {
+      const { getActiveQueues } = await loadApi();
+      getMock.mockResolvedValue({
+        status: 200,
+        data: [
+          { id: 'q1', active: true, locked: false },
+          { id: 'q2', active: false, locked: false },
+        ],
+      });
+
+      const result = await getActiveQueues();
+
+      expect(result).toEqual([{ id: 'q1', active: true, locked: false }]);
+    });
+
+    it('filters out queues that are locked', async () => {
+      const { getActiveQueues } = await loadApi();
+      getMock.mockResolvedValue({
+        status: 200,
+        data: [
+          { id: 'q1', active: true, locked: false },
+          { id: 'q2', active: true, locked: true },
+        ],
+      });
+
+      const result = await getActiveQueues();
+
+      expect(result).toEqual([{ id: 'q1', active: true, locked: false }]);
     });
 
     it('throws when response is non-200', async () => {

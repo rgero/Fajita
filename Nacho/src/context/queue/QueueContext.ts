@@ -19,6 +19,7 @@ export interface QueueContextType {
   isActionPending: boolean;
   isInQueue: (id: string) => boolean;
   isLoading: boolean;
+  needsQueueSelection: boolean;
   queueData: QueueData;
   refetch: () => void;
   searchTerm: string;

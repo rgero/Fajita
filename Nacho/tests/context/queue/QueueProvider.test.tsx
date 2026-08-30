@@ -149,13 +149,15 @@ describe('QueueProvider', () => {
     render(
       <QueryClientProvider client={createTestQueryClient()}>
         <QueueProvider>
-          <TestConsumer />
+          <CaptureConsumer />
         </QueueProvider>
       </QueryClientProvider>
     );
 
     await waitFor(() => {
       expect(mockSetQueue).toHaveBeenCalledWith("");
+      expect(capturedContext).not.toBeNull();
+      expect(capturedContext!.needsQueueSelection).toBe(true);
     });
   });
 
@@ -200,6 +202,9 @@ describe('QueueProvider', () => {
     await capturedContext!.connectToQueue('q-2');
 
     expect(mockSetQueue).toHaveBeenCalledWith(JSON.stringify({ id: 'q-2', owner: { first_name: 'B' } }));
+    await waitFor(() => {
+      expect(capturedContext!.needsQueueSelection).toBe(false);
+    });
   });
 
   it('connectToQueue throws when target queue is missing', async () => {

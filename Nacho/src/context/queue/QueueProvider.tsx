@@ -18,6 +18,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentlySelected, setCurrentlySelected] = useState<Interaction | null>(null);
   const [isInitializing, setIsInitializing] = useState(true);
+  const [needsQueueSelection, setNeedsQueueSelection] = useState(false);
 
   // Helper: Safely get the ID from the stored JSON string
   const getQueueID = useCallback(() => {
@@ -38,11 +39,17 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         const currentIsStillActive = activeQueues.find((q: any) => q.id === currentId);
 
         if (currentIsStillActive) {
+          setNeedsQueueSelection(false);
           return;
         } else if (activeQueues.length === 1) {
           setQueue(JSON.stringify(activeQueues[0]));
+          setNeedsQueueSelection(false);
+        } else if (activeQueues.length > 1) {
+          setQueue("");
+          setNeedsQueueSelection(true);
         } else {
           setQueue("");
+          setNeedsQueueSelection(false);
         }
       } catch (err) {
         console.error("Queue Sync Error:", err);
@@ -79,6 +86,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
       throw new Error("Error connecting to queue");
     }
     setQueue(JSON.stringify(targetQueue));
+    setNeedsQueueSelection(false);
   };
 
   const getQueueOwner = () => {
@@ -150,6 +158,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
         isConnected: !!queue,
         isInQueue,
         isLoading: isLoading || isInitializing, // Loading while syncing OR fetching
+        needsQueueSelection,
         queueData,
         refetch,
         searchTerm,

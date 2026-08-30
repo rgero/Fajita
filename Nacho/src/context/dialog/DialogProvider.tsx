@@ -5,13 +5,20 @@ import QueueDialog from '@components/queue/QueueDialog';
 import React from 'react';
 import StashDialog from '@components/stash/StashDialog';
 import UserSettingsDialog from '@components/settings/UserSettingsDialog';
+import { useQueueContext } from '@context/queue/QueueContext';
 
 export const DialogProvider = ({ children }: { children: React.ReactNode }) => {
+  const { needsQueueSelection } = useQueueContext();
   const [queueOpen, setQueueOpen] = React.useState(false);
   const [activeQueuesOpen, setActiveQueuesOpen] = React.useState(false);
   const [feedbackOpen, setFeedbackOpen] = React.useState(false);
   const [stashOpen, setStashOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
+
+  // Auto-prompt the user to pick a queue when several are open and none is connected.
+  React.useEffect(() => {
+    if (needsQueueSelection) setActiveQueuesOpen(true);
+  }, [needsQueueSelection]);
 
   const toggleQueueOpen = () => setQueueOpen(prev => !prev);
   const toggleActiveQueuesOpen = () => setActiveQueuesOpen(prev => !prev);

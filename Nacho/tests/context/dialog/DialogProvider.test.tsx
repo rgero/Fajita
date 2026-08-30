@@ -1,14 +1,16 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { DialogProvider } from '@context/dialog/DialogProvider';
 import { useDialogContext } from '@context/dialog/DialogContext';
+import { useQueueContext } from '@context/queue/QueueContext';
 
 vi.mock('@components/active_queues/ActiveQueueDialog', () => ({ default: () => <div data-testid="active-queue-dialog" /> }));
 vi.mock('@components/feedback/FeedbackDialog', () => ({ default: () => <div data-testid="feedback-dialog" /> }));
 vi.mock('@components/queue/QueueDialog', () => ({ default: () => <div data-testid="queue-dialog" /> }));
 vi.mock('@components/stash/StashDialog', () => ({ default: () => <div data-testid="stash-dialog" /> }));
 vi.mock('@components/settings/UserSettingsDialog', () => ({ default: () => <div data-testid="settings-dialog" /> }));
+vi.mock('@context/queue/QueueContext', () => ({ useQueueContext: vi.fn() }));
 
 const TestConsumer = () => {
   const {
@@ -42,6 +44,10 @@ const TestConsumer = () => {
 };
 
 describe('DialogProvider', () => {
+  beforeEach(() => {
+    vi.mocked(useQueueContext).mockReturnValue({ needsQueueSelection: false } as any);
+  });
+
   it('initializes with all dialogs closed', () => {
     render(
       <DialogProvider>
@@ -120,5 +126,17 @@ describe('DialogProvider', () => {
     expect(screen.getByTestId('feedback-status').textContent).toBe('open');
     expect(screen.getByTestId('stash-status').textContent).toBe('open');
     expect(screen.getByTestId('any-open').textContent).toBe('yes');
+  });
+
+  it('auto-opens the active queues dialog when needsQueueSelection becomes true', () => {
+    vi.mocked(useQueueContext).mockReturnValue({ needsQueueSelection: true } as any);
+
+    render(
+      <DialogProvider>
+        <TestConsumer />
+      </DialogProvider>
+    );
+
+    expect(screen.getByTestId('active-queues-status').textContent).toBe('open');
   });
 });
