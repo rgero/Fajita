@@ -45,7 +45,7 @@ describe("ActiveQueueList", () => {
     expect(screen.getByTestId("spinner")).toBeInTheDocument();
   });
 
-  it("renders Empty when queues is empty", () => {
+  it("renders the compact empty state when queues is empty", () => {
     vi.mocked(useActiveQueues).mockReturnValue({
       isLoading: false,
       queues: [],
@@ -53,10 +53,11 @@ describe("ActiveQueueList", () => {
     });
 
     render(<ActiveQueueList closeFn={closeFn} />);
-    expect(screen.getByTestId("empty")).toHaveTextContent("Active Queues");
+    expect(screen.getByTestId("empty")).toHaveTextContent("No active queues");
+    expect(screen.getByTestId("empty")).toHaveTextContent("Check back later.");
   });
 
-  it("renders Empty when queues is undefined", () => {
+  it("renders the compact empty state when queues is undefined", () => {
     vi.mocked(useActiveQueues).mockReturnValue({
       isLoading: false,
       queues: undefined,
@@ -64,7 +65,8 @@ describe("ActiveQueueList", () => {
     });
 
     render(<ActiveQueueList closeFn={closeFn} />);
-    expect(screen.getByTestId("empty")).toHaveTextContent("Active Queues");
+    expect(screen.getByTestId("empty")).toHaveTextContent("No active queues");
+    expect(screen.getByTestId("empty")).toHaveTextContent("Check back later.");
   });
 
   it("renders queue items when queues exist", () => {
