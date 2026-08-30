@@ -3,12 +3,12 @@ import { render, screen } from "@testing-library/react";
 
 import ActiveQueueDialog from "@components/active_queues/ActiveQueueDialog";
 
-// Mock Dialog component so we can assert props are passed correctly
-vi.mock("@components/ui/Dialog", () => ({
+// Mock Modal component so we can assert props are passed correctly
+vi.mock("@components/modals/Modal", () => ({
   __esModule: true,
-  default: ({ open, setOpen, title, children }: any) => (
-    <div data-testid="dialog" data-open={open} data-title={title}>
-      <button data-testid="toggle" onClick={setOpen}>toggle</button>
+  default: ({ open, closeFn, children }: any) => (
+    <div data-testid="dialog" data-open={open}>
+      <button data-testid="toggle" onClick={closeFn}>toggle</button>
       {children}
     </div>
   ),
@@ -45,13 +45,12 @@ describe("ActiveQueueDialog", () => {
   // RENDER TESTS
   // ------------------------
 
-  it("renders Dialog with correct title", () => {
+  it("renders Active Queues title", () => {
     mockOpen = true;
 
     render(<ActiveQueueDialog />);
 
-    const dialog = screen.getByTestId("dialog");
-    expect(dialog).toHaveAttribute("data-title", "Active Queues");
+    expect(screen.getByText("Active Queues")).toBeInTheDocument();
   });
 
   it("passes open state into Dialog", () => {
@@ -73,7 +72,7 @@ describe("ActiveQueueDialog", () => {
   // INTERACTION TESTS
   // ------------------------
 
-  it("calls toggleActiveQueuesOpen when Dialog calls setOpen", () => {
+  it("calls toggleActiveQueuesOpen when Modal calls closeFn", () => {
     mockOpen = true;
 
     render(<ActiveQueueDialog />);
