@@ -64,6 +64,9 @@ const SearchBar = ({value, setValue, additionalFnKeydown, isLocked, onPrimary = 
         "& .MuiFilledInput-root, & .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused, & .MuiIconButton-root": {
           color: "inherit",
         },
+        "& .MuiInputLabel-root": {
+          opacity: 0.7,
+        },
       } : undefined}
       slotProps={{
         htmlInput: {
