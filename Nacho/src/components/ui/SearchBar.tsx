@@ -60,7 +60,7 @@ const SearchBar = ({value, setValue, additionalFnKeydown, isLocked, onPrimary = 
       onChange={(e) => setValue( e.target.value) }
       onKeyDown={processOnKeyDown}
       sx={onPrimary ? {
-        color: "primary.contrastText",
+        color: "inherit",
         "& .MuiFilledInput-root, & .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused, & .MuiIconButton-root": {
           color: "inherit",
         },
