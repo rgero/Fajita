@@ -61,10 +61,11 @@ const SearchBar = ({value, setValue, additionalFnKeydown, isLocked, onPrimary = 
       onKeyDown={processOnKeyDown}
       sx={onPrimary ? {
         color: "inherit",
-        "& .MuiFilledInput-root, & .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused, & .MuiIconButton-root": {
+        "& .MuiFilledInput-root, & .MuiIconButton-root": {
           color: "inherit",
         },
-        "& .MuiInputLabel-root": {
+        "& .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused": {
+          color: "secondary.light",
           opacity: 0.7,
         },
       } : undefined}
