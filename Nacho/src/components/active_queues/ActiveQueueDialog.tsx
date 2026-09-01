@@ -15,7 +15,7 @@ const ActiveQueueDialog = () => {
         height: { xs: "60%", md: "30%" },
         display: "flex",
         flexDirection: "column",
-        bgcolor: (theme) => theme.palette.mode === "dark" ? "#2f2f2f" : "#f6ead9",
+        bgcolor: "background.paper",
       }}
     >
       <>
