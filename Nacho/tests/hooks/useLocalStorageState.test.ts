@@ -57,4 +57,30 @@ describe("useLocalStorageState", () => {
     expect(value).toBe(true);
     expect(localStorage.getItem(key)).toBe(JSON.stringify(true));
   });
+
+  it("handles invalid JSON by removing the key and returning initial state", () => {
+    const removeItemSpy = vi.spyOn(Storage.prototype, "removeItem");
+    
+    // Set invalid JSON in localStorage
+    localStorage.setItem(key, "{invalid json}");
+
+    const { result } = renderHook(() => useLocalStorageState("default", key));
+
+    const [value] = result.current;
+    expect(value).toBe("default");
+    expect(removeItemSpy).toHaveBeenCalledWith(key);
+  });
+
+  it("handles malformed JSON gracefully for complex types", () => {
+    const removeItemSpy = vi.spyOn(Storage.prototype, "removeItem");
+    
+    // Set incomplete JSON object in localStorage
+    localStorage.setItem(key, '{"incomplete": ');
+
+    const { result } = renderHook(() => useLocalStorageState(true, key));
+
+    const [value] = result.current;
+    expect(value).toBe(true);
+    expect(removeItemSpy).toHaveBeenCalledWith(key);
+  });
 });
