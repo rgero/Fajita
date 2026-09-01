@@ -1,10 +1,9 @@
 import { Clear, Lock } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField, inputLabelClasses, useTheme } from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 
 import { useRef } from "react";
 
-const SearchBar = ({value, setValue, additionalFnKeydown, isLocked} : {value: string, setValue: ( result: string) => void, additionalFnKeydown?: () => void, isLocked?: boolean}) => {
-  const theme = useTheme(); 
+const SearchBar = ({value, setValue, additionalFnKeydown, isLocked, onPrimary = false} : {value: string, setValue: ( result: string) => void, additionalFnKeydown?: () => void, isLocked?: boolean, onPrimary?: boolean}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const processClear = () => {
@@ -60,6 +59,12 @@ const SearchBar = ({value, setValue, additionalFnKeydown, isLocked} : {value: st
       value={value}
       onChange={(e) => setValue( e.target.value) }
       onKeyDown={processOnKeyDown}
+      sx={onPrimary ? {
+        color: "primary.contrastText",
+        "& .MuiFilledInput-root, & .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused, & .MuiIconButton-root": {
+          color: "inherit",
+        },
+      } : undefined}
       slotProps={{
         htmlInput: {
           enterKeyHint: "search",
@@ -69,13 +74,6 @@ const SearchBar = ({value, setValue, additionalFnKeydown, isLocked} : {value: st
         input: {
           startAdornment: startAdornment,
           endAdornment: endAdornment,
-        },
-        inputLabel: {
-          sx: {
-            [`&.${inputLabelClasses.shrink}`]: {
-              color: `${theme.palette.primary.contrastText}`
-            }
-          }
         },
       }}
     />

@@ -60,6 +60,7 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
         paper: {
           sx: {
             backgroundColor: isDarkMode ? grey[900] : theme.palette.primary.main,
+            color: isDarkMode ? theme.palette.common.white : theme.palette.primary.contrastText,
           },
         },
       }}
@@ -90,7 +91,7 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
           </Grid>
         </Grid>
       </DialogTitle>
-      <DialogContent sx={{background: theme.palette.background.paper, paddingBottom: "120px"}}>
+      <DialogContent sx={{background: theme.palette.background.paper, color: theme.palette.text.primary, paddingBottom: "120px"}}>
         <Box sx={{
           width: {xs: "100%", md: "60%"},
           margin: "auto"

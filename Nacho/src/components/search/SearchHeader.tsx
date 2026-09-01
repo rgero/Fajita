@@ -33,6 +33,7 @@ const SearchHeader = () => {
                 setValue={setTerm}
                 additionalFnKeydown={processSubmit}
                 isLocked={isQueueLocked}
+                onPrimary
               />
 
             </Grid>
