@@ -91,8 +91,7 @@ export const getActiveQueues = async () => {
       throw new Error("Failed to get active queues");
     }
 
-    const queues = Array.isArray(response.data) ? response.data : [];
-    return queues.filter((queue) => queue.active && !queue.locked);
+    return response.data;
   } catch {
     throw new Error("Failed to get active queues");
   }

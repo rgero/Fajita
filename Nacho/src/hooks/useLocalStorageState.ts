@@ -14,6 +14,10 @@ export const useLocalStorageState = (initialState: string|boolean, key: string) 
 
   useEffect(
     () => {
+      if (value === "") {
+        localStorage.removeItem(key);
+        return;
+      }
       localStorage.setItem(key, JSON.stringify(value));
     },
     [value, key]

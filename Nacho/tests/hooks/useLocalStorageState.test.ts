@@ -10,6 +10,7 @@ describe("useLocalStorageState", () => {
     // Reset mocks and localStorage
     vi.spyOn(Storage.prototype, "getItem").mockClear();
     vi.spyOn(Storage.prototype, "setItem").mockClear();
+    vi.spyOn(Storage.prototype, "removeItem").mockClear();
     localStorage.clear();
   });
 
@@ -43,6 +44,18 @@ describe("useLocalStorageState", () => {
       key,
       JSON.stringify("updated")
     );
+  });
+
+  it("removes localStorage when a string value is cleared", () => {
+    const { result } = renderHook(() => useLocalStorageState("default", key));
+
+    act(() => {
+      const [, setValue] = result.current;
+      setValue("");
+    });
+
+    expect(localStorage.removeItem).toHaveBeenCalledWith(key);
+    expect(localStorage.getItem(key)).toBeNull();
   });
 
   it("supports boolean values", () => {
