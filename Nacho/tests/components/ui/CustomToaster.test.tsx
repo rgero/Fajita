@@ -1,16 +1,12 @@
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import CustomToaster from '@components/ui/CustomToaster';
 import { render } from '@testing-library/react';
 import toast from 'react-hot-toast';
-import { useTheme as useAppTheme } from '@context/theme/ThemeContext';
 
 const useToasterStoreMock = vi.fn();
 const toasterSpy = vi.fn();
-
-vi.mock('@context/theme/ThemeContext', () => ({
-  useTheme: vi.fn(),
-}));
 
 vi.mock('react-hot-toast', () => ({
   __esModule: true,
@@ -24,31 +20,40 @@ vi.mock('react-hot-toast', () => ({
   useToasterStore: () => useToasterStoreMock(),
 }));
 
+const renderWithSurface = (surface: { secondary: string; secondaryContrastText: string; tertiary: string }) => {
+  const theme = createTheme({ palette: { surface } });
+  return render(
+    <ThemeProvider theme={theme}>
+      <CustomToaster />
+    </ThemeProvider>
+  );
+};
+
+const lightSurface = { secondary: '#d9d9d9', secondaryContrastText: '#333333', tertiary: '#b3b3b3' };
+const darkSurface = { secondary: '#454545', secondaryContrastText: '#ffffff', tertiary: '#6b6b6b' };
+
 describe('CustomToaster', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useAppTheme as any).mockReturnValue({ selectedTheme: 'light' });
     useToasterStoreMock.mockReturnValue({ toasts: [] });
   });
 
-  it('renders toaster with light mode styles', () => {
-    render(<CustomToaster />);
+  it('renders toaster with the derived light surface styles', () => {
+    renderWithSurface(lightSurface);
 
     expect(toasterSpy).toHaveBeenCalled();
     const props = toasterSpy.mock.calls[0][0];
     expect(props.position).toBe('bottom-center');
-    expect(props.toastOptions.style.backgroundColor).toBe('#fff');
-    expect(props.toastOptions.style.color).toBe('#333');
+    expect(props.toastOptions.style.backgroundColor).toBe(lightSurface.secondary);
+    expect(props.toastOptions.style.color).toBe(lightSurface.secondaryContrastText);
   });
 
-  it('renders toaster with dark mode styles', () => {
-    (useAppTheme as any).mockReturnValue({ selectedTheme: 'dark' });
-
-    render(<CustomToaster />);
+  it('renders toaster with the derived dark surface styles', () => {
+    renderWithSurface(darkSurface);
 
     const props = toasterSpy.mock.calls[0][0];
-    expect(props.toastOptions.style.backgroundColor).toBe('#333');
-    expect(props.toastOptions.style.color).toBe('#fff');
+    expect(props.toastOptions.style.backgroundColor).toBe(darkSurface.secondary);
+    expect(props.toastOptions.style.color).toBe(darkSurface.secondaryContrastText);
   });
 
   it('dismisses only visible toasts over the limit', () => {
@@ -62,7 +67,7 @@ describe('CustomToaster', () => {
       ],
     });
 
-    render(<CustomToaster />);
+    renderWithSurface(lightSurface);
 
     expect(toast.dismiss).toHaveBeenCalledWith('t3');
     expect(toast.dismiss).toHaveBeenCalledWith('t5');

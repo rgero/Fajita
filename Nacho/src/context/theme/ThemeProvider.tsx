@@ -4,6 +4,7 @@ import { useEffect, useMemo } from "react";
 
 import CustomToaster from '@components/ui/CustomToaster';
 import { darkTheme } from "../../themes/darkTheme";
+import { deriveSurface } from "@utils/deriveSurface";
 import { fleetTheme } from "../../themes/fleetTheme";
 import { useLocalStorageState } from '@hooks/useLocalStorageState';
 import { warmTheme } from "../../themes/lightThemes";
@@ -29,7 +30,20 @@ export const ThemeProvider = ({ children }: {children: React.ReactNode}) => {
   }, [selectedTheme]);
 
   const theme = useMemo(() => {
-    return createTheme(themeConfig as ThemeOptions);
+    const base = createTheme(themeConfig as ThemeOptions);
+    const mode = base.palette.mode;
+    const paper = base.palette.background.paper;
+    const secondary = deriveSurface(paper, mode);
+
+    return createTheme(base, {
+      palette: {
+        surface: {
+          secondary,
+          secondaryContrastText: base.palette.getContrastText(secondary),
+          tertiary: deriveSurface(paper, mode, 0.3),
+        },
+      },
+    });
   }, [themeConfig]);
 
   const setTheme = (newTheme: ThemeType) => {
@@ -54,8 +68,8 @@ export const ThemeProvider = ({ children }: {children: React.ReactNode}) => {
     <ThemeContext.Provider value={{selectedTheme: selectedTheme as ThemeType, setTheme}}>
       <MuiThemeProvider theme={theme}>
         {children}
+        <CustomToaster/>
       </MuiThemeProvider>
-      <CustomToaster/>
     </ThemeContext.Provider>
   );
 }

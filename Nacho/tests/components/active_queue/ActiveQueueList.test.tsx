@@ -1,8 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render as rtlRender, screen } from "@testing-library/react";
 
 import ActiveQueueList from "@components/active_queues/ActiveQueueList";
+import { ThemeProvider } from "@mui/material/styles";
+import { buildTestTheme } from "../../helpers/buildTestTheme";
 import { useActiveQueues } from "@components/active_queues/hooks/useActiveQueues";
+
+// ActiveQueueList reads palette.surface, which only exists on the app theme.
+const render = (ui: React.ReactElement) =>
+  rtlRender(<ThemeProvider theme={buildTestTheme()}>{ui}</ThemeProvider>);
 
 // Mock child components
 vi.mock("@components/active_queues/ActiveQueueListItem", () => ({

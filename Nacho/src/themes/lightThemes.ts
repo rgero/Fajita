@@ -31,8 +31,8 @@ export const warmTheme: ThemeOptions = {
       main: "#B73732",
     },
     background: {
-      default: "#FFF7E8",
-      paper: "#FFFDF8",
+      default: "#F7EBD5",
+      paper: "#FFF2D8",
     },
     text: {
       primary: "#241C18",

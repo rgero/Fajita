@@ -1,9 +1,8 @@
-import { Box, Grid, Stack, Typography } from "@mui/material"
+import { Box, Grid, Stack, Typography, useTheme } from "@mui/material"
 import { DoNotDisturb, RestartAlt } from "@mui/icons-material"
 
 import Button from "../ui/Buttons/Button";
 import Modal from "./Modal";
-import { grey } from "@mui/material/colors";
 import toast from "react-hot-toast";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useSocketProvider } from '@context/websocket/WebsocketContext';
@@ -11,6 +10,7 @@ import { useSocketProvider } from '@context/websocket/WebsocketContext';
 const ConfirmRestartModal = () => {
   const {confirmRestartModalOpen, toggleConfirmRestartModalOpen} = useModalContext();
   const {resetProgress} = useSocketProvider();
+  const theme = useTheme();
   
   const processRestart = () => {
     resetProgress();
@@ -19,7 +19,7 @@ const ConfirmRestartModal = () => {
   }
 
   return (
-    <Modal open={confirmRestartModalOpen} closeFn={toggleConfirmRestartModalOpen} sx={{backgroundColor: grey[900]}}>
+    <Modal open={confirmRestartModalOpen} closeFn={toggleConfirmRestartModalOpen} sx={{backgroundColor: theme.palette.surface.secondary, color: theme.palette.surface.secondaryContrastText}}>
       <Stack spacing={2} sx={{ paddingY: "25px", alignItems: "center" }}>
         <Typography variant="h5" align="center">Are you sure you want to restart this song?</Typography>
         <Box

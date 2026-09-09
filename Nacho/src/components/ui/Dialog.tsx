@@ -7,8 +7,6 @@ import MaterialDialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
-import { grey } from '@mui/material/colors';
-import { useTheme as useAppTheme } from '@context/theme/ThemeContext';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -21,11 +19,9 @@ const Transition = forwardRef(function Transition(
 
 const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean, setOpen: (open: boolean) => void, title: string, children: React.ReactNode, titleButtons?: React.ReactNode}) => {
   const theme = useTheme();
-  const { selectedTheme } = useAppTheme();
-  
-  // Use grey for dark mode, primary color for fleet and light modes
-  const headerFooterBg = selectedTheme === "dark" ? grey[800] : theme.palette.primary.main;
-  const headerFooterColor = selectedTheme === "dark" ? "#FFFFFF" : theme.palette.primary.contrastText;
+
+  const headerFooterBg = theme.palette.surface.secondary;
+  const headerFooterColor = theme.palette.surface.secondaryContrastText;
   
   const handleClose = () => {
     setOpen(false);

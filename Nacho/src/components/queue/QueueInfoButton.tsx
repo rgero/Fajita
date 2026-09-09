@@ -33,15 +33,15 @@ const QueueInfoButton = ({interaction, disableHanded = false, smallButton = fals
       left: "5px",
     }),
     zIndex: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.surface.secondary,
     '&:hover': {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.surface.tertiary,
     },
     '&:focus': {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.surface.tertiary,
     },
     '&:active': {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.surface.tertiary,
     },
   }), [disableHanded, isRightHanded, theme, smallButton]);
 

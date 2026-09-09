@@ -1,9 +1,8 @@
-import { Box, Grid, Stack, Typography } from "@mui/material"
+import { Box, Grid, Stack, Typography, useTheme } from "@mui/material"
 import { DoNotDisturb, SkipNext } from "@mui/icons-material"
 
 import Button from "../ui/Buttons/Button";
 import Modal from "./Modal";
-import { grey } from "@mui/material/colors";
 import toast from "react-hot-toast";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useSocketProvider } from '@context/websocket/WebsocketContext';
@@ -11,6 +10,7 @@ import { useSocketProvider } from '@context/websocket/WebsocketContext';
 const ConfirmSkipModal = () => {
   const {confirmSkipModalOpen, toggleConfirmSkipModalOpen} = useModalContext();
   const {skipVideo} = useSocketProvider();
+  const theme = useTheme();
   
   const processSkip = () => {
     skipVideo();
@@ -19,7 +19,7 @@ const ConfirmSkipModal = () => {
   }
 
   return (
-    <Modal open={confirmSkipModalOpen} closeFn={toggleConfirmSkipModalOpen} sx={{backgroundColor: grey[900]}}>
+    <Modal open={confirmSkipModalOpen} closeFn={toggleConfirmSkipModalOpen} sx={{backgroundColor: theme.palette.surface.secondary, color: theme.palette.surface.secondaryContrastText}}>
       <Stack spacing={2} sx={{ paddingY: "25px", alignItems: "center" }}>
         <Typography variant="h5" align="center">Are you sure you want to skip this song?</Typography>
         <Box

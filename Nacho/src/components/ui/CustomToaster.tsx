@@ -1,11 +1,10 @@
 import toast, { Toaster, useToasterStore } from "react-hot-toast";
 
-import { useTheme as useAppTheme } from '@context/theme/ThemeContext';
 import { useEffect } from "react";
+import { useTheme } from "@mui/material";
 
 const CustomToaster = () => {
-  const { selectedTheme } = useAppTheme();
-  const isDarkMode = selectedTheme === "dark" || selectedTheme === "fleet";
+  const theme = useTheme();
   const { toasts } = useToasterStore();
 
   // Limit the number of toasts displayed
@@ -34,8 +33,8 @@ const CustomToaster = () => {
           borderRadius: "8px",
           boxShadow:
             "0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12)",
-          backgroundColor: isDarkMode ? "#333" : "#fff",
-          color: isDarkMode ? "#fff" : "#333",
+          backgroundColor: theme.palette.surface.secondary,
+          color: theme.palette.surface.secondaryContrastText,
         },
       }}
     />

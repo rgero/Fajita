@@ -29,7 +29,7 @@ const ActiveQueueList = ({closeFn} : {closeFn: () => void}) => {
           px: 2,
           py: 3,
           color: 'text.secondary',
-          backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)',
+          backgroundColor: (theme) => theme.palette.surface.secondary,
         }}
       >
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>

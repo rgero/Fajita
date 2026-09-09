@@ -43,7 +43,7 @@ const VideoCard: React.FC<Props> = ({data, clickFn}) => {
   const overlayStyle = {
     ...styles.overlay,
     ...(!isRightHanded ? {right: "10px"} : {left: "10px"}),
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.surface.secondary
   }
 
   let cardContent = (

@@ -28,10 +28,10 @@ const ActiveQueueListItem = ({id, owner, image, isLocked, closeFn} : {id: string
         py: 1.25,
         border: '1px solid',
         borderColor: 'divider',
-        backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+        backgroundColor: (theme) => theme.palette.surface.secondary,
         transition: 'all 0.2s ease',
         '&:hover': {
-          backgroundColor: 'action.hover',
+          backgroundColor: (theme) => theme.palette.surface.tertiary,
           transform: 'translateY(-1px)',
           boxShadow: 1,
         },
