@@ -59,7 +59,7 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
       slotProps={{
         paper: {
           sx: {
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: theme.palette.background.default,
             color: theme.palette.text.primary,
           },
         },
@@ -91,7 +91,7 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
           </Grid>
         </Grid>
       </DialogTitle>
-      <DialogContent sx={{background: theme.palette.background.paper, color: theme.palette.text.primary, paddingBottom: "120px"}}>
+      <DialogContent sx={{background: theme.palette.background.default, color: theme.palette.text.primary, paddingBottom: "120px"}}>
         <Box sx={{
           width: {xs: "100%", md: "60%"},
           margin: "auto"
