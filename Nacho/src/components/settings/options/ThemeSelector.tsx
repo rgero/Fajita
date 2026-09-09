@@ -1,4 +1,4 @@
-import { FormControl, Grid, InputLabel, MenuItem, Select, useTheme } from "@mui/material"
+import { FormControl, Grid, MenuItem, Select, Typography, useTheme } from "@mui/material"
 import { ThemeType, useTheme as useAppTheme } from '@context/theme/ThemeContext';
 
 const ThemeSelector = () => {
@@ -12,14 +12,15 @@ const ThemeSelector = () => {
   return (
     <Grid container spacing={2} sx={{ alignItems: "center", justifyContent: "flex-end" }}>
       <Grid>
-        <FormControl sx={{ minWidth: 120 }}>
-          <InputLabel id="theme-select-label">Theme</InputLabel>
+        <Typography variant="body1">Theme</Typography>
+      </Grid>
+      <Grid>
+        <FormControl size="small" sx={{ width: 150 }}>
           <Select
-            labelId="theme-select-label"
             id="theme-select"
             value={selectedTheme}
             onChange={handleChange}
-            label="Theme"
+            inputProps={{ "aria-label": "Theme" }}
             sx={{
               backgroundColor: muiTheme.palette.background.paper,
               color: muiTheme.palette.text.primary,
@@ -28,6 +29,7 @@ const ThemeSelector = () => {
             <MenuItem value="light">Light</MenuItem>
             <MenuItem value="dark">Dark</MenuItem>
             <MenuItem value="fleet">Fleet</MenuItem>
+            <MenuItem value="halloween">Halloween</MenuItem>
           </Select>
         </FormControl>
       </Grid>

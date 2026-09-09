@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-export type ThemeType = "light" | "dark" | "fleet";
+export type ThemeType = "light" | "dark" | "fleet" | "halloween";
 
 export type ThemeContextType = {
   selectedTheme: ThemeType;

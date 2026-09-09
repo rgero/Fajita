@@ -7,6 +7,7 @@ import { darkTheme } from "../../themes/darkTheme";
 import { deriveSurface } from "@utils/deriveSurface";
 import { fleetTheme } from "../../themes/fleetTheme";
 import { useLocalStorageState } from '@hooks/useLocalStorageState';
+import { halloweenTheme } from "../../themes/halloweenTheme";
 import { warmTheme } from "../../themes/lightThemes";
 
 export const ThemeProvider = ({ children }: {children: React.ReactNode}) => {
@@ -24,9 +25,17 @@ export const ThemeProvider = ({ children }: {children: React.ReactNode}) => {
   );
 
   const themeConfig = useMemo(() => {
-    if (selectedTheme === "light") return warmTheme;
-    if (selectedTheme === "dark") return darkTheme;
-    return fleetTheme;
+    switch (selectedTheme) {
+      case "light":
+        return warmTheme;
+      case "fleet":
+        return fleetTheme;
+      case "halloween":
+        return halloweenTheme;
+      case "dark":
+      default:
+        return darkTheme;
+    }
   }, [selectedTheme]);
 
   const theme = useMemo(() => {
