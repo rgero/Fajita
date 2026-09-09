@@ -41,7 +41,7 @@ export const fleetTheme: ThemeOptions = {
     },
     background: {
       default: "#0F1F1D",
-      paper: "#1A2E2A",
+      paper: "#223A35",
     },
     text: {
       primary: "#E8F0EE",
