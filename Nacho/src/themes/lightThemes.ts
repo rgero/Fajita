@@ -34,6 +34,11 @@ export const warmTheme: ThemeOptions = {
       default: "#F7EBD5",
       paper: "#FFF2D8",
     },
+    surface: {
+      secondary: "#E5D0A8",
+      secondaryContrastText: "#241C18",
+      tertiary: "#D6BC8C",
+    },
     text: {
       primary: "#241C18",
       secondary: "#68564C",

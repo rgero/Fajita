@@ -20,6 +20,11 @@ export const darkTheme: ThemeOptions = {
       default: "#121212",
       paper: "#1E1E1E",
     },
+    surface: {
+      secondary: "#333333",
+      secondaryContrastText: "#ECECEC",
+      tertiary: "#454545",
+    },
     text: {
       primary: "#ECECEC",
       secondary: "#A8A8A8",

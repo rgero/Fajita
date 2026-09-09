@@ -30,17 +30,22 @@ export const ThemeProvider = ({ children }: {children: React.ReactNode}) => {
   }, [selectedTheme]);
 
   const theme = useMemo(() => {
-    const base = createTheme(themeConfig as ThemeOptions);
+    const options = themeConfig as ThemeOptions;
+    const base = createTheme(options);
     const mode = base.palette.mode;
     const paper = base.palette.background.paper;
-    const secondary = deriveSurface(paper, mode);
+
+    // Themes declare surface colors explicitly; derivation is only a fallback for ones that omit them.
+    const declared = options.palette?.surface ?? {};
+    const secondary = declared.secondary ?? deriveSurface(paper, mode);
 
     return createTheme(base, {
       palette: {
         surface: {
           secondary,
-          secondaryContrastText: base.palette.getContrastText(secondary),
-          tertiary: deriveSurface(paper, mode, 0.3),
+          secondaryContrastText:
+            declared.secondaryContrastText ?? base.palette.getContrastText(secondary),
+          tertiary: declared.tertiary ?? deriveSurface(paper, mode, 0.3),
         },
       },
     });

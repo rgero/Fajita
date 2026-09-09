@@ -43,6 +43,11 @@ export const fleetTheme: ThemeOptions = {
       default: "#0F1F1D",
       paper: "#223A35",
     },
+    surface: {
+      secondary: "#2F4F48",
+      secondaryContrastText: "#E8F0EE",
+      tertiary: "#3E635B",
+    },
     text: {
       primary: "#E8F0EE",
       secondary: "#A8C5BF",
