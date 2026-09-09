@@ -1,4 +1,4 @@
-import { Box, Modal as MaterialModel, ModalProps } from '@mui/material';
+import { Box, Modal as MaterialModel, ModalProps, useTheme } from '@mui/material';
 
 import React from 'react';
 
@@ -10,6 +10,7 @@ interface CustomModalProps extends ModalProps {
 }
 
 const Modal: React.FC<CustomModalProps> = ({open, closeFn, children, yPosOverride = "50%", sx}) => {
+  const theme = useTheme();
   return (
     <MaterialModel
       open={open}
@@ -22,7 +23,7 @@ const Modal: React.FC<CustomModalProps> = ({open, closeFn, children, yPosOverrid
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: { xs: '95%', sm: "80%", md: "45%", lg: "30%" },
-          bgcolor: 'background.paper',
+          bgcolor: theme.palette.background.default,
           borderRadius: 2,
           boxShadow: 24,
           p: 2,
