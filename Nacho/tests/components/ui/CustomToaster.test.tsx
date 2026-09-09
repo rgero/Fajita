@@ -1,15 +1,15 @@
-import { render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import CustomToaster from '@components/ui/CustomToaster';
-import { useDarkMode } from '@context/darkmode/DarkModeContext';
+import { render } from '@testing-library/react';
 import toast from 'react-hot-toast';
+import { useTheme as useAppTheme } from '@context/theme/ThemeContext';
 
 const useToasterStoreMock = vi.fn();
 const toasterSpy = vi.fn();
 
-vi.mock('@context/darkmode/DarkModeContext', () => ({
-  useDarkMode: vi.fn(),
+vi.mock('@context/theme/ThemeContext', () => ({
+  useTheme: vi.fn(),
 }));
 
 vi.mock('react-hot-toast', () => ({
@@ -27,7 +27,7 @@ vi.mock('react-hot-toast', () => ({
 describe('CustomToaster', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useDarkMode as any).mockReturnValue({ isDarkMode: false });
+    (useAppTheme as any).mockReturnValue({ selectedTheme: 'light' });
     useToasterStoreMock.mockReturnValue({ toasts: [] });
   });
 
@@ -42,7 +42,7 @@ describe('CustomToaster', () => {
   });
 
   it('renders toaster with dark mode styles', () => {
-    (useDarkMode as any).mockReturnValue({ isDarkMode: true });
+    (useAppTheme as any).mockReturnValue({ selectedTheme: 'dark' });
 
     render(<CustomToaster />);
 

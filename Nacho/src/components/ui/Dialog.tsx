@@ -8,7 +8,7 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from '@mui/material/Typography';
 import { grey } from '@mui/material/colors';
-import { useDarkMode } from '@context/darkmode/DarkModeContext';
+import { useTheme as useAppTheme } from '@context/theme/ThemeContext';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -21,7 +21,11 @@ const Transition = forwardRef(function Transition(
 
 const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean, setOpen: (open: boolean) => void, title: string, children: React.ReactNode, titleButtons?: React.ReactNode}) => {
   const theme = useTheme();
-  const {isDarkMode} = useDarkMode();
+  const { selectedTheme } = useAppTheme();
+  
+  // Use grey for dark mode, primary color for fleet and light modes
+  const headerFooterBg = selectedTheme === "dark" ? grey[800] : theme.palette.primary.main;
+  const headerFooterColor = selectedTheme === "dark" ? "#FFFFFF" : theme.palette.primary.contrastText;
   
   const handleClose = () => {
     setOpen(false);
@@ -59,13 +63,13 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
       slotProps={{
         paper: {
           sx: {
-            backgroundColor: isDarkMode ? grey[900] : theme.palette.primary.main,
-            color: isDarkMode ? theme.palette.common.white : theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
           },
         },
       }}
     >
-      <DialogTitle id="scroll-dialog-title">
+      <DialogTitle id="scroll-dialog-title" sx={{backgroundColor: headerFooterBg, color: headerFooterColor}}>
         <Grid container sx={{ alignItems: "center", justifyContent: "space-between" }}>
           <Grid>
             <Grid container sx={{ alignItems: "center" }}>
@@ -99,7 +103,7 @@ const Dialog = ({open, setOpen, title, children, titleButtons} : {open: boolean,
           {children}
         </Box>
       </DialogContent>
-      <Box sx={{padding: 2}}>
+      <Box sx={{padding: 2, backgroundColor: headerFooterBg, color: headerFooterColor}}>
         <Button 
           onClick={handleClose} 
           variant="contained" 

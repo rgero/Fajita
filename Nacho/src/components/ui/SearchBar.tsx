@@ -65,7 +65,7 @@ const SearchBar = ({value, setValue, additionalFnKeydown, isLocked, onPrimary = 
           color: "inherit",
         },
         "& .MuiInputLabel-root, & .MuiInputLabel-root.Mui-focused": {
-          color: "secondary.light",
+          color: "inherit",
           opacity: 0.7,
         },
       } : undefined}
