@@ -23,3 +23,4 @@ Nacho has the following functionality:
 - 2025-01-17 - Added the Stash, which allows people to save things from/for the queue.
 - 2025-05-15 - Incremented the version to 0.7
 - 2025-12-02 - Incrementing the version to 0.8.5, will need to document the changes further.
+- 2026-09-15 - We're preparing for v2 of the backend, making a commit just to make it obvious this is the last v1 spot.
