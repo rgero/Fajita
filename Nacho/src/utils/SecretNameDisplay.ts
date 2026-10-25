@@ -8,7 +8,8 @@ const potentialNames: Record<string, string[]> = {
   Tina: ["Pickles", "Single Female Lawyer"],
   Kristen: ["Frankel's #1 Fan"],
   Lauren: ["üwü", "BestGirl", "H3110"],
-  Mike: ["TrumpetEgo", "blow_my_horn"]
+  Mike: ["TrumpetEgo", "blow_my_horn"],
+  Thomas: ["Sword Owner", "Indiana Brones"]
 };
 
 const targetNumber: number = 0.022;
