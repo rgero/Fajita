@@ -1,258 +1,191 @@
-import { act, render, screen } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import InfoToast from '@components/ui/InfoToast';
-import { SocketProvider } from '@context/websocket/WebsocketProvider';
-import io from 'socket.io-client';
-import { useQueueContext } from '@context/queue/QueueContext';
-import { useSocketProvider } from '@context/websocket/WebsocketContext'; // Adjust paths as needed
+import InfoToast from "@components/ui/InfoToast";
+import * as api from "@services/apiFajita";
+import io from "socket.io-client";
+import { SocketProvider } from "@context/websocket/WebsocketProvider";
+import { useQueueContext } from "@context/queue/QueueContext";
+import { useSocketProvider } from "@context/websocket/WebsocketContext";
 
-// 1. Mock External Dependencies
-vi.mock('socket.io-client', () => {
-  const mSocket = {
+const { invalidateQueriesMock, queryClientMock } = vi.hoisted(() => {
+  const invalidateQueriesMock = vi.fn();
+  return {
+    invalidateQueriesMock,
+    queryClientMock: { invalidateQueries: invalidateQueriesMock },
+  };
+});
+
+vi.mock("socket.io-client", () => {
+  const socket = {
+    connected: true,
     on: vi.fn(),
+    once: vi.fn(),
     off: vi.fn(),
     emit: vi.fn(),
     disconnect: vi.fn(),
   };
-  return {
-    default: vi.fn(() => mSocket),
-    io: vi.fn(() => mSocket),
-  };
+  return { default: vi.fn(() => socket), io: vi.fn(() => socket) };
 });
 
-vi.mock('@context/queue/QueueContext', () => ({
+vi.mock("@context/authentication/AuthenticationContext", () => ({
+  useAuth: () => ({
+    user: {
+      id: "e270ab4f-0666-4957-aaff-6817905b6899",
+      full_name: "Test User",
+    },
+  }),
+}));
+
+vi.mock("@context/queue/QueueContext", () => ({
   useQueueContext: vi.fn(),
 }));
 
-vi.mock('@components/ui/InfoToast', () => ({
+vi.mock("@tanstack/react-query", () => ({
+  useQueryClient: () => queryClientMock,
+}));
+
+vi.mock("@services/apiFajita", () => ({
+  notifyQueue: vi.fn(),
+  reorderQueue: vi.fn(),
+  setQueueLocked: vi.fn(),
+}));
+
+vi.mock("@components/ui/InfoToast", () => ({
   default: vi.fn(),
 }));
 
-
-
-// 2. Test Helper Component
 const TestConsumer = () => {
-  const { playPause, skipVideo, jumpQueue, reorderQueue, toggleLock } = useSocketProvider();
+  const { playPause, skipVideo, jumpQueue, reorderQueue, toggleLock, resetProgress } = useSocketProvider();
   return (
     <div>
-      <button onClick={playPause}>Play/Pause</button>
+      <button onClick={() => playPause(1)}>Play</button>
       <button onClick={skipVideo}>Skip</button>
-      <button onClick={() => jumpQueue(2)}>Jump 2</button>
-      <button onClick={() => reorderQueue('i-2', 'i-1', null)}>Reorder</button>
-      <button onClick={() => toggleLock('testing')}>Toggle Lock</button>
+      <button onClick={() => jumpQueue(4)}>Jump</button>
+      <button onClick={() => reorderQueue("i-2", "i-1", null)}>Reorder</button>
+      <button onClick={() => toggleLock("Taking a break")}>Toggle lock</button>
+      <button onClick={resetProgress}>Restart</button>
     </div>
   );
 };
 
-describe('SocketProvider', () => {
-  const mockQueueData = { id: 'queue-123', locked: false };
+const getSocket = () => (io as any).mock.results[0].value as any;
+const getEventCallback = (socket: any, event: string) => (
+  socket.on.mock.calls.find((call: any[]) => call[0] === event)?.[1]
+);
+
+describe("SocketProvider", () => {
   const mockRefetch = vi.fn();
-  let mockSocket: any;
+  const queueData = {
+    id: "queue-123",
+    locked: false,
+    current_index: 1,
+    interactions: [{ index: 1 }, { index: 2 }],
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
-    // Setup QueueContext mock return
-    (useQueueContext as any).mockReturnValue({
-      queueData: mockQueueData,
+    vi.stubEnv("VITE_BACKEND_URL", "http://api.test");
+    vi.stubEnv("VITE_WEBSOCKET_URL", "api.test");
+    vi.mocked(useQueueContext).mockReturnValue({
+      queueData,
       refetch: mockRefetch,
+    } as any);
+    vi.mocked(api.notifyQueue).mockResolvedValue();
+    vi.mocked(api.reorderQueue).mockResolvedValue({});
+    vi.mocked(api.setQueueLocked).mockResolvedValue();
+    mockRefetch.mockResolvedValue({});
+  });
+
+  it("connects to the player namespace and joins after connection", () => {
+    render(<SocketProvider><TestConsumer /></SocketProvider>);
+    const socket = getSocket();
+
+    expect(io).toHaveBeenCalledWith("http://api.test/player", {
+      withCredentials: true,
+      query: { user_name: "Test User" },
     });
-
-    // Extract the mock socket instance from the io mock
-    mockSocket = (io as any)();
-    (io as any).mockClear();
+    expect(socket.emit).toHaveBeenCalledWith("join_queue", {
+      queue_id: "queue-123",
+      user_id: "e270ab4f-0666-4957-aaff-6817905b6899",
+    });
   });
 
-  it('initializes socket when queueData is available', async () => {
-    render(
-      <SocketProvider>
-        <TestConsumer />
-      </SocketProvider>
-    );
+  it("requests playback state after join_ack and sends v2 playback events", async () => {
+    render(<SocketProvider><TestConsumer /></SocketProvider>);
+    const socket = getSocket();
 
-    expect(io).toHaveBeenCalledWith(
-      expect.stringContaining('/player'),
-      expect.objectContaining({
-        query: { queue_id: 'queue-123' }
-      })
-    );
+    await act(async () => {
+      getEventCallback(socket, "join_ack")({ queue_id: "queue-123" });
+    });
+    expect(socket.emit).toHaveBeenCalledWith("request_playback_state", { queue_id: "queue-123" });
+
+    fireEvent.click(screen.getByText("Play"));
+    fireEvent.click(screen.getByText("Jump"));
+    fireEvent.click(screen.getByText("Skip"));
+    fireEvent.click(screen.getByText("Restart"));
+
+    expect(socket.emit).toHaveBeenCalledWith("request_play_pause", { queue_id: "queue-123", state: 1 });
+    expect(socket.emit).toHaveBeenCalledWith("play_now", { queue_id: "queue-123", index: 4 });
+    expect(socket.emit).toHaveBeenCalledWith("play_now", { queue_id: "queue-123", index: 2 });
+    expect(socket.emit).toHaveBeenCalledWith("request_seek", { queue_id: "queue-123", progress: 0 });
   });
 
-  it('emits "play_pause" with correct queue_id', async () => {
+  it("uses REST for reorder, lock, and unlock-related notifications", async () => {
     render(<SocketProvider><TestConsumer /></SocketProvider>);
 
     await act(async () => {
-      screen.getByText('Play/Pause').click();
+      fireEvent.click(screen.getByText("Reorder"));
+      fireEvent.click(screen.getByText("Toggle lock"));
     });
 
-    expect(mockSocket.emit).toHaveBeenCalledWith('play_pause', { queue_id: 'queue-123' });
-  });
-
-  it('emits "set_index" when jumpQueue is called', async () => {
-    render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    await act(async () => {
-      screen.getByText('Jump 2').click();
-    });
-
-    expect(mockSocket.emit).toHaveBeenCalledWith('set_index', { 
-      queue_id: 'queue-123', 
-      index: 2 
-    });
-  });
-
-  it('emits "skip_video" when skipVideo is called', async () => {
-    render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    await act(async () => {
-      screen.getByText('Skip').click();
-    });
-
-    expect(mockSocket.emit).toHaveBeenCalledWith('skip_video', { queue_id: 'queue-123' });
-  });
-
-  it('emits "reorder_queue" payload when reorderQueue is called', async () => {
-    render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    await act(async () => {
-      screen.getByText('Reorder').click();
-    });
-
-    expect(mockSocket.emit).toHaveBeenCalledWith('reorder_queue', {
-      queue_id: 'queue-123',
-      interaction_id: 'i-2',
-      prev_interaction_id: 'i-1',
-      next_interaction_id: null,
-    });
-  });
-
-  it('emits lock_queue when current state is unlocked', async () => {
-    (useQueueContext as any).mockReturnValue({
-      queueData: { id: 'queue-123', locked: false },
-      refetch: mockRefetch,
-    });
-
-    render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    await act(async () => {
-      screen.getByText('Toggle Lock').click();
-    });
-
-    expect(mockSocket.emit).toHaveBeenCalledWith('lock_queue', {
-      queue_id: 'queue-123',
-      reason: 'testing'
-    });
-  });
-
-  it('emits unlock_queue when current state is locked', async () => {
-    // Set mock to locked BEFORE rendering
-    (useQueueContext as any).mockReturnValue({
-      queueData: { id: 'queue-123', locked: true },
-      refetch: mockRefetch,
-    });
-
-    render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    await act(async () => {
-      screen.getByText('Toggle Lock').click();
-    });
-
-    expect(mockSocket.emit).toHaveBeenCalledWith('unlock_queue', {
-      queue_id: 'queue-123',
-      reason: 'testing'
-    });
-  });
-
-  it('handles websocket events and triggers UI/refetch', async () => {
-    render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    // Find the callback registered for "queue_updated"
-    const onDataChangeCallback = mockSocket.on.mock.calls.find(
-      (call: any) => call[0] === 'queue_updated'
-    )[1];
-
-    // Simulate server emitting event
-    await act(async () => {
-      onDataChangeCallback();
-    });
-
+    expect(api.reorderQueue).toHaveBeenCalledWith("queue-123", "i-2", "i-1", null);
+    expect(api.setQueueLocked).toHaveBeenCalledWith("queue-123", true);
+    expect(api.notifyQueue).toHaveBeenCalledWith("queue-123", "Taking a break");
     expect(mockRefetch).toHaveBeenCalled();
   });
 
-  it('shows toast when queue is locked/unlocked via socket', async () => {
+  it("handles queue updates, status messages, and v2 notifications", () => {
     render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    // Simulate "queue_locked" event from server
-    const onLockedCallback = mockSocket.on.mock.calls.find(
-      (call: any) => call[0] === 'queue_locked'
-    )[1];
+    const socket = getSocket();
 
     act(() => {
-      onLockedCallback();
+      getEventCallback(socket, "queue_updated")();
+      getEventCallback(socket, "status")({ message: "Queue is locked" });
+      getEventCallback(socket, "notification")({
+        type: "queue_lock_changed",
+        data: { locked: true },
+      });
+      getEventCallback(socket, "live_queues_updated")({ queue_id: "queue-123" });
     });
 
+    expect(mockRefetch).toHaveBeenCalled();
     expect(InfoToast).toHaveBeenCalledWith("Queue is locked");
-
-    const onUnlockedCallback = mockSocket.on.mock.calls.find(
-      (call: any) => call[0] === 'queue_unlocked'
-    )[1];
-
-    act(() => {
-      onUnlockedCallback();
-    });
-
-    expect(InfoToast).toHaveBeenCalledWith("Queue is unlocked");
+    expect(invalidateQueriesMock).toHaveBeenCalledWith({ queryKey: ["liveQueues"] });
   });
 
-  it('does not initialize a socket when queue id is missing', () => {
-    (useQueueContext as any).mockReturnValue({
-      queueData: { id: '', locked: false },
+  it("leaves the queue and disconnects after leave_ack", () => {
+    const { unmount } = render(<SocketProvider><TestConsumer /></SocketProvider>);
+    const socket = getSocket();
+    act(() => getEventCallback(socket, "join_ack")({ queue_id: "queue-123" }));
+
+    unmount();
+
+    expect(socket.emit).toHaveBeenCalledWith("leave_queue", { queue_id: "queue-123" });
+    const leaveAck = socket.once.mock.calls.find((call: any[]) => call[0] === "leave_ack")?.[1];
+    expect(leaveAck).toBeTypeOf("function");
+    leaveAck({ queue_id: "queue-123" });
+    expect(socket.disconnect).toHaveBeenCalled();
+  });
+
+  it("does not create a socket without a queue id", () => {
+    vi.mocked(useQueueContext).mockReturnValue({
+      queueData: { id: "" },
       refetch: mockRefetch,
-    });
+    } as any);
 
     render(<SocketProvider><TestConsumer /></SocketProvider>);
 
     expect(io).not.toHaveBeenCalled();
-  });
-
-  it('does not emit lock toggle without an active queue id', async () => {
-    (useQueueContext as any).mockReturnValue({
-      queueData: { id: '', locked: false },
-      refetch: mockRefetch,
-    });
-
-    render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    await act(async () => {
-      screen.getByText('Toggle Lock').click();
-    });
-
-    expect(mockSocket.emit).not.toHaveBeenCalledWith('lock_queue', expect.anything());
-    expect(mockSocket.emit).not.toHaveBeenCalledWith('unlock_queue', expect.anything());
-  });
-
-  it('cleans up listeners on unmount', () => {
-    const { unmount } = render(<SocketProvider><TestConsumer /></SocketProvider>);
-    
-    unmount();
-
-    expect(mockSocket.off).toHaveBeenCalledWith('queue_updated', expect.any(Function));
-    expect(mockSocket.off).toHaveBeenCalledWith('queue_locked', expect.any(Function));
-  });
-
-  it('disconnects the previous socket when queue id changes', () => {
-    let currentQueue = { id: 'queue-1', locked: false };
-    (useQueueContext as any).mockImplementation(() => ({
-      queueData: currentQueue,
-      refetch: mockRefetch,
-    }));
-
-    const { rerender } = render(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    currentQueue = { id: 'queue-2', locked: false };
-    rerender(<SocketProvider><TestConsumer /></SocketProvider>);
-
-    expect(mockSocket.disconnect).toHaveBeenCalled();
   });
 });

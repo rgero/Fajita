@@ -16,7 +16,7 @@ const StashCard: React.FC<Props> = ({ data }) => {
   const {toggleAddToQueueModalOpen} = useModalContext();
   const {setSelectedResult} = useSearchContext();
    
-  const {title, thumbnail, duration} = data.video;
+  const {title = "", thumbnail = "", duration = 0} = data.video;
 
   
   const styles = {
@@ -45,7 +45,7 @@ const StashCard: React.FC<Props> = ({ data }) => {
 
   return (
     <Card sx={styles.card}>
-      <InfoOverlayButton youtubeId={data.video.video_id}/>
+      <InfoOverlayButton youtubeId={data.video.id}/>
       <CardActionArea onClick={processSelect}>
         <CardMedia
           component="img"

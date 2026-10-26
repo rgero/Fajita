@@ -22,7 +22,7 @@ const FeedbackForm = () => {
       return;
     }
     
-    addFeedback({user: user?.first_name, title, description: details}, {onSuccess: () => {
+    addFeedback({user: user?.name, title, description: details}, {onSuccess: () => {
       setDetails("");
       setTitle("");
     }});

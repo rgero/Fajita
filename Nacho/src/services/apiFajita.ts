@@ -1,137 +1,177 @@
-import { Interaction } from '@interfaces/Interaction';
-import { Priority } from '@interfaces/Priority';
-import { YoutubeResponse } from '@interfaces/YoutubeResponse';
+import { Interaction } from "@interfaces/Interaction";
+import { Priority } from "@interfaces/Priority";
+import { QueueData } from "@interfaces/QueueData";
+import { StashData } from "@interfaces/StashData";
+import { YoutubeResponse } from "@interfaces/YoutubeResponse";
 import { fajitaAxios } from "./axios";
 
 const backendURL = import.meta.env.VITE_BACKEND_URL;
+const apiV1URL = `${backendURL}/api/v1`;
 
-export const getSearchResults = async (searchTerm: string) => {
-  if (!searchTerm) { return; }
-  
-  const queryURL = backendURL + `/api/search?query=${encodeURIComponent(searchTerm)}`;
-  const response = await fajitaAxios.get(queryURL);
+const isRecord = (value: unknown): value is Record<string, unknown> => (
+  typeof value === "object" && value !== null
+);
 
-  if(response.status != 200)
-  {
-    throw new Error("Failed to get search results");
-  }
-  
-  const results = response.data.filter( (item: YoutubeResponse) => { return item.resultType?.toLowerCase().includes("video")});
-  return results;
-}
-
-export const getQueue = async (queueID: string) => 
-{
-  // Negative queue id is reserved for invalid queues.
-  // No sense in trying to connect.
-  if (queueID == "") return {};
-
-  const queueURL = backendURL + `/api/queue/${queueID}`;
-
-  const response = await fajitaAxios.get(queueURL);
-  if (response.status != 200)
-  {
-    throw new Error("Failed to get queue");
-  }
-
-  const queueData = response.data;
-  if (!queueData.active)
-  {
-    return {};
-  }
-  
-  queueData.interactions = queueData.interactions.sort((A:Interaction, B:Interaction) => { return A.index - B.index })
-
-  return response.data;
-}
-
-export const addToQueue = async (queueID: string, userID: string, videoID: string, priority: Priority, visibility: number) => 
-{
-  if (queueID == "") { throw new Error("Not connected to queue"); }
-  const queueURL = backendURL + "/api/interaction";
-
-  const bodyOfReq = {
-    queue_id: queueID,
-    user_id: userID,
-    video_id: videoID,
-    priority: priority,
-    visibility: visibility,
-  }
-
-  await fajitaAxios.post(queueURL, bodyOfReq).catch ( (err) => {
-    if (err.response?.status === 403)
-    {
-      throw new Error("The Queue is locked");
+const getErrorMessage = (error: unknown, fallback: string): string => {
+  if (isRecord(error) && isRecord(error.response) && isRecord(error.response.data)) {
+    const detail: unknown = error.response.data.detail;
+    if (typeof detail === "string") return detail;
+    if (Array.isArray(detail)) {
+      const messages = detail
+        .map((item: unknown) => {
+          if (typeof item === "string") return item;
+          if (item && typeof item === "object" && "msg" in item && typeof item.msg === "string") {
+            return item.msg;
+          }
+          return "";
+        })
+        .filter(Boolean);
+      if (messages.length > 0) return messages.join("; ");
     }
-    throw new Error("Failed to add video");
-  });
-}
+  }
+  return error instanceof Error && error.message ? error.message : fallback;
+};
 
-export const deleteFromQueue = async (interactionID: string) => {
-  const deleteURL = backendURL + `/api/interaction/${interactionID}`;
-  await fajitaAxios.delete(deleteURL).catch( (err) => {
-    if (err.response)
-    {
-      const errMessage = err.response.data.error;
-      throw new Error(errMessage);
-    }
-    throw new Error("Error deleting video");
-  }); 
-}
+const throwApiError = (error: unknown, fallback: string): never => {
+  throw new Error(getErrorMessage(error, fallback));
+};
 
-
-// QUEUE STUFF
-export const getActiveQueues = async () => {
-  const queuesURL = backendURL + "/api/queues/active";
+export const getSearchResults = async (searchTerm: string): Promise<YoutubeResponse[] | undefined> => {
+  if (!searchTerm) return undefined;
 
   try {
-    const response = await fajitaAxios.get(queuesURL);
-    if (response.status != 200)
-    {
-      throw new Error("Failed to get active queues");
+    const response = await fajitaAxios.post<YoutubeResponse[]>(
+      `${apiV1URL}/youtube/search?query=${encodeURIComponent(searchTerm)}`
+    );
+    return response.data.filter((item) => item.resultType?.toLowerCase().includes("video"));
+  } catch (error) {
+    return throwApiError(error, "Failed to get search results");
+  }
+};
+
+export const getQueue = async (queueID: string): Promise<QueueData> => {
+  if (!queueID) return {};
+
+  try {
+    const response = await fajitaAxios.get<QueueData>(`${apiV1URL}/queues/${queueID}`);
+    if (response.status !== 200) {
+      throw new Error("Failed to get queue");
     }
+    const queueData = response.data;
+    if (queueData.interactions) {
+      queueData.interactions = [...queueData.interactions].sort((a, b) => a.index - b.index);
+    }
+    console.log("Fetched queue data:", queueData);
 
+    return queueData;
+  } catch (error) {
+    return throwApiError(error, "Failed to get queue");
+  }
+};
+
+export const addToQueue = async (queueID: string, videoID: string, priority: Priority, visibility: number): Promise<Interaction> => {
+  if (!queueID) throw new Error("Not connected to queue");
+
+  try {
+    const response = await fajitaAxios.post<Interaction>(
+      `${apiV1URL}/queues/${queueID}/interact`,
+      {
+        youtube_id: videoID,
+        priority,
+        visibility,
+      }
+    );
     return response.data;
-  } catch {
-    throw new Error("Failed to get active queues");
+  } catch (error) {
+    return throwApiError(error, "Failed to add video");
   }
+};
 
-}
-
-
-// STASH STUFF
-export const getStashData = async () => {
-  const stashURL = backendURL + "/api/stash";
-
-  const response = await fajitaAxios.get(stashURL);
-  if (response.status != 200)
-  {
-    throw new Error("Failed to get stash data");
+export const deleteFromQueue = async (interactionID: string): Promise<void> => {
+  try {
+    await fajitaAxios.delete(`${apiV1URL}/interactions/${interactionID}`);
+  } catch (error) {
+    return throwApiError(error, "Error deleting video");
   }
-  return response.data;
-}
+};
 
-export const addToStash = async (videoID: string) => {
-  const stashURL = backendURL + "/api/artifact";
-  const bodyOfReq = {
-    video_id: videoID,
+export const getLiveQueues = async (): Promise<QueueData[]> => {
+  try {
+    const response = await fajitaAxios.get<QueueData[]>(`${apiV1URL}/queues/live`);
+    if (response.status !== 200) {
+      throw new Error("Failed to get live queues");
+    }
+    return response.data;
+  } catch (error) {
+    return throwApiError(error, "Failed to get live queues");
   }
+};
 
-  await fajitaAxios.post(stashURL, bodyOfReq).catch( () => {
-    throw new Error("Failed to add video to stash");
-  });
-}
+export const setQueueLocked = async (queueID: string, locked: boolean): Promise<void> => {
+  const action = locked ? "lock" : "unlock";
+  try {
+    await fajitaAxios.post(`${apiV1URL}/queues/${queueID}/${action}`);
+  } catch (error) {
+    return throwApiError(error, `Failed to ${action} queue`);
+  }
+};
 
-export const deleteFromStash = async (id: string) => {
-  const deleteURL = backendURL + `/api/artifact/${id}`;
-  await fajitaAxios.delete(deleteURL).catch( () => {
-    throw new Error("Error deleting video from stash");
-  });
-}
+export const reorderQueue = async (queueID: string, interactionID: string, previousInteractionID: string | null, nextInteractionID: string | null): Promise<QueueData> => {
+  try {
+    const response = await fajitaAxios.post<QueueData>(
+      `${apiV1URL}/queues/${queueID}/reorder`,
+      {
+        interaction_id: interactionID,
+        prev_interaction_id: previousInteractionID,
+        next_interaction_id: nextInteractionID,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return throwApiError(error, "Failed to reorder queue");
+  }
+};
 
-export const deleteStash = async () => {
-  const deleteURL = backendURL + "/api/stash";
-  await fajitaAxios.delete(deleteURL).catch( () => {
-    throw new Error("Error deleting stash");
-  });
-}
+export const notifyQueue = async (queueID: string, message: string): Promise<void> => {
+  try {
+    await fajitaAxios.post(`${apiV1URL}/queues/${queueID}/notify`, { message });
+  } catch (error) {
+    return throwApiError(error, "Failed to send queue notification");
+  }
+};
+
+export const getStashData = async (): Promise<StashData> => {
+  try {
+    const response = await fajitaAxios.get<StashData>(`${apiV1URL}/stash/`);
+    if (response.status !== 200) {
+      throw new Error("Failed to get stash data");
+    }
+    return response.data;
+  } catch (error) {
+    return throwApiError(error, "Failed to get stash data");
+  }
+};
+
+export const addToStash = async (videoID: string): Promise<void> => {
+  try {
+    await fajitaAxios.post(`${apiV1URL}/artifacts/`, { youtube_id: videoID });
+  } catch (error) {
+    return throwApiError(error, "Failed to add video to stash");
+  }
+};
+
+export const deleteFromStash = async (id: string): Promise<void> => {
+  try {
+    await fajitaAxios.delete(`${apiV1URL}/artifacts/${id}`);
+  } catch (error) {
+    return throwApiError(error, "Error deleting video from stash");
+  }
+};
+
+export const deleteStash = async (): Promise<void> => {
+  try {
+    await fajitaAxios.delete(`${apiV1URL}/stash/`);
+  } catch (error) {
+    return throwApiError(error, "Error deleting stash");
+  }
+};

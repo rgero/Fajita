@@ -1,11 +1,11 @@
 import { Artifact } from "./Artifact";
-import { User } from "./User";
+import { Owner } from "./Owner";
 
 export interface StashData {
-  user:        User;
-  length:      number;
-  artifacts:   Artifact[];
-  id:          string;
-  created_at:  Date;
-  modified_at: Date;
+  owner?:      Owner;
+  length?:     number;
+  artifacts?:  Artifact[];
+  id?:         string;
+  created_at?: string;
+  modified_at?: string;
 }

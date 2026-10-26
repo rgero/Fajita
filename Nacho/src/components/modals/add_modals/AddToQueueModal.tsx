@@ -16,7 +16,7 @@ const AddToQueueModal: React.FC = () => {
   const { isConnected, queueData } = useQueueContext();
   const { selectedResult, setSelectedResult } = useSearchContext();
 
-  const targetID = selectedResult ? "video" in selectedResult ? selectedResult.video.video_id : selectedResult.id : null;
+  const targetID = selectedResult ? "video" in selectedResult ? selectedResult.video.id : selectedResult.id : null;
 
   const handleClose = useCallback(() => {
     setSelectedResult(null);

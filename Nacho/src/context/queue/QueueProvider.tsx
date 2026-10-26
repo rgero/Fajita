@@ -1,4 +1,4 @@
-import { addToQueue, deleteFromQueue, getActiveQueues, getQueue } from '@services/apiFajita';
+import { addToQueue, deleteFromQueue, getLiveQueues, getQueue } from '@services/apiFajita';
 import { useCallback, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -33,18 +33,18 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const syncQueueState = async () => {
       try {
-        const activeQueues = await getActiveQueues();
+        const liveQueues = await getLiveQueues();
         const currentId = getQueueID();
 
-        const currentIsStillActive = activeQueues.find((q: any) => q.id === currentId);
+        const currentIsStillActive = liveQueues.find((q) => q.id === currentId);
 
         if (currentIsStillActive) {
           setNeedsQueueSelection(false);
           return;
-        } else if (activeQueues.length === 1) {
-          setQueue(JSON.stringify(activeQueues[0]));
+        } else if (liveQueues.length === 1) {
+          setQueue(JSON.stringify(liveQueues[0]));
           setNeedsQueueSelection(false);
-        } else if (activeQueues.length > 1) {
+        } else if (liveQueues.length > 1) {
           setQueue("");
           setNeedsQueueSelection(true);
         } else {
@@ -79,8 +79,8 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const connectToQueue = async (id: string) => {
-    const queues = await getActiveQueues();
-    const targetQueue = queues.find((obj: { id: string }) => obj.id === id);
+    const queues = await getLiveQueues();
+    const targetQueue = queues.find((obj) => obj.id === id);
 
     if (!targetQueue) {
       throw new Error("Error connecting to queue");
@@ -92,7 +92,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const getQueueOwner = () => {
     try {
       const queueObject = JSON.parse(queue);
-      return queueObject?.owner?.first_name || "";
+      return queueObject?.owner?.name || "";
     } catch {
       return "";
     }
@@ -101,7 +101,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   const { mutateAsync: addVideoToQueue } = useMutation({
     mutationFn: async ({ id, priority, visibility }: { id: string; priority: Priority; visibility: number }) => {
       if (!user) throw new Error("User not found");
-      await addToQueue(getQueueID(), user.id, id, priority, visibility);
+      await addToQueue(getQueueID(), id, priority, visibility);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["queueList"] });
@@ -110,7 +110,7 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addRandomVideo = async (id: string, priority: number) => {
     if (!user) throw new Error("User not found");
-    await addToQueue(getQueueID(), user.id, id, priority, Visibility.Random);
+    await addToQueue(getQueueID(), id, priority, Visibility.Normal);
     await queryClient.invalidateQueries({ queryKey: ["queueList"] });
   };
 
@@ -119,16 +119,16 @@ export const QueueProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const isInQueue = (id: string) => {
-    return queueData?.interactions?.some((i: Interaction) => i.youtube_id === id) || false;
+    return queueData?.interactions?.some((i: Interaction) => i.video.id === id) || false;
   };
 
   const getCurrentVideoIndex = () => {
     if (!queueData?.interactions || !queueData?.current_interaction) return -1;
-    return queueData.interactions.findIndex((i: Interaction) => i.youtube_id === queueData.current_interaction.youtube_id);
+    return queueData.interactions.findIndex((i: Interaction) => i.video.id === queueData.current_interaction?.video.id);
   };
 
   const getVideoIndexInQueue = (id: string) => {
-    return queueData?.interactions?.findIndex((i: Interaction) => i.youtube_id === id) ?? -1;
+    return queueData?.interactions?.findIndex((i: Interaction) => i.video.id === id) ?? -1;
   };
 
   const { isPending: isActionPending, mutateAsync: deleteVideoFromQueue } = useMutation({

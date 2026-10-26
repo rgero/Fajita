@@ -3,6 +3,7 @@ import { Fade, Grid, Stack, TextField, Typography } from "@mui/material"
 
 import Button from "../ui/Buttons/Button";
 import Modal from "./Modal";
+import toast from "react-hot-toast";
 import { useModalContext } from "@context/modal/ModalContext";
 import { useQueueContext } from '@context/queue/QueueContext';
 import { useSocketProvider } from '@context/websocket/WebsocketContext';
@@ -14,9 +15,13 @@ const LockQueueModal = () => {
   const [reason, setReason] = useState<string>("");
   const {queueData} = useQueueContext();
   
-  const processLock = () => {
-    toggleLock(reason);
-    toggleLockQueueModalOpen();
+  const processLock = async () => {
+    try {
+      await toggleLock(reason);
+      toggleLockQueueModalOpen();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to update queue lock");
+    }
   }
 
   return (

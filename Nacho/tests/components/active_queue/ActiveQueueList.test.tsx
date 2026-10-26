@@ -59,8 +59,8 @@ describe("ActiveQueueList", () => {
     });
 
     render(<ActiveQueueList closeFn={closeFn} />);
-    expect(screen.getByTestId("empty")).toHaveTextContent("No active queues");
-    expect(screen.getByTestId("empty")).toHaveTextContent("Check back later.");
+    expect(screen.getByText("No live queues")).toBeInTheDocument();
+    expect(screen.getByText("A queue appears while its player is connected.")).toBeInTheDocument();
   });
 
   it("renders the compact empty state when queues is undefined", () => {
@@ -71,16 +71,16 @@ describe("ActiveQueueList", () => {
     });
 
     render(<ActiveQueueList closeFn={closeFn} />);
-    expect(screen.getByTestId("empty")).toHaveTextContent("No active queues");
-    expect(screen.getByTestId("empty")).toHaveTextContent("Check back later.");
+    expect(screen.getByText("No live queues")).toBeInTheDocument();
+    expect(screen.getByText("A queue appears while its player is connected.")).toBeInTheDocument();
   });
 
   it("renders queue items when queues exist", () => {
     vi.mocked(useActiveQueues).mockReturnValue({
       isLoading: false,
       queues: [
-        { id: "1", owner: { first_name: "Roy", picture: "p1" }, locked: false } as any,
-        { id: "2", owner: { first_name: "Anna", picture: "p2" }, locked: false } as any,
+        { id: "1", owner: { name: "Roy", full_name: "Roy", picture: "p1" }, locked: false } as any,
+        { id: "2", owner: { name: "Anna", full_name: "Anna", picture: "p2" }, locked: false } as any,
       ],
       fetchStatus: ""
     });
@@ -98,10 +98,10 @@ describe("ActiveQueueList", () => {
     vi.mocked(useActiveQueues).mockReturnValue({
       isLoading: false,
       queues: [
-        { id: "locked-b", owner: { first_name: "Beta", picture: "b" }, locked: true } as any,
-        { id: "open-c", owner: { first_name: "Charlie", picture: "c" }, locked: false } as any,
-        { id: "open-a", owner: { first_name: "Alpha", picture: "a" }, locked: false } as any,
-        { id: "locked-a", owner: { first_name: "Alpha", picture: "aa" }, locked: true } as any,
+        { id: "locked-b", owner: { name: "Beta", full_name: "Beta", picture: "b" }, locked: true } as any,
+        { id: "open-c", owner: { name: "Charlie", full_name: "Charlie", picture: "c" }, locked: false } as any,
+        { id: "open-a", owner: { name: "Alpha", full_name: "Alpha", picture: "a" }, locked: false } as any,
+        { id: "locked-a", owner: { name: "Alpha", full_name: "Alpha", picture: "aa" }, locked: true } as any,
       ],
       fetchStatus: ""
     });

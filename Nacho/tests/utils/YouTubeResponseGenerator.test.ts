@@ -1,91 +1,42 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from "vitest";
 
-import { Interaction } from '@interfaces/Interaction';
-import { QueueData } from '@interfaces/QueueData';
-import { User } from '@interfaces/User';
-import { YoutubeResponse } from '@interfaces/YoutubeResponse';
-import { getVideoData } from '@utils/YouTubeResponseGenerator';
+import { Interaction } from "@interfaces/Interaction";
+import { YoutubeResponse } from "@interfaces/YoutubeResponse";
+import { getVideoData } from "@utils/YouTubeResponseGenerator";
 
-describe('getVideoData', () => {
-  it('returns YoutubeResponse if there is a current interaction', () => {
-    const queueData: QueueData = {
-      current_interaction: {
-        video: {
-          id: 10,
-          video_id: 'abasdasdfc123',
-          title: 'Test Video',
-          thumbnail: 'https://example.com/thumb.jpg',
-          duration: 120,
-        },
-        user: {} as User,
-        youtube_id: '',
-        id: '',
-        index: 0,
-        priority: 0,
-        created_at: new Date(),
-        modified_at: new Date(),
-        visibility: 0,
-        played: false
+describe("getVideoData", () => {
+  it("uses the YouTube ID from the v2 Video.id field", () => {
+    const interaction: Interaction = {
+      video: {
+        id: "dQw4w9WgXcQ",
+        title: "Test Video",
+        thumbnail: "https://example.com/thumb.jpg",
+        duration: 120,
       },
-      owner: {} as User,
-      contributors: [],
-      length: 0,
-      interactions: [{
-        video: {
-          id: 10,
-          video_id: 'omomomomom',
-          title: 'Test Video',
-          thumbnail: 'https://example.com/thumb.jpg',
-          duration: 120,
-        },
-        user: {} as User,
-        youtube_id: '',
-        id: '',
-        index: 0,
-        priority: 0,
-        created_at: new Date(),
-        modified_at: new Date(),
-        visibility: 0,
-        played: false
+      user: {
+        name: "Test",
+        full_name: "Test User",
+        picture: "",
       },
-      {
-        video: {
-          id: 10,
-          video_id: 'abc123',
-          title: 'Test Video',
-          thumbnail: 'https://example.com/thumb.jpg',
-          duration: 120,
-        },
-        user: {} as User,
-        youtube_id: '',
-        id: '',
-        index: 0,
-        priority: 0,
-        created_at: new Date()  ,
-        modified_at: new Date(),
-        visibility: 0,
-        played: false
-      }],
-      next_interaction: {} as Interaction,
-      id: '',
-      active: false,
-      locked: false,
-      player_sid: '',
-      current_index: 0,
-      playlist_id: '',
-      created_at: new Date(),
-      modified_at: new Date(),
-      last_played: ''
+      id: "interaction-1",
+      index: 0,
+      priority: 1,
+      created_at: "2026-10-25T00:00:00Z",
+      modified_at: "2026-10-25T00:00:00Z",
+      visibility: 1,
+      played_at: null,
+      play_count: 0,
     };
 
     const expected: YoutubeResponse = {
-      id: 'abc123',
-      title: 'Test Video',
-      thumbnail_src: 'https://example.com/thumb.jpg',
+      id: "dQw4w9WgXcQ",
+      title: "Test Video",
+      thumbnail_src: "https://example.com/thumb.jpg",
       duration: 120,
+      author: undefined,
     };
 
-    const result = getVideoData(queueData.interactions[1]);
-    expect(result).toEqual(expected);
+    expect(getVideoData(interaction)).toEqual(expected);
+    expect(getVideoData(null)).toBeNull();
   });
 });

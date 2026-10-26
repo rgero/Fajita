@@ -50,7 +50,13 @@ describe('SearchProvider', () => {
   });
 
   it('triggers a search when the "search" URL param is present', async () => {
-    const mockData = [{ id: 'vid1', title: 'Video 1' }];
+    const mockData = [{
+      id: 'vid1',
+      title: 'Video 1',
+      thumbnail_src: 'thumb.jpg',
+      duration: 90,
+      resultType: 'video',
+    }];
     vi.mocked(getSearchResults).mockResolvedValue(mockData);
 
     render(

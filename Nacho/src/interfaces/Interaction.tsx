@@ -3,20 +3,24 @@ import { Owner } from "./Owner";
 export interface Interaction {
   user:        Owner;
   video:       Video;
-  youtube_id:  string;
   id:          string;
   index:       number;
   priority:    number;
-  created_at:  Date;
-  modified_at: Date;
+  created_at?: string;
+  modified_at?: string | null;
   visibility:  number;
-  played:      boolean;
+  played_at:   string | null;
+  play_count:  number;
 }
 
 export interface Video {
-  id:        number;
-  title:     string;
-  video_id:  string;
-  thumbnail: string;
-  duration:  number;
+  id:           string;
+  title?:       string;
+  thumbnail?:   string;
+  duration?:    number;
+  channelId?:   string;
+  channelTitle?: string;
+  categoryId?:  number;
+  created_at?:  string;
+  modified_at?: string;
 }

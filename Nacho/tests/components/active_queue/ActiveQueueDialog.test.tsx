@@ -57,12 +57,12 @@ describe("ActiveQueueDialog", () => {
   // RENDER TESTS
   // ------------------------
 
-  it("renders Active Queues title", () => {
+  it("renders Live Queues title", () => {
     mockOpen = true;
 
     render(<ActiveQueueDialog />);
 
-    expect(screen.getByText("Active Queues")).toBeInTheDocument();
+    expect(screen.getByText("Live Queues")).toBeInTheDocument();
   });
 
   it("passes open state into Dialog", () => {

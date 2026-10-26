@@ -23,7 +23,7 @@ export interface QueueContextType {
   queueData: QueueData;
   refetch: () => void;
   searchTerm: string;
-  setCurrentlySelected: (int: Interaction) => void;
+  setCurrentlySelected: (int: Interaction | null) => void;
   setSearchTerm: (term: string) => void;
 }
 

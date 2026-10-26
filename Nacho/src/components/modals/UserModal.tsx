@@ -10,7 +10,7 @@ const UserModal: React.FC = () => {
   return (
     <Modal open={userModalOpen} closeFn={toggleUserModalOpen}>
       <>
-        <Typography variant="h6" gutterBottom>Profile for {user?.first_name}</Typography>
+        <Typography variant="h6" gutterBottom>Profile for {user?.name}</Typography>
         <Stack spacing={3} sx={{alignItems: 'center'}}>
           <Box 
             component="img" 
@@ -27,7 +27,7 @@ const UserModal: React.FC = () => {
           />
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
             <Typography sx={{ fontWeight: "bold" }}>Display Name:</Typography>
-            <Typography>{user?.first_name}</Typography>
+            <Typography>{user?.name}</Typography>
           </Box>
           <Box sx={{ alignSelf: 'flex-end' }}>
             <Button variant="contained" onClick={toggleUserModalOpen}>

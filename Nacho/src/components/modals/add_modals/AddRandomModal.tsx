@@ -34,7 +34,7 @@ const AddRandomModal = () => {
       while (needsToPick)
       {
         const randomIndex = Math.floor(Math.random() * stashData.length);
-        randomVideo = stashData[randomIndex].video.video_id;
+        randomVideo = stashData[randomIndex].video.id;
         needsToPick = isInQueue(randomVideo);
         maxTries = maxTries - 1;
         if (maxTries === 0) { throw new Error("Unable to select unique video"); }

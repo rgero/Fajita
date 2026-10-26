@@ -19,7 +19,7 @@ vi.mock('@hooks/useLocalStorageState', () => ({
 }));
 
 vi.mock('@services/apiFajita', () => ({
-  getActiveQueues: vi.fn(),
+  getLiveQueues: vi.fn(),
   getQueue: vi.fn(),
   addToQueue: vi.fn(),
   deleteFromQueue: vi.fn(),
@@ -60,7 +60,7 @@ describe('QueueProvider', () => {
     } as any);
 
     vi.mocked(useLocalStorageState).mockReturnValue(["", mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([]);
     vi.mocked(api.getQueue).mockResolvedValue({ id: '', interactions: [] });
   });
 
@@ -78,7 +78,7 @@ describe('QueueProvider', () => {
 
   it('auto-connects if storage is empty and exactly one queue exists', async () => {
     const mockActive = [{ id: 'q-auto', name: 'Only Queue' }];
-    vi.mocked(api.getActiveQueues).mockResolvedValue(mockActive);
+    vi.mocked(api.getLiveQueues).mockResolvedValue(mockActive);
 
     render(
       <QueryClientProvider client={createTestQueryClient()}>
@@ -98,7 +98,7 @@ describe('QueueProvider', () => {
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
     
     // API returns multiple queues, including the stored one
-    vi.mocked(api.getActiveQueues).mockResolvedValue([
+    vi.mocked(api.getLiveQueues).mockResolvedValue([
       { id: 'other-queue' },
       { id: 'my-queue' }
     ]);
@@ -121,7 +121,7 @@ describe('QueueProvider', () => {
     const stored = JSON.stringify({ id: 'q-dead' });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
     
-    vi.mocked(api.getActiveQueues).mockResolvedValue([]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([]);
 
     render(
       <QueryClientProvider client={createTestQueryClient()}>
@@ -141,7 +141,7 @@ describe('QueueProvider', () => {
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
     
     // Multiple new queues available, but none match the stored one
-    vi.mocked(api.getActiveQueues).mockResolvedValue([
+    vi.mocked(api.getLiveQueues).mockResolvedValue([
       { id: 'new-q-1' },
       { id: 'new-q-2' }
     ]);
@@ -164,7 +164,7 @@ describe('QueueProvider', () => {
   it('fetches and displays queue data once initialized', async () => {
     const stored = JSON.stringify({ id: 'q-1' });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1' }]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1' }]);
     vi.mocked(api.getQueue).mockResolvedValue({ id: 'q-1', interactions: [] });
 
     render(
@@ -182,9 +182,9 @@ describe('QueueProvider', () => {
   });
 
   it('connectToQueue stores the selected queue when it exists', async () => {
-    vi.mocked(api.getActiveQueues).mockResolvedValue([
-      { id: 'q-1', owner: { first_name: 'A' } },
-      { id: 'q-2', owner: { first_name: 'B' } },
+    vi.mocked(api.getLiveQueues).mockResolvedValue([
+      { id: 'q-1', owner: { name: 'A', full_name: 'A', picture: '' } },
+      { id: 'q-2', owner: { name: 'B', full_name: 'B', picture: '' } },
     ]);
 
     render(
@@ -203,14 +203,14 @@ describe('QueueProvider', () => {
       await capturedContext!.connectToQueue('q-2');
     });
 
-    expect(mockSetQueue).toHaveBeenCalledWith(JSON.stringify({ id: 'q-2', owner: { first_name: 'B' } }));
+    expect(mockSetQueue).toHaveBeenCalledWith(JSON.stringify({ id: 'q-2', owner: { name: 'B', full_name: 'B', picture: '' } }));
     await waitFor(() => {
       expect(capturedContext!.needsQueueSelection).toBe(false);
     });
   });
 
   it('connectToQueue throws when target queue is missing', async () => {
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1' }]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1' }]);
 
     render(
       <QueryClientProvider client={createTestQueryClient()}>
@@ -229,7 +229,7 @@ describe('QueueProvider', () => {
 
   it('returns empty queue metadata when stored queue is invalid JSON', async () => {
     vi.mocked(useLocalStorageState).mockReturnValue(['not-json', mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([]);
 
     render(
       <QueryClientProvider client={createTestQueryClient()}>
@@ -247,16 +247,17 @@ describe('QueueProvider', () => {
   });
 
   it('evaluates queue helper methods from queue data', async () => {
-    const stored = JSON.stringify({ id: 'q-1', owner: { first_name: 'Nacho' } });
+    const owner = { name: 'Nacho', full_name: 'Nacho', picture: '' };
+    const stored = JSON.stringify({ id: 'q-1', owner });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1', owner: { first_name: 'Nacho' } }]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1', owner }]);
     vi.mocked(api.getQueue).mockResolvedValue({
       id: 'q-1',
-      current_interaction: { youtube_id: 'vid-2' },
+      current_interaction: { video: { id: 'vid-2' } },
       next_interaction: { priority: 2 },
       interactions: [
-        { id: 'i1', youtube_id: 'vid-1' },
-        { id: 'i2', youtube_id: 'vid-2' },
+        { id: 'i1', video: { id: 'vid-1' } },
+        { id: 'i2', video: { id: 'vid-2' } },
       ],
     } as any);
 
@@ -284,7 +285,7 @@ describe('QueueProvider', () => {
   it('returns -1 from getCurrentVideoIndex when queue data is incomplete', async () => {
     const stored = JSON.stringify({ id: 'q-1' });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1' }]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1' }]);
     vi.mocked(api.getQueue).mockResolvedValue({ id: 'q-1', interactions: [] });
 
     render(
@@ -326,12 +327,12 @@ describe('QueueProvider', () => {
     });
   });
 
-  it('addRandomVideo sends Visibility.Random and invalidates queue query', async () => {
+  it('addRandomVideo sends standard visibility and invalidates queue query', async () => {
     const queryClient = createTestQueryClient();
     const invalidateSpy = vi.spyOn(queryClient, 'invalidateQueries');
     const stored = JSON.stringify({ id: 'q-1' });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1' }]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1' }]);
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -349,7 +350,7 @@ describe('QueueProvider', () => {
       await capturedContext!.addRandomVideo('video-random', 2);
     });
 
-    expect(api.addToQueue).toHaveBeenCalledWith('q-1', 'user-1', 'video-random', 2, Visibility.Random);
+    expect(api.addToQueue).toHaveBeenCalledWith('q-1', 'video-random', 2, Visibility.Normal);
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['queueList'] });
   });
 
@@ -401,9 +402,9 @@ describe('QueueProvider', () => {
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['queueList'] });
   });
 
-  it('logs queue sync errors from getActiveQueues and continues initialization', async () => {
+  it('logs queue sync errors from getLiveQueues and continues initialization', async () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    vi.mocked(api.getActiveQueues).mockRejectedValue(new Error('sync failed'));
+    vi.mocked(api.getLiveQueues).mockRejectedValue(new Error('sync failed'));
 
     render(
       <QueryClientProvider client={createTestQueryClient()}>
@@ -425,7 +426,7 @@ describe('QueueProvider', () => {
   it('maps 403 queue fetch errors to access-forbidden message', async () => {
     const stored = JSON.stringify({ id: 'q-1' });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1' }]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1' }]);
     vi.mocked(api.getQueue).mockRejectedValue({ response: { status: 403 } });
 
     render(
@@ -445,7 +446,7 @@ describe('QueueProvider', () => {
   it('surfaces non-403 queue fetch errors unchanged', async () => {
     const stored = JSON.stringify({ id: 'q-1' });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1' }]);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1' }]);
     vi.mocked(api.getQueue).mockRejectedValue(new Error('queue boom'));
 
     render(
@@ -467,8 +468,19 @@ describe('QueueProvider', () => {
     const invalidateSpy = vi.spyOn(queryClient, 'invalidateQueries');
     const stored = JSON.stringify({ id: 'q-1' });
     vi.mocked(useLocalStorageState).mockReturnValue([stored, mockSetQueue]);
-    vi.mocked(api.getActiveQueues).mockResolvedValue([{ id: 'q-1' }]);
-    vi.mocked(api.addToQueue).mockResolvedValue(undefined);
+    vi.mocked(api.getLiveQueues).mockResolvedValue([{ id: 'q-1' }]);
+    vi.mocked(api.addToQueue).mockResolvedValue({
+      id: 'interaction-1',
+      index: 0,
+      priority: 1,
+      visibility: 1,
+      played_at: null,
+      play_count: 0,
+      created_at: '',
+      modified_at: '',
+      user: { name: 'Test', full_name: 'Test', picture: '' },
+      video: { id: 'video-abc' },
+    });
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -486,7 +498,7 @@ describe('QueueProvider', () => {
       await capturedContext!.addVideoToQueue({ id: 'video-abc', priority: 'single', visibility: 1 } as any);
     });
 
-    expect(api.addToQueue).toHaveBeenCalledWith('q-1', 'user-1', 'video-abc', 'single', 1);
+    expect(api.addToQueue).toHaveBeenCalledWith('q-1', 'video-abc', 'single', 1);
     expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ['queueList'] });
   });
 });

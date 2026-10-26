@@ -51,7 +51,7 @@ const QueueInfoModal = () => {
 
   const status = useMemo(() => {
     if (!currentlySelected) return null;
-    return ProcessVideo(currentlySelected, queueData.current_index);
+    return ProcessVideo(currentlySelected, queueData.current_index ?? -1);
   }, [currentlySelected, queueData.current_index]);
 
   const videoData: YoutubeResponse | null = useMemo(

@@ -15,7 +15,7 @@ const AddToStashOption = () => {
   useEffect(() => {
     if (Object.keys(queueData).length === 0) return;
     const currentIndex = queueData.current_index;
-    const foundItems = queueData.interactions.filter((option: Interaction) =>{
+    const foundItems = (queueData.interactions ?? []).filter((option: Interaction) =>{
       return option.index == currentIndex;
     })
     
@@ -31,7 +31,7 @@ const AddToStashOption = () => {
       return;
     }
     try {
-      await addVideoToStash(currentlyPlaying.video.video_id);
+      await addVideoToStash(currentlyPlaying.video.id);
       toast.success("Video added to stash");
     } catch {
       toast.error("Failed to add video to stash");
@@ -44,7 +44,7 @@ const AddToStashOption = () => {
       return;
     }
     try {
-      await deleteVideoFromStash(currentlyPlaying?.video.video_id);
+      await deleteVideoFromStash(currentlyPlaying.video.id);
       toast.success("Video removed from stash");
     } catch (err: any) {
       toast.error("Failed to remove video from stash");
@@ -52,12 +52,12 @@ const AddToStashOption = () => {
   }
 
   return (
-    <ListItem key="stash" disablePadding onClick={currentlyPlaying && isInStash(currentlyPlaying.video.video_id) ? handleRemoveFromStash : handleAddToStash}>
+    <ListItem key="stash" disablePadding onClick={currentlyPlaying && isInStash(currentlyPlaying.video.id) ? handleRemoveFromStash : handleAddToStash}>
       <ListItemButton>
         <ListItemIcon>
-          {currentlyPlaying && isInStash(currentlyPlaying.video.video_id) ? <Favorite /> : <FavoriteBorder/> }
+          {currentlyPlaying && isInStash(currentlyPlaying.video.id) ? <Favorite /> : <FavoriteBorder/> }
         </ListItemIcon>
-        <ListItemText primary={currentlyPlaying && isInStash(currentlyPlaying.video.video_id) ? "Remove from Stash" : "Add To Stash"}/>
+        <ListItemText primary={currentlyPlaying && isInStash(currentlyPlaying.video.id) ? "Remove from Stash" : "Add To Stash"}/>
       </ListItemButton>
     </ListItem>
   )

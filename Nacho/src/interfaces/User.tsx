@@ -2,6 +2,8 @@ export interface User
 {
   email: string,
   id: string,
-  first_name: string,
-  picture: string
+  full_name: string,
+  name: string,
+  picture: string,
+  is_host: boolean
 }

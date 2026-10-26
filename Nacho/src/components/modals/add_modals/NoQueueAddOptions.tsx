@@ -13,7 +13,7 @@ const NoQueueAddOptions = () => {
   const {selectedResult} = useSearchContext();
   
   if (!selectedResult) return;
-  const targetID = "video" in selectedResult ? selectedResult.video.video_id : selectedResult.id;
+  const targetID = "video" in selectedResult ? selectedResult.video.id : selectedResult.id;
 
 
   return (

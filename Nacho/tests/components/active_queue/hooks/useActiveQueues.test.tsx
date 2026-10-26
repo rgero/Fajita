@@ -8,7 +8,7 @@ const mockGetActiveQueues = vi.fn();
 
 vi.mock("@services/apiFajita", () => ({
   __esModule: true,
-  getActiveQueues: () => mockGetActiveQueues(),
+  getLiveQueues: () => mockGetActiveQueues(),
 }));
 
 
@@ -52,8 +52,8 @@ describe("useActiveQueues", () => {
 
   it("returns queues when API resolves successfully", async () => {
     const fakeQueues = [
-      { id: "1", owner: { first_name: "Roy", picture: "a.png" } },
-      { id: "2", owner: { first_name: "Anna", picture: "b.png" } },
+      { id: "1", owner: { name: "Roy", full_name: "Roy", picture: "a.png" } },
+      { id: "2", owner: { name: "Anna", full_name: "Anna", picture: "b.png" } },
     ];
 
     mockGetActiveQueues.mockResolvedValue(fakeQueues);

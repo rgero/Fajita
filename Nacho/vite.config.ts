@@ -1,7 +1,6 @@
 /// <reference types="vitest" />
 
 import { defineConfig } from 'vitest/config'
-import mkcert from 'vite-plugin-mkcert'
 import path from 'path'
 import react from '@vitejs/plugin-react'
 
@@ -16,7 +15,7 @@ const aliases = {
 };
 
 export default defineConfig({
-  plugins: [react(), mkcert()],
+  plugins: [react()],
   build: {
     rollupOptions: {
       output: {
@@ -59,7 +58,7 @@ export default defineConfig({
   },
   server: {
     port: 7000,
-    https: {},
+    allowedHosts: ["horchata.localhost"],
   },
   resolve: {
     alias: aliases,

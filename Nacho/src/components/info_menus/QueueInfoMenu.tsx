@@ -20,7 +20,7 @@ const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onCl
   const { infoOptions } = useSettings();
   const {queueData} = useQueueContext();
   
-  const shouldBeHidden = (queueData.current_index < data.index && data.visibility == Visibility.Hidden)
+  const shouldBeHidden = ((queueData.current_index ?? -1) < data.index && data.visibility == Visibility.Hidden)
   return (
     <Menu anchorEl={anchorEl} open={open} onClose={onClose}>
       <TimeAddedMenuOption data={data} />
@@ -30,7 +30,7 @@ const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onCl
         infoOptions.stash && (
           <StashMenuOption
             key="stash"
-            youtubeId={data.youtube_id}
+            youtubeId={data.video.id}
             onClose={onClose}
           />
         ),
@@ -38,7 +38,7 @@ const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onCl
         infoOptions.youtube && (
           <YoutubeMenuOption
             key="youtube"
-            youtubeId={data.youtube_id}
+            youtubeId={data.video.id}
             onClose={onClose}
           />
         ),
@@ -46,7 +46,7 @@ const QueueInfoMenu: React.FC<QueueInfoMenuProps> = ({data, anchorEl, open, onCl
         infoOptions.clipboard && (
           <CopyMenuOption
             key="clipboard"
-            youtubeId={data.youtube_id}
+            youtubeId={data.video.id}
             onClose={onClose}
           />
         )

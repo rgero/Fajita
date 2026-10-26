@@ -9,7 +9,7 @@ export const copyToClipboard = (interaction: Interaction|Artifact|null) => {
     toast.error("Nothing currently playing to copy")
     return;
   }  
-  copy(`https://www.youtube.com/watch?v=${interaction.video.video_id}`)
+  copy(`https://www.youtube.com/watch?v=${interaction.video.id}`)
   toast.success("Copied to clipboard");
 }
 

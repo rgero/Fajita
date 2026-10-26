@@ -38,7 +38,7 @@ describe("AuthenticationProvider", () => {
 
   it("provides authenticated user when user exists", () => {
     mockedUseQuery.mockReturnValue({
-      data: { id: 1, name: "Test User" },
+      data: { id: "e270ab4f-0666-4957-aaff-6817905b6899", name: "Test User" },
       isLoading: false,
       fetchStatus: "idle",
     } as any);
@@ -52,7 +52,7 @@ describe("AuthenticationProvider", () => {
     expect(screen.getByTestId("authenticated").textContent).toBe("true");
     expect(screen.getByTestId("loading").textContent).toBe("false");
     expect(screen.getByTestId("fetchStatus").textContent).toBe("idle");
-    expect(screen.getByTestId("userId").textContent).toBe("1");
+    expect(screen.getByTestId("userId").textContent).toBe("e270ab4f-0666-4957-aaff-6817905b6899");
   });
 
   it("provides unauthenticated state when user is undefined", () => {

@@ -11,7 +11,7 @@ interface Props {
 }
 
 const CompactStashCard: React.FC<Props> = ({ data }) => {
-  const {title, thumbnail, duration} = data.video
+  const {title = "", thumbnail = "", duration = 0} = data.video
   const {toggleAddToQueueModalOpen} = useModalContext();
   const {setSelectedResult} = useSearchContext();
 
@@ -43,7 +43,7 @@ const CompactStashCard: React.FC<Props> = ({ data }) => {
 
   return (
     <Card sx={styles.cardStyle}>
-      <InfoOverlayButton youtubeId={data.video.video_id} disableHanded={true} smallButton={true}/>
+      <InfoOverlayButton youtubeId={data.video.id} disableHanded={true} smallButton={true}/>
       <CardActionArea sx={{display: 'flex'}} onClick={processSelect}>
         <CardMedia
           component="img"

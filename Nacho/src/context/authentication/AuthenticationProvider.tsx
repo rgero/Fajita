@@ -9,7 +9,7 @@ export const AuthenticationProvider = ({ children }: { children: React.ReactNode
     queryFn: getCurrentUser,
   });
 
-  const isAuthenticated: boolean = Boolean(user?.id && Number(user.id) > 0);
+  const isAuthenticated: boolean = Boolean(user?.id);
 
   return (
     <AuthContext.Provider value={{ user, isLoading, isAuthenticated, fetchStatus }}>

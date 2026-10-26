@@ -24,8 +24,8 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const {toggleQueueInfoModalOpen} = useModalContext();
   const [status, setIsVisible] = useState<QueueStatus>({isVisible: false, message: "", cover: ""});
 
-  const {first_name} = data.user;
-  const {title, thumbnail, duration} = data.video
+  const {name} = data.user;
+  const {title = "", thumbnail = "", duration = 0} = data.video
 
   const backgroundColor = () => {
     if (data.index == current)
@@ -38,7 +38,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
   const shouldFilter = () => {
     if (!searchTerm) return false;
     if (data.index == current) return false;
-    if (searchTerm && !title.toLowerCase().includes(searchTerm.toLowerCase())) return true;
+    if (searchTerm && !title?.toLowerCase().includes(searchTerm.toLowerCase())) return true;
   }
 
   const styles = {
@@ -96,7 +96,7 @@ const QueueCard: React.FC<Props> = ({data, current}) => {
         {status.isVisible && (<Typography sx={styles.overlay} variant="caption">{getParsedDuration(duration)}</Typography>)}
         <CardContent sx={{flexGrow: 1, minWidth: {xs:"70%", md: "55%"}}}>
           <Typography noWrap variant="subtitle2">{status.isVisible ? title : status.message}</Typography>
-          <Typography variant="subtitle2">Added by {SecretNameDiplay(first_name)}</Typography>
+          <Typography variant="subtitle2">Added by {SecretNameDiplay(name)}</Typography>
         </CardContent>
       </CardActionArea>
     </Card>

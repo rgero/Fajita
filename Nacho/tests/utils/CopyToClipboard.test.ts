@@ -37,7 +37,7 @@ describe("copyToClipboard utilities", () => {
 
     it("copies YouTube link and shows success toast", () => {
       const mockInteraction = {
-        video: { video_id: "abc123" },
+        video: { id: "abc123" },
       };
 
       copyToClipboard(mockInteraction as any);
@@ -48,7 +48,7 @@ describe("copyToClipboard utilities", () => {
 
     it("works with an Artifact that wraps a video", () => {
       const mockArtifact = {
-        video: { video_id: "xyz789" },
+        video: { id: "xyz789" },
         stash: { id: "1", modified_at: new Date() },
       };
 

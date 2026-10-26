@@ -6,6 +6,7 @@ import { useSocketProvider } from "@context/websocket/WebsocketContext";
 
 interface ProgressResponse {
   queue_id: string,
+  owner_id: string | null,
   progress: number
 }
 
@@ -15,6 +16,7 @@ const FooterProgressBar = () => {
   const [currentProgress, setProgress] = useState<number>(0);
   
   const processProgress = useCallback( (progressResponse: ProgressResponse) => {
+    console.log(progressResponse);
     if (progressResponse.queue_id === queueData.id)
     {
       setProgress(progressResponse.progress);
@@ -23,7 +25,7 @@ const FooterProgressBar = () => {
 
   useEffect(() => {
     if (!socket) return;
-    socket.on("player_progress", processProgress);
+    socket.on("player_progress", (data) => console.log(data));
     return () => {
       socket.off("player_progress", processProgress);
     };

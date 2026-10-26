@@ -5,10 +5,6 @@ import { grey } from "@mui/material/colors";
 import { useEffect } from "react";
 
 const LandingPage = () => {
-  const sendToLogin = () => {
-    window.location.href = `${import.meta.env.VITE_BACKEND_URL}/login?next=nacho`;
-  }
-
   // Landing page is intentionally theme-independent, so the themed body color is restored on unmount.
   useEffect(() => {
     const previousBackground = document.body.style.backgroundColor;
@@ -23,7 +19,8 @@ const LandingPage = () => {
     <Container disableGutters sx={{minWidth: "100%", backgroundColor: "#000000", color: "#FFFFFF"}}>
       <Stack sx={{ height: "100vh", paddingTop: "2rem", alignItems: "center" }}>
         <IconButton
-          href={`${import.meta.env.VITE_BACKEND_URL}/login?next=nacho`}
+          onClick={() => window.location.reload()}
+          aria-label="Retry PocketID sign-in"
           size="large"
         >
           <img width={200} src="fajita.svg"/>
@@ -32,7 +29,7 @@ const LandingPage = () => {
         <Button
           variant="contained"
           startIcon={<KeyTwoToneIcon />}
-          onClick={sendToLogin}
+          onClick={() => window.location.reload()}
           sx={{
             marginTop: 5,
             backgroundColor: grey[700],
@@ -40,7 +37,7 @@ const LandingPage = () => {
             "&:hover": { backgroundColor: grey[600] },
           }}
         >
-          Login
+          Continue with PocketID
         </Button>
       </Stack>
 

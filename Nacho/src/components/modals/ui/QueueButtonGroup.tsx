@@ -27,17 +27,17 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
   const { shareOptions } = useSettings();
   const { isInStash, addVideoToStash, deleteVideoFromStash } = useStashContext();
   const { queueData } = useQueueContext();
-  const { video_id } = interaction.video;
+  const videoID = interaction.video.id;
 
   const locked = queueData.locked;
 
   const isCurrentlyPlaying = queueData.current_index === interaction.index;
 
   const processStash = async () => {
-    if (isInStash(video_id)) {
-      await deleteVideoFromStash(video_id);
+    if (isInStash(videoID)) {
+      await deleteVideoFromStash(videoID);
     } else {
-      await addVideoToStash(video_id);
+      await addVideoToStash(videoID);
     }
   };
 
@@ -85,7 +85,7 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
             <Grid>
               <Button
                 onClick={processStash}
-                icon={isInStash(video_id) ? <Favorite color="error" /> : <FavoriteBorder />}
+                icon={isInStash(videoID) ? <Favorite color="error" /> : <FavoriteBorder />}
                 title="Stash"
               />
             </Grid>
@@ -94,7 +94,7 @@ const QueueButtonGroup: React.FC<Props> = ({ interaction, status, checkConfirm, 
           {shareOptions.youtube && (
             <Grid>
               <Button
-                onClick={() => OpenYouTubeURL(interaction.video.video_id)}
+                onClick={() => OpenYouTubeURL(interaction.video.id)}
                 icon={<YouTubeIcon color="error" />}
                 title="YouTube"
               />

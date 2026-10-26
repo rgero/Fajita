@@ -1,7 +1,7 @@
 import { MenuItem, Typography } from "@mui/material"
+import { formatDistanceToNow, isValid } from "date-fns"
 
 import { Interaction } from '@interfaces/Interaction';
-import { formatDistanceToNow } from "date-fns"
 import { toZonedTime } from "date-fns-tz";
 
 interface TimeAddedMenuOptionProps {
@@ -10,10 +10,13 @@ interface TimeAddedMenuOptionProps {
 
 const TimeAddedMenuOption = ({data}: TimeAddedMenuOptionProps) => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const localDate = toZonedTime(data.created_at + "Z", timeZone)
+  console.log(data.created_at);
+  const addedAt = data.created_at ? new Date(data.created_at) : null;
+  console.log(addedAt);
+  const localDate = addedAt && isValid(addedAt) ? toZonedTime(addedAt, timeZone) : null;
   return (
     <MenuItem style={{ pointerEvents: 'none' }}>
-      <Typography>Added {formatDistanceToNow(localDate, { addSuffix: true })}</Typography>
+      <Typography>{localDate ? `Added ${formatDistanceToNow(localDate, { addSuffix: true })}` : "Added time unavailable"}</Typography>
     </MenuItem>
   )
 }

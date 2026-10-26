@@ -9,8 +9,10 @@ describe("useAuth", () => {
       user: {
         id: "123",
         email: "",
-        first_name: "Test User",
-        picture: ""
+        name: "Test",
+        full_name: "Test User",
+        picture: "",
+        is_host: false
       },
       isLoading: false,
       isAuthenticated: true,
@@ -27,7 +29,7 @@ describe("useAuth", () => {
 
     expect(result.current).toEqual(mockContext);
     expect(result.current.isAuthenticated).toBe(true);
-    expect(result.current.user?.first_name).toBe("Test User");
+    expect(result.current.user?.full_name).toBe("Test User");
   });
 
   it("throws an error when used outside AuthProvider", () => {

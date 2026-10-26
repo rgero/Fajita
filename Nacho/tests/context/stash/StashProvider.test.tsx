@@ -21,7 +21,7 @@ const createMockArtifact = (id: string, title: string, date: string): Artifact =
   id: `db-${id}`,
   created_at: date,
   video: {
-    video_id: id,
+    id,
     title: title,
   }
 } as unknown as Artifact);

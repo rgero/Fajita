@@ -6,9 +6,10 @@ export const getVideoData = (targetInteraction: Interaction|null): YoutubeRespon
   if (!currentlySelected || !currentlySelected.video) return null;
 
   return {
-    id: currentlySelected.video.video_id,
-    title: currentlySelected.video.title,
-    thumbnail_src: currentlySelected.video.thumbnail,
-    duration: currentlySelected.video.duration,
+    id: currentlySelected.video.id,
+    title: currentlySelected.video.title ?? "",
+    thumbnail_src: currentlySelected.video.thumbnail ?? "",
+    duration: currentlySelected.video.duration ?? 0,
+    author: currentlySelected.video.channelTitle,
   };
-};
+}

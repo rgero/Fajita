@@ -1,12 +1,12 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { Priority } from '@interfaces/Priority';
+import { Priority } from "@interfaces/Priority";
 
 const getMock = vi.fn();
 const postMock = vi.fn();
 const deleteMock = vi.fn();
 
-vi.mock('@services/axios', () => ({
+vi.mock("@services/axios", () => ({
   fajitaAxios: {
     get: getMock,
     post: postMock,
@@ -14,13 +14,13 @@ vi.mock('@services/axios', () => ({
   },
 }));
 
-const loadApi = async (baseUrl = 'http://api.test') => {
+const loadApi = async (baseUrl = "https://horchata.test") => {
   vi.resetModules();
-  vi.stubEnv('VITE_BACKEND_URL', baseUrl);
-  return import('@services/apiFajita');
+  vi.stubEnv("VITE_BACKEND_URL", baseUrl);
+  return import("@services/apiFajita");
 };
 
-describe('apiFajita service', () => {
+describe("Horchata API service", () => {
   beforeEach(() => {
     getMock.mockReset();
     postMock.mockReset();
@@ -28,226 +28,141 @@ describe('apiFajita service', () => {
     vi.unstubAllEnvs();
   });
 
-  describe('getSearchResults', () => {
-    it('returns undefined for an empty search term', async () => {
-      const { getSearchResults } = await loadApi();
+  it("searches through the v2 POST endpoint", async () => {
+    const { getSearchResults } = await loadApi();
+    const results = [
+      { id: "dQw4w9WgXcQ", title: "Video", thumbnail_src: "thumb.jpg", resultType: "video" },
+      { id: "playlist", title: "Playlist", thumbnail_src: "playlist.jpg", resultType: "playlist" },
+    ];
+    postMock.mockResolvedValue({ status: 200, data: results });
 
-      const result = await getSearchResults('');
-
-      expect(result).toBeUndefined();
-      expect(getMock).not.toHaveBeenCalled();
-    });
-
-    it('returns only video results when request succeeds', async () => {
-      const { getSearchResults } = await loadApi();
-      getMock.mockResolvedValue({
-        status: 200,
-        data: [
-          { id: '1', resultType: 'video' },
-          { id: '2', resultType: 'playlist' },
-          { id: '3', resultType: 'VIDEO-LIVE' },
-          { id: '4' },
-        ],
-      });
-
-      const result = await getSearchResults('cats & dogs');
-
-      expect(getMock).toHaveBeenCalledWith('http://api.test/api/search?query=cats%20%26%20dogs');
-      expect(result).toEqual([
-        { id: '1', resultType: 'video' },
-        { id: '3', resultType: 'VIDEO-LIVE' },
-      ]);
-    });
-
-    it('throws when search endpoint does not return 200', async () => {
-      const { getSearchResults } = await loadApi();
-      getMock.mockResolvedValue({ status: 500, data: [] });
-
-      await expect(getSearchResults('term')).rejects.toThrow('Failed to get search results');
-    });
+    await expect(getSearchResults("cats & dogs")).resolves.toEqual([results[0]]);
+    expect(postMock).toHaveBeenCalledWith(
+      "https://horchata.test/api/v1/youtube/search?query=cats%20%26%20dogs"
+    );
   });
 
-  describe('getQueue', () => {
-    it('returns empty object when queue id is empty', async () => {
-      const { getQueue } = await loadApi();
+  it("does not make a request for an empty search", async () => {
+    const { getSearchResults } = await loadApi();
 
-      const result = await getQueue('');
-
-      expect(result).toEqual({});
-      expect(getMock).not.toHaveBeenCalled();
-    });
-
-    it('throws when queue endpoint does not return 200', async () => {
-      const { getQueue } = await loadApi();
-      getMock.mockResolvedValue({ status: 404, data: {} });
-
-      await expect(getQueue('abc')).rejects.toThrow('Failed to get queue');
-      expect(getMock).toHaveBeenCalledWith('http://api.test/api/queue/abc');
-    });
-
-    it('returns empty object when queue is not active', async () => {
-      const { getQueue } = await loadApi();
-      getMock.mockResolvedValue({
-        status: 200,
-        data: {
-          active: false,
-          interactions: [{ index: 2 }, { index: 1 }],
-        },
-      });
-
-      const result = await getQueue('inactive-id');
-
-      expect(result).toEqual({});
-    });
-
-    it('sorts interactions by index when queue is active', async () => {
-      const { getQueue } = await loadApi();
-      getMock.mockResolvedValue({
-        status: 200,
-        data: {
-          active: true,
-          interactions: [
-            { id: 'b', index: 3 },
-            { id: 'a', index: 1 },
-            { id: 'c', index: 2 },
-          ],
-        },
-      });
-
-      const result = await getQueue('active-id');
-
-      expect(result).toEqual({
-        active: true,
-        interactions: [
-          { id: 'a', index: 1 },
-          { id: 'c', index: 2 },
-          { id: 'b', index: 3 },
-        ],
-      });
-    });
+    await expect(getSearchResults("")).resolves.toBeUndefined();
+    expect(postMock).not.toHaveBeenCalled();
   });
 
-  describe('addToQueue', () => {
-    it('throws when queue id is empty', async () => {
-      const { addToQueue } = await loadApi();
-
-      await expect(addToQueue('', 'user', 'video', Priority.normal, 1)).rejects.toThrow('Not connected to queue');
-      expect(postMock).not.toHaveBeenCalled();
+  it("loads and sorts a queue without checking the removed active flag", async () => {
+    const { getQueue } = await loadApi();
+    getMock.mockResolvedValue({
+      status: 200,
+      data: {
+        id: "queue-1",
+        interactions: [{ index: 2 }, { index: 1 }],
+      },
     });
 
-    it('posts interaction data when request succeeds', async () => {
-      const { addToQueue } = await loadApi();
-      postMock.mockResolvedValue({ status: 201 });
-
-      await addToQueue('queue-1', 'user-1', 'video-1', Priority.normal, 2);
-
-      expect(postMock).toHaveBeenCalledWith('http://api.test/api/interaction', {
-        queue_id: 'queue-1',
-        user_id: 'user-1',
-        video_id: 'video-1',
-        priority: Priority.normal,
-        visibility: 2,
-      });
+    await expect(getQueue("queue-1")).resolves.toEqual({
+      id: "queue-1",
+      interactions: [{ index: 1 }, { index: 2 }],
     });
-
-    it('throws locked message when backend returns 403', async () => {
-      const { addToQueue } = await loadApi();
-      postMock.mockRejectedValue({ response: { status: 403 } });
-
-      await expect(addToQueue('queue-1', 'user-1', 'video-1', Priority.normal, 1)).rejects.toThrow('The Queue is locked');
-    });
-
-    it('throws generic message for other add failures', async () => {
-      const { addToQueue } = await loadApi();
-      postMock.mockRejectedValue(new Error('network'));
-
-      await expect(addToQueue('queue-1', 'user-1', 'video-1', Priority.normal, 1)).rejects.toThrow('Failed to add video');
-    });
+    expect(getMock).toHaveBeenCalledWith("https://horchata.test/api/v1/queues/queue-1");
   });
 
-  describe('deleteFromQueue', () => {
-    it('throws backend error message when response has error payload', async () => {
-      const { deleteFromQueue } = await loadApi();
-      deleteMock.mockRejectedValue({ response: { data: { error: 'Item not found' } } });
+  it("returns an empty queue when no queue id is provided", async () => {
+    const { getQueue } = await loadApi();
 
-      await expect(deleteFromQueue('123')).rejects.toThrow('Item not found');
-      expect(deleteMock).toHaveBeenCalledWith('http://api.test/api/interaction/123');
-    });
-
-    it('throws generic message when no response exists', async () => {
-      const { deleteFromQueue } = await loadApi();
-      deleteMock.mockRejectedValue(new Error('network'));
-
-      await expect(deleteFromQueue('123')).rejects.toThrow('Error deleting video');
-    });
+    await expect(getQueue("")).resolves.toEqual({});
+    expect(getMock).not.toHaveBeenCalled();
   });
 
-  describe('getActiveQueues', () => {
-    it('returns queue list when response is 200', async () => {
-      const { getActiveQueues } = await loadApi();
-      getMock.mockResolvedValue({ status: 200, data: [{ id: 'q1', active: true, locked: false }] });
+  it("posts the v2 interaction payload without a user id", async () => {
+    const { addToQueue } = await loadApi();
+    postMock.mockResolvedValue({ status: 201, data: { id: "interaction-1" } });
 
-      const result = await getActiveQueues();
+    await addToQueue("queue-1", "dQw4w9WgXcQ", Priority.normal, 1);
 
-      expect(getMock).toHaveBeenCalledWith('http://api.test/api/queues/active');
-      expect(result).toEqual([{ id: 'q1', active: true, locked: false }]);
-    });
-
-    it('throws when response is non-200', async () => {
-      const { getActiveQueues } = await loadApi();
-      getMock.mockResolvedValue({ status: 500, data: [] });
-
-      await expect(getActiveQueues()).rejects.toThrow('Failed to get active queues');
-    });
-
-    it('throws when request errors', async () => {
-      const { getActiveQueues } = await loadApi();
-      getMock.mockRejectedValue(new Error('timeout'));
-
-      await expect(getActiveQueues()).rejects.toThrow('Failed to get active queues');
-    });
+    expect(postMock).toHaveBeenCalledWith(
+      "https://horchata.test/api/v1/queues/queue-1/interact",
+      { youtube_id: "dQw4w9WgXcQ", priority: Priority.normal, visibility: 1 }
+    );
   });
 
-  describe('stash helpers', () => {
-    it('returns stash data on success', async () => {
-      const { getStashData } = await loadApi();
-      getMock.mockResolvedValue({ status: 200, data: [{ id: 'a1' }] });
+  it("surfaces the backend detail for failed interaction requests", async () => {
+    const { addToQueue } = await loadApi();
+    postMock.mockRejectedValue({ response: { data: { detail: "The queue is locked" } } });
 
-      const result = await getStashData();
+    await expect(addToQueue("queue-1", "video-1", Priority.normal, 1))
+      .rejects.toThrow("The queue is locked");
+  });
 
-      expect(getMock).toHaveBeenCalledWith('http://api.test/api/stash');
-      expect(result).toEqual([{ id: 'a1' }]);
-    });
+  it("deletes an interaction through the v2 resource route", async () => {
+    const { deleteFromQueue } = await loadApi();
+    deleteMock.mockResolvedValue({ status: 204 });
 
-    it('throws when getStashData returns non-200', async () => {
-      const { getStashData } = await loadApi();
-      getMock.mockResolvedValue({ status: 503, data: [] });
+    await deleteFromQueue("interaction-1");
 
-      await expect(getStashData()).rejects.toThrow('Failed to get stash data');
-    });
+    expect(deleteMock).toHaveBeenCalledWith("https://horchata.test/api/v1/interactions/interaction-1");
+  });
 
-    it('throws when addToStash fails', async () => {
-      const { addToStash } = await loadApi();
-      postMock.mockRejectedValue(new Error('failure'));
+  it("loads live queues rather than durable active queues", async () => {
+    const { getLiveQueues } = await loadApi();
+    const queues = [{ id: "queue-1", locked: false }];
+    getMock.mockResolvedValue({ status: 200, data: queues });
 
-      await expect(addToStash('video-1')).rejects.toThrow('Failed to add video to stash');
-      expect(postMock).toHaveBeenCalledWith('http://api.test/api/artifact', { video_id: 'video-1' });
-    });
+    await expect(getLiveQueues()).resolves.toEqual(queues);
+    expect(getMock).toHaveBeenCalledWith("https://horchata.test/api/v1/queues/live");
+  });
 
-    it('throws when deleteFromStash fails', async () => {
-      const { deleteFromStash } = await loadApi();
-      deleteMock.mockRejectedValue(new Error('failure'));
+  it("locks and unlocks queues with REST requests", async () => {
+    const { setQueueLocked } = await loadApi();
+    postMock.mockResolvedValue({ status: 200 });
 
-      await expect(deleteFromStash('artifact-1')).rejects.toThrow('Error deleting video from stash');
-      expect(deleteMock).toHaveBeenCalledWith('http://api.test/api/artifact/artifact-1');
-    });
+    await setQueueLocked("queue-1", true);
+    await setQueueLocked("queue-1", false);
 
-    it('throws when deleteStash fails', async () => {
-      const { deleteStash } = await loadApi();
-      deleteMock.mockRejectedValue(new Error('failure'));
+    expect(postMock).toHaveBeenNthCalledWith(1, "https://horchata.test/api/v1/queues/queue-1/lock");
+    expect(postMock).toHaveBeenNthCalledWith(2, "https://horchata.test/api/v1/queues/queue-1/unlock");
+  });
 
-      await expect(deleteStash()).rejects.toThrow('Error deleting stash');
-      expect(deleteMock).toHaveBeenCalledWith('http://api.test/api/stash');
-    });
+  it("reorders queue interactions over REST", async () => {
+    const { reorderQueue } = await loadApi();
+    const updatedQueue = { id: "queue-1" };
+    postMock.mockResolvedValue({ status: 200, data: updatedQueue });
+
+    await expect(reorderQueue("queue-1", "i-2", "i-1", null)).resolves.toEqual(updatedQueue);
+    expect(postMock).toHaveBeenCalledWith(
+      "https://horchata.test/api/v1/queues/queue-1/reorder",
+      { interaction_id: "i-2", prev_interaction_id: "i-1", next_interaction_id: null }
+    );
+  });
+
+  it("sends queue notifications through REST", async () => {
+    const { notifyQueue } = await loadApi();
+    postMock.mockResolvedValue({ status: 200 });
+
+    await notifyQueue("queue-1", "Taking a short break");
+
+    expect(postMock).toHaveBeenCalledWith(
+      "https://horchata.test/api/v1/queues/queue-1/notify",
+      { message: "Taking a short break" }
+    );
+  });
+
+  it("uses the v2 stash and artifact routes and YouTube ID field", async () => {
+    const { getStashData, addToStash, deleteFromStash, deleteStash } = await loadApi();
+    getMock.mockResolvedValue({ status: 200, data: { artifacts: [] } });
+    postMock.mockResolvedValue({ status: 201 });
+    deleteMock.mockResolvedValue({ status: 204 });
+
+    await getStashData();
+    await addToStash("dQw4w9WgXcQ");
+    await deleteFromStash("artifact-1");
+    await deleteStash();
+
+    expect(getMock).toHaveBeenCalledWith("https://horchata.test/api/v1/stash/");
+    expect(postMock).toHaveBeenCalledWith(
+      "https://horchata.test/api/v1/artifacts/",
+      { youtube_id: "dQw4w9WgXcQ" }
+    );
+    expect(deleteMock).toHaveBeenNthCalledWith(1, "https://horchata.test/api/v1/artifacts/artifact-1");
+    expect(deleteMock).toHaveBeenNthCalledWith(2, "https://horchata.test/api/v1/stash/");
   });
 });

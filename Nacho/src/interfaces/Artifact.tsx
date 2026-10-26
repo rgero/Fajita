@@ -1,15 +1,11 @@
 import { Video } from "./Interaction";
-
-export interface Stash {
-  id:          string;
-  modified_at: Date;
-}
+import { Owner } from "./Owner";
 
 export interface Artifact {
   video:       Video;
-  stash:       Stash;
+  user?:       Owner;
   id:          string;
-  text:        string;
-  created_at:  Date;
-  modified_at: Date;
+  text?:       string | null;
+  created_at:  string;
+  modified_at?: string | null;
 }

@@ -11,10 +11,11 @@ export const StashProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortOption, setSortOption] = useLocalStorageState("date_newest", "stashSortOption");
 
-  const { isLoading, data: stashData = {}, error, refetch } = useQuery({
+  const { isLoading, data: stashData, error, refetch } = useQuery({
     queryKey: ["stashData"],
     queryFn: getStashData
   });
+  const artifacts = stashData?.artifacts ?? [];
 
   const { mutateAsync: addVideoToStash } = useMutation({
     mutationFn: async (id: string) => {
@@ -27,7 +28,7 @@ export const StashProvider = ({ children }: { children: React.ReactNode }) => {
 
   const { isPending: isActionPending, mutateAsync: deleteVideoFromStash } = useMutation({
     mutationFn: async (id: string) => {
-      const artifact = stashData.artifacts.find((artifact: Artifact) => artifact.video.video_id === id);
+      const artifact = artifacts.find((artifact: Artifact) => artifact.video.id === id);
       if (!artifact) {
         throw new Error("Artifact not found in stash");
       }
@@ -51,17 +52,17 @@ export const StashProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const isInStash = (videoId: string|undefined) => {
-    if (!videoId || !stashData.artifacts) { return false; }
-    return stashData.artifacts.some((artifact: Artifact) => artifact.video.video_id === videoId);
+    if (!videoId) { return false; }
+    return artifacts.some((artifact: Artifact) => artifact.video.id === videoId);
   }
 
   const GetFilteredData = () => {
-    let filteredData = stashData.artifacts || [];
+    let filteredData = artifacts;
     
     // Filter by search term
     if (searchTerm !== "") {
       filteredData = filteredData.filter((artifact: Artifact) => {
-        return artifact.video.title.toLowerCase().includes(searchTerm.toLowerCase());
+        return artifact.video.title?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false;
       });
     }
 
@@ -73,9 +74,9 @@ export const StashProvider = ({ children }: { children: React.ReactNode }) => {
         case "date_oldest":
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         case "title_asc":
-          return a.video.title.localeCompare(b.video.title);
+          return (a.video.title ?? "").localeCompare(b.video.title ?? "");
         case "title_desc":
-          return b.video.title.localeCompare(a.video.title);
+          return (b.video.title ?? "").localeCompare(a.video.title ?? "");
         default:
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime(); // Default to newest first
       }
@@ -99,7 +100,7 @@ export const StashProvider = ({ children }: { children: React.ReactNode }) => {
       setSearchTerm,
       setSortOption,
       sortOption,
-      stashData: stashData.artifacts,
+      stashData: artifacts,
     }}>
       {children}
     </StashContext.Provider>

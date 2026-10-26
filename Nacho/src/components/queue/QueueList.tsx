@@ -53,10 +53,13 @@ const SortableQueueItem: React.FC<SortableQueueItemProps> = ({ entry, current, i
 const QueueList = () => {
   const {isLoading, queueData, error} = useQueueContext();
   const { reorderQueue } = useSocketProvider();
-  const {current_index, interactions} = queueData;
+  const current_index = queueData.current_index ?? -1;
+  const interactions = queueData.interactions ?? [];
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [targetIndex, setTargetIndex] = useState<number>(-1);
   const [orderedInteractions, setOrderedInteractions] = useState<Interaction[]>([]);
+
+  console.log(queueData);
 
   const scrollToRef = useRef<HTMLElement>(null);
   const sensors = useSensors(
@@ -77,17 +80,17 @@ const QueueList = () => {
   useEffect(()=> { 
     const calculateTargetIndex = () => {
       if (Object.keys(queueData).length === 0) return;
-      const currentIndex:number = queueData.current_index;
-      const foundItems:Interaction[] = queueData.interactions.filter((option: Interaction) =>{
+      const currentIndex:number = queueData.current_index ?? -1;
+      const foundItems:Interaction[] = interactions.filter((option: Interaction) =>{
         return option.index == currentIndex;
       })
       
       if (foundItems.length == 1)
       {
-        const tIndex: number = queueData.interactions.indexOf(foundItems[0]) - 1;
-        const target: Interaction = queueData.interactions[tIndex];
+        const tIndex: number = interactions.indexOf(foundItems[0]) - 1;
+        const target: Interaction = interactions[tIndex];
         if (target == undefined) return;
-        setTargetIndex( () => queueData.interactions[tIndex].index );
+        setTargetIndex( () => interactions[tIndex].index );
       }
     }
 
@@ -96,7 +99,7 @@ const QueueList = () => {
   }, [queueData, current_index]);
 
   useEffect(() => {
-    setOrderedInteractions(interactions || []);
+    setOrderedInteractions(interactions);
   }, [interactions]);
 
 
@@ -108,7 +111,7 @@ const QueueList = () => {
   }, [currentIndex]);
 
   if(isLoading) return (<Spinner/>)
-  if (!interactions || interactions.length == 0)
+  if (interactions.length == 0)
   {
     return (
       <EmptyQueue/>
@@ -124,7 +127,7 @@ const QueueList = () => {
     )
   }
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!over || active.id === over.id) {
@@ -150,10 +153,10 @@ const QueueList = () => {
 
     try {
       setOrderedInteractions(reorderedInteractions);
-      reorderQueue(movedInteraction.id, previousInteraction?.id || null, nextInteraction?.id || null);
+      await reorderQueue(movedInteraction.id, previousInteraction?.id || null, nextInteraction?.id || null);
     } catch {
       toast.error("Failed to reorder queue item");
-      setOrderedInteractions(interactions || []);
+      setOrderedInteractions(interactions);
     }
   };
 
